@@ -57,6 +57,45 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\back_icon.png" />
+	  <None Remove="Resources\Images\blue_folder_icon.png" />
+	  <None Remove="Resources\Images\calendar_clock_icon.png" />
+	  <None Remove="Resources\Images\calendar_icon.png" />
+	  <None Remove="Resources\Images\camera_icon.png" />
+	  <None Remove="Resources\Images\check_icon.png" />
+	  <None Remove="Resources\Images\circle_lock_padlock_icon.png" />
+	  <None Remove="Resources\Images\cloud_icon.png" />
+	  <None Remove="Resources\Images\config_icon.png" />
+	  <None Remove="Resources\Images\contacs_icon.png" />
+	  <None Remove="Resources\Images\contacto.png" />
+	  <None Remove="Resources\Images\down_cloud_icon.png" />
+	  <None Remove="Resources\Images\folder_icon.png" />
+	  <None Remove="Resources\Images\group_user_icon.png" />
+	  <None Remove="Resources\Images\hanburguer.png" />
+	  <None Remove="Resources\Images\heart_icon.png" />
+	  <None Remove="Resources\Images\house_lock_icon.png" />
+	  <None Remove="Resources\Images\key_icon.png" />
+	  <None Remove="Resources\Images\life_buoy_icon.png" />
+	  <None Remove="Resources\Images\listadetareas.png" />
+	  <None Remove="Resources\Images\locked_padlock_icon.png" />
+	  <None Remove="Resources\Images\notepad_icon.png" />
+	  <None Remove="Resources\Images\paperclip_icon.png" />
+	  <None Remove="Resources\Images\profile_icon.png" />
+	  <None Remove="Resources\Images\recordatorios.png" />
+	  <None Remove="Resources\Images\shield_lock_icon.png" />
+	  <None Remove="Resources\Images\Sobre_icon.png" />
+	  <None Remove="Resources\Images\star_icon.png" />
+	  <None Remove="Resources\Images\sync_cloud_icon.png" />
+	  <None Remove="Resources\Images\uncheck_icon.png" />
+	  <None Remove="Resources\Images\unlocked_padlock_icon.png" />
+	  <None Remove="Resources\Images\user_icon.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiIcon Include="Resources\AppIcon\appiconfg.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="8.0.1" />
 		<PackageReference Include="CommunityToolkit.Maui.Core" Version="8.0.1" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.20" />

@@ -22,7 +22,7 @@ public partial class IniciarSesionPage : ContentPage
     // EVENTOS
     private async void Button_CrearNuevaCuenta_Clicked(object sender, EventArgs e)
     {
-		await CrearNuevaCuentaPagePushAsync();
+		CrearNuevaCuentaPagePushAsync();
     }
     private async void Button_Ingresar_Clicked(object sender, EventArgs e)
     {
