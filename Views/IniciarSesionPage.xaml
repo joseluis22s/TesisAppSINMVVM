@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="TesisAppSINMVVM.Views.IniciarSesionPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="IniciarSesionPage">
+    <VerticalStackLayout VerticalOptions="Center">
+        <Frame
+            Margin="0,-70"
+            Padding="0"
+            BackgroundColor="White"
+            CornerRadius="70"
+            HasShadow="True"
+            WidthRequest="120"
+            ZIndex="1">
+            <Image Source="profile_icon.png" ZIndex="1" />
+            <Frame.Shadow>
+                <Shadow
+                    Brush="Black"
+                    Opacity="0.5"
+                    Radius="50"
+                    Offset="0,0" />
+            </Frame.Shadow>
+        </Frame>
+        <Frame
+            Margin="40,0"
+            Padding="15,90,15,15"
+            BackgroundColor="#c7d7f0"
+            BorderColor="Transparent"
+            CornerRadius="20"
+            HasShadow="True"
+            ZIndex="0">
+            <Frame.Shadow>
+                <Shadow
+                    Brush="Black"
+                    Opacity="0.9"
+                    Radius="90"
+                    Offset="-20,10" />
+            </Frame.Shadow>
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="5">
+                <Frame Padding="0" CornerRadius="5">
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="2">
+                        <Image Source="locked_padlock_icon.png" WidthRequest="50" />
+                        <Entry
+                            x:Name="Entry_Usuario"
+                            Grid.Column="1"
+                            HorizontalOptions="FillAndExpand"
+                            IsTextPredictionEnabled="False"
+                            Placeholder="Usuario"
+                            VerticalTextAlignment="End" />
+                    </Grid>
+                </Frame>
+                <Frame
+                    Grid.Row="1"
+                    Padding="0"
+                    CornerRadius="5">
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="2">
+                        <Image
+                            Margin="5,0,5,0"
+                            Source="key_icon.png"
+                            WidthRequest="40" />
+                        <Entry
+                            x:Name="Entry_Contrasena"
+                            Grid.Column="1"
+                            IsPassword="True"
+                            Placeholder="Contraseña"
+                            VerticalTextAlignment="End" />
+                    </Grid>
+                </Frame>
+                <Label
+                    Grid.Row="2"
+                    FontAttributes="Italic"
+                    FontSize="10"
+                    Text="* Usuario no registrado" />
+                <Button
+                    x:Name="Button_Ingresar"
+                    Grid.Row="3"
+                    Margin="0,15,0,0"
+                    Clicked="Button_Ingresar_Clicked"
+                    Text="Ingresar" />
+                <Grid
+                    Grid.Row="4"
+                    Margin="0,15"
+                    ColumnDefinitions="*,Auto,*">
+                    <Line
+                        HorizontalOptions="CenterAndExpand"
+                        Stroke="Gray"
+                        VerticalOptions="CenterAndExpand"
+                        X1="100" />
+                    <Label Grid.Column="1" Text="ó" />
+                    <Line
+                        Grid.Column="2"
+                        HorizontalOptions="CenterAndExpand"
+                        Stroke="Gray"
+                        VerticalOptions="CenterAndExpand"
+                        X1="100" />
+                </Grid>
+                <Button
+                    x:Name="Button_CrearNuevaCuenta"
+                    Grid.Row="5"
+                    Padding="15,0"
+                    BackgroundColor="#5d92e8"
+                    Clicked="Button_CrearNuevaCuenta_Clicked"
+                    FontSize="10"
+                    HeightRequest="30"
+                    HorizontalOptions="Center"
+                    Text="Crear nueva cuenta" />
+            </Grid>
+        </Frame>
+    </VerticalStackLayout>
+    <!--  Da el color al fondo de la vista  -->
+    <ContentPage.Background>
+        <LinearGradientBrush EndPoint="1,0">
+            <GradientStop Offset="0.1" Color="#5d92e8" />
+            <GradientStop Offset="1.0" Color="#044fc7" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
+</ContentPage>
