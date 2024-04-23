@@ -16,8 +16,10 @@ namespace TesisAppSINMVVM
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 }).UseMauiCommunityToolkit();
 
+            //builder.Services.AddSingleton<Repositorio_Tbl_Usuario>();
+
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();

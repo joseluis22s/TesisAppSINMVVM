@@ -1,33 +1,42 @@
 using CommunityToolkit.Maui.Alerts;
 using System.Text.RegularExpressions;
+using TesisAppSINMVVM.Database;
 
 namespace TesisAppSINMVVM.Views;
 
 public partial class CrearNuevaCuentaPage : ContentPage
 {
     private bool enEjecucion = false;
+    Repositorio repositorioDB;
 
     public CrearNuevaCuentaPage()
 	{
 		InitializeComponent();
+        repositorioDB = new Repositorio();
 	}
 
     // NAVEGACIÓN ENTRE PÁGINAS
     private async Task CrearNuevaCuentaPagePopAsync()
     {
-        await Navigation.PopAsync();
+        bool respuesta = await DisplayAlert("Alerta", "¿Desea regresar? Perderá el progreso realizado", "Confimar", "Cancelar");
+        if (respuesta)
+        {
+            await Navigation.PopAsync();
+        }
     }
 
     // EVENTOS
     private async void Button_SiguienteCrear_Clicked(object sender, EventArgs e)
     {
-        //if (enEjecucion)
-        //{
-        //    return;
-        //}
-        //enEjecucion = true;
+        if (enEjecucion)
+        {
+            return;
+        }
+        enEjecucion = true;
+
         if (Button_SiguienteCrear.Text == "Siguiente")
         {
+            
             bool esUsuarioValido = await VerificarNuevoUsuarioAsync();
             bool esCorreValido = await VerificarNuevoCorreoAsync();
             if (!esUsuarioValido || !esCorreValido)
@@ -51,6 +60,7 @@ public partial class CrearNuevaCuentaPage : ContentPage
             if (esContrasenaValida && sonContrasenaIguales && !tieneParecidoUsuarioContrasena)
             {
                 await Toast.Make("Cuenta creada").Show();
+                await GuardarNuevoUsuarioBDAsync();
                 await Navigation.PopAsync();
             }
             else
@@ -58,15 +68,17 @@ public partial class CrearNuevaCuentaPage : ContentPage
                 await Toast.Make("Todos los campos deben ser válidos").Show();
             }
         }
-        //enEjecucion = false;
+        enEjecucion = false;
     }
     private async void Image_CancelClose_TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
-        bool respuesta = await DisplayAlert("Alerta", "¿Desea regresar? Perderá el progreso realizado", "Confirmar", "Cancelar");
-        if (respuesta)
+        if (enEjecucion)
         {
-            await CrearNuevaCuentaPagePopAsync();
+            return;
         }
+        enEjecucion = true;
+        await CrearNuevaCuentaPagePopAsync();
+        enEjecucion = false;
     }
     private void Image_BackIcon_TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
@@ -80,17 +92,37 @@ public partial class CrearNuevaCuentaPage : ContentPage
     private async void Entry_NuevoUsuario_TextChanged(object sender, TextChangedEventArgs e)
     {
         bool esUsuarioValido = await VerificarNuevoUsuarioAsync();
+        bool exiteUsuario = await VerificarExistenciaUsuarioDBAsync();
         if (esUsuarioValido)
         {
             Label_ValidacionUsuario1.IsVisible = false;
-            Image_NuevoUsuarioCheckIcon.IsVisible = true;
-            Image_NuevoUsuarioUncheckIcon.IsVisible = false;
+            
+            if (exiteUsuario)
+            {
+                Label_ValidacionUsuario2.IsVisible = true;
+                Image_NuevoUsuarioCheckIcon.IsVisible = false;
+                Image_NuevoUsuarioUncheckIcon.IsVisible = true;
+            }
+            else
+            {
+                Label_ValidacionUsuario2.IsVisible = false;
+                Image_NuevoUsuarioCheckIcon.IsVisible = true;
+                Image_NuevoUsuarioUncheckIcon.IsVisible = false;
+            }
         }
         else
         {
             Label_ValidacionUsuario1.IsVisible = true;
             Image_NuevoUsuarioCheckIcon.IsVisible = false;
             Image_NuevoUsuarioUncheckIcon.IsVisible = true;
+            if (exiteUsuario)
+            {
+                Label_ValidacionUsuario2.IsVisible = true;
+            }
+            else
+            {
+                Label_ValidacionUsuario2.IsVisible = false;
+            }
         }
     }
     private async void Entry_NuevoCorreo_TextChanged(object sender, TextChangedEventArgs e)
@@ -181,7 +213,6 @@ public partial class CrearNuevaCuentaPage : ContentPage
     }
 
     
-
     private void Button_BorrarTabla_Clicked(object sender, EventArgs e)
     {
 
@@ -198,7 +229,6 @@ public partial class CrearNuevaCuentaPage : ContentPage
         {
             nuevoUsuario = "";
         }
-
         if (nuevoUsuario.Length != 0) 
             {
                 bool tieneDigito = false;
@@ -270,12 +300,15 @@ public partial class CrearNuevaCuentaPage : ContentPage
         {
             contrasena2 = "";
         }
-
         return Task.FromResult(contrasena1 == contrasena2);
     }
     private Task<bool> VerificarParecidoUsuarioContrasenaAsync()
     {
         string usuario = Entry_NuevoUsuario.Text;
+        if (string.IsNullOrEmpty(usuario))
+        {
+            usuario = "";
+        }
         string contrasena = Entry_NuevaContrasena.Text;
         if (string.IsNullOrEmpty(contrasena))
         {
@@ -284,9 +317,33 @@ public partial class CrearNuevaCuentaPage : ContentPage
         return Task.FromResult((usuario.Equals(contrasena) || contrasena.Contains(usuario)));
     }
     
-
-
-
-
     // BASE DE DATOS
+    private async Task<bool> VerificarExistenciaUsuarioDBAsync()
+    {
+        string usuario = Entry_NuevoUsuario.Text;
+        if (string.IsNullOrEmpty(usuario))
+        {
+            usuario = "";
+        }
+        return await repositorioDB.VerificarExistenciaUsuarioAsync(usuario);
+    }
+    private async Task GuardarNuevoUsuarioBDAsync()
+    {
+        string usuario = Entry_NuevoUsuario.Text;
+        if (string.IsNullOrEmpty(usuario))
+        {
+            usuario = "";
+        }
+        string contrasena = Entry_NuevaContrasena.Text;
+        if (string.IsNullOrEmpty(contrasena))
+        {
+            contrasena = "";
+        }
+        string correo = Entry_NuevoCorreo.Text;
+        if (string.IsNullOrEmpty(correo))
+        {
+            correo = "";
+        }
+        await repositorioDB.GuardarNuevoUsuarioAsync(usuario, contrasena, correo);
+    }
 }
