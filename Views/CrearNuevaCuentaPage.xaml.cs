@@ -213,14 +213,8 @@ public partial class CrearNuevaCuentaPage : ContentPage
     }
 
     
-    private void Button_BorrarTabla_Clicked(object sender, EventArgs e)
-    {
-
-    }
-    private void Button_VerificarExistenciaUsuario_Clicked(object sender, EventArgs e)
-    {
-
-    }
+    
+    
     // LOGICA PARA EVENTOS
     private Task<bool> VerificarNuevoUsuarioAsync()
     {
@@ -345,5 +339,19 @@ public partial class CrearNuevaCuentaPage : ContentPage
             correo = "";
         }
         await repositorioDB.GuardarNuevoUsuarioAsync(usuario, contrasena, correo);
+    }
+    // COMENTAR: Pruebas
+    private async void Button_BorrarTabla_Clicked(object sender, EventArgs e)
+    {
+        await repositorioDB.BorrarTablaUsuario();
+    }
+    private async void Button_VerificarExistenciaUsuario_Clicked(object sender, EventArgs e)
+    {
+        string usuario = Entry_NuevoUsuario.Text;
+        if (string.IsNullOrEmpty(usuario))
+        {
+            usuario = "";
+        }
+        await repositorioDB.VerificarExistenciaUsuarioAsync(usuario);
     }
 }

@@ -3,7 +3,8 @@
     x:Class="TesisAppSINMVVM.Views.IniciarSesionPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="IniciarSesionPage">
+    Title="IniciarSesionPage"
+    NavigationPage.HasNavigationBar="False">
     <VerticalStackLayout VerticalOptions="Center">
         <Frame
             Margin="0,-70"
@@ -37,7 +38,7 @@
                     Radius="90"
                     Offset="-20,10" />
             </Frame.Shadow>
-            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="5">
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="5">
                 <Frame Padding="0" CornerRadius="5">
                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="2">
                         <Image Source="locked_padlock_icon.png" WidthRequest="50" />
@@ -50,8 +51,17 @@
                             VerticalTextAlignment="End" />
                     </Grid>
                 </Frame>
-                <Frame
+                <Label
+                    x:Name="Label_UsuarioNoExiste"
                     Grid.Row="1"
+                    CharacterSpacing="-0.7"
+                    FontAttributes="Italic"
+                    FontSize="10"
+                    IsVisible="False"
+                    Text="* Usuario no existe"
+                    TextColor="#030524" />
+                <Frame
+                    Grid.Row="2"
                     Padding="0"
                     CornerRadius="5">
                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="2">
@@ -68,18 +78,21 @@
                     </Grid>
                 </Frame>
                 <Label
-                    Grid.Row="2"
+                    x:Name="Label_ContrasenaIncorrecta"
+                    Grid.Row="3"
+                    CharacterSpacing="-0.7"
                     FontAttributes="Italic"
                     FontSize="10"
-                    Text="* Usuario no registrado" />
+                    IsVisible="False"
+                    Text="* Contraseña incorrecta"
+                    TextColor="#030524" />
                 <Button
                     x:Name="Button_Ingresar"
-                    Grid.Row="3"
-                    Margin="0,15,0,0"
+                    Grid.Row="4"
                     Clicked="Button_Ingresar_Clicked"
                     Text="Ingresar" />
                 <Grid
-                    Grid.Row="4"
+                    Grid.Row="5"
                     Margin="0,15"
                     ColumnDefinitions="*,Auto,*">
                     <Line
@@ -97,7 +110,7 @@
                 </Grid>
                 <Button
                     x:Name="Button_CrearNuevaCuenta"
-                    Grid.Row="5"
+                    Grid.Row="6"
                     Padding="15,0"
                     BackgroundColor="#5d92e8"
                     Clicked="Button_CrearNuevaCuenta_Clicked"

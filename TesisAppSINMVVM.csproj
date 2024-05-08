@@ -56,6 +56,14 @@
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <None Remove="Resources\Images\analitics_icon.png" />
+	  <None Remove="Resources\Images\bookmark_icon.png" />
+	  <None Remove="Resources\Images\cheque_icon.png" />
+	  <None Remove="Resources\Images\registro_icon.png" />
+	  <None Remove="Resources\Images\write_edit_paper_icon.png" />
+	</ItemGroup>
+
 	
 
 	<ItemGroup>

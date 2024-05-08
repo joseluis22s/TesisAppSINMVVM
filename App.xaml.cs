@@ -12,7 +12,8 @@ namespace TesisAppSINMVVM
 
             //MainPage = new AppShell();
 
-            MainPage = new NavigationPage(new IniciarSesionPage());
+            //MainPage = new NavigationPage(new IniciarSesionPage());
+            MainPage = new NavigationPage(new PaginaPrincipalPage());
         }
     }
 }
