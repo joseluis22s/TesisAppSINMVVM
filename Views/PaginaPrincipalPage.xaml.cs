@@ -1,24 +1,46 @@
-using System.Collections.ObjectModel;
-using TesisAppSINMVVM.Models;
-
+  
 namespace TesisAppSINMVVM.Views;
 
 public partial class PaginaPrincipalPage : ContentPage
 {
-    public ObservableCollection<OpcionPaginaPrincipal> Opciones { get; }
-
 
     public PaginaPrincipalPage()
     {
         InitializeComponent();
-        Opciones = new ObservableCollection<OpcionPaginaPrincipal>()
-        {
-            new OpcionPaginaPrincipal { Imagen = "group_user_icon.png", Texto = "COMPRA" },
-            new OpcionPaginaPrincipal { Imagen = "bookmark_icon.png", Texto = "CHEQUES" },
-            new OpcionPaginaPrincipal { Imagen = "registro_icon.png", Texto = "VENTA" }
-        };
-        BindingContext = this;
-
+    }
+    // NAVEGACIÓN
+    private async Task CompraPagePushAsync()
+    {
+        await Navigation.PushAsync(new CompraPage());
+    }
+    private async Task ChequesPagePushAsync()
+    {
+        await Navigation.PushAsync(new ChequesPage());
+    }
+    private async Task VentaPagePushAsync()
+    {
+        await Navigation.PushAsync(new VentaPage());
     }
 
+    // EVENTOS
+    private async void Border_Compra_TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+    {
+        await CompraPagePushAsync();
+    }
+
+    private async void Border_Cheques_TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+    {
+        await ChequesPagePushAsync();
+    }
+
+    private async void Border_Venta_TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+    {
+        await VentaPagePushAsync();
+    }
+
+    // LÓGICA DE EVENTOS
+
+    // BASE DE DATOS
+
+    // LÓGICA PARA COSAS VISUALES
 }

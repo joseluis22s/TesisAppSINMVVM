@@ -1,5 +1,4 @@
 using CommunityToolkit.Maui.Alerts;
-using System.Runtime.CompilerServices;
 using TesisAppSINMVVM.Database;
 
 namespace TesisAppSINMVVM.Views;
