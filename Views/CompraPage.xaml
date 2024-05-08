@@ -3,22 +3,52 @@
     x:Class="TesisAppSINMVVM.Views.CompraPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="CompraPage">
+    Title="Compra">
+
     <VerticalStackLayout>
-        <Label
-            HorizontalOptions="Center"
-            Text="Welcome to COMPRA"
-            VerticalOptions="Center" />
-        <Button
-            x:Name="Button_NuevaCompra"
-            Clicked="Button_NuevaCompra_Clicked"
-            Text="Nueva compra" />
-        <Button
-            x:Name="Button_Historial"
-            Clicked="Button_Historial_Clicked"
-            Text="Historial" />
-        <ContentView x:Name="ContentView_CompraPageContenidoDinamico"/>
+        <Border Padding="20,30" HorizontalOptions="FillAndExpand">
+            <Label
+                HorizontalOptions="Center"
+                Text="Welcome to COMPRA, Agregar algo del saldo saldo saldo saldo saldo saldo pendiente o asissssssssssssss"
+                TextColor="White"
+                VerticalOptions="Center" />
+            <!--<Border.Background>
+                <LinearGradientBrush EndPoint="2,1">
+                    <GradientStop Offset="0.1" Color="#e8f2ff" />
+                    <GradientStop Offset="1.0" Color="#4e82d4" />
+                </LinearGradientBrush>
+            </Border.Background>-->
+        </Border>
+
+
+        <HorizontalStackLayout
+            Padding="10"
+            BackgroundColor="#e8f2ff"
+            HorizontalOptions="Fill"
+            Spacing="10">
+            <Button
+                x:Name="Button_NuevaCompra"
+                Clicked="Button_NuevaCompra_Clicked"
+                CornerRadius="25"
+                HorizontalOptions="Center"
+                Text="Nueva compra" />
+            <Button
+                x:Name="Button_Historial"
+                Clicked="Button_Historial_Clicked"
+                CornerRadius="25"
+                HorizontalOptions="Center"
+                Text="Historial compras" />
+        </HorizontalStackLayout>
+
+        <ContentView x:Name="ContentView_CompraPageContenidoDinamico" />
 
     </VerticalStackLayout>
+
+    <ContentPage.Background>
+        <LinearGradientBrush EndPoint="1,0">
+            <GradientStop Offset="0.1" Color="#5d92e8" />
+            <GradientStop Offset="1.0" Color="#044fc7" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
 
 </ContentPage>

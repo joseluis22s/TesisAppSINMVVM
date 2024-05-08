@@ -11,7 +11,7 @@ public partial class CompraPage : ContentPage
 		InitializeComponent();
         NuevaCompraView = new NuevaCompraContent();
         HistorialComprasView = new HistorialComprasContent();
-        //Content = NuevaCompraView;
+        ContentView_CompraPageContenidoDinamico.Content = NuevaCompraView;
     }   
 
     private void Button_NuevaCompra_Clicked(object sender, EventArgs e)
