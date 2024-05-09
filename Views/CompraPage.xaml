@@ -6,7 +6,10 @@
     Title="Compra">
 
     <VerticalStackLayout>
-        <Border Padding="20,30" HorizontalOptions="FillAndExpand">
+        <Border
+            Padding="20,30"
+            HorizontalOptions="FillAndExpand"
+            Stroke="Transparent">
             <Label
                 HorizontalOptions="Center"
                 Text="Welcome to COMPRA, Agregar algo del saldo saldo saldo saldo saldo saldo pendiente o asissssssssssssss"
@@ -20,25 +23,23 @@
             </Border.Background>-->
         </Border>
 
-
-        <HorizontalStackLayout
-            Padding="10"
+        <Grid
+            Padding="7,15"
             BackgroundColor="#e8f2ff"
-            HorizontalOptions="Fill"
-            Spacing="10">
+            ColumnDefinitions="*,*"
+            ColumnSpacing="7">
             <Button
                 x:Name="Button_NuevaCompra"
                 Clicked="Button_NuevaCompra_Clicked"
                 CornerRadius="25"
-                HorizontalOptions="Center"
                 Text="Nueva compra" />
             <Button
                 x:Name="Button_Historial"
+                Grid.Column="1"
                 Clicked="Button_Historial_Clicked"
                 CornerRadius="25"
-                HorizontalOptions="Center"
                 Text="Historial compras" />
-        </HorizontalStackLayout>
+        </Grid>
 
         <ContentView x:Name="ContentView_CompraPageContenidoDinamico" />
 

@@ -1,11 +1,12 @@
 using TesisAppSINMVVM.Contents;
+using TesisAppSINMVVM.Models;
 namespace TesisAppSINMVVM.Views;
 
 public partial class CompraPage : ContentPage
 {
     public ContentView NuevaCompraView { get; set; }
     public ContentView HistorialComprasView { get; set; }
-
+    
     public CompraPage()
 	{
 		InitializeComponent();
@@ -29,6 +30,9 @@ public partial class CompraPage : ContentPage
     // EVENTOS
 
     // LOGICA PARA EVENTOS
+
+    // LÓGICA
+    
 
     // BASE DE DATOS
 
