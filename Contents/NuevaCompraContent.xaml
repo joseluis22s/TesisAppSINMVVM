@@ -3,10 +3,135 @@
     x:Class="TesisAppSINMVVM.Contents.NuevaCompraContent"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
-    <VerticalStackLayout>
+    <VerticalStackLayout Spacing="10">
         <Label
+            Padding="0,2"
+            BackgroundColor="#9e9e9e"
+            FontAttributes="Bold"
+            FontSize="18"
+            HorizontalOptions="FillAndExpand"
+            HorizontalTextAlignment="Center"
+            Text="NUEVA COMPRA" />
+        <Grid
+            Padding="10"
+            ColumnDefinitions="Auto,*,Auto"
+            ColumnSpacing="10"
+            RowDefinitions="*,*,*,*"
+            RowSpacing="10">
+            <Border
+                Grid.Column="1"
+                BackgroundColor="#c9c9c9"
+                Stroke="#c9c9c9">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="25" />
+                </Border.StrokeShape>
+            </Border>
+            <Border
+                Grid.Row="1"
+                Grid.Column="1"
+                BackgroundColor="#c9c9c9"
+                Stroke="#c9c9c9">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="25" />
+                </Border.StrokeShape>
+            </Border>
+            <Border
+                Grid.Row="2"
+                Grid.Column="1"
+                BackgroundColor="#c9c9c9"
+                Stroke="#c9c9c9">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="25" />
+                </Border.StrokeShape>
+            </Border>
+            <Border
+                Grid.Row="3"
+                Grid.Column="1"
+                BackgroundColor="#c9c9c9"
+                Stroke="#c9c9c9">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="25" />
+                </Border.StrokeShape>
+            </Border>
+            <Label
+                FontSize="16"
+                Text="Producto:"
+                VerticalTextAlignment="Center" />
+            <Label
+                Grid.Row="1"
+                FontSize="16"
+                Text="Precio:"
+                VerticalTextAlignment="Center" />
+            <Label
+                Grid.Row="2"
+                FontSize="16"
+                Text="Cantidad:"
+                VerticalTextAlignment="Center" />
+            <Label
+                Grid.Row="3"
+                FontSize="16"
+                Text="Valor Total:"
+                VerticalTextAlignment="Center" />
+            <!--<Entry
+                x:Name="Entry_Producto"
+                Grid.Column="1"
+                Margin="7,0"
+                FontSize="16"
+                VerticalTextAlignment="Center" />-->
+            <Picker
+                x:Name="Picker_Producto"
+                Title="Seleccionar una opción"
+                Grid.Column="1"
+                Margin="7,0"
+                FontSize="16"
+                VerticalTextAlignment="Center" />
+            <Button
+                x:Name="Button_AgregarProductoPicker"
+                Grid.Column="2"
+                Padding="0"
+                Clicked="Button_AgregarProductoPicker_Clicked"
+                HeightRequest="35"
+                Text="+"
+                WidthRequest="33" />
+            <Entry
+                x:Name="Entry_Precio"
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="7,0"
+                FontSize="16"
+                HorizontalTextAlignment="Center"
+                Keyboard="Numeric" />
+            <Entry
+                x:Name="Entry_Cantidad"
+                Grid.Row="2"
+                Grid.Column="1"
+                Margin="7,0"
+                FontSize="16"
+                HorizontalTextAlignment="Center"
+                Keyboard="Numeric" />
+            <Label
+                x:Name="Label_ValorTotal"
+                Grid.Row="3"
+                Grid.Column="1"
+                Margin="7,0"
+                FontSize="16"
+                HeightRequest="40"
+                HorizontalTextAlignment="Center"
+                Text="0"
+                VerticalTextAlignment="Center" />
+        </Grid>
+        <Button
+            x:Name="Button_GuardarNuevaCompra"
+            Margin="0,0,0,7"
+            Padding="40,0"
+            BackgroundColor="#2b5499"
+            Clicked="Button_GuardarNuevaCompra_Clicked"
+            CornerRadius="10"
+            FontSize="16"
             HorizontalOptions="Center"
-            Text="Welcome to NuevaCompraContent"
-            VerticalOptions="Center" />
+            Text="Guardar" />
     </VerticalStackLayout>
+
+
+
 </ContentView>

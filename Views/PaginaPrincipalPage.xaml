@@ -5,52 +5,55 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="PaginaPrincipalPage"
     NavigationPage.HasNavigationBar="False">
-    <Grid
-        Margin="30"
-        RowDefinitions="Auto,Auto,Auto"
-        RowSpacing="10"
-        VerticalOptions="Center">
-        <Border x:Name="Border_Compra">
-            <Grid RowDefinitions="Auto,Auto">
-                <Image MaximumHeightRequest="50" Source="group_user_icon.pn" />
-                <Label
-                    Grid.Row="1"
-                    FontSize="16"
-                    HorizontalOptions="Center"
-                    Text="COMPRA" />
-            </Grid>
-            <Border.GestureRecognizers>
-                <TapGestureRecognizer Tapped="Border_Compra_TapGestureRecognizer_Tapped" />
-            </Border.GestureRecognizers>
+    <Grid>
+        <Grid
+            Margin="30"
+            RowDefinitions="Auto,Auto,Auto"
+            RowSpacing="10"
+            VerticalOptions="Center">
+            <Border x:Name="Border_Compra">
+                <Grid RowDefinitions="Auto,Auto">
+                    <Image MaximumHeightRequest="50" Source="group_user_icon.pn" />
+                    <Label
+                        Grid.Row="1"
+                        FontSize="16"
+                        HorizontalOptions="Center"
+                        Text="COMPRA" />
+                </Grid>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="Border_Compra_TapGestureRecognizer_Tapped" />
+                </Border.GestureRecognizers>
 
-        </Border>
-        <Border x:Name="Border_Cheques" Grid.Row="1">
-            <Grid RowDefinitions="Auto,Auto">
-                <Image MaximumHeightRequest="50" Source="bookmark_icon.pngn" />
-                <Label
-                    Grid.Row="1"
-                    FontSize="16"
-                    HorizontalOptions="Center"
-                    Text="CHEQUES" />
-            </Grid>
-            <Border.GestureRecognizers>
-                <TapGestureRecognizer Tapped="Border_Cheques_TapGestureRecognizer_Tapped" />
-            </Border.GestureRecognizers>
-        </Border>
-        <Border x:Name="Border_Venta" Grid.Row="2">
-            <Grid RowDefinitions="Auto,Auto">
-                <Image MaximumHeightRequest="50" Source="registro_icon.png" />
-                <Label
-                    Grid.Row="1"
-                    FontSize="16"
-                    HorizontalOptions="Center"
-                    Text="VENTA" />
-            </Grid>
-            <Border.GestureRecognizers>
-                <TapGestureRecognizer Tapped="Border_Venta_TapGestureRecognizer_Tapped" />
-            </Border.GestureRecognizers>
-        </Border>
+            </Border>
+            <Border x:Name="Border_Cheques" Grid.Row="1">
+                <Grid RowDefinitions="Auto,Auto">
+                    <Image MaximumHeightRequest="50" Source="bookmark_icon.pngn" />
+                    <Label
+                        Grid.Row="1"
+                        FontSize="16"
+                        HorizontalOptions="Center"
+                        Text="CHEQUES" />
+                </Grid>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="Border_Cheques_TapGestureRecognizer_Tapped" />
+                </Border.GestureRecognizers>
+            </Border>
+            <Border x:Name="Border_Venta" Grid.Row="2">
+                <Grid RowDefinitions="Auto,Auto">
+                    <Image MaximumHeightRequest="50" Source="registro_icon.png" />
+                    <Label
+                        Grid.Row="1"
+                        FontSize="16"
+                        HorizontalOptions="Center"
+                        Text="VENTA" />
+                </Grid>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="Border_Venta_TapGestureRecognizer_Tapped" />
+                </Border.GestureRecognizers>
+            </Border>
+        </Grid>
     </Grid>
+
 
 
     <ContentPage.Resources>

@@ -1,30 +1,47 @@
-using TesisAppSINMVVM.Models;
 
 namespace TesisAppSINMVVM.Contents;
 
 public partial class NuevaCompraContent : ContentView
 {
-    public List<CompraGroupModel> Compras { get; private set; } = new List<CompraGroupModel>();
-
+    public ContentPage ParentPage { get; set; }
     public NuevaCompraContent()
 	{
 		InitializeComponent();
-	}
+        BindingContext = this;
+        ParentPage = (ContentPage)Parent;
+    }
 
     // NAVEGACIÓN
     // EVENTOS
+    private async void Button_GuardarNuevaCompra_Clicked(object sender, EventArgs e)
+    {
+        await AgregarNuevaCompra();
+    }
+    private async void Button_AgregarProductoPicker_Clicked(object sender, EventArgs e)
+    {
+        // TODO: Hacer una actionsheet
+        //await AgregarProductoListado();
+    }
     // LOGICA PARA EVENTOS
-    private void AgregarNuevaCompra()
+    private Task AgregarNuevaCompra()
     {
         string fecha = DateTime.Now.ToString("dd/MM/yyyy");
-        Compras.Add(new CompraGroupModel(fecha, new List<CompraModel>
-        {
-            new CompraModel
-            {
-
-            }
-        }));
+        string producto = Picker_Producto.SelectedItem.ToString();
+        double precio = double.Parse(Entry_Precio.Text);
+        int cantidad = int.Parse(Entry_Cantidad.Text);
+        Label_ValorTotal.Text = (precio * cantidad).ToString();
+        
+        return Task.CompletedTask;
     }
+
+    //private async Task AgregarProductoListado()
+    //{
+    //    //await ParentPage.DisplayPromptAsync("Agregar producto", "Ingrese el nombre del producto:");
+    //    await 
+    //}
+    
+
+
     // BASE DE DATOS
     // LÓGICA DE COSAS VISUALES DE LA PÁGINA
 

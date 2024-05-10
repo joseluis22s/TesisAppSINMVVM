@@ -1,13 +1,12 @@
-﻿
-using SQLite;
+﻿using SQLite;
 using TesisAppSINMVVM.Database.Tables;
 
-namespace TesisAppSINMVVM.Database
+namespace TesisAppSINMVVM.Database.Respositories
 {
-    public class Repositorio
+    public class Tbl_Proveedor_Respository
     {
         SQLiteAsyncConnection conn;
-        public Repositorio() { }
+        public Tbl_Proveedor_Respository() { }
         async Task InitAsync()
         {
             if (conn is not null)
@@ -16,7 +15,6 @@ namespace TesisAppSINMVVM.Database
             conn = new SQLiteAsyncConnection(Constantes.DatabasePath, Constantes.Flags);
             var resultado = await conn.CreateTableAsync<Tbl_Usuario>();
         }
-        // TBL_USUARIO
         public async Task<bool> VerificarExistenciaUsuarioAsync(string nombreUsuario)
         {
             await InitAsync();
@@ -64,5 +62,9 @@ namespace TesisAppSINMVVM.Database
         }
 
     }
+
+
+
+
 }
 

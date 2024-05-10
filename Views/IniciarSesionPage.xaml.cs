@@ -1,17 +1,17 @@
 using CommunityToolkit.Maui.Alerts;
-using TesisAppSINMVVM.Database;
+using TesisAppSINMVVM.Database.Respositories;
 
 namespace TesisAppSINMVVM.Views;
 
 public partial class IniciarSesionPage : ContentPage
 {
 
-    Repositorio repositorioDB;
+    Tbl_Usuario_Repository TblUsuario_repositorio;
 
     public IniciarSesionPage()
     {
         InitializeComponent();
-        repositorioDB = new Repositorio();
+        TblUsuario_repositorio = new Tbl_Usuario_Repository();
     }
     // NAVEGACIÓN
     private async Task CrearNuevaCuentaPagePushAsync()
@@ -74,11 +74,11 @@ public partial class IniciarSesionPage : ContentPage
     // BASE DE DATOS
     private async Task<bool> VerificarExistenciaUsuarioDBAsync(string usuario)
     {
-        return await repositorioDB.VerificarExistenciaUsuarioAsync(usuario);
+        return await TblUsuario_repositorio.VerificarExistenciaUsuarioAsync(usuario);
     }
     private async Task<bool> VerificarContrasenaCorrectaDBAsync(string usuario, string contrasena)
     {
-        return await repositorioDB.VerificarContrasenaCorrectaAsync(usuario, contrasena);
+        return await TblUsuario_repositorio.VerificarContrasenaCorrectaAsync(usuario, contrasena);
     }
 
     // LÓGICA DE COSAS VISUALES DE LA PÁGINA
