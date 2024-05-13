@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="TesisAppSINMVVM.Views.AgregarNuevoProveedorPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="AgregarNuevoProveedorPage">
+    <VerticalStackLayout Margin="20,20" Spacing="20">
+        <Label
+            FontAttributes="Bold"
+            FontSize="20"
+            HorizontalOptions="Center"
+            Text="Agregar nuevo proveedor" />
+        <VerticalStackLayout>
+            <Label
+                Margin="15,0"
+                HorizontalOptions="Start"
+                Text="Nombre"
+                ZIndex="1" />
+            <Border
+                Stroke="#a2a9b3"
+                StrokeThickness="2"
+                ZIndex="0">
+                <Entry x:Name="Entry_NombreNuevoProveedor" />
+                <Border.Background>
+                    <LinearGradientBrush EndPoint="2,1">
+                        <GradientStop Offset="0.1" Color="#e8f2ff" />
+                        <GradientStop Offset="1.0" Color="#4e82d4" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10" />
+                </Border.StrokeShape>
+                <Border.Shadow>
+                    <Shadow
+                        Brush="Black"
+                        Opacity="0.5"
+                        Radius="100"
+                        Offset="-20,0" />
+                </Border.Shadow>
+            </Border>
+        </VerticalStackLayout>
+        <VerticalStackLayout>
+            <Label
+                Margin="15,0"
+                HorizontalOptions="Start"
+                Text="Apellido"
+                ZIndex="1" />
+            <Border
+                Stroke="#a2a9b3"
+                StrokeThickness="2"
+                ZIndex="0">
+                <Entry x:Name="Entry_ApellidoNuevoProveedor" />
+                <Border.Background>
+                    <LinearGradientBrush EndPoint="2,1">
+                        <GradientStop Offset="0.1" Color="#e8f2ff" />
+                        <GradientStop Offset="1.0" Color="#4e82d4" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10" />
+                </Border.StrokeShape>
+                <Border.Shadow>
+                    <Shadow
+                        Brush="Black"
+                        Opacity="0.5"
+                        Radius="100"
+                        Offset="-20,0" />
+                </Border.Shadow>
+            </Border>
+        </VerticalStackLayout>
+        <VerticalStackLayout>
+            <Label
+                Margin="15,0"
+                HorizontalOptions="Start"
+                Text="Teléfono"
+                ZIndex="1" />
+            <Border
+                Stroke="#a2a9b3"
+                StrokeThickness="2"
+                ZIndex="0">
+                <Entry x:Name="Entry_TelefonoNuevoProveedor" Keyboard="Telephone" />
+                <Border.Background>
+                    <LinearGradientBrush EndPoint="2,1">
+                        <GradientStop Offset="0.1" Color="#e8f2ff" />
+                        <GradientStop Offset="1.0" Color="#4e82d4" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10" />
+                </Border.StrokeShape>
+                <Border.Shadow>
+                    <Shadow
+                        Brush="Black"
+                        Opacity="0.5"
+                        Radius="100"
+                        Offset="-20,0" />
+                </Border.Shadow>
+            </Border>
+        </VerticalStackLayout>
+        <Button
+            x:Name="Button_Guardar"
+            Clicked="Button_Guardar_Clicked"
+            HorizontalOptions="Center"
+            Text="Guardar" />
+        <Button
+            x:Name="Button_Cancelar"
+            Clicked="Button_Cancelar_Clicked"
+            HorizontalOptions="Center"
+            Text="Cancelar" />
+    </VerticalStackLayout>
+    <ContentPage.Background>
+        <LinearGradientBrush EndPoint="0.1,0.9">
+            <GradientStop Offset="0.1" Color="#5d92e8" />
+            <GradientStop Offset="1.0" Color="#e3e3e3" />
+            <!--<GradientStop Offset="0.1" Color="#e3e3e3" />-->
+            <!--<GradientStop Offset="1.0" Color="#5d92e8" />-->
+        </LinearGradientBrush>
+    </ContentPage.Background>
+</ContentPage>

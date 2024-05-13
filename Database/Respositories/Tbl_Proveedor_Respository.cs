@@ -13,53 +13,58 @@ namespace TesisAppSINMVVM.Database.Respositories
                 return;
 
             conn = new SQLiteAsyncConnection(Constantes.DatabasePath, Constantes.Flags);
-            var resultado = await conn.CreateTableAsync<Tbl_Usuario>();
+            var resultado = await conn.CreateTableAsync<Tbl_Proveedor>();
         }
-        public async Task<bool> VerificarExistenciaUsuarioAsync(string nombreUsuario)
+        public async Task GuardarNuevoProveedorAsync(string nombre, string apellido, string telefono)
         {
             await InitAsync();
-            int resultado = await conn.Table<Tbl_Usuario>().CountAsync(usuario => usuario.USUARIO == nombreUsuario);
-            if (resultado != 0)
+            Tbl_Proveedor Proveedor = new()
             {
-                return true;
-            }
-            return false;
-        }
-        public async Task GuardarNuevoUsuarioAsync(string usuario, string contrasena, string correo)
-        {
-            await InitAsync();
-            Tbl_Usuario Usuario = new()
-            {
-                USUARIO = usuario,
-                CONTRASENA = contrasena,
-                CORREO = correo,
+                NOMBRE = nombre,
+                APELLIDO = apellido,
+                TELEFONO = telefono
             };
-            await conn.InsertAsync(Usuario);
+            await conn.InsertAsync(Proveedor);
         }
 
-        public async Task<bool> VerificarContrasenaCorrectaAsync(string nombreUsuario, string contrasena)
+        public async Task<bool> VerificarExistenciaProveedorAsync(string nombre, string apellido)
         {
             await InitAsync();
-            string query = "SELECT CONTRASENA FROM TBL_USUARIO WHERE USUARIO = ?";
-            var a = await conn.FindWithQueryAsync<Tbl_Usuario>(query, nombreUsuario);
-            if (a != null)
+            int resultado = await conn.Table<Tbl_Proveedor>().Where(x =>
+                x.NOMBRE == nombre &&
+                x.APELLIDO == apellido
+                ).CountAsync();
+            if (resultado == 0)
             {
-                return a.CONTRASENA.Equals(contrasena);
+                return false;
             }
-            return false;
+            return true;
         }
-        //Borrar usuarios 'Tbl_Usuario'
-        public async Task<int> BorrarUsuarios()
+
+        public async Task<List<Tbl_Proveedor>> ObtenerProveedores()
         {
             await InitAsync();
-            return await conn.DeleteAllAsync<Tbl_Usuario>();
+            return await conn.Table<Tbl_Proveedor>().ToListAsync();
         }
-        //Borrar tabla 'Tbl_Usuario'
-        public async Task<int> BorrarTablaUsuario()
+        public async Task BorrarTblProveedorAsync()
         {
             await InitAsync();
-            return await conn.DropTableAsync<Tbl_Usuario>();
+            await conn.DropTableAsync<Tbl_Proveedor>();
         }
+
+        
+        ////Borrar usuarios 'Tbl_Usuario'
+        //public async Task<int> BorrarUsuarios()
+        //{
+        //    await InitAsync();
+        //    return await conn.DeleteAllAsync<Tbl_Usuario>();
+        //}
+        ////Borrar tabla 'Tbl_Usuario'
+        //public async Task<int> BorrarTablaUsuario()
+        //{
+        //    await InitAsync();
+        //    return await conn.DropTableAsync<Tbl_Usuario>();
+        //}
 
     }
 

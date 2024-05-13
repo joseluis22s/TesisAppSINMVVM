@@ -61,6 +61,7 @@
 	  <None Remove="Resources\Images\bookmark_icon.png" />
 	  <None Remove="Resources\Images\cheque_icon.png" />
 	  <None Remove="Resources\Images\registro_icon.png" />
+	  <None Remove="Resources\Images\remove_empty_icon.png" />
 	  <None Remove="Resources\Images\write_edit_paper_icon.png" />
 	</ItemGroup>
 
@@ -85,6 +86,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Contents\NuevaCompraContent.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\AgregarNuevoProveedorPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ChequesPage.xaml">

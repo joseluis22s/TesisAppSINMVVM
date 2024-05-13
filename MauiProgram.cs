@@ -3,6 +3,11 @@ using CommunityToolkit.Maui;
 
 namespace TesisAppSINMVVM
 {
+    // NAVEGACIÓN
+    // EVENTOS
+    // LOGICA PARA EVENTOS
+    // BASE DE DATOS
+    // LÓGICA DE COSAS VISUALES DE LA PÁGINA
     public static class MauiProgram
     {
         public static MauiApp CreateMauiApp()

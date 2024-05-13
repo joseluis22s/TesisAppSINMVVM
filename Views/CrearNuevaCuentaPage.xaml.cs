@@ -7,12 +7,12 @@ namespace TesisAppSINMVVM.Views;
 public partial class CrearNuevaCuentaPage : ContentPage
 {
     private bool enEjecucion = false;
-    Tbl_Usuario_Repository TblUsuario_repositorio;
+    private Tbl_Usuario_Repository TblUsuario_repo;
 
     public CrearNuevaCuentaPage()
 	{
 		InitializeComponent();
-        TblUsuario_repositorio = new Tbl_Usuario_Repository();
+        TblUsuario_repo = new Tbl_Usuario_Repository();
 	}
 
     // NAVEGACIÓN ENTRE PÁGINAS
@@ -319,7 +319,7 @@ public partial class CrearNuevaCuentaPage : ContentPage
         {
             usuario = "";
         }
-        return await TblUsuario_repositorio.VerificarExistenciaUsuarioAsync(usuario);
+        return await TblUsuario_repo.VerificarExistenciaUsuarioAsync(usuario);
     }
     private async Task GuardarNuevoUsuarioBDAsync()
     {
@@ -338,12 +338,12 @@ public partial class CrearNuevaCuentaPage : ContentPage
         {
             correo = "";
         }
-        await TblUsuario_repositorio.GuardarNuevoUsuarioAsync(usuario, contrasena, correo);
+        await TblUsuario_repo.GuardarNuevoUsuarioAsync(usuario, contrasena, correo);
     }
     // COMENTAR: Pruebas
     private async void Button_BorrarTabla_Clicked(object sender, EventArgs e)
     {
-        await TblUsuario_repositorio.BorrarTablaUsuario();
+        await TblUsuario_repo.BorrarTablaUsuario();
     }
     private async void Button_VerificarExistenciaUsuario_Clicked(object sender, EventArgs e)
     {
@@ -352,6 +352,6 @@ public partial class CrearNuevaCuentaPage : ContentPage
         {
             usuario = "";
         }
-        await TblUsuario_repositorio.VerificarExistenciaUsuarioAsync(usuario);
+        await TblUsuario_repo.VerificarExistenciaUsuarioAsync(usuario);
     }
 }
