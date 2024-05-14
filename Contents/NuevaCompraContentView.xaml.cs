@@ -5,20 +5,18 @@ using TesisAppSINMVVM.Views;
 
 namespace TesisAppSINMVVM.Contents;
 
-public partial class NuevaCompraContent : ContentView
+public partial class NuevaCompraContentView : ContentView
 {
     private Tbl_Producto_Repository Tbl_Producto_repo = new Tbl_Producto_Repository();
     private List<Tbl_Producto> productos;
     NavigationPage navigationPage = Application.Current.MainPage as NavigationPage;
     ContentPage currentPage;
 
-    public NuevaCompraContent()
+    public NuevaCompraContentView()
 	{
 		InitializeComponent();
         currentPage = (ContentPage?)navigationPage.CurrentPage;
     }
-
-
     // NAVEGACIÓN
     // EVENTOS
     private async void Button_GuardarNuevaCompra_Clicked(object sender, EventArgs e)
@@ -44,7 +42,7 @@ public partial class NuevaCompraContent : ContentView
         productos = await ObtenerProdcutosDBAsync();
         Picker_Producto.ItemsSource = productos;
     }
-    private async  void Picker_TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+    private async void Picker_TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
         productos = await ObtenerProdcutosDBAsync();
         Picker_Producto.ItemsSource = productos;
@@ -98,7 +96,7 @@ public partial class NuevaCompraContent : ContentView
     {
         return await Tbl_Producto_repo.ObtenerProdcutosAsync();
     }
-    
+
 
     // LÓGICA DE COSAS VISUALES DE LA PÁGINA
 

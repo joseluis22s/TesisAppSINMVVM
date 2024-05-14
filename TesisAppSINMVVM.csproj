@@ -82,10 +82,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Contents\HistorialComprasContent.xaml">
+	  <MauiXaml Update="Contents\HistorialComprasContentView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Contents\NuevaCompraContent.xaml">
+	  <MauiXaml Update="Contents\NuevaCompraContentView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\AgregarNuevoProveedorPage.xaml">

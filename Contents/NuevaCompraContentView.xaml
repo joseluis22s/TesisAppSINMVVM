@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView
-    x:Class="TesisAppSINMVVM.Contents.NuevaCompraContent"
+    x:Class="TesisAppSINMVVM.Contents.NuevaCompraContentView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Loaded="ContentView_Loaded">
@@ -80,11 +80,11 @@
                     Text="Saldo Pendiente:"
                     VerticalTextAlignment="Center" />
                 <!--<Entry
-            x:Name="Entry_Producto"
-            Grid.Column="1"
-            Margin="7,0"
-            FontSize="16"
-            VerticalTextAlignment="Center" />-->
+        x:Name="Entry_Producto"
+        Grid.Column="1"
+        Margin="7,0"
+        FontSize="16"
+        VerticalTextAlignment="Center" />-->
                 <Picker
                     x:Name="Picker_Producto"
                     Title="Seleccionar una opción"
@@ -156,8 +156,4 @@
             IsRunning="False"
             MaximumHeightRequest="45" />
     </Grid>
-
-
-
-
 </ContentView>
