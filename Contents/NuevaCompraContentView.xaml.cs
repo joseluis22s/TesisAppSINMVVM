@@ -7,15 +7,17 @@ namespace TesisAppSINMVVM.Contents;
 
 public partial class NuevaCompraContentView : ContentView
 {
-    private Tbl_Producto_Repository Tbl_Producto_repo = new Tbl_Producto_Repository();
-    private List<Tbl_Producto> productos;
-    private NavigationPage navigationPage = Application.Current.MainPage as NavigationPage;
-    private ContentPage currentPage;
+    private Tbl_Producto_Repository _repoProveedor;
+    private List<Tbl_Producto> _productos;
+    private NavigationPage _navigationPage;
+    private ContentPage _currentPage;
 
     public NuevaCompraContentView()
-	{
-		InitializeComponent();
-        currentPage = (ContentPage?)navigationPage.CurrentPage;
+    {
+        InitializeComponent();
+        _repoProveedor = new Tbl_Producto_Repository();
+        _navigationPage = Application.Current.MainPage as NavigationPage;
+        _currentPage = (ContentPage?)_navigationPage.CurrentPage;
     }
 
 
@@ -29,40 +31,16 @@ public partial class NuevaCompraContentView : ContentView
     private async void Button_AgregarNuevoProductoPicker_Clicked(object sender, EventArgs e)
     {
         await AgregarNuevoProducto();
-        //string nuevoProducto = await currentPage.DisplayPromptAsync("Agregar producto", "Ingrese el nombre del producto:", "ACEPTAR", "CANCELAR");
-        //bool resultado = await VerificarExistenciaProductoDBAsync(nuevoProducto);
-        //if (resultado)
-        //{
-        //    await Toast.Make("Producto ya existente").Show();
-        //}
-        //else
-        //{
-        //    await GuardarProductoDBAsync(nuevoProducto);
-        //    await Toast.Make("Producto guardado con éxito").Show();
-        //}
     }
     private async void ContentView_Loaded(object sender, EventArgs e)
     {
         await CargarProductos();
-        //productos = await ObtenerProdcutosDBAsync();
-        //Picker_Producto.ItemsSource = productos;
     }
     private async void Picker_TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
         await PermiteElegirProductos();
-        //productos = await ObtenerProdcutosDBAsync();
-        //Picker_Producto.ItemsSource = productos;
-        //bool resultado = productos.Count == 0;
-        //if (resultado)
-        //{
-        //    await Toast.Make("Agregue al meno un producto").Show();
-        //}
-        //else
-        //{
-        //    Picker_Producto.Focus();
-        //}
     }
-    
+
 
     // LOGICA PARA EVENTOS
     private async Task AgregarNuevaCompra()
@@ -74,9 +52,9 @@ public partial class NuevaCompraContentView : ContentView
 
         Label_ValorTotal.Text = total.ToString();
 
-        await currentPage.DisplayAlert("AVISO", "El registro se ha guardado", "Aceptar");
+        await _currentPage.DisplayAlert("AVISO", "El registro se ha guardado", "Aceptar");
 
-        Tbl_Proveedor proveedorBinding = (Tbl_Proveedor) BindingContext;
+        Tbl_Proveedor proveedorBinding = (Tbl_Proveedor)BindingContext;
 
         Tbl_HistorialCompras compra = new Tbl_HistorialCompras()
         {
@@ -94,7 +72,7 @@ public partial class NuevaCompraContentView : ContentView
 
     private async Task AgregarNuevoProducto()
     {
-        string nuevoProducto = await currentPage.DisplayPromptAsync("NUEVO PRODUCTO", "Ingrese el nombre del producto:", "AGREGAR", "CANCELAR");
+        string nuevoProducto = await _currentPage.DisplayPromptAsync("NUEVO PRODUCTO", "Ingrese el nombre del producto:", "AGREGAR", "CANCELAR");
         bool existeProducto = await VerificarExistenciaProductoDBAsync(nuevoProducto);
         if (existeProducto)
         {
@@ -106,25 +84,16 @@ public partial class NuevaCompraContentView : ContentView
             await Toast.Make("el producto se ha guardado").Show();
         }
     }
-    //      Verificar si Task.Run() afecta en rendimiento o fluides o si no hace nada
     private async Task CargarProductos()
     {
-        productos = await ObtenerProdcutosDBAsync();
-        await Task.Run(() =>
-        {
-            Picker_Producto.ItemsSource = productos;
-        });
+        _productos = await ObtenerProdcutosDBAsync();
+        Picker_Producto.ItemsSource = _productos;
     }
-    //      Verificar si Task.Run() afecta en rendimiento o fluides o si no hace nada
     private async Task PermiteElegirProductos()
     {
-        productos = await ObtenerProdcutosDBAsync();
-
-        await Task.Run(() =>
-        {
-            Picker_Producto.ItemsSource = productos;
-        });
-        bool existeProdcutos = productos.Count == 0;
+        _productos = await ObtenerProdcutosDBAsync();
+        Picker_Producto.ItemsSource = _productos;
+        bool existeProdcutos = _productos.Count == 0;
         if (existeProdcutos)
         {
             await Toast.Make("Agregue al menos un producto").Show();
@@ -139,15 +108,15 @@ public partial class NuevaCompraContentView : ContentView
     // BASE DE DATOS
     private async Task<bool> VerificarExistenciaProductoDBAsync(string resultado)
     {
-        return await Tbl_Producto_repo.VerificarExistenciaProductoAsync(resultado);
+        return await _repoProveedor.VerificarExistenciaProductoAsync(resultado);
     }
     private async Task GuardarProductoDBAsync(string producto)
     {
-        await Tbl_Producto_repo.GuardarProductoAsync(producto);
+        await _repoProveedor.GuardarProductoAsync(producto);
     }
     private async Task<List<Tbl_Producto>> ObtenerProdcutosDBAsync()
     {
-        return await Tbl_Producto_repo.ObtenerProdcutosAsync();
+        return await _repoProveedor.ObtenerProdcutosAsync();
     }
 
 

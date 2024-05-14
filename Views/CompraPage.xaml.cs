@@ -7,15 +7,19 @@ namespace TesisAppSINMVVM.Views;
 public partial class CompraPage : ContentPage
 {
 
-    private ContentView _nuevaCompraContentView = new NuevaCompraContentView();
-    private ContentView _historialComprasContentView = new HistorialComprasContentView();
-    private Tbl_Proveedor_Respository _repoProveedor = new Tbl_Proveedor_Respository();
+    private ContentView _nuevaCompraContentView;
+    private ContentView _historialComprasContentView;
+    private Tbl_Proveedor_Respository _repoProveedor;
     private List<Tbl_Proveedor> _proveedores;
-    private NavigationPage nav = new NavigationPage();
+    private NavigationPage _navigationPage;
 
     public CompraPage()
     {
         InitializeComponent();
+        _nuevaCompraContentView = new NuevaCompraContentView();
+        _historialComprasContentView = new HistorialComprasContentView();
+        _repoProveedor = new Tbl_Proveedor_Respository();
+        _navigationPage = new NavigationPage();
         ContentView_CompraPageContenidoDinamico.Content = _nuevaCompraContentView;
     }
 
@@ -39,7 +43,6 @@ public partial class CompraPage : ContentPage
     private async void Button_AgregarProveedor_Clicked(object sender, EventArgs e)
     {
         await AgregarNuevoProveedorPagePushModalAsync();
-        
     }
     //private async void Button_Borrar_tbl_Clicked(object sender, EventArgs e)
     //{
@@ -50,26 +53,15 @@ public partial class CompraPage : ContentPage
         base.OnAppearing();
 
         await CargarDatosCollectionView_Proveedores();
-        //_proveedores = await ObtenerProveedoresDBAsync();
-        //CollectionView_Proveedores.ItemsSource = _proveedores;
-        // *NO SE QUE ES* bool vertical1 = Grid_ProveedoresCompraPage.IsVisible;
     }
     private async void CollectionView_Proveedores_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        //var item = CollectionView_Proveedores.SelectedItem;
-        //Grid_ProveedoresCompraPage.IsVisible = false;
-        //VerticalStackLayout_OpcionesCompraPage.IsVisible = true;
-        //ContentView_CompraPageContenidoDinamico.BindingContext = item;
-
         await PasarProveedorBinding();
         await MostarVerticalStackLayout_OpcionesCompraPage();
     }
     private async void Button_CancelarProveedores_Clicked(object sender, EventArgs e)
     {
-        //VerticalStackLayout_OpcionesCompraPage.IsVisible = false;
-        //Grid_ProveedoresCompraPage.IsVisible = true;
         await MostrarGrid_ProveedoresCompraPage();
-        // *NO SE PORQUE ESTA* CollectionView_Proveedores.SelectedItem = null;
     }
 
 
@@ -88,7 +80,6 @@ public partial class CompraPage : ContentPage
     //      Verificar si es necesario Task.Run
     private async Task PasarProveedorBinding()
     {
-        
         await Task.Run(() =>
         {
             var item = CollectionView_Proveedores.SelectedItem;
