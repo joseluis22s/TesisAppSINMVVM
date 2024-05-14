@@ -1,6 +1,7 @@
 using CommunityToolkit.Maui.Alerts;
 using TesisAppSINMVVM.Database.Respositories;
 using TesisAppSINMVVM.Database.Tables;
+using TesisAppSINMVVM.Views;
 
 namespace TesisAppSINMVVM.Contents;
 
@@ -9,12 +10,14 @@ public partial class NuevaCompraContent : ContentView
     private Tbl_Producto_Repository Tbl_Producto_repo = new Tbl_Producto_Repository();
     private List<Tbl_Producto> productos;
     NavigationPage navigationPage = Application.Current.MainPage as NavigationPage;
-    ContentPage currentPage; 
+    ContentPage currentPage;
+
     public NuevaCompraContent()
 	{
 		InitializeComponent();
         currentPage = (ContentPage?)navigationPage.CurrentPage;
     }
+
 
     // NAVEGACIÓN
     // EVENTOS
@@ -55,24 +58,31 @@ public partial class NuevaCompraContent : ContentView
             Picker_Producto.Focus();
         }
     }
+
+
     // LOGICA PARA EVENTOS
-    private Task AgregarNuevaCompra()
+    private async Task AgregarNuevaCompra()
     {
-        string fecha = DateTime.Now.ToString("dd/MM/yyyy");
-        string producto = Picker_Producto.SelectedItem.ToString();
         double precio = double.Parse(Entry_Precio.Text);
         int cantidad = int.Parse(Entry_Cantidad.Text);
-        Label_ValorTotal.Text = (precio * cantidad).ToString();
-        
-        return Task.CompletedTask;
+        double total = precio * cantidad;
+        Label_ValorTotal.Text = total.ToString();
+        await currentPage.DisplayAlert("AVISO", "El registro se ha guardado", "Aceptar");
+        var proveedorBinding = (Tbl_Proveedor)BindingContext;
+        Tbl_HistorialCompras compra = new Tbl_HistorialCompras()
+        {
+            NOMBRE = proveedorBinding.NOMBRE,
+            APELLIDO = proveedorBinding.APELLIDO,
+            PRODUCTO = Picker_Producto.SelectedItem.ToString(),
+            FECHA = DateTime.Now.ToString("dd/MM/yyyy"),
+            DIA = DateTime.Now.Day.ToString().ToUpper(),
+            CANTIDAD = cantidad,
+            PRECIO = precio,
+            TOTAL = total,
+            SALDOPENDIENTE = 0
+        };
     }
 
-    //private async Task AgregarProductoListado()
-    //{
-    //    //await ParentPage.DisplayPromptAsync("Agregar producto", "Ingrese el nombre del producto:");
-    //    await 
-    //}
-    
 
 
     // BASE DE DATOS
@@ -89,11 +99,6 @@ public partial class NuevaCompraContent : ContentView
         return await Tbl_Producto_repo.ObtenerProdcutosAsync();
     }
     
-
-
-
-
-
 
     // LÓGICA DE COSAS VISUALES DE LA PÁGINA
 

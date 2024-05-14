@@ -56,6 +56,7 @@ public partial class CompraPage : ContentPage
         var item = CollectionView_Proveedores.SelectedItem;
         Grid_ProveedoresCompraPage.IsVisible = false;
         VerticalStackLayout_OpcionesCompraPage.IsVisible = true;
+        ContentView_CompraPageContenidoDinamico.BindingContext = item;
     }
     private void Button_CancelarProveedores_Clicked(object sender, EventArgs e)
     {

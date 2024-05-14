@@ -15,5 +15,19 @@ namespace TesisAppSINMVVM.Database.Respositories
             conn = new SQLiteAsyncConnection(Constantes.DatabasePath, Constantes.Flags);
             var resultado = await conn.CreateTableAsync<Tbl_HistorialCompras>();
         }
+        public async Task GuardarRegistroProducto(Tbl_HistorialCompras registroCompra)
+        {
+            await InitAsync();
+            await conn.InsertAsync(registroCompra);
+        }
+        public async Task<List<Tbl_HistorialCompras>> ObtenerHistorialProductoAsync(string nombreProveedor, string apellidoProveedor)
+        {
+            await InitAsync();
+            return await conn.Table<Tbl_HistorialCompras>().Where(historial =>
+            historial.NOMBRE == nombreProveedor &&
+            historial.APELLIDO == apellidoProveedor
+            ).ToListAsync();
+        }
+
     }
 }
