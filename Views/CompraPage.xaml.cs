@@ -19,6 +19,7 @@ public partial class CompraPage : ContentPage
         ContentView_CompraPageContenidoDinamico.Content = _nuevaCompraContentView;
     }
 
+
     // NAVEGACIÓN
     private async Task AgregarNuevoProveedorPagePushModalAsync()
     {
@@ -109,7 +110,7 @@ public partial class CompraPage : ContentPage
 
     // LÓGICA DE COSAS VISUALES DE LA PÁGINA
 
-    //      Verificar si es necesario Task.Run
+    //      Verificar si Task.Run() afecta en rendimiento o fluides o si no hace nada
     private async Task MostarVerticalStackLayout_OpcionesCompraPage()
     {
         await Task.Run(() =>
@@ -118,7 +119,7 @@ public partial class CompraPage : ContentPage
             VerticalStackLayout_OpcionesCompraPage.IsVisible = true;
         });
     }
-    //      Verificar si es necesario Task.Run
+    //      Verificar si Task.Run() afecta en rendimiento o fluides o si no hace nada
     private async Task MostrarGrid_ProveedoresCompraPage()
     {
         await Task.Run(() =>
