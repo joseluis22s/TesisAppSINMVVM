@@ -5,53 +5,51 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:Models="clr-namespace:TesisAppSINMVVM.Models"
     xmlns:Views="clr-namespace:TesisAppSINMVVM.Views"
-    Appearing="ContentPage_Appearing">
+    Title="Proveedores"
+    Appearing="ContentPage_Appearing"
+    NavigationPage.HasBackButton="False">
 
     <Grid>
         <Grid
             x:Name="Grid_ProveedoresCompraPage"
-            Margin="10,17"
-            RowDefinitions="Auto,*">
+            Margin="15,17,15,0"
+            RowDefinitions="Auto,*"
+            RowSpacing="15">
             <Button
                 x:Name="Button_AgregarProveedor"
                 Clicked="Button_AgregarProveedor_Clicked"
                 HorizontalOptions="Center"
                 Text="Agregar nuevo" />
-            <Button
+            <!--<Button
                 Clicked="Button_Borrar_tbl_Clicked"
                 HorizontalOptions="End"
                 IsVisible="False"
                 Text="Borrar_tbl"
                 VerticalOptions="End"
-                WidthRequest="50" />
+                WidthRequest="50" />-->
             <CollectionView
                 x:Name="CollectionView_Proveedores"
                 Grid.Row="1"
+                SelectionChanged="CollectionView_Proveedores_SelectionChanged"
                 SelectionMode="Single">
                 <CollectionView.EmptyView>
-                    <ContentView Margin="10">
-                        <Border BackgroundColor="#e6e6e6" Stroke="Transparent">
-                            <VerticalStackLayout Padding="20" Spacing="10">
-                                <Label
-                                    FontAutoScalingEnabled="True"
-                                    HorizontalTextAlignment="Center"
-                                    Text="NO SE HA REGISTRADO NINGÚN CONTACTO"
-                                    TextColor="#1a1a1a" />
-                                <Image MaximumHeightRequest="30" Source="remove_empty_icon.png" />
-                            </VerticalStackLayout>
-                        </Border>
+                    <ContentView>
+                        <VerticalStackLayout
+                            x:Name="VerticalStackLayout_EmptyView"
+                            BackgroundColor="#e6e6e6"
+                            VerticalOptions="Center">
+                            <Label
+                                FontAutoScalingEnabled="True"
+                                HorizontalTextAlignment="Center"
+                                Text="NO SE HA REGISTRADO NINGÚN CONTACTO"
+                                TextColor="#1a1a1a" />
+                            <Image MaximumHeightRequest="30" Source="remove_empty_icon.png" />
+                        </VerticalStackLayout>
                     </ContentView>
                 </CollectionView.EmptyView>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Border>
-                            <VerticalStackLayout Margin="5">
-                                <Label Text="Textoooooooooooooooo" />
-                                <Label Text="{Binding NOMBRE}" TextColor="Black" />
-                                <Label Text="{Binding APELLIDO}" />
-                                <Label Text="{Binding TELEFONO}" />
-                            </VerticalStackLayout>
-
+                        <Border Margin="0,5">
                             <Border.Background>
                                 <LinearGradientBrush EndPoint="2,1">
                                     <GradientStop Offset="0.1" Color="#e8f2ff" />
@@ -68,6 +66,19 @@
                                     Radius="100"
                                     Offset="-20,0" />
                             </Border.Shadow>
+                            <VerticalStackLayout Margin="5">
+                                <HorizontalStackLayout Spacing="5">
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="20"
+                                        Text="{Binding NOMBRE}" />
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="20"
+                                        Text="{Binding APELLIDO}" />
+                                </HorizontalStackLayout>
+                                <Label Text="{Binding TELEFONO}" />
+                            </VerticalStackLayout>
                         </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
@@ -100,6 +111,13 @@
                 x:Name="ContentView_CompraPageContenidoDinamico"
                 Padding="10"
                 BackgroundColor="#d9d9d9" />
+            <Button
+                x:Name="Button_CancelarProveedores"
+                BorderColor="#5d92e8"
+                BorderWidth="2"
+                Clicked="Button_CancelarProveedores_Clicked"
+                HorizontalOptions="Center"
+                Text="Regresar" />
         </VerticalStackLayout>
     </Grid>
 

@@ -2,7 +2,8 @@
 <ContentView
     x:Class="TesisAppSINMVVM.Contents.NuevaCompraContent"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Loaded="ContentView_Loaded" >
     <VerticalStackLayout Spacing="10">
         <Label
             Padding="0,2"
@@ -84,12 +85,16 @@
                 Grid.Column="1"
                 Margin="7,0"
                 FontSize="16"
-                VerticalTextAlignment="Center" />
+                VerticalTextAlignment="Center" ItemDisplayBinding="{Binding PRODUCTO}">
+                <Picker.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="Picker_TapGestureRecognizer_Tapped" />
+                </Picker.GestureRecognizers>
+            </Picker>
             <Button
                 x:Name="Button_AgregarProductoPicker"
                 Grid.Column="2"
                 Padding="0"
-                Clicked="Button_AgregarProductoPicker_Clicked"
+                Clicked="Button_AgregarNuevoProductoPicker_Clicked"
                 HeightRequest="35"
                 Text="+"
                 WidthRequest="33" />

@@ -51,7 +51,6 @@ public partial class AgregarNuevoProveedorPage : ContentPage
         else
         {
             bool existeProveedor = await VerificarExistenciaProveedorDBAsync();
-            await Toast.Make("Se supone que todos esta llenos").Show();
             if (existeProveedor)
             {
                 await Toast.Make("Contacto ya existente").Show();

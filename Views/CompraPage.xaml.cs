@@ -1,4 +1,3 @@
-using System.Collections.ObjectModel;
 using TesisAppSINMVVM.Contents;
 using TesisAppSINMVVM.Database.Respositories;
 using TesisAppSINMVVM.Database.Tables;
@@ -7,20 +6,17 @@ namespace TesisAppSINMVVM.Views;
 
 public partial class CompraPage : ContentPage
 {
-    private ContentView NuevaCompraView { get; set; }
-    private ContentView HistorialComprasView { get; set; }
-    private Tbl_Proveedor_Respository Tbl_Proveedor_repo;
+
+    private ContentView NuevaCompraView = new NuevaCompraContent();
+    private ContentView HistorialComprasView = new HistorialComprasContent();
+    private Tbl_Proveedor_Respository Tbl_Proveedor_repo = new Tbl_Proveedor_Respository();
     private List<Tbl_Proveedor> Proveedores;
+    NavigationPage nav = new NavigationPage();
+
     public CompraPage()
-	// AQUI INICIA
     {
-		InitializeComponent();
-        //InicializacionAsync();
-        NuevaCompraView = new NuevaCompraContent();
-        HistorialComprasView = new HistorialComprasContent();
+        InitializeComponent();
         ContentView_CompraPageContenidoDinamico.Content = NuevaCompraView;
-        Tbl_Proveedor_repo = new Tbl_Proveedor_Respository();
-        CollectionView_Proveedores.ItemsSource = Proveedores;
     }
 
     // NAVEGACIÓN
@@ -28,6 +24,8 @@ public partial class CompraPage : ContentPage
     {
         await Navigation.PushModalAsync(new AgregarNuevoProveedorPage());
     }
+
+
     // EVENTOS
     private void Button_NuevaCompra_Clicked(object sender, EventArgs e)
     {
@@ -37,89 +35,48 @@ public partial class CompraPage : ContentPage
     {
         ContentView_CompraPageContenidoDinamico.Content = HistorialComprasView;
     }
-    //private async void ContentPage_Loaded(object sender, EventArgs e)
-    //{
-    //    bool vertical1 = VerticalStackLayout_ProveedoresCompraPage.IsVisible;
-    //    if (vertical1)
-    //    {
-    //        await ActualizarTitulo("PROVEEDORES");
-    //    }
-    //}
-    private async void ContentPage_Appearing(object sender, EventArgs e)
-    // AQUI APEAR
-    {
-        base.OnAppearing();
-
-        bool vertical1 = Grid_ProveedoresCompraPage.IsVisible;
-        if (vertical1)
-        {
-            await ActualizarTitulo("PROVEEDORES");
-        }
-        //Proveedores = await ObtenerProveedoresDBAsync();
-        //CollectionView_Proveedores.ItemsSource = Proveedores;
-    }
     private async void Button_AgregarProveedor_Clicked(object sender, EventArgs e)
     {
         await AgregarNuevoProveedorPagePushModalAsync();
+        
     }
-    private async void Button_Borrar_tbl_Clicked(object sender, EventArgs e)
-    {
-        await BorrarTblProveedorDBAsync();
-    }
-
-    // LOGICA PARA EVENTOS
-    // LÓGICA
-    private async Task ActualizarTitulo(string titulo)
-    {
-        await Task.Run(() => {
-            Title = titulo;
-        });
-    }
-
-    //private Task CargarProveedores()
+    //private async void Button_Borrar_tbl_Clicked(object sender, EventArgs e)
     //{
-    //    //CollectionView_Proveedores
+    //    await BorrarTblProveedorDBAsync();
     //}
+    private async void ContentPage_Appearing(object sender, EventArgs e)
+    {
+        base.OnAppearing();
+        Proveedores = await ObtenerProveedoresDBAsync();
+        CollectionView_Proveedores.ItemsSource = Proveedores;
+        bool vertical1 = Grid_ProveedoresCompraPage.IsVisible;
+    }
+    private void CollectionView_Proveedores_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        var item = CollectionView_Proveedores.SelectedItem;
+        Grid_ProveedoresCompraPage.IsVisible = false;
+        VerticalStackLayout_OpcionesCompraPage.IsVisible = true;
+    }
+    private void Button_CancelarProveedores_Clicked(object sender, EventArgs e)
+    {
+        VerticalStackLayout_OpcionesCompraPage.IsVisible = false;
+        Grid_ProveedoresCompraPage.IsVisible = true;
+        //CollectionView_Proveedores.SelectedItem = null;
+    }
 
 
-
+    // LÓGICA
 
 
     // BASE DE DATOS
     private async Task<List<Tbl_Proveedor>> ObtenerProveedoresDBAsync()
     {
-        var a = await Tbl_Proveedor_repo.ObtenerProveedores();
-        return a;
-        //return await Tbl_Proveedor_repo.ObtenerProveedores();
+        return await Tbl_Proveedor_repo.ObtenerProveedores();
     }
     private async Task BorrarTblProveedorDBAsync()
     {
         await Tbl_Proveedor_repo.BorrarTblProveedorAsync();
     }
 
-    
-
-
-
-
-    //private async Task<bool> VerificarExistenciaProveedoresAsync()
-    //{
-
-    //    // TODO: Primero crear la qyery para la BD, segundo verificar si existe , luego ver is hay y asi.
-    //    //return await Tbl_Proveedor_repo.VerificarExistenciaProveedorAsync();
-    //}
-
-    // INICIALIZACIÓN ASYNC
-
-    //private async Task InicializacionAsync()
-    //{
-    //    await Task.Run(() => {
-    //        NuevaCompraView = new NuevaCompraContent();
-    //        HistorialComprasView = new HistorialComprasContent();
-    //        ContentView_CompraPageContenidoDinamico.Content = NuevaCompraView;
-    //        Tbl_Proveedor_repo = new Tbl_Proveedor_Respository();
-    //    });
-
-    //}
-    // LÓGICA DE COSAS VISUALES DE LA PÁGINA
+    ////LÓGICA DE COSAS VISUALES DE LA PÁGINA
 }
