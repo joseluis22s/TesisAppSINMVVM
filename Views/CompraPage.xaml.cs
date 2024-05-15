@@ -11,7 +11,7 @@ public partial class CompraPage : ContentPage
     private ContentView _historialComprasContentView;
     private Tbl_Proveedor_Respository _repoProveedor;
     private List<Tbl_Proveedor> _proveedores;
-    private NavigationPage _navigationPage;
+    //private NavigationPage _navigationPage;
 
     public CompraPage()
     {
@@ -19,13 +19,13 @@ public partial class CompraPage : ContentPage
         _nuevaCompraContentView = new NuevaCompraContentView();
         _historialComprasContentView = new HistorialComprasContentView();
         _repoProveedor = new Tbl_Proveedor_Respository();
-        _navigationPage = new NavigationPage();
+        //_navigationPage = new NavigationPage();
         ContentView_CompraPageContenidoDinamico.Content = _nuevaCompraContentView;
     }
 
 
     // NAVEGACIÓN
-    private async Task AgregarNuevoProveedorPagePushModalAsync()
+    private async void AgregarNuevoProveedorPagePushModalAsync()
     {
         await Navigation.PushModalAsync(new AgregarNuevoProveedorPage());
     }
@@ -40,51 +40,41 @@ public partial class CompraPage : ContentPage
     {
         ContentView_CompraPageContenidoDinamico.Content = _historialComprasContentView;
     }
-    private async void Button_AgregarProveedor_Clicked(object sender, EventArgs e)
+    private void Button_AgregarProveedor_Clicked(object sender, EventArgs e)
     {
-        await AgregarNuevoProveedorPagePushModalAsync();
+        AgregarNuevoProveedorPagePushModalAsync();
     }
-    //private async void Button_Borrar_tbl_Clicked(object sender, EventArgs e)
-    //{
-    //    await BorrarTblProveedorDBAsync();
-    //}
-    private async void ContentPage_Appearing(object sender, EventArgs e)
+    private async void Button_Borrar_tblProveedor_Clicked(object sender, EventArgs e)
+    {
+        await BorrarTblProveedorDBAsync();
+    }
+    private void ContentPage_Appearing(object sender, EventArgs e)
     {
         base.OnAppearing();
 
-        await CargarDatosCollectionView_Proveedores();
+        CargarDatosCollectionView_Proveedores();
     }
-    private async void CollectionView_Proveedores_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void CollectionView_Proveedores_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        await PasarProveedorBinding();
-        await MostarVerticalStackLayout_OpcionesCompraPage();
+        PasarProveedorBinding();
+        MostarVerticalStackLayout_OpcionesCompraPage();
     }
-    private async void Button_CancelarProveedores_Clicked(object sender, EventArgs e)
+    private void Button_RegresarProveedores_Clicked(object sender, EventArgs e)
     {
-        await MostrarGrid_ProveedoresCompraPage();
+        MostrarGrid_ProveedoresCompraPage();
     }
 
 
     // LÓGICA
-
-    //      Verificar si se puede extender hasta la linea '79'
-    //      Verificar si es necesario Task.Run
-    private async Task CargarDatosCollectionView_Proveedores()
+    private async void CargarDatosCollectionView_Proveedores()
     {
         _proveedores = await ObtenerProveedoresDBAsync();
-        await Task.Run(() =>
-        {
-            CollectionView_Proveedores.ItemsSource = _proveedores;
-        });
+        CollectionView_Proveedores.ItemsSource = _proveedores;
     }
-    //      Verificar si es necesario Task.Run
-    private async Task PasarProveedorBinding()
+    private void PasarProveedorBinding()
     {
-        await Task.Run(() =>
-        {
-            var item = CollectionView_Proveedores.SelectedItem;
-            ContentView_CompraPageContenidoDinamico.BindingContext = item;
-        });
+        var item = CollectionView_Proveedores.SelectedItem;
+        ContentView_CompraPageContenidoDinamico.BindingContext = item;
     }
 
 
@@ -100,23 +90,14 @@ public partial class CompraPage : ContentPage
 
 
     // LÓGICA DE COSAS VISUALES DE LA PÁGINA
-
-    //      Verificar si Task.Run() afecta en rendimiento o fluides o si no hace nada
-    private async Task MostarVerticalStackLayout_OpcionesCompraPage()
+    private void MostarVerticalStackLayout_OpcionesCompraPage()
     {
-        await Task.Run(() =>
-        {
-            Grid_ProveedoresCompraPage.IsVisible = false;
-            VerticalStackLayout_OpcionesCompraPage.IsVisible = true;
-        });
+        Grid_ProveedoresCompraPage.IsVisible = false;
+        VerticalStackLayout_OpcionesCompraPage.IsVisible = true;
     }
-    //      Verificar si Task.Run() afecta en rendimiento o fluides o si no hace nada
-    private async Task MostrarGrid_ProveedoresCompraPage()
+    private void MostrarGrid_ProveedoresCompraPage()
     {
-        await Task.Run(() =>
-        {
-            VerticalStackLayout_OpcionesCompraPage.IsVisible = false;
-            Grid_ProveedoresCompraPage.IsVisible = true;
-        });
+        VerticalStackLayout_OpcionesCompraPage.IsVisible = false;
+        Grid_ProveedoresCompraPage.IsVisible = true;
     }
 }

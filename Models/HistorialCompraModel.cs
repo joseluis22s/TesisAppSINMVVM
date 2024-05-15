@@ -1,7 +1,7 @@
 ﻿
 namespace TesisAppSINMVVM.Models
 {
-    public class CompraModel
+    public class HistorialCompraModel
     {
         public string Producto {  get; set; }
         public double Precio {  get; set; }

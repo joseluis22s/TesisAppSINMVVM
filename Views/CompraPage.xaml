@@ -20,13 +20,13 @@
                 Clicked="Button_AgregarProveedor_Clicked"
                 HorizontalOptions="Center"
                 Text="Agregar nuevo" />
-            <!--<Button
-                Clicked="Button_Borrar_tbl_Clicked"
+            <Button
+                Clicked="Button_Borrar_tblProveedor_Clicked"
                 HorizontalOptions="End"
                 IsVisible="False"
                 Text="Borrar_tbl"
                 VerticalOptions="End"
-                WidthRequest="50" />-->
+                WidthRequest="50" />
             <CollectionView
                 x:Name="CollectionView_Proveedores"
                 Grid.Row="1"
@@ -112,10 +112,10 @@
                 Padding="10"
                 BackgroundColor="#d9d9d9" />
             <Button
-                x:Name="Button_CancelarProveedores"
+                x:Name="Button_RegresarProveedores"
                 BorderColor="#5d92e8"
                 BorderWidth="2"
-                Clicked="Button_CancelarProveedores_Clicked"
+                Clicked="Button_RegresarProveedores_Clicked"
                 HorizontalOptions="Center"
                 Text="Regresar" />
         </VerticalStackLayout>

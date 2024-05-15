@@ -16,8 +16,8 @@
                 Text="NUEVA COMPRA" />
             <Grid
                 Padding="10"
-                ColumnDefinitions="Auto,*,Auto"
-                ColumnSpacing="10"
+                ColumnDefinitions="Auto,*,Auto,Auto"
+                ColumnSpacing="5"
                 RowDefinitions="*,*,*,*,*"
                 RowSpacing="10">
                 <Border
@@ -105,6 +105,15 @@
                     HeightRequest="35"
                     Text="+"
                     WidthRequest="33" />
+                <Button
+                    x:Name="Button_BorrarProductoPicker"
+                    Grid.Column="3"
+                    Padding="0"
+                    Clicked="Button_BorrarProductoPicker_Clicked"
+                    HeightRequest="25"
+                    HorizontalOptions="End"
+                    Text="X"
+                    WidthRequest="23" />
                 <Entry
                     x:Name="Entry_Precio"
                     Grid.Row="1"

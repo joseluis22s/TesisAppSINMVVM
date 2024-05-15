@@ -1,7 +1,6 @@
 using CommunityToolkit.Maui.Alerts;
 using TesisAppSINMVVM.Database.Respositories;
 using TesisAppSINMVVM.Database.Tables;
-using TesisAppSINMVVM.Views;
 
 namespace TesisAppSINMVVM.Contents;
 
@@ -11,6 +10,7 @@ public partial class NuevaCompraContentView : ContentView
     private List<Tbl_Producto> _productos;
     private NavigationPage _navigationPage;
     private ContentPage _currentPage;
+    private bool _productosCargados = false;
 
     public NuevaCompraContentView()
     {
@@ -24,26 +24,27 @@ public partial class NuevaCompraContentView : ContentView
     // NAVEGACIÓN
 
     // EVENTOS
-    private async void Button_GuardarNuevaCompra_Clicked(object sender, EventArgs e)
+    private void Button_GuardarNuevaCompra_Clicked(object sender, EventArgs e)
     {
-        await AgregarNuevaCompra();
+        //AgregarNuevaCompra();
     }
-    private async void Button_AgregarNuevoProductoPicker_Clicked(object sender, EventArgs e)
+    private void Button_AgregarNuevoProductoPicker_Clicked(object sender, EventArgs e)
     {
-        await AgregarNuevoProducto();
+        AgregarNuevoProducto();
     }
-    private async void ContentView_Loaded(object sender, EventArgs e)
+    private void ContentView_Loaded(object sender, EventArgs e)
     {
-        await CargarProductos();
+        CargarProductos();
     }
-    private async void Picker_TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+    private void Picker_TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
-        await PermiteElegirProductos();
+        PermiteElegirProductos();
     }
+
 
 
     // LOGICA PARA EVENTOS
-    private async Task AgregarNuevaCompra()
+    private async void AgregarNuevaCompra()
     {
         double precio = double.Parse(Entry_Precio.Text);
         int cantidad = int.Parse(Entry_Cantidad.Text);
@@ -58,9 +59,9 @@ public partial class NuevaCompraContentView : ContentView
 
         Tbl_HistorialCompras compra = new Tbl_HistorialCompras()
         {
-            NOMBRE = proveedorBinding.NOMBRE,
-            APELLIDO = proveedorBinding.APELLIDO,
-            PRODUCTO = Picker_Producto.SelectedItem.ToString(),
+            NOMBRE = nameof(proveedorBinding.NOMBRE),
+            APELLIDO = nameof(proveedorBinding.APELLIDO),
+            PRODUCTO = nameof(Picker_Producto.SelectedItem),
             FECHA = DateTime.Now.ToString("dd/MM/yyyy"),
             DIA = DateTime.Now.Day.ToString().ToUpper(),
             CANTIDAD = cantidad,
@@ -69,8 +70,7 @@ public partial class NuevaCompraContentView : ContentView
             SALDOPENDIENTE = 0
         };
     }
-
-    private async Task AgregarNuevoProducto()
+    private async void AgregarNuevoProducto()
     {
         string nuevoProducto = await _currentPage.DisplayPromptAsync("NUEVO PRODUCTO", "Ingrese el nombre del producto:", "AGREGAR", "CANCELAR");
         bool existeProducto = await VerificarExistenciaProductoDBAsync(nuevoProducto);
@@ -84,17 +84,21 @@ public partial class NuevaCompraContentView : ContentView
             await Toast.Make("el producto se ha guardado").Show();
         }
     }
-    private async Task CargarProductos()
+    private async void CargarProductos()
     {
         _productos = await ObtenerProdcutosDBAsync();
         Picker_Producto.ItemsSource = _productos;
-    }
-    private async Task PermiteElegirProductos()
+        _productosCargados = true;
+}
+    private async void PermiteElegirProductos()
     {
-        _productos = await ObtenerProdcutosDBAsync();
+        if (!_productosCargados)
+        {
+            _productos = await ObtenerProdcutosDBAsync();
+        }
         Picker_Producto.ItemsSource = _productos;
-        bool existeProdcutos = _productos.Count == 0;
-        if (existeProdcutos)
+        bool existeProductos = _productos.Count == 0;
+        if (existeProductos)
         {
             await Toast.Make("Agregue al menos un producto").Show();
         }
@@ -117,6 +121,12 @@ public partial class NuevaCompraContentView : ContentView
     private async Task<List<Tbl_Producto>> ObtenerProdcutosDBAsync()
     {
         return await _repoProveedor.ObtenerProdcutosAsync();
+    }
+
+    private void Button_BorrarProductoPicker_Clicked(object sender, EventArgs e)
+    {
+        // TODO: Lógica para borrar un solo prodcuto en
+        //       el picker, hacer tambien de la DB.
     }
 
 

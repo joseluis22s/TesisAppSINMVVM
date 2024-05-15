@@ -13,9 +13,27 @@ public partial class AgregarNuevoProveedorPage : ContentPage
 	}
 
     // NAVEGACIÓN
-    private async Task AgregarNuevaCuentaPagePopAsync(int opcion)
+    private async void AgregarNuevaCuentaPagePopModalAsync(bool mostrarAlerta)
     {
-        if (opcion == 0)
+        await PermitirPopModalAsyncNavegacion(mostrarAlerta);
+    }
+    
+
+    // EVENTOS
+    private async void Button_Guardar_Clicked(object sender, EventArgs e)
+    {
+        await PermitirGuardarProveedor();
+    }
+    private void Button_Cancelar_Clicked(object sender, EventArgs e)
+    {
+        AgregarNuevaCuentaPagePopModalAsync(true);
+    }
+    
+    
+    // LOGICA PARA EVENTOS
+    private async Task PermitirPopModalAsyncNavegacion(bool mostrarAlerta)
+    {
+        if (mostrarAlerta)
         {
             bool respuesta = await DisplayAlert("Alerta", "¿Desea regresar? Perderá el progreso realizado", "Confimar", "Cancelar");
             if (respuesta)
@@ -27,28 +45,49 @@ public partial class AgregarNuevoProveedorPage : ContentPage
         {
             await Navigation.PopModalAsync();
         }
-        
     }
-    // EVENTOS
-    private async void Button_Guardar_Clicked(object sender, EventArgs e)
+    private string ValidarCampos()
     {
-        //
-        //      AQUI SE DEBE VERIFICAR SI SE PUEDE INSTACIAR TODOS ESTA AVRIABELS AQUI
-        //      CASO CONTRARIO MANTENER EN LO MIMOS METODO EXISTENTES
-        //
-
-        //string nombre = Entry_NombreNuevoProveedor.Text;
-        //string apellido = Entry_ApellidoNuevoProveedor.Text;
-        //string telefono = Entry_TelefonoNuevoProveedor.Text;
-
-
-        
-        bool camposVacios = await ComprobarCamposVacios();
-        if (camposVacios)
+        string nombre = Entry_NombreNuevoProveedor.Text;
+        string apellido = Entry_ApellidoNuevoProveedor.Text;
+        string telefono = Entry_TelefonoNuevoProveedor.Text;
+        if (String.IsNullOrWhiteSpace(nombre) || 
+            String.IsNullOrWhiteSpace(apellido) ||
+            String.IsNullOrWhiteSpace(telefono))
         {
-            await Toast.Make("Se supone que al menos uno esta vacio").Show();
+            return "Deber llenar todos los campos";
         }
-        else
+        foreach (char letra in nombre)
+        {
+            if (!Char.IsLetter(letra))
+            {
+                return "Nombre no válido";
+            }
+        }
+        foreach (char letra in apellido)
+        {
+            if (!Char.IsLetter(letra))
+            {
+                return "Apellido no válido";
+            }
+        }
+        foreach (char digito in telefono)
+        {
+            if (!Char.IsDigit(digito))
+            {
+                return "Teléfono no válido";
+            }
+        }
+        if (telefono.Length != 10)
+        {
+            return "Teléfono no válido";
+        }
+        return "true";
+    }
+    private async Task PermitirGuardarProveedor()
+    {
+        string resultado = ValidarCampos();
+        if (resultado == "true")
         {
             bool existeProveedor = await VerificarExistenciaProveedorDBAsync();
             if (existeProveedor)
@@ -58,61 +97,20 @@ public partial class AgregarNuevoProveedorPage : ContentPage
             else
             {
                 await GuardarNuevoProveedorDBAsync();
-                await Toast.Make("Contacto guardado exitosamente").Show();
-                await AgregarNuevaCuentaPagePopAsync(1);
+                await Toast.Make("¡Contacto guardado!").Show();
+                AgregarNuevaCuentaPagePopModalAsync(false);
             }
         }
-        
-    }
-    private async void Button_Cancelar_Clicked(object sender, EventArgs e)
-    {
-        await AgregarNuevaCuentaPagePopAsync(0);
-    }
-    // LOGICA PARA EVENTOS
-    private Task<bool> ComprobarCamposVacios()
-    {
-        string nombre = Entry_NombreNuevoProveedor.Text;
-        string apellido = Entry_ApellidoNuevoProveedor.Text;
-        string telefono = Entry_TelefonoNuevoProveedor.Text;
-        if (string.IsNullOrEmpty(nombre))
+        else
         {
-            nombre = "";
+            await Toast.Make(resultado).Show();
         }
-        if (string.IsNullOrEmpty(apellido))
-        {
-            apellido = "";
-        }
-        if (string.IsNullOrEmpty(telefono))
-        {
-            telefono = "";
-        }
-        if(nombre == "" || apellido == "" || telefono == "")
-        {
-            return Task.FromResult(true);
-            //await Toast.Make("Se supone que uno esta vacio").Show();
-        }
-        return Task.FromResult(false);
-        //else
-        //{
-        //    //await Toast.Make("Se supone que todos esta llenos").Show();
-        //}
     }
 
     // BASE DE DATOS
     private async Task<bool> VerificarExistenciaProveedorDBAsync()
     {
-        string nombre = Entry_NombreNuevoProveedor.Text;
-        string apellido = Entry_ApellidoNuevoProveedor.Text;
-        if (string.IsNullOrEmpty(nombre))
-        {
-            nombre = "";
-        }
-        if (string.IsNullOrEmpty(apellido))
-        {
-            apellido = "";
-        }
-        var hoola = await TblProveedor_repo.VerificarExistenciaProveedorAsync(nombre, apellido);
-        return hoola;
+        return await TblProveedor_repo.VerificarExistenciaProveedorAsync(Entry_NombreNuevoProveedor.Text, Entry_ApellidoNuevoProveedor.Text);
     }
     private async Task GuardarNuevoProveedorDBAsync()
     {
