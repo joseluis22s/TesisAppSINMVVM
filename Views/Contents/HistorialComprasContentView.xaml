@@ -2,8 +2,9 @@
 <ContentView
     x:Class="TesisAppSINMVVM.Contents.HistorialComprasContentView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
-    <VerticalStackLayout>
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    BindingContextChanged="ContentView_BindingContextChanged">
+    <Grid RowDefinitions="Auto,*" RowSpacing="5">
         <Label
             Padding="0,2"
             BackgroundColor="#9e9e9e"
@@ -14,8 +15,9 @@
             Text="HISTORIAL" />
         <CollectionView
             x:Name="CollectionView_HistorialCompras"
+            Grid.Row="1"
             IsGrouped="True"
-            SelectionMode="Single">
+            SelectionMode="None">
             <CollectionView.EmptyView>
                 <ContentView>
                     <VerticalStackLayout
@@ -25,7 +27,7 @@
                         <Label
                             FontAutoScalingEnabled="True"
                             HorizontalTextAlignment="Center"
-                            Text="NO SE HA REGISTRADO NINGUNA COMPRA"
+                            Text="NO SE HA REGISTRADO NINGÚN CONTACTO"
                             TextColor="#1a1a1a" />
                         <Image MaximumHeightRequest="30" Source="remove_empty_icon.png" />
                     </VerticalStackLayout>
@@ -50,10 +52,46 @@
                                 Radius="100"
                                 Offset="-20,0" />
                         </Border.Shadow>
+                        <Grid
+                            Margin="20,5"
+                            ColumnDefinitions="*,*,*"
+                            ColumnSpacing="20"
+                            RowDefinitions="Auto,Auto"
+                            RowSpacing="15">
+                            <Label FontAttributes="Bold" Text="{Binding PRODUCTO}" />
+                            <Label
+                                Grid.Row="1"
+                                FontAttributes="Bold"
+                                Text="{Binding DIA}" />
 
+                            <Label Grid.Column="1" Text="{Binding CANTIDAD, StringFormat='x{0}'}" />
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Text="{Binding PRECIO, StringFormat='${0}'}" />
+                            <Label
+                                Grid.Column="2"
+                                FontAttributes="Bold"
+                                Text="{Binding TOTAL, StringFormat='Total: ${0}'}" />
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                Text="{Binding SALDOPENDIENTE, StringFormat='Saldo: ${0}'}" />
+                        </Grid>
                     </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
+            <CollectionView.GroupHeaderTemplate>
+                <DataTemplate>
+                    <HorizontalStackLayout>
+                        <Label
+                            Margin="10,0,0,0"
+                            FontSize="18"
+                            Text="{Binding item}" />
+
+                    </HorizontalStackLayout>
+                </DataTemplate>
+            </CollectionView.GroupHeaderTemplate>
         </CollectionView>
-    </VerticalStackLayout>
+    </Grid>
 </ContentView>

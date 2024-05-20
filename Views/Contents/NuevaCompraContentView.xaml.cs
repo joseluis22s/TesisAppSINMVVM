@@ -6,7 +6,8 @@ namespace TesisAppSINMVVM.Contents;
 
 public partial class NuevaCompraContentView : ContentView
 {
-    private Tbl_Producto_Repository _repoProveedor;
+    private Tbl_Producto_Repository _repoProducto;
+    private Tbl_HistorialCompras_Repository _repohistorialCompras;
     private List<Tbl_Producto> _productos;
     private NavigationPage _navigationPage;
     private ContentPage _currentPage;
@@ -15,7 +16,8 @@ public partial class NuevaCompraContentView : ContentView
     public NuevaCompraContentView()
     {
         InitializeComponent();
-        _repoProveedor = new Tbl_Producto_Repository();
+        _repoProducto = new Tbl_Producto_Repository();
+        _repohistorialCompras = new Tbl_HistorialCompras_Repository();
         _navigationPage = Application.Current.MainPage as NavigationPage;
         _currentPage = (ContentPage?)_navigationPage.CurrentPage;
     }
@@ -26,7 +28,7 @@ public partial class NuevaCompraContentView : ContentView
     // EVENTOS
     private void Button_GuardarNuevaCompra_Clicked(object sender, EventArgs e)
     {
-        //AgregarNuevaCompra();
+        AgregarNuevaCompra();
     }
     private void Button_AgregarNuevoProductoPicker_Clicked(object sender, EventArgs e)
     {
@@ -48,27 +50,33 @@ public partial class NuevaCompraContentView : ContentView
     {
         double precio = double.Parse(Entry_Precio.Text);
         int cantidad = int.Parse(Entry_Cantidad.Text);
+        double saldoPendiente = double.Parse(Entry_SaldoPendiente.Text);
 
         double total = precio * cantidad;
 
         Label_ValorTotal.Text = total.ToString();
 
-        await _currentPage.DisplayAlert("AVISO", "El registro se ha guardado", "Aceptar");
-
         Tbl_Proveedor proveedorBinding = (Tbl_Proveedor)BindingContext;
+        var item = (Tbl_Producto)Picker_Producto.SelectedItem;
+        var b = item.PRODUCTO;
+
+
 
         Tbl_HistorialCompras compra = new Tbl_HistorialCompras()
         {
-            NOMBRE = nameof(proveedorBinding.NOMBRE),
-            APELLIDO = nameof(proveedorBinding.APELLIDO),
-            PRODUCTO = nameof(Picker_Producto.SelectedItem),
+            NOMBRE = proveedorBinding.NOMBRE,
+            APELLIDO = proveedorBinding.APELLIDO,
+            DIAFECHA = MapearDayOfWeekEspanol(DateTime.Now.DayOfWeek) + "-" + DateTime.Now.ToString("dd/MM/yyyy"),
+            PRODUCTO = b,
             FECHA = DateTime.Now.ToString("dd/MM/yyyy"),
-            DIA = DateTime.Now.Day.ToString().ToUpper(),
+            DIA = MapearDayOfWeekEspanol(DateTime.Now.DayOfWeek),//DateTime.Now.DayOfWeek.ToString().ToUpper(),
             CANTIDAD = cantidad,
             PRECIO = precio,
             TOTAL = total,
-            SALDOPENDIENTE = 0
+            SALDOPENDIENTE = saldoPendiente
         };
+        await GuardarRegistroProductoDBAsync(compra);
+        await _currentPage.DisplayAlert("AVISO", "El registro se ha guardado", "Aceptar");
     }
     private async void AgregarNuevoProducto()
     {
@@ -89,7 +97,7 @@ public partial class NuevaCompraContentView : ContentView
         _productos = await ObtenerProdcutosDBAsync();
         Picker_Producto.ItemsSource = _productos;
         _productosCargados = true;
-}
+    }
     private async void PermiteElegirProductos()
     {
         if (!_productosCargados)
@@ -107,29 +115,49 @@ public partial class NuevaCompraContentView : ContentView
             Picker_Producto.Focus();
         }
     }
+    private string MapearDayOfWeekEspanol(DayOfWeek dayOfWeek)
+    {
+        Dictionary<DayOfWeek, string> dayOfWeekMap = new Dictionary<DayOfWeek, string>
+        {
+            { DayOfWeek.Sunday, "Domingo" },
+            { DayOfWeek.Monday, "Lunes" },
+            { DayOfWeek.Tuesday, "Martes" },
+            { DayOfWeek.Wednesday, "Miércoles" },
+            { DayOfWeek.Thursday, "Jueves" },
+            { DayOfWeek.Friday, "Viernes" },
+            { DayOfWeek.Saturday, "Sábado" }
+        };
+
+        return dayOfWeekMap[dayOfWeek];
+    }
 
 
     // BASE DE DATOS
+
+    //      Tbl_Producto_Repository
     private async Task<bool> VerificarExistenciaProductoDBAsync(string resultado)
     {
-        return await _repoProveedor.VerificarExistenciaProductoAsync(resultado);
+        return await _repoProducto.VerificarExistenciaProductoAsync(resultado);
     }
     private async Task GuardarProductoDBAsync(string producto)
     {
-        await _repoProveedor.GuardarProductoAsync(producto);
+        await _repoProducto.GuardarProductoAsync(producto);
     }
     private async Task<List<Tbl_Producto>> ObtenerProdcutosDBAsync()
     {
-        return await _repoProveedor.ObtenerProdcutosAsync();
+        return await _repoProducto.ObtenerProdcutosAsync();
     }
-
     private void Button_BorrarProductoPicker_Clicked(object sender, EventArgs e)
     {
         // TODO: Lógica para borrar un solo prodcuto en
         //       el picker, hacer tambien de la DB.
     }
 
-
+    //      Tbl_HistorialCompras_Repository
+    private async Task GuardarRegistroProductoDBAsync(Tbl_HistorialCompras registroCompra)
+    {
+        await _repohistorialCompras.GuardarRegistroProductoAsync(registroCompra);
+    }
     // LÓGICA DE COSAS VISUALES DE LA PÁGINA
 
 

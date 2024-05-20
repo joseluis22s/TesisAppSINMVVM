@@ -51,8 +51,12 @@ namespace TesisAppSINMVVM.Database.Respositories
             await InitAsync();
             await conn.DropTableAsync<Tbl_Proveedor>();
         }
+        public async Task GuardarTodoNuevoProveedorAsync(List<Tbl_Proveedor> t)
+        {
+            await InitAsync();
+            await conn.InsertAllAsync(t);
+        }
 
-        
         ////Borrar usuarios 'Tbl_Usuario'
         //public async Task<int> BorrarUsuarios()
         //{

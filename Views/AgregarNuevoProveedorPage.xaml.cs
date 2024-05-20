@@ -5,11 +5,11 @@ namespace TesisAppSINMVVM.Views;
 
 public partial class AgregarNuevoProveedorPage : ContentPage
 {
-    private Tbl_Proveedor_Respository TblProveedor_repo;
+    private Tbl_Proveedor_Respository _repoProveedor;
     public AgregarNuevoProveedorPage()
 	{
 		InitializeComponent();
-        TblProveedor_repo =  new Tbl_Proveedor_Respository();
+        _repoProveedor =  new Tbl_Proveedor_Respository();
 	}
 
     // NAVEGACIÓN
@@ -110,14 +110,14 @@ public partial class AgregarNuevoProveedorPage : ContentPage
     // BASE DE DATOS
     private async Task<bool> VerificarExistenciaProveedorDBAsync()
     {
-        return await TblProveedor_repo.VerificarExistenciaProveedorAsync(Entry_NombreNuevoProveedor.Text, Entry_ApellidoNuevoProveedor.Text);
+        return await _repoProveedor.VerificarExistenciaProveedorAsync(Entry_NombreNuevoProveedor.Text, Entry_ApellidoNuevoProveedor.Text);
     }
     private async Task GuardarNuevoProveedorDBAsync()
     {
         string nombre = Entry_NombreNuevoProveedor.Text;
         string apellido = Entry_ApellidoNuevoProveedor.Text;
         string telefono = Entry_TelefonoNuevoProveedor.Text;
-        await TblProveedor_repo.GuardarNuevoProveedorAsync(nombre,apellido,telefono);
+        await _repoProveedor.GuardarNuevoProveedorAsync(nombre,apellido,telefono);
     }
     // LÓGICA DE COSAS VISUALES DE LA PÁGINA
 }

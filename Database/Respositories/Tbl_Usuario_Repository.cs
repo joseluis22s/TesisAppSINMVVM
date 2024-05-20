@@ -56,7 +56,7 @@ namespace TesisAppSINMVVM.Database.Respositories
             return await conn.DeleteAllAsync<Tbl_Usuario>();
         }
         //Borrar tabla 'Tbl_Usuario'
-        public async Task<int> BorrarTablaUsuario()
+        public async Task<int> BorrarTblUsuarioAsync()
         {
             await InitAsync();
             return await conn.DropTableAsync<Tbl_Usuario>();

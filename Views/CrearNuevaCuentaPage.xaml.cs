@@ -343,7 +343,7 @@ public partial class CrearNuevaCuentaPage : ContentPage
     // COMENTAR: Pruebas
     private async void Button_BorrarTabla_Clicked(object sender, EventArgs e)
     {
-        await TblUsuario_repo.BorrarTablaUsuario();
+        await TblUsuario_repo.BorrarTblUsuarioAsync();
     }
     private async void Button_VerificarExistenciaUsuario_Clicked(object sender, EventArgs e)
     {

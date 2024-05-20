@@ -40,6 +40,15 @@ namespace TesisAppSINMVVM.Database.Respositories
             return await conn.Table<Tbl_Producto>().ToListAsync();
         }
 
-
+        public async Task BorrarTablaTbl_ProductoAsync()
+        {
+            await InitAsync();
+            await conn.DropTableAsync<Tbl_Producto>();
+        }
+        public async Task GuardarTodoProductoAsync(List<Tbl_Producto> t)
+        {
+            await InitAsync();
+            await conn.InsertAllAsync(t);
+        }
     }
 }

@@ -38,6 +38,7 @@ public partial class CompraPage : ContentPage
     }
     private void Button_Historial_Clicked(object sender, EventArgs e)
     {
+        PasarProveedorBinding();
         ContentView_CompraPageContenidoDinamico.Content = _historialComprasContentView;
     }
     private void Button_AgregarProveedor_Clicked(object sender, EventArgs e)

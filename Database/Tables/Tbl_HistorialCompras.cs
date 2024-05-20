@@ -5,6 +5,7 @@ public class Tbl_HistorialCompras
 {
     [PrimaryKey, AutoIncrement]
     public int ID { get; set; }
+    public string DIAFECHA {  get; set; }
     public string NOMBRE { get; set; }
     public string APELLIDO { get; set; }
     public string PRODUCTO { get; set; }
