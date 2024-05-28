@@ -20,10 +20,11 @@ public partial class HistorialComprasContentView : ContentView
 
 
     // EVENTOS
-    private void ContentView_BindingContextChanged(object sender, EventArgs e)
+    private void ContentView_Loaded(object sender, EventArgs e)
     {
         CargarHistorialComprasGroup();
     }
+
 
     // LOGICA PARA EVENTOS
     private async void CargarHistorialComprasGroup()
@@ -59,5 +60,7 @@ public partial class HistorialComprasContentView : ContentView
     }
 
     
+
+
     // LÓGICA DE COSAS VISUALES DE LA PÁGINA
 }

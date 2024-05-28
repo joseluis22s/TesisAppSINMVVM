@@ -5,7 +5,10 @@ namespace TesisAppSINMVVM.Views;
 
 public partial class AgregarNuevoProveedorPage : ContentPage
 {
+
     private Tbl_Proveedor_Respository _repoProveedor;
+    private bool _enEjecucion;
+
     public AgregarNuevoProveedorPage()
 	{
 		InitializeComponent();
@@ -13,28 +16,50 @@ public partial class AgregarNuevoProveedorPage : ContentPage
 	}
 
     // NAVEGACIÓN
-    private async void AgregarNuevaCuentaPagePopModalAsync(bool mostrarAlerta)
+    private async Task AgregarNuevaCuentaPagePopModalAsync(bool mostrarAlerta)
     {
         await PermitirPopModalAsyncNavegacion(mostrarAlerta);
     }
-    
+
 
     // EVENTOS
+    protected override bool OnBackButtonPressed()
+    {
+        Dispatcher.Dispatch(async () =>
+        {
+            await AgregarNuevaCuentaPagePopModalAsync(true);
+        });
+        return true;
+    }
     private async void Button_Guardar_Clicked(object sender, EventArgs e)
     {
+        if (_enEjecucion)
+        {
+            return;
+        }
+        _enEjecucion = true;
         await PermitirGuardarProveedor();
+        _enEjecucion = false;
     }
-    private void Button_Cancelar_Clicked(object sender, EventArgs e)
+    private async void Button_Cancelar_Clicked(object sender, EventArgs e)
     {
-        AgregarNuevaCuentaPagePopModalAsync(true);
+        if (_enEjecucion)
+        {
+            return;
+        }
+        _enEjecucion = true;
+        await AgregarNuevaCuentaPagePopModalAsync(true);
+        _enEjecucion = false;
     }
     
     
     // LOGICA PARA EVENTOS
     private async Task PermitirPopModalAsyncNavegacion(bool mostrarAlerta)
     {
+        OcultarTeclado();
         if (mostrarAlerta)
         {
+            CompraPage._permitirEjecucion = false;
             bool respuesta = await DisplayAlert("Alerta", "¿Desea regresar? Perderá el progreso realizado", "Confimar", "Cancelar");
             if (respuesta)
             {
@@ -87,6 +112,7 @@ public partial class AgregarNuevoProveedorPage : ContentPage
     private async Task PermitirGuardarProveedor()
     {
         string resultado = ValidarCampos();
+        OcultarTeclado();
         if (resultado == "true")
         {
             bool existeProveedor = await VerificarExistenciaProveedorDBAsync();
@@ -98,7 +124,7 @@ public partial class AgregarNuevoProveedorPage : ContentPage
             {
                 await GuardarNuevoProveedorDBAsync();
                 await Toast.Make("¡Contacto guardado!").Show();
-                AgregarNuevaCuentaPagePopModalAsync(false);
+                await AgregarNuevaCuentaPagePopModalAsync(false);
             }
         }
         else
@@ -106,6 +132,7 @@ public partial class AgregarNuevoProveedorPage : ContentPage
             await Toast.Make(resultado).Show();
         }
     }
+
 
     // BASE DE DATOS
     private async Task<bool> VerificarExistenciaProveedorDBAsync()
@@ -119,5 +146,13 @@ public partial class AgregarNuevoProveedorPage : ContentPage
         string telefono = Entry_TelefonoNuevoProveedor.Text;
         await _repoProveedor.GuardarNuevoProveedorAsync(nombre,apellido,telefono);
     }
+
+
     // LÓGICA DE COSAS VISUALES DE LA PÁGINA
+    private void OcultarTeclado()
+    {
+        Entry_NombreNuevoProveedor.Unfocus();
+        Entry_ApellidoNuevoProveedor.Unfocus();
+        Entry_TelefonoNuevoProveedor.Unfocus();
+    }
 }

@@ -5,11 +5,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:Models="clr-namespace:TesisAppSINMVVM.Models"
     xmlns:Views="clr-namespace:TesisAppSINMVVM.Views"
-    Title="Proveedores"
     Appearing="ContentPage_Appearing"
     NavigationPage.HasBackButton="False">
 
+
     <Grid>
+        <!--  COMPRA: Proveedores  -->
         <Grid
             x:Name="Grid_ProveedoresCompraPage"
             Margin="15,17,15,0"
@@ -50,40 +51,36 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Border Margin="0,5">
-                            <Border.Background>
-                                <LinearGradientBrush EndPoint="2,1">
-                                    <GradientStop Offset="0.1" Color="#e8f2ff" />
-                                    <GradientStop Offset="1.0" Color="#4e82d4" />
-                                </LinearGradientBrush>
-                            </Border.Background>
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="10" />
-                            </Border.StrokeShape>
-                            <Border.Shadow>
-                                <Shadow
-                                    Brush="Black"
-                                    Opacity="0.5"
-                                    Radius="100"
-                                    Offset="-20,0" />
-                            </Border.Shadow>
-                            <VerticalStackLayout Margin="5">
-                                <HorizontalStackLayout Spacing="5">
-                                    <Label
-                                        FontAttributes="Bold"
-                                        FontSize="20"
-                                        Text="{Binding NOMBRE}" />
-                                    <Label
-                                        FontAttributes="Bold"
-                                        FontSize="20"
-                                        Text="{Binding APELLIDO}" />
-                                </HorizontalStackLayout>
-                                <Label Text="{Binding TELEFONO}" />
-                            </VerticalStackLayout>
+                            <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
+                                <Label
+                                    Margin="0,0,20,0"
+                                    FontAttributes="Bold"
+                                    FontSize="20">
+                                    <Label.Text>
+                                        <MultiBinding StringFormat="{}{0} {1}">
+                                            <Binding Path="NOMBRE" />
+                                            <Binding Path="APELLIDO" />
+                                        </MultiBinding>
+                                    </Label.Text>
+                                </Label>
+                                <Label Grid.Row="1" Text="{Binding TELEFONO}" />
+                                <Border
+                                    Grid.RowSpan="2"
+                                    Grid.Column="1"
+                                    Padding="7"
+                                    BackgroundColor="#dceaf5"
+                                    VerticalOptions="Center">
+                                    <Image MaximumHeightRequest="25" Source="pencil_edit_icon.png" />
+                                </Border>
+
+                            </Grid>
                         </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </Grid>
+
+
         <VerticalStackLayout
             x:Name="VerticalStackLayout_OpcionesCompraPage"
             Padding="15"
@@ -107,13 +104,18 @@
                     Text="Historial compras" />
             </Grid>
 
+            <!--  COMPRA: Registro nueva compra  -->
+
+            <!--  COMPRA: Historial compras  -->
             <ContentView
                 x:Name="ContentView_CompraPageContenidoDinamico"
                 Padding="10"
                 BackgroundColor="#d9d9d9" />
             <Button
                 x:Name="Button_RegresarProveedores"
-                BorderColor="#5d92e8"
+                Margin="0,-8"
+                BackgroundColor="#5d92e8"
+                BorderColor="Transparent"
                 BorderWidth="2"
                 Clicked="Button_RegresarProveedores_Clicked"
                 HorizontalOptions="Center"
@@ -121,6 +123,26 @@
         </VerticalStackLayout>
     </Grid>
 
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Border">
+                <!--<Setter Property="BackgroundColor" Value="#d3dbe8" />-->
+                <!--<Setter Property="Background">
+                    <Setter.Value>
+                        <LinearGradientBrush EndPoint="2,1">
+                            <GradientStop Offset="0.1" Color="#e8f2ff" />
+                            <GradientStop Offset="1.0" Color="#4e82d4" />
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>-->
+                <Setter Property="BackgroundColor" Value="#b0caeb" />
+                <Setter Property="StrokeShape" Value="{RoundRectangle CornerRadius='10'}" />
+                <Setter Property="Padding" Value="15,12" />
+                <Setter Property="Stroke" Value="Transparent" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <ContentPage.Background>
         <LinearGradientBrush EndPoint="0.1,0.9">

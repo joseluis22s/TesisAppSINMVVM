@@ -2,6 +2,9 @@ namespace TesisAppSINMVVM.Views;
 
 public partial class PaginaPrincipalPage : ContentPage
 {
+
+    private bool _enEjecucion;
+
     public PaginaPrincipalPage()
     {
         InitializeComponent();
@@ -26,15 +29,33 @@ public partial class PaginaPrincipalPage : ContentPage
     // EVENTOS
     private async void Border_Compra_TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
+        if (_enEjecucion)
+        {
+            return;
+        }
+        _enEjecucion = true;
         await CompraPagePushAsync();
+        _enEjecucion = false;
     }
     private async void Border_Cheques_TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
+        if (_enEjecucion)
+        {
+            return;
+        }
+        _enEjecucion = true;
         await ChequesPagePushAsync();
+        _enEjecucion = false;
     }
     private async void Border_Venta_TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
+        if (_enEjecucion)
+        {
+            return;
+        }
+        _enEjecucion = true;
         await VentaPagePushAsync();
+        _enEjecucion = false;
     }
 
 

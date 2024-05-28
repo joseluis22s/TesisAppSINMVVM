@@ -47,7 +47,6 @@
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
-		<MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
 
 		<!-- Custom Fonts -->
 		<MauiFont Include="Resources\Fonts\*" />
@@ -57,12 +56,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Resources\Images\analitics_icon.png" />
-	  <None Remove="Resources\Images\bookmark_icon.png" />
 	  <None Remove="Resources\Images\cheque_icon.png" />
-	  <None Remove="Resources\Images\registro_icon.png" />
+	  <None Remove="Resources\Images\compra_icon.png" />
+	  <None Remove="Resources\Images\pencil_edit_icon.png" />
 	  <None Remove="Resources\Images\remove_empty_icon.png" />
-	  <None Remove="Resources\Images\write_edit_paper_icon.png" />
+	  <None Remove="Resources\Images\venta_icon.png" />
 	</ItemGroup>
 
 	

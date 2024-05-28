@@ -7,17 +7,17 @@ namespace TesisAppSINMVVM
 {
     public partial class App : Application
     {
-        //private Tbl_Producto_Repository _repoProducto1;
-        //private Tbl_Proveedor_Respository _repoProveedor1;
-        //private Tbl_Usuario_Repository _repoUsuario1;
+        //private Tbl_Producto_Repository _repoProducto1 = new Tbl_Producto_Repository();
+        //private Tbl_Proveedor_Respository _repoProveedor1 = new Tbl_Proveedor_Respository();
+        //private Tbl_Usuario_Repository _repoUsuario 1= new Tbl_Usuario_Repository();
 
         public App()
         {
             UserAppTheme = AppTheme.Light;
-            // Borrar
-            //_repoProducto1 = new Tbl_Producto_Repository();
-            //_repoProveedor1 = new Tbl_Proveedor_Respository();
-            //_repoUsuario1 = new Tbl_Usuario_Repository();
+            // BORRAR DATOS
+            //_repoProducto1.BorrarTablaTbl_ProductoAsync();
+            //_repoProveedor1.BorrarTblProveedorAsync();
+
 
             InitializeComponent();
 
@@ -47,6 +47,7 @@ namespace TesisAppSINMVVM
             //        TELEFONO = "0987654321"
             //    }
             //};
+
             //List<Tbl_Producto> listaTbl_Producto = new List<Tbl_Producto>()
             //{
             //    new Tbl_Producto
@@ -69,9 +70,7 @@ namespace TesisAppSINMVVM
 
 
 
-            // BORRAR DATOS
-            //_repoProducto1.BorrarTablaTbl_ProductoAsync();
-            //_repoProveedor1.BorrarTblProveedorAsync();
+           
 
         }
     }
