@@ -1,6 +1,7 @@
 using CommunityToolkit.Maui.Alerts;
 using TesisAppSINMVVM.Database.Respositories;
 using TesisAppSINMVVM.Database.Tables;
+using TesisAppSINMVVM.Views;
 
 namespace TesisAppSINMVVM.Contents;
 
@@ -15,6 +16,12 @@ public partial class NuevaCompraContentView : ContentView
 
     public static bool _esPresionado = false;
 
+    public string Texto
+    {
+        get => Entry_Precio.Text;
+        set => Entry_Precio.Text = value;
+    }
+
     public NuevaCompraContentView()
     {
         InitializeComponent();
@@ -28,13 +35,13 @@ public partial class NuevaCompraContentView : ContentView
     // NAVEGACIÓN
 
     // EVENTOS
-    private void ContentView_Loaded(object sender, EventArgs e)
+    private async void ContentView_Loaded(object sender, EventArgs e)
     {
-        CargarProductos();
+        await CargarProductos();
     }
-    private void Button_AgregarNuevoProductoPicker_Clicked(object sender, EventArgs e)
+    private async void Button_AgregarNuevoProductoPicker_Clicked(object sender, EventArgs e)
     {
-        AgregarNuevoProducto();
+        await AgregarNuevoProducto();
     }
     private async void Border_TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
@@ -59,7 +66,7 @@ public partial class NuevaCompraContentView : ContentView
 
 
     // LOGICA PARA EVENTOS
-    private async Task<bool> VerificarCamposValidos()
+    private bool VerificarCamposValidos()
     {
         var itemProducto = (Tbl_Producto)Picker_Producto.SelectedItem;
         if (itemProducto is null)
@@ -80,9 +87,10 @@ public partial class NuevaCompraContentView : ContentView
     }
     private async void AgregarNuevaCompra()
     {
-        bool camposValidos = await VerificarCamposValidos();
+        bool camposValidos = VerificarCamposValidos();
         if (camposValidos)
         {
+
             Tbl_Proveedor proveedorBinding = (Tbl_Proveedor)BindingContext;
             var itemProducto = (Tbl_Producto)Picker_Producto.SelectedItem;
 
@@ -99,6 +107,7 @@ public partial class NuevaCompraContentView : ContentView
                 TOTAL = double.Parse(Label_ValorTotal.Text),
                 SALDOPENDIENTE = double.Parse(Entry_SaldoPendiente.Text)
             };
+            OcultarTecladoVaciarCampos();
             await GuardarRegistroProductoDBAsync(compra);
             await _compraPage.DisplayAlert("AVISO", "El registro se ha guardado", "Aceptar");
         }
@@ -107,21 +116,42 @@ public partial class NuevaCompraContentView : ContentView
             await Toast.Make("Los campos no deben estar vacios").Show();
         }
     }
-    private async void AgregarNuevoProducto()
+    private async Task AgregarNuevoProducto()
     {
-        string nuevoProducto = await _compraPage.DisplayPromptAsync("NUEVO PRODUCTO", "Ingrese el nombre del producto:", "AGREGAR", "CANCELAR");
-        bool existeProducto = await VerificarExistenciaProductoDBAsync(nuevoProducto);
-        if (existeProducto)
+        string nuevoProducto;
+        do
         {
-            await Toast.Make("El producto ya existe").Show();
+            nuevoProducto = await _compraPage.DisplayPromptAsync("NUEVO PRODUCTO", "Ingrese el nombre del producto:", "AGREGAR", "CANCELAR", null, -1, Keyboard.Create(KeyboardFlags.CapitalizeCharacter));
+            if (nuevoProducto is not null)
+            {
+                if (nuevoProducto != "")
+                {
+                    //string nuevoProducto = await _compraPage.DisplayPromptAsync("NUEVO PRODUCTO", "Ingrese el nombre del producto:", "AGREGAR", "CANCELAR", null,-1,Keyboard.Create(KeyboardFlags.CapitalizeCharacter));
+                    // TODO: De la misma que el double y el int, contorlar los espasio en blanco
+                    bool existeProducto = await VerificarExistenciaProductoDBAsync(nuevoProducto);
+                    if (existeProducto)
+                    {
+                        await Toast.Make("El producto ya existe").Show();
+                    }
+                    else
+                    {
+
+                        await GuardarProductoDBAsync(nuevoProducto);
+                        await CargarProductos();
+                        await Toast.Make("el producto se ha guardado").Show();
+                    }
+                }
+                else
+                {
+                    await Toast.Make("¡El campo no debe estar vacío!").Show();
+                }
+
+            }
         }
-        else
-        {
-            await GuardarProductoDBAsync(nuevoProducto);
-            await Toast.Make("el producto se ha guardado").Show();
-        }
+        while (nuevoProducto == "");
+
     }
-    private async void CargarProductos()
+    private async Task CargarProductos()
     {
         _productos = await ObtenerProdcutosDBAsync();
         if (_productos.Count != 0)
@@ -143,23 +173,6 @@ public partial class NuevaCompraContentView : ContentView
         //    Picker_Producto.ItemsSource = _productos;
         //    _productosCargados = true;
         //}
-    }
-    private async void PermiteElegirProductos()
-    {
-        if (!_productosCargados)
-        {
-            _productos = await ObtenerProdcutosDBAsync();
-        }
-        Picker_Producto.ItemsSource = _productos;
-        bool existeProductos = _productos.Count == 0;
-        if (existeProductos)
-        {
-            await Toast.Make("Agregue al menos un producto").Show();
-        }
-        else
-        {
-            Picker_Producto.Focus();
-        }
     }
     private async Task BorderTapped()
     {
@@ -264,12 +277,25 @@ public partial class NuevaCompraContentView : ContentView
         await _repohistorialCompras.GuardarRegistroProductoAsync(registroCompra);
     }
 
-    
-
-
-
 
     // LÓGICA DE COSAS VISUALES DE LA PÁGINA
+    public void OcultarTecladoVaciarCampos()
+    {
+        Entry_Precio.Unfocus();
+        Entry_Cantidad.Unfocus();
+        Entry_SaldoPendiente.Unfocus();
+        Picker_Producto.SelectedItem = null;
+        Entry_Precio.Text = "";
+        Entry_Cantidad.Text = "";
+        Label_ValorTotal.Text = "";
+        Entry_SaldoPendiente.Text = "";
+    }
 
-
+    private void ContentView_BindingContextChanged(object sender, EventArgs e)
+    {
+        if (HistorialComprasContentView._ejecutarBindingContextChanged)
+        {
+            OcultarTecladoVaciarCampos();
+        }
+    }
 }

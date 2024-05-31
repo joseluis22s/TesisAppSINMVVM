@@ -116,7 +116,6 @@
                 Margin="0,-8"
                 BackgroundColor="#5d92e8"
                 BorderColor="Transparent"
-                BorderWidth="2"
                 Clicked="Button_RegresarProveedores_Clicked"
                 HorizontalOptions="Center"
                 Text="Regresar" />
@@ -141,6 +140,7 @@
                 <Setter Property="Padding" Value="15,12" />
                 <Setter Property="Stroke" Value="Transparent" />
             </Style>
+
         </ResourceDictionary>
     </ContentPage.Resources>
 

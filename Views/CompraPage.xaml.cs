@@ -6,7 +6,7 @@ namespace TesisAppSINMVVM.Views;
 
 public partial class CompraPage : ContentPage
 {
-    
+
     private ContentView _nuevaCompraContentView;
     private ContentView _historialComprasContentView;
     private Tbl_Proveedor_Respository _repoProveedor;
@@ -14,12 +14,15 @@ public partial class CompraPage : ContentPage
     private bool _enEjecucion;
     private bool _ejecutarSelectionChanged = true;
     private Tbl_Proveedor _proveedor;
+    private NuevaCompraContentView _nuevaCompraView;
 
     public static bool _permitirEjecucion = true;
     public static bool _permitirContentView_BindingContextChanged = true;
     public CompraPage()
     {
         InitializeComponent();
+
+        _nuevaCompraView = new NuevaCompraContentView();
         _nuevaCompraContentView = new NuevaCompraContentView();
         _historialComprasContentView = new HistorialComprasContentView();
         _repoProveedor = new Tbl_Proveedor_Respository();
@@ -63,15 +66,17 @@ public partial class CompraPage : ContentPage
         {
             PasarProveedorBinding();
             Title = "COMPRA: Registar compra";
-            MostarVerticalStackLayout_OpcionesCompraPage();   
+            HistorialComprasContentView._ejecutarBindingContextChanged = false;
+            MostarVerticalStackLayout_OpcionesCompraPage();
         }
         _ejecutarSelectionChanged = true;
     }
     private void Button_NuevaCompra_Clicked(object sender, EventArgs e)
     {
         bool a = _nuevaCompraContentView == ContentView_CompraPageContenidoDinamico.Content;
-        if (a) 
+        if (a)
         {
+
             return;
         }
         Title = "COMPRA: Registar compra";
@@ -85,22 +90,45 @@ public partial class CompraPage : ContentPage
             return;
         }
         Title = "COMPRA: Historial compras";
+        HistorialComprasContentView._ejecutarBindingContextChanged = true;
         // VERIFICAR SI LUEGO ES NECESARIO CONTROLAR QUE NO SE EJECUTE DE NUEVO EN CASO DE PRESIONAR EL BOTÓN
         //PasarProveedorBinding();
         ContentView_CompraPageContenidoDinamico.Content = _historialComprasContentView;
     }
     private void Button_RegresarProveedores_Clicked(object sender, EventArgs e)
     {
+        //if (_nuevaCompraContentView.IsVisible)
+        //{
+        //    _nuevaCompraView.OcultarTecladoVaciarCampos();
+        //}
         MostrarGrid_ProveedoresCompraPage();
         _ejecutarSelectionChanged = false;
+        ContentView_CompraPageContenidoDinamico.BindingContext = "";
+        HistorialComprasContentView._ejecutarBindingContextChanged = false;
         CollectionView_Proveedores.SelectedItem = null;
     }
     private async void Button_Borrar_tblProveedor_Clicked(object sender, EventArgs e)
     {
         await BorrarTblProveedorDBAsync();
     }
+    protected override bool OnBackButtonPressed()
+    {
+        Dispatcher.Dispatch(async () =>
+        {
+            bool a = Grid_ProveedoresCompraPage.IsVisible;
+            if (a)
+            {
+                await PermitirPopAsyncNavegacion();
+            }
+            else
+            {
 
-    
+                MostrarGrid_ProveedoresCompraPage();
+            }
+        });
+        return true;
+    }
+
     // LÓGICA
     private async void CargarDatosCollectionView_Proveedores()
     {
@@ -110,7 +138,16 @@ public partial class CompraPage : ContentPage
     private void PasarProveedorBinding()
     {
         _proveedor = (Tbl_Proveedor)CollectionView_Proveedores.SelectedItem;
+        HistorialComprasContentView._ejecutarBindingContextChanged = false;
         ContentView_CompraPageContenidoDinamico.BindingContext = _proveedor;
+    }
+    private async Task PermitirPopAsyncNavegacion()
+    {
+        bool respuesta = await DisplayAlert("Alerta", "¿Desea regresar?", "Confimar", "Cancelar");
+        if (respuesta)
+        {
+            await Navigation.PopAsync();
+        }
     }
 
 
@@ -128,6 +165,9 @@ public partial class CompraPage : ContentPage
     // LÓGICA DE COSAS VISUALES DE LA PÁGINA
     private void MostarVerticalStackLayout_OpcionesCompraPage()
     {
+        _ejecutarSelectionChanged = false;
+        CollectionView_Proveedores.SelectedItem = null;
+        HistorialComprasContentView._ejecutarBindingContextChanged = false;
         Grid_ProveedoresCompraPage.IsVisible = false;
         VerticalStackLayout_OpcionesCompraPage.IsVisible = true;
     }
@@ -136,5 +176,5 @@ public partial class CompraPage : ContentPage
         VerticalStackLayout_OpcionesCompraPage.IsVisible = false;
         Grid_ProveedoresCompraPage.IsVisible = true;
     }
-    
+
 }

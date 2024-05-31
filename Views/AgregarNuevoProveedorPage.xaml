@@ -19,7 +19,7 @@
                 HorizontalOptions="Start"
                 Text="Nombre" />
             <Border>
-                <Entry x:Name="Entry_NombreNuevoProveedor" TextTransform="Uppercase" />
+                <Entry x:Name="Entry_NombreNuevoProveedor" />
             </Border>
 
         </VerticalStackLayout>
@@ -29,7 +29,7 @@
                 HorizontalOptions="Start"
                 Text="Apellido" />
             <Border>
-                <Entry x:Name="Entry_ApellidoNuevoProveedor" TextTransform="Uppercase" />
+                <Entry x:Name="Entry_ApellidoNuevoProveedor" />
 
             </Border>
         </VerticalStackLayout>
@@ -69,6 +69,17 @@
             </Style>
             <Style TargetType="Button">
                 <Setter Property="CornerRadius" Value="25" />
+            </Style>
+            <Style TargetType="Entry">
+                <Setter Property="Keyboard">
+                    <Keyboard x:FactoryMethod="Create">
+                        <x:Arguments>
+                            <KeyboardFlags>
+                                CapitalizeCharacter
+                            </KeyboardFlags>
+                        </x:Arguments>
+                    </Keyboard>
+                </Setter>
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>

@@ -73,6 +73,7 @@ public partial class AgregarNuevoProveedorPage : ContentPage
     }
     private string ValidarCampos()
     {
+        //TODO: Eliminar los espacios en blanco al inicio y al final asi como se hizo con el double y el int
         string nombre = Entry_NombreNuevoProveedor.Text;
         string apellido = Entry_ApellidoNuevoProveedor.Text;
         string telefono = Entry_TelefonoNuevoProveedor.Text;
