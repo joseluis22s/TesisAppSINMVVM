@@ -154,7 +154,7 @@ public partial class CompraPage : ContentPage
     // BASE DE DATOS
     private async Task<List<Tbl_Proveedor>> ObtenerProveedoresDBAsync()
     {
-        return await _repoProveedor.ObtenerProveedores();
+        return await _repoProveedor.ObtenerProveedoresAsync();
     }
     private async Task BorrarTblProveedorDBAsync()
     {

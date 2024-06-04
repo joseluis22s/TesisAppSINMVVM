@@ -1,11 +1,13 @@
 ﻿using Microsoft.Extensions.Logging;
 using CommunityToolkit.Maui;
+using IeuanWalker.Maui.StateButton;
 
 namespace TesisAppSINMVVM
 {
     // NAVEGACIÓN
     // EVENTOS
     // LOGICA PARA EVENTOS
+    // LÓGICA
     // BASE DE DATOS
     // LÓGICA DE COSAS VISUALES DE LA PÁGINA
     public static class MauiProgram
@@ -15,6 +17,7 @@ namespace TesisAppSINMVVM
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseStateButton()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

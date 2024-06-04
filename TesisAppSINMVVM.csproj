@@ -56,9 +56,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\bodega_icon.png" />
 	  <None Remove="Resources\Images\cheque_icon.png" />
 	  <None Remove="Resources\Images\compra_icon.png" />
 	  <None Remove="Resources\Images\pencil_edit_icon.png" />
+	  <None Remove="Resources\Images\por_cobrar_icon.png" />
 	  <None Remove="Resources\Images\remove_empty_icon.png" />
 	  <None Remove="Resources\Images\venta_icon.png" />
 	</ItemGroup>
@@ -72,6 +74,7 @@
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="8.0.1" />
 		<PackageReference Include="CommunityToolkit.Maui.Core" Version="8.0.1" />
+		<PackageReference Include="IeuanWalker.Maui.StateButton" Version="1.1.1" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.20" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.20" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
@@ -80,6 +83,27 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Views\VentaViews\HistorialProductoSobrantePage.xaml.cs">
+	    <DependentUpon>HistorialProductoSobrantePage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\VentaViews\RegistrarVentaCreditoPage.xaml.cs">
+	    <DependentUpon>RegistrarVentaCreditoPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\VentaViews\RegistrarProductoSobranteBodegaPage.xaml.cs">
+	    <DependentUpon>RegistrarProductoSobranteBodegaPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Views\AgregarCompradorPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ChequesViews\HistorialChequesPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ChequesViews\RegistarChequePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\Contents\HistorialComprasContentView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -105,6 +129,18 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\VentaPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\VentaViews\HistorialProductoSobrantePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\VentaViews\HistorialVentasCredito.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\VentaViews\RegistrarProductoSobranteBodegaPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\VentaViews\RegistrarVentaCreditoPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

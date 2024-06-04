@@ -41,7 +41,7 @@ namespace TesisAppSINMVVM.Database.Respositories
             return true;
         }
 
-        public async Task<List<Tbl_Proveedor>> ObtenerProveedores()
+        public async Task<List<Tbl_Proveedor>> ObtenerProveedoresAsync()
         {
             await InitAsync();
             return await conn.Table<Tbl_Proveedor>().ToListAsync();

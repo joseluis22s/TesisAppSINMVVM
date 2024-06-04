@@ -3,81 +3,52 @@
     x:Class="TesisAppSINMVVM.Views.ChequesPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="CHEQUES: Nuevo registro"
+    Title="CHEQUES"
     NavigationPage.HasBackButton="False">
+
+
     <Grid
-        Margin="20"
-        RowDefinitions="Auto,Auto,Auto,Auto"
-        RowSpacing="12">
-
-        <VerticalStackLayout>
-            <Label Style="{StaticResource LabelStyle}" Text="Número de cheque" />
-            <Border>
-                <Entry x:Name="Entry_NumeroCheque" Keyboard="Numeric" />
-            </Border>
-        </VerticalStackLayout>
-
-
-        <VerticalStackLayout Grid.Row="1">
-            <Label Style="{StaticResource LabelStyle}" Text="Proveedor" />
-            <Border>
-                <Picker x:Name="Picker_Proveedores" />
-            </Border>
-        </VerticalStackLayout>
-
-
-        <VerticalStackLayout Grid.Row="2">
-            <Label Style="{StaticResource LabelStyle}" Text="Monto" />
-
-            <Border>
-                <Entry x:Name="Entry_MontoCheque" Keyboard="Numeric" />
-            </Border>
-        </VerticalStackLayout>
-
-        <VerticalStackLayout Grid.Row="3">
-            <Label Style="{StaticResource LabelStyle}" Text="Fecha" />
-            <Border>
-                <DatePicker x:Name="DatePicker_FechasEmision" />
-            </Border>
-        </VerticalStackLayout>
-
-
-
-
-
-
+        Margin="30"
+        RowDefinitions="Auto,Auto"
+        RowSpacing="10"
+        VerticalOptions="Center">
+        <Border x:Name="Border_RegistarCheque">
+            <Label Text="REGISTRAR NUEVO CHEQUE" />
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Tapped="Border_RegistarCheque_TapGestureRecognizer_Tapped" />
+            </Border.GestureRecognizers>
+        </Border>
+        <Border x:Name="Border_HistorialCheques" Grid.Row="1">
+            <Label Text="HISTORIAL CHEQUES" />
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Tapped="Border_HistorialCheques_TapGestureRecognizer_Tapped" />
+            </Border.GestureRecognizers>
+        </Border>
     </Grid>
-
 
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style TargetType="Border">
-                <Setter Property="BackgroundColor" Value="#d3dbe8" />
-                <Setter Property="StrokeShape" Value="{RoundRectangle CornerRadius='10'}" />
-                <Setter Property="Padding" Value="13,-2" />
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <LinearGradientBrush EndPoint="2,1">
+                            <GradientStop Offset="0.1" Color="#e8f2ff" />
+                            <GradientStop Offset="1.0" Color="#4e82d4" />
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="StrokeShape" Value="{RoundRectangle CornerRadius='5'}" />
+                <Setter Property="Padding" Value="5" />
             </Style>
-            <Style TargetType="Entry">
-                <!--<Setter Property="Keyboard">
-                    <Keyboard x:FactoryMethod="Create">
-                        <x:Arguments>
-                            <KeyboardFlags>
-                                CapitalizeCharacter
-                            </KeyboardFlags>
-                        </x:Arguments>
-                    </Keyboard>
-                </Setter>-->
-                <Setter Property="Margin" Value="15,0" />
-                <Setter Property="FontSize" Value="15" />
-                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+            <Style TargetType="Label">
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="Padding" Value="20,0" />
+                <Setter Property="Margin" Value="40,0" />
                 <Setter Property="HorizontalTextAlignment" Value="Center" />
-            </Style>
-            <Style x:Key="LabelStyle" TargetType="Label">
-                <Setter Property="FontSize" Value="12" />
-                <Setter Property="Padding" Value="12,0" />
-                <Setter Property="FontAttributes" Value="Bold" />
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
+
 
     <ContentPage.Background>
         <LinearGradientBrush EndPoint="0.1,0.9">

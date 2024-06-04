@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="TesisAppSINMVVM.Views.AgregarCompradorPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="AgregarCompradorPage">
+    <VerticalStackLayout>
+        <VerticalStackLayout>
+            <Label Style="{StaticResource LabelStyle}" Text="Nombre" />
+            <Border>
+                <Entry x:Name="Entry_NombreComprador" />
+            </Border>
+        </VerticalStackLayout>
+        <VerticalStackLayout>
+            <Label Style="{StaticResource LabelStyle}" Text="Apellido" />
+            <Border>
+                <Entry x:Name="Entry_ApellidoComprador" />
+            </Border>
+        </VerticalStackLayout>
+        <VerticalStackLayout>
+            <Label Style="{StaticResource LabelStyle}" Text="Teléfono" />
+            <Border>
+                <Entry x:Name="Entry_TelefonoComprador" />
+            </Border>
+        </VerticalStackLayout>
+        <Button x:Name="Button_GuardarComprador" Clicked="Button_GuardarComprador_Clicked" />
+    </VerticalStackLayout>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="LabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="Padding" Value="12,0" />
+                <Setter Property="FontAttributes" Value="Bold" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+</ContentPage>

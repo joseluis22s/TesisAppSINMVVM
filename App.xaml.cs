@@ -10,6 +10,8 @@ namespace TesisAppSINMVVM
         //private Tbl_Producto_Repository _repoProducto1 = new Tbl_Producto_Repository();
         //private Tbl_Proveedor_Respository _repoProveedor1 = new Tbl_Proveedor_Respository();
         //private Tbl_Usuario_Repository _repoUsuario 1= new Tbl_Usuario_Repository();
+        //private Tbl_Cheque_Repository _repoCheque = new Tbl_Cheque_Repository();
+
 
         public App()
         {
@@ -17,6 +19,7 @@ namespace TesisAppSINMVVM
             // BORRAR DATOS
             //_repoProducto1.BorrarTablaTbl_ProductoAsync();
             //_repoProveedor1.BorrarTblProveedorAsync();
+            //_repoCheque.BorarTbl_Cheque();
 
 
             InitializeComponent();
@@ -28,7 +31,8 @@ namespace TesisAppSINMVVM
             // CREAR DATOS
             //List<Tbl_Proveedor> listaTbl_Proveedor = new List<Tbl_Proveedor>()
             //{
-            //    new Tbl_Proveedor
+            //    new Tbl_Prov
+            //    eedor
             //    {
             //        NOMBRE = "Nombre_1",
             //        APELLIDO = "Apellido_1",
