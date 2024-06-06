@@ -6,10 +6,13 @@ namespace TesisAppSINMVVM.Views.VentaViews;
 public partial class RegistrarVentaCreditoPage : ContentPage
 {
     private Tbl_Comprador_Repository _repoComprador;
+    private Tbl_VentaCredito_Repository _repoVentaCredito;
+    private bool _ejecutarAppearing = true;
 	public RegistrarVentaCreditoPage()
 	{
 		InitializeComponent();
         _repoComprador = new Tbl_Comprador_Repository();
+        _repoVentaCredito = new Tbl_VentaCredito_Repository();
     }
 
 
@@ -17,6 +20,7 @@ public partial class RegistrarVentaCreditoPage : ContentPage
     private async Task AgregarCompradorPagePushModalAsync()
     {
         await Navigation.PushModalAsync(new AgregarCompradorPage());
+        _ejecutarAppearing = false;
     }
     private async Task HistorialVentasCredito()
     {
@@ -27,19 +31,25 @@ public partial class RegistrarVentaCreditoPage : ContentPage
     // EVENTOS
     private async void ContentPage_Appearing(object sender, EventArgs e)
     {
-        base.OnAppearing();
-        await CargarDatosPicker_Comprador();
+        if (_ejecutarAppearing)
+        {
+            base.OnAppearing();
+            await CargarDatosPicker_Comprador();
+        }
+        _ejecutarAppearing = true;
     }
     private async void Button_AgregarComprador_Clicked(object sender, EventArgs e)
     {
         await AgregarCompradorPagePushModalAsync();
     }
-
     private async void Button_HistorialVentasCredito_Clicked(object sender, EventArgs e)
     {
         await HistorialVentasCredito();
     }
-
+    private async void Button_GuardarVentaCredito_Clicked(object sender, EventArgs e)
+    {
+        await GuardarCompraCreditoAsync();
+    }
 
     // LOGICA PARA EVENTOS
     private async Task CargarDatosPicker_Comprador()
@@ -47,7 +57,7 @@ public partial class RegistrarVentaCreditoPage : ContentPage
         var compradores = await ObtenerCompradoresDBAsync();
         Picker_Comprador.ItemsSource = compradores;
     }
-    private void GuardarCompraCredito()
+    private async Task GuardarCompraCreditoAsync()
     {
         string resultado = ControlarCamposGuardarCompraCredito();
         if (resultado == "true")
@@ -61,6 +71,7 @@ public partial class RegistrarVentaCreditoPage : ContentPage
                 FECHAGUARDADO = DateTime.Now.ToString("dd/MM/yyyy"),
                 DIAFECHAGUARDADO = DateTime.Now.ToString("dddd, dd MMMM")
             };
+            await GuardarVentaCreditoDBAsync(ventaCredito);
         }
     }
 
@@ -84,8 +95,14 @@ public partial class RegistrarVentaCreditoPage : ContentPage
     {
         return await _repoComprador.ObtenerCompradoresAsync();
     }
+    private async Task GuardarVentaCreditoDBAsync(Tbl_VentaCredito ventaC)
+    {
+        await _repoVentaCredito.GuardarVentaCreditoAsync(ventaC);
+    }
 
     
+
+
 
 
     // LÓGICA DE COSAS VISUALES DE LA PÁGINA

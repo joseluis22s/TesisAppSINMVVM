@@ -5,14 +5,14 @@ using TesisAppSINMVVM.Database.Tables;
 
 namespace TesisAppSINMVVM.Views.ChequesViews;
 
-public partial class RegistarChequePage : ContentPage
+public partial class RegistrarChequePage : ContentPage
 {
 
     private Tbl_Proveedor_Respository _repoProveedor;
     private Tbl_Cheque_Repository _repoCheque;
     private List<Tbl_Proveedor> _proveedores;
 
-    public RegistarChequePage()
+    public RegistrarChequePage()
     {
         InitializeComponent();
         _repoProveedor = new Tbl_Proveedor_Respository();

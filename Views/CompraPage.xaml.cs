@@ -122,7 +122,6 @@ public partial class CompraPage : ContentPage
             }
             else
             {
-
                 MostrarGrid_ProveedoresCompraPage();
             }
         });

@@ -18,6 +18,10 @@ public partial class HistorialProductoSobrantePage : ContentPage
 
 
     // NAVEGACIÓN
+    private async Task HistorialProductoSobrantePagePopAsync()
+    {
+        await PagePopAsync();
+    }
 
 
     // EVENTOS
@@ -26,6 +30,16 @@ public partial class HistorialProductoSobrantePage : ContentPage
         base.OnAppearing();
         await CargarDatosCollectionView_Bodega();
     }
+    protected override bool OnBackButtonPressed()
+    {
+        HistorialProductoSobrantePagePopAsync().GetAwaiter();
+        return true;
+    }
+    private async void Button_Regresar_Clicked(object sender, EventArgs e)
+    {
+        await HistorialProductoSobrantePagePopAsync();
+    }
+
 
     // LOGICA PARA EVENTOS
     private async Task CargarDatosCollectionView_Bodega()
@@ -41,8 +55,23 @@ public partial class HistorialProductoSobrantePage : ContentPage
         }
         CollectionView_Bodega.ItemsSource = _grupoInventario;
     }
+    
 
     // LÓGICA
+    private Task PagePopAsync()
+    {
+        RegistrarProductoSobranteBodegaPage._ejecutarAppearing = false;
+        Dispatcher.Dispatch(async () =>
+        {
+            bool respuesta = await DisplayAlert("Alerta", "¿Desea regresar? Perderá el progreso realizado", "Confimar", "Cancelar");
+            if (respuesta)
+            {
+                await Navigation.PopAsync();
+            }
+        });
+        return Task.CompletedTask;
+    }
+
 
 
     // BASE DE DATOS
@@ -50,6 +79,8 @@ public partial class HistorialProductoSobrantePage : ContentPage
     {
         return await _repoInventario.ObtenerInvetarioAsync();
     }
+
+    
 
 
     // LÓGICA DE COSAS VISUALES DE LA PÁGINA

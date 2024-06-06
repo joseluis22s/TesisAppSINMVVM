@@ -83,6 +83,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Views\ChequesViews\RegistrarChequePage.xaml.cs">
+	    <DependentUpon>RegistrarChequePage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\VentaViews\HistorialProductoSobrantePage.xaml.cs">
 	    <DependentUpon>HistorialProductoSobrantePage.xaml</DependentUpon>
 	  </Compile>
@@ -101,7 +104,10 @@
 	  <MauiXaml Update="Views\ChequesViews\HistorialChequesPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\ChequesViews\RegistarChequePage.xaml">
+	  <MauiXaml Update="Views\ChequesViews\RegistrarChequePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\CompraViews\ProveedoresPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Contents\HistorialComprasContentView.xaml">

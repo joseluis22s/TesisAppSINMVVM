@@ -3,73 +3,73 @@
     x:Class="TesisAppSINMVVM.Views.ChequesViews.HistorialChequesPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="CHEQUES: Historial"
+    Title="CHEQUES: Historial cheques"
     Appearing="ContentPage_Appearing"
     NavigationPage.HasBackButton="False">
-    <Grid>
-        <CollectionView
-            x:Name="CollectionView_HistorialCheques"
-            IsGrouped="True"
-            SelectionMode="None">
-            <CollectionView.EmptyView>
-                <ContentView>
-                    <VerticalStackLayout
-                        x:Name="VerticalStackLayout_EmptyView_HistorialCheques"
-                        BackgroundColor="#e6e6e6"
-                        VerticalOptions="Center">
+    <Border
+        Margin="10"
+        Padding="10,0,10,10"
+        BackgroundColor="#bbc2c9"
+        StrokeShape="{RoundRectangle CornerRadius='2'}">
+        <Grid>
+            <CollectionView
+                x:Name="CollectionView_HistorialCheques"
+                IsGrouped="True"
+                SelectionMode="None">
+                <CollectionView.EmptyView>
+                    <ContentView>
+                        <VerticalStackLayout
+                            x:Name="VerticalStackLayout_EmptyView_HistorialCheques"
+                            BackgroundColor="#e6e6e6"
+                            VerticalOptions="Center">
+                            <Label
+                                FontAutoScalingEnabled="True"
+                                HorizontalTextAlignment="Center"
+                                Text="NO SE HA REGISTRADO NINGÚN CONTACTO"
+                                TextColor="#1a1a1a" />
+                            <Image MaximumHeightRequest="30" Source="remove_empty_icon.png" />
+                        </VerticalStackLayout>
+                    </ContentView>
+
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border
+                            Padding="10,10,20,10"
+                            BackgroundColor="#ccd3de"
+                            StrokeShape="{RoundRectangle CornerRadius='5'}">
+                            <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto">
+                                <Label
+                                    x:Name="Label_NumeroCheque"
+                                    FontAttributes="Bold"
+                                    FontSize="15"
+                                    Text="{Binding MONTO, StringFormat='Cheque #: {0}'}" />
+                                <Label
+                                    x:Name="Label_MontoCheque"
+                                    Grid.Column="1"
+                                    Text="{Binding NUMERO, StringFormat='$: {0}'}" />
+                                <Label
+                                    x:Name="Label_Proveedor"
+                                    Grid.Row="2"
+                                    Text="{Binding PROVEEDOR}" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.GroupHeaderTemplate>
+                    <DataTemplate>
                         <Label
-                            FontAutoScalingEnabled="True"
-                            HorizontalTextAlignment="Center"
-                            Text="NO SE HA REGISTRADO NINGÚN CONTACTO"
-                            TextColor="#1a1a1a" />
-                        <Image MaximumHeightRequest="30" Source="remove_empty_icon.png" />
-                    </VerticalStackLayout>
-                </ContentView>
-
-            </CollectionView.EmptyView>
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Border>
-                        <Grid RowDefinitions="Auto,Auto,Auto">
-                            <Label x:Name="Label_NumeroCheque" Text="{Binding MONTO, StringFormat='Número: {0}'}" />
-                            <Label
-                                x:Name="Label_MontoCheque"
-                                Grid.Row="1"
-                                Text="{Binding NUMERO, StringFormat='$: {0}'}" />
-                            <Label
-                                x:Name="Label_Proveedor"
-                                Grid.Row="2"
-                                Text="{Binding PROVEEDOR}" />
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-            <CollectionView.GroupHeaderTemplate>
-                <DataTemplate>
-                    <Label Padding="15" Text="{Binding DiaFecha}" />
-                </DataTemplate>
-            </CollectionView.GroupHeaderTemplate>
-        </CollectionView>
+                            Margin="10,15,0,3"
+                            FontAttributes="Bold"
+                            FontSize="13"
+                            Text="{Binding DiaFecha}" />
+                    </DataTemplate>
+                </CollectionView.GroupHeaderTemplate>
+            </CollectionView>
 
 
-    </Grid>
-
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <Style TargetType="Border">
-                <Setter Property="Background">
-                    <Setter.Value>
-                        <LinearGradientBrush EndPoint="2,1">
-                            <GradientStop Offset="0.1" Color="#e8f2ff" />
-                            <GradientStop Offset="1.0" Color="#4e82d4" />
-                        </LinearGradientBrush>
-                    </Setter.Value>
-                </Setter>
-                <Setter Property="StrokeShape" Value="{RoundRectangle CornerRadius='5'}" />
-                <Setter Property="Padding" Value="5" />
-            </Style>
-        </ResourceDictionary>
-    </ContentPage.Resources>
+        </Grid>
+    </Border>
 
     <ContentPage.Background>
         <LinearGradientBrush EndPoint="0.1,0.9">

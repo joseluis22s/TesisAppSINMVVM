@@ -9,7 +9,7 @@
 
     <Grid
         Margin="10"
-        RowDefinitions="Auto,*"
+        RowDefinitions="Auto,*,Auto"
         RowSpacing="10">
         <Button
             x:Name="Button_HistorialRegistroProductoSobrante"
@@ -20,8 +20,10 @@
         <!--<Border Grid.Row="3" >-->
         <Grid
             Grid.Row="1"
+            Padding="10,10,10,13"
             BackgroundColor="#bbc2c9"
-            RowDefinitions="Auto,*,Auto" Padding="10">
+            RowDefinitions="Auto,*,Auto"
+            RowSpacing="5">
             <Label
                 BackgroundColor="#82878c"
                 FontAttributes="Bold"
@@ -85,12 +87,24 @@
             <Button
                 x:Name="Button_GuardarRegistroProductoSobrante"
                 Grid.Row="2"
+                Padding="25,15"
                 BackgroundColor="#2455a6"
                 Clicked="Button_GuardarRegistroProductoSobrante_Clicked"
+                CornerRadius="20"
                 HorizontalOptions="Center"
-                Text="Guardar" Padding="25,15"/>
+                Text="Guardar" />
             <!--<Border BackgroundColor="Transparent" Background="Transparent" Stroke="Transparent"/>-->
         </Grid>
+        <Button
+            x:Name="Button_Regresar"
+            Grid.Row="2"
+            Padding="70,0"
+            BackgroundColor="#3b72cc"
+            BorderColor="#3765b0"
+            BorderWidth="2"
+            Clicked="Button_Regresar_Clicked"
+            HorizontalOptions="Center"
+            Text="Regresar" />
 
         <!--</Border>-->
 

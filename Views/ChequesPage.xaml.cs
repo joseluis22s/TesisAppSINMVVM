@@ -14,7 +14,7 @@ public partial class ChequesPage : ContentPage
     // NAVEGACIÓN
     private async Task RegistarChequePagePushAsync()
     {
-        await Navigation.PushAsync(new RegistarChequePage());
+        await Navigation.PushAsync(new RegistrarChequePage());
     }
     private async Task HistorialChequesPagePushAsync()
     {

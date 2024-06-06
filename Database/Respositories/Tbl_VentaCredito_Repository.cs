@@ -16,10 +16,15 @@ namespace TesisAppSINMVVM.Database.Respositories
             var resultado = await conn.CreateTableAsync<Tbl_VentaCredito>();
         }
 
-        public async Task GuardarVEntaCredito(Tbl_VentaCredito t)
+        public async Task GuardarVentaCreditoAsync(Tbl_VentaCredito ventaC)
         {
             await InitAsync();
-            await conn.InsertAsync(t);
+            await conn.InsertAsync(ventaC);
+        }
+        public async Task<List<Tbl_VentaCredito>> ObtenerVentasCreditoAsync()
+        {
+            await InitAsync();
+            return await conn.Table<Tbl_VentaCredito>().ToListAsync();
         }
     }
 }

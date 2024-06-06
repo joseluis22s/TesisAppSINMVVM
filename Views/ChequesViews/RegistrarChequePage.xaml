@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="TesisAppSINMVVM.Views.ChequesViews.RegistarChequePage"
+    x:Class="TesisAppSINMVVM.Views.ChequesViews.RegistrarChequePage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="CHEQUES: Nuevo registro"
@@ -11,7 +11,7 @@
         Margin="20"
         RowDefinitions="Auto,Auto,Auto,Auto,Auto"
         RowSpacing="12">
-        
+
         <VerticalStackLayout>
             <Label Style="{StaticResource LabelStyle}" Text="Número de cheque" />
             <Border>

@@ -58,7 +58,10 @@
         <Button
             x:Name="Button_GuardarVentaCredito"
             Grid.Row="4"
-            Padding="20,10"
+            Margin="10"
+            Padding="25,15"
+            Clicked="Button_GuardarVentaCredito_Clicked"
+            CornerRadius="20"
             HorizontalOptions="Center"
             Text="Guardar" />
 

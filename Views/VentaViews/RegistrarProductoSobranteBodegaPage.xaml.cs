@@ -11,6 +11,7 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
     private Tbl_ProductosInventario_Repository _repoProductosInventario;
     private List<Tbl_Producto> _productos;
     private ObservableCollection<ProductoInventarioModel> _productosInventario = new ObservableCollection<ProductoInventarioModel>();
+    public static bool _ejecutarAppearing = true;
     public ObservableCollection<ProductoInventarioModel> ProductosInventario
     {
         get { return _productosInventario; }
@@ -30,7 +31,11 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
     }
 
     // NAVEGACIÓN
-    private async Task HistorialProductoSobrantePageAsync()
+    private async Task RegistrarProductoSobranteBodegaPagePopAsync()
+    {
+        await PagePopAsync();
+    }
+    private async Task HistorialRegistroProductoSobrantePagePushAsync()
     {
         await Navigation.PushAsync(new HistorialProductoSobrantePage());
     }
@@ -39,8 +44,12 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
     // EVENTOS
     private async void ContentPage_Appearing(object sender, EventArgs e)
     {
-        base.OnAppearing();
-        await CargarProductosInventario();
+        if (_ejecutarAppearing)
+        {
+            base.OnAppearing();
+            await CargarProductosInventario();
+        }
+        _ejecutarAppearing = true;
     }
     private async void Button_GuardarRegistroProductoSobrante_Clicked(object sender, EventArgs e)
     {
@@ -71,7 +80,12 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
     }
     private async void Button_HistorialRegistroProductoSobrante_Clicked(object sender, EventArgs e)
     {
-        await HistorialProductoSobrantePageAsync();
+        await HistorialRegistroProductoSobrantePagePushAsync();
+    }
+
+    private async void Button_Regresar_Clicked(object sender, EventArgs e)
+    {
+        await RegistrarProductoSobranteBodegaPagePopAsync();
     }
 
 
@@ -89,6 +103,18 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
         }
         CollectionView_RegistrarProductoSobranteBodega.ItemsSource = ProductosInventario;
     }
+    private Task PagePopAsync()
+    {
+        Dispatcher.Dispatch(async () =>
+        {
+            bool respuesta = await DisplayAlert("Alerta", "¿Desea regresar? Perderá el progreso realizado", "Confimar", "Cancelar");
+            if (respuesta)
+            {
+                await Navigation.PopAsync();
+            }
+        });
+        return Task.CompletedTask;
+    }
 
 
     // LÓGICA
@@ -100,7 +126,8 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
         return await _repoProducto.ObtenerProdcutosAsync();
     }
 
-    
+
+
 
 
 

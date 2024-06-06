@@ -15,17 +15,25 @@ public partial class AgregarCompradorPage : ContentPage
 
 
     // NAVEGACIÓN
-
+    private async Task AgregarNuevoCompradorPagePushModalAsync()
+    {
+        await Navigation.PopModalAsync();
+    }
 
     // EVENTOS
+
     private async void Button_GuardarComprador_Clicked(object sender, EventArgs e)
     {
-        await GuardarCompardor();
+        await GuardarComprador();
+    }
+    private async void Button_Cancelar_Clicked(object sender, EventArgs e)
+    {
+        await AgregarNuevoCompradorPagePushModalAsync();
     }
 
 
     // LOGICA PARA EVENTOS
-    private async Task GuardarCompardor()
+    private async Task GuardarComprador()
     {
         string nombre = Entry_NombreComprador.Text;
         string apellido = Entry_ApellidoComprador.Text;
@@ -50,6 +58,8 @@ public partial class AgregarCompradorPage : ContentPage
     {
         await _repoComprador.GuardarCompradorAsync(comprador);
     }
+
+    
 
 
     // LÓGICA DE COSAS VISUALES DE LA PÁGINA
