@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="TesisAppSINMVVM.Views.CompraViews.RegistrarNuevaCompraPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="COMPRA: Registrar compra"
+    Appearing="ContentPage_Appearing"
+    NavigationPage.HasBackButton="False">
+    <Grid Margin="15" RowDefinitions="Auto,*,Auto" VerticalOptions="Start" RowSpacing="15">
+        <Button
+            x:Name="Button_HIstorialCompras"
+            Clicked="Button_HistorialCompras_Clicked"
+            Text="Historial compras" />
+        <Grid
+            Grid.Row="1"
+            Padding="10"
+            BackgroundColor="#d9d9d9"
+            ColumnDefinitions="*,auto"
+            RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+            RowSpacing="7"
+            VerticalOptions="Start">
+
+
+            <Label
+                Grid.ColumnSpan="2"
+                Padding="0,2"
+                BackgroundColor="#9e9e9e"
+                FontAttributes="Bold"
+                FontSize="18"
+                HorizontalTextAlignment="Center"
+                Text="NUEVA COMPRA" />
+
+            <VerticalStackLayout Grid.Row="1">
+                <Label Style="{StaticResource LabelStyle}" Text="Producto" />
+                <Border>
+                    <Grid>
+                        <Picker
+                            x:Name="Picker_Producto"
+                            Margin="10,0"
+                            FontSize="16"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="Center"
+                            ItemDisplayBinding="{Binding PRODUCTO}" />
+                    </Grid>
+                </Border>
+            </VerticalStackLayout>
+            <Button
+                x:Name="Button_AgregarProductoPicker"
+                Grid.Row="1"
+                Grid.Column="2"
+                Margin="5,7,20,0"
+                Padding="7"
+                Clicked="Button_AgregarNuevoProductoPicker_Clicked"
+                ImageSource="pencil_edit_icon.png"
+                MaximumHeightRequest="30"
+                VerticalOptions="Center" />
+            <VerticalStackLayout Grid.Row="2">
+                <Label Style="{StaticResource LabelStyle}" Text="Precio" />
+                <Border>
+                    <Entry
+                        x:Name="Entry_Precio"
+                        Keyboard="Numeric"
+                        TextChanged="Entry_Precio_TextChanged" />
+                </Border>
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Row="3">
+                <Label Style="{StaticResource LabelStyle}" Text="Cantidad" />
+                <Border>
+                    <Entry
+                        x:Name="Entry_Cantidad"
+                        Keyboard="Numeric"
+                        TextChanged="Entry_Cantidad_TextChanged" />
+                </Border>
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Row="4">
+                <Label Style="{StaticResource LabelStyle}" Text="Valor Total" />
+                <Border>
+                    <Label
+                        x:Name="Label_ValorTotal"
+                        Margin="10,0"
+                        FontSize="16"
+                        HeightRequest="40"
+                        HorizontalTextAlignment="Center"
+                        VerticalTextAlignment="Center" />
+                </Border>
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Row="5">
+                <Label Style="{StaticResource LabelStyle}" Text="Saldo Pendiente" />
+                <Border>
+                    <Entry
+                        x:Name="Entry_SaldoPendiente"
+                        Keyboard="Numeric"
+                        TextChanged="Entry_SaldoPendiente_TextChanged" />
+                </Border>
+            </VerticalStackLayout>
+            <Button
+                x:Name="Button_GuardarNuevaCompra"
+                Grid.Row="6"
+                Grid.ColumnSpan="2"
+                Margin="0,5,0,-2"
+                Padding="40,0"
+                BackgroundColor="#2b5499"
+                Clicked="Button_GuardarNuevaCompra_Clicked"
+                CornerRadius="10"
+                FontSize="16"
+                HorizontalOptions="Center"
+                Text="Guardar" />
+
+        </Grid>
+        <Button
+            x:Name="Button_Regresar"
+            Grid.Row="2"
+            Clicked="Button_Regresar_Clicked"
+            HorizontalOptions="Center"
+            Text="Regresar" />
+    </Grid>
+
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Border">
+                <Setter Property="BackgroundColor" Value="#c9c9c9" />
+                <Setter Property="Stroke" Value="Transparent" />
+                <Setter Property="StrokeShape" Value="{RoundRectangle CornerRadius='25'}" />
+                <Setter Property="Padding" Value="0,-3" />
+            </Style>
+            <Style x:Key="LabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="Padding" Value="17,0" />
+            </Style>
+            <Style TargetType="VerticalStackLayout">
+                <Setter Property="Margin" Value="17,0" />
+                <Setter Property="Spacing" Value="-3" />
+            </Style>
+            <Style TargetType="Entry">
+                <Setter Property="Margin" Value="15,0" />
+                <Setter Property="FontSize" Value="15" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Background>
+        <LinearGradientBrush EndPoint="0.1,0.9">
+            <GradientStop Offset="0.1" Color="#5d92e8" />
+            <GradientStop Offset="1.0" Color="#044fc7" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
+
+
+</ContentPage>

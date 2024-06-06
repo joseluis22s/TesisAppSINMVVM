@@ -123,7 +123,7 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
     // BASE DE DATOS
     private async Task<List<Tbl_Producto>> ObtenerProdcutosDBAsync()
     {
-        return await _repoProducto.ObtenerProdcutosAsync();
+        return await _repoProducto.ObtenerProductosAsync();
     }
 
 

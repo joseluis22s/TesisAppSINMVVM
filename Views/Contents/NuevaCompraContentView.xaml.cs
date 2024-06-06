@@ -161,18 +161,6 @@ public partial class NuevaCompraContentView : ContentView
             Picker_Producto.ItemsSource = _productos;
             _productosCargados = true;
         }
-        //_productos = await ObtenerProdcutosDBAsync();
-        //if (_productos.Count == 0)
-        //{
-        //    Picker_Producto.IsVisible = false;
-        //    Picker_Producto.IsEnabled = false;
-        //}
-        //else
-        //{
-        //    Border_OcultaPicker.IsEnabled = false;
-        //    Picker_Producto.ItemsSource = _productos;
-        //    _productosCargados = true;
-        //}
     }
     private async Task BorderTapped()
     {
@@ -263,7 +251,7 @@ public partial class NuevaCompraContentView : ContentView
     }
     private async Task<List<Tbl_Producto>> ObtenerProdcutosDBAsync()
     {
-        return await _repoProducto.ObtenerProdcutosAsync();
+        return await _repoProducto.ObtenerProductosAsync();
     }
     private void Button_BorrarProductoPicker_Clicked(object sender, EventArgs e)
     {

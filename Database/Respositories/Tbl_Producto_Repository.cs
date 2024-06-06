@@ -34,7 +34,7 @@ namespace TesisAppSINMVVM.Database.Respositories
             };
             await conn.InsertAsync(Producto);
         }
-        public async Task<List<Tbl_Producto>> ObtenerProdcutosAsync()
+        public async Task<List<Tbl_Producto>> ObtenerProductosAsync()
         {
             await InitAsync();
             return await conn.Table<Tbl_Producto>().ToListAsync();

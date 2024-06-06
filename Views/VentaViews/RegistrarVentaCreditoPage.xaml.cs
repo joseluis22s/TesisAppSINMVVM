@@ -51,6 +51,7 @@ public partial class RegistrarVentaCreditoPage : ContentPage
         await GuardarCompraCreditoAsync();
     }
 
+
     // LOGICA PARA EVENTOS
     private async Task CargarDatosPicker_Comprador()
     {

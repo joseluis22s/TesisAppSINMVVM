@@ -1,3 +1,5 @@
+using TesisAppSINMVVM.Views.CompraViews;
+
 namespace TesisAppSINMVVM.Views;
 
 public partial class PaginaPrincipalPage : ContentPage
@@ -9,9 +11,10 @@ public partial class PaginaPrincipalPage : ContentPage
 
 
     // NAVEGACIÓN
-    private async Task CompraPagePushAsync()
+    private async Task RegistrarNuevaCompraPagePushAsync()
     {
-        await Navigation.PushAsync(new CompraPage());
+        //await Navigation.PushAsync(new CompraPage());
+        await Navigation.PushAsync(new ProveedoresPage());
     }
     private async Task ChequesPagePushAsync()
     {
@@ -26,7 +29,7 @@ public partial class PaginaPrincipalPage : ContentPage
     // EVENTOS
     private async void Button_Compra_Clicked(object sender, EventArgs e)
     {
-        await CompraPagePushAsync();
+        await RegistrarNuevaCompraPagePushAsync();
     }
     private async void Button_Cheques_Clicked(object sender, EventArgs e)
     {
