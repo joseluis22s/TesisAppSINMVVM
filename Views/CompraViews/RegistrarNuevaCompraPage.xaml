@@ -7,6 +7,7 @@
     Appearing="ContentPage_Appearing"
     NavigationPage.HasBackButton="False">
 
+    <ScrollView>
     <Grid
         Margin="15"
         RowDefinitions="Auto,*,Auto"
@@ -119,7 +120,7 @@
             HorizontalOptions="Center"
             Text="Regresar" />
     </Grid>
-
+    </ScrollView>
 
     <ContentPage.Resources>
         <ResourceDictionary>

@@ -7,7 +7,7 @@ namespace TesisAppSINMVVM.Models
     public class ProductoInventarioModel : INotifyPropertyChanged
     {
         private string _producto;
-        private int _cantidad;
+        private string _cantidad;
         private string _descripcion;
         private bool _esSeleccionado;
 
@@ -20,7 +20,7 @@ namespace TesisAppSINMVVM.Models
                 OnPropertyChanged(nameof(PRODUCTO));
             }
         }
-        public int CANTIDAD
+        public string CANTIDAD
         {
             get { return _cantidad; }
             set

@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="Bodega: Registar producto sobrante"
     Appearing="ContentPage_Appearing"
-    NavigationPage.HasBackButton="False">
+    NavigationPage.HasBackButton="False" HideSoftInputOnTapped="True">
 
     <Grid
         Margin="10"
@@ -55,7 +55,9 @@
                                         IsVisible="{Binding ESSELECCIONADO}"
                                         Keyboard="Numeric"
                                         Placeholder="Cantidad"
-                                        Text="{Binding CANTIDAD}" />
+                                        PlaceholderColor="#a1a1a1"
+                                        Text="{Binding CANTIDAD}"
+                                        TextChanged="Entry_TextChanged_Cantidad"/>
                                 </Border>
 
                                 <Border
@@ -64,20 +66,9 @@
                                     Style="{StaticResource BorderStyle2}">
                                     <Entry
                                         IsVisible="{Binding ESSELECCIONADO}"
-                                        Keyboard="Numeric"
-                                        Placeholder="Cantidad"
-                                        Text="{Binding CANTIDAD}" />
-                                </Border>
-
-                                <Border
-                                    Grid.Row="3"
-                                    IsVisible="{Binding ESSELECCIONADO}"
-                                    Style="{StaticResource BorderStyle2}">
-                                    <Entry
-                                        IsVisible="{Binding ESSELECCIONADO}"
                                         Placeholder="Descipción (opcional)"
                                         PlaceholderColor="#a1a1a1"
-                                        Text="{Binding DESCRIPCION}" />
+                                        Text="{Binding DESCRIPCION}"/>
                                 </Border>
                             </Grid>
                         </Border>

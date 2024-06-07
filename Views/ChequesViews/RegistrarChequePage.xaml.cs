@@ -108,8 +108,8 @@ public partial class RegistrarChequePage : ContentPage
             if (!existeCheque)
             {
                 
-                string mensaje = "NÚMERO       :  " + cheque.NUMERO +
-                               "\nMONTO         :  " + cheque.MONTO +
+                string mensaje = "CHEQUE       :  #" + cheque.NUMERO +
+                               "\nMONTO         :  $" + cheque.MONTO +
                                "\nPROVEEDOR :  " + cheque.PROVEEDOR +
                                "\nFECHA          :  " + cheque.FECHA;
                 bool resultado1 = await DisplayAlert("Mensaje de confirmación", mensaje, "Confirmar", "Cancelar");

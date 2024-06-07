@@ -36,9 +36,6 @@ public partial class RegistrarNuevaCompraPage : ContentPage
     }
 
 
-    
-
-
     // EVENTOS
     private async void ContentPage_Appearing(object sender, EventArgs e)
     {
@@ -124,6 +121,7 @@ public partial class RegistrarNuevaCompraPage : ContentPage
     private async Task CargarDatosProductos()
     {
         _productos = await ObtenerProductosDBAsync();
+        Picker_Producto.ItemsSource = _productos;
     }
     private async Task AgregarNuevoProducto()
     {
@@ -182,13 +180,14 @@ public partial class RegistrarNuevaCompraPage : ContentPage
                 TOTAL = double.Parse(Label_ValorTotal.Text),
                 SALDOPENDIENTE = double.Parse(Entry_SaldoPendiente.Text)
             };
-            OcultarTecladoVaciarCampos();
+            OcultarTeclado();
+            VaciarCampos();
             await GuardarRegistroProductoDBAsync(compra);
             await DisplayAlert("AVISO", "El registro se ha guardado", "Aceptar");
         }
         else
         {
-            OcultarTecladoVaciarCampos();
+            OcultarTeclado();
             await Toast.Make("Los campos no deben estar vacios").Show();
         }
     }
@@ -315,12 +314,15 @@ public partial class RegistrarNuevaCompraPage : ContentPage
 
 
 
-    // LÓGICA DE COSAS VISUALES DE LA PÁGINA
-    public void OcultarTecladoVaciarCampos()
+    // LÓGICA DE COSAS VISUALES DE LA PÁGINA  
+    private void OcultarTeclado()
     {
         Entry_Precio.Unfocus();
         Entry_Cantidad.Unfocus();
         Entry_SaldoPendiente.Unfocus();
+    }
+    private void VaciarCampos()
+    {
         Picker_Producto.SelectedItem = null;
         Entry_Precio.Text = "";
         Entry_Cantidad.Text = "";

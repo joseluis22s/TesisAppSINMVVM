@@ -6,77 +6,77 @@
     Title="CHEQUES: Nuevo registro"
     Appearing="ContentPage_Appearing"
     NavigationPage.HasBackButton="False">
+    <ScrollView>
+        <Grid
+            Margin="20"
+            RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
+            RowSpacing="12">
 
-    <Grid
-        Margin="20"
-        RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
-        RowSpacing="12">
+            <VerticalStackLayout>
+                <Label Style="{StaticResource LabelStyle}" Text="Número de cheque" />
+                <Border>
+                    <Entry
+                        x:Name="Entry_NumeroCheque"
+                        Keyboard="Numeric"
+                        TextChanged="Entry_NumeroCheque_TextChanged" />
+                </Border>
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Row="1">
+                <Label Style="{StaticResource LabelStyle}" Text="Monto" />
 
-        <VerticalStackLayout>
-            <Label Style="{StaticResource LabelStyle}" Text="Número de cheque" />
-            <Border>
-                <Entry
-                    x:Name="Entry_NumeroCheque"
-                    Keyboard="Numeric"
-                    TextChanged="Entry_NumeroCheque_TextChanged" />
-            </Border>
-        </VerticalStackLayout>
-        <VerticalStackLayout Grid.Row="1">
-            <Label Style="{StaticResource LabelStyle}" Text="Monto" />
-
-            <Border>
-                <Entry
-                    x:Name="Entry_MontoCheque"
-                    Keyboard="Numeric"
-                    TextChanged="Entry_MontoCheque_TextChanged" />
-            </Border>
-        </VerticalStackLayout>
-
-
-        <VerticalStackLayout Grid.Row="2">
-            <Label Style="{StaticResource LabelStyle}" Text="Proveedor" />
-            <Border>
-                <Picker x:Name="Picker_Proveedores">
-                    <Picker.ItemDisplayBinding>
-                        <MultiBinding StringFormat="{}{0} {1}">
-                            <Binding Path="NOMBRE" />
-                            <Binding Path="APELLIDO" />
-                        </MultiBinding>
-                    </Picker.ItemDisplayBinding>
-                </Picker>
-            </Border>
-        </VerticalStackLayout>
+                <Border>
+                    <Entry
+                        x:Name="Entry_MontoCheque"
+                        Keyboard="Numeric"
+                        TextChanged="Entry_MontoCheque_TextChanged" />
+                </Border>
+            </VerticalStackLayout>
 
 
+            <VerticalStackLayout Grid.Row="2">
+                <Label Style="{StaticResource LabelStyle}" Text="Proveedor" />
+                <Border>
+                    <Picker x:Name="Picker_Proveedores">
+                        <Picker.ItemDisplayBinding>
+                            <MultiBinding StringFormat="{}{0} {1}">
+                                <Binding Path="NOMBRE" />
+                                <Binding Path="APELLIDO" />
+                            </MultiBinding>
+                        </Picker.ItemDisplayBinding>
+                    </Picker>
+                </Border>
+            </VerticalStackLayout>
 
 
-        <VerticalStackLayout Grid.Row="3">
-            <Label Style="{StaticResource LabelStyle}" Text="Fecha" />
-            <Border>
-                <DatePicker
-                    x:Name="DatePicker_FechasEmision"
-                    Format="dd/MM/yyyy"
-                    HorizontalOptions="FillAndExpand" />
-            </Border>
-        </VerticalStackLayout>
 
-        <Button
-            x:Name="Button_GuardarNuevoCheque"
-            Grid.Row="4"
-            Padding="20,15"
-            Clicked="Button_GuardarNuevoCheque_Clicked"
-            HorizontalOptions="Center"
-            Text="Guardar" />
-        <Button
-            x:Name="Button_Regresar"
-            Grid.Row="5"
-            Padding="20,15"
-            Clicked="Button_Regresar_Clicked"
-            HorizontalOptions="Center"
-            Text="Regresar" />
 
-    </Grid>
+            <VerticalStackLayout Grid.Row="3">
+                <Label Style="{StaticResource LabelStyle}" Text="Fecha" />
+                <Border>
+                    <DatePicker
+                        x:Name="DatePicker_FechasEmision"
+                        Format="dd/MM/yyyy"
+                        HorizontalOptions="FillAndExpand" />
+                </Border>
+            </VerticalStackLayout>
 
+            <Button
+                x:Name="Button_GuardarNuevoCheque"
+                Grid.Row="4"
+                Padding="20,15"
+                Clicked="Button_GuardarNuevoCheque_Clicked"
+                HorizontalOptions="Center"
+                Text="Guardar" />
+            <Button
+                x:Name="Button_Regresar"
+                Grid.Row="5"
+                Padding="20,15"
+                Clicked="Button_Regresar_Clicked"
+                HorizontalOptions="Center"
+                Text="Regresar" />
+
+        </Grid>
+    </ScrollView>
 
     <ContentPage.Resources>
         <ResourceDictionary>
