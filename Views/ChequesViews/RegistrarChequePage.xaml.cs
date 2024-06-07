@@ -11,6 +11,7 @@ public partial class RegistrarChequePage : ContentPage
     private Tbl_Proveedor_Respository _repoProveedor;
     private Tbl_Cheque_Repository _repoCheque;
     private List<Tbl_Proveedor> _proveedores;
+    private bool _enEjecucion;
 
     public RegistrarChequePage()
     {
@@ -22,6 +23,10 @@ public partial class RegistrarChequePage : ContentPage
 
 
     // NAVEGACIÓN
+    private async Task RegistrarChequePagePopAsync(bool mostrarAlerta)
+    {
+        await PermitirPopAsyncNavegacion(mostrarAlerta);
+    }
 
 
     // EVENTOS
@@ -32,7 +37,13 @@ public partial class RegistrarChequePage : ContentPage
     }
     private async void Button_GuardarNuevoCheque_Clicked(object sender, EventArgs e)
     {
+        if (_enEjecucion)
+        {
+            return;
+        }
+        _enEjecucion = true;
         await GuardarRegistroChequeAsync();
+        _enEjecucion = false;
     }
     private void Entry_NumeroCheque_TextChanged(object sender, TextChangedEventArgs e)
     {
@@ -41,6 +52,21 @@ public partial class RegistrarChequePage : ContentPage
     private void Entry_MontoCheque_TextChanged(object sender, TextChangedEventArgs e)
     {
         MontoCheque_TextChanged();
+    }
+    protected override bool OnBackButtonPressed()
+    {
+        RegistrarChequePagePopAsync(true).GetAwaiter();
+        return true;
+    }
+    private async void Button_Regresar_Clicked(object sender, EventArgs e)
+    {
+        if (_enEjecucion)
+        {
+            return;
+        }
+        _enEjecucion = true;
+        await RegistrarChequePagePopAsync(true);
+        _enEjecucion = false;
     }
 
 
@@ -63,7 +89,6 @@ public partial class RegistrarChequePage : ContentPage
         }
         return "true";
     }
-    
     private async Task GuardarRegistroChequeAsync()
     {
         string resultado = ControlarCamposvalidosCargarCheque();
@@ -106,7 +131,21 @@ public partial class RegistrarChequePage : ContentPage
             await Toast.Make(resultado).Show();
         }
     }
-
+    private async Task PermitirPopAsyncNavegacion(bool mostrarAlerta)
+    {
+        if (mostrarAlerta)
+        {
+            bool respuesta = await DisplayAlert("Alerta", "¿Desea regresar? Perderá el progreso realizado", "Confimar", "Cancelar");
+            if (respuesta)
+            {
+                await Navigation.PopAsync();
+            }
+        }
+        else
+        {
+            await Navigation.PopAsync();
+        }
+    }
 
 
     // BASE DE DATOS
@@ -152,4 +191,6 @@ public partial class RegistrarChequePage : ContentPage
         Picker_Proveedores.SelectedIndex = -1;
         DatePicker_FechasEmision.Date = DateTime.Today;
     }
+
+    
 }

@@ -23,14 +23,6 @@ public partial class AgregarNuevoProveedorPage : ContentPage
 
 
     // EVENTOS
-    protected override bool OnBackButtonPressed()
-    {
-        Dispatcher.Dispatch(async () =>
-        {
-            await AgregarNuevaCuentaPagePopModalAsync(true);
-        });
-        return true;
-    }
     private async void Button_Guardar_Clicked(object sender, EventArgs e)
     {
         if (_enEjecucion)
@@ -51,8 +43,16 @@ public partial class AgregarNuevoProveedorPage : ContentPage
         await AgregarNuevaCuentaPagePopModalAsync(true);
         _enEjecucion = false;
     }
-    
-    
+    protected override bool OnBackButtonPressed()
+    {
+        Dispatcher.Dispatch(async () =>
+        {
+            await AgregarNuevaCuentaPagePopModalAsync(true);
+        });
+        return true;
+    }
+
+
     // LOGICA PARA EVENTOS
     private async Task PermitirPopModalAsyncNavegacion(bool mostrarAlerta)
     {

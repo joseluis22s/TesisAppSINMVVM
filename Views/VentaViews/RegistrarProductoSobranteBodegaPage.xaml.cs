@@ -11,6 +11,7 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
     private Tbl_ProductosInventario_Repository _repoProductosInventario;
     private List<Tbl_Producto> _productos;
     private ObservableCollection<ProductoInventarioModel> _productosInventario = new ObservableCollection<ProductoInventarioModel>();
+    private bool _enEjecucion;
     public static bool _ejecutarAppearing = true;
     public ObservableCollection<ProductoInventarioModel> ProductosInventario
     {
@@ -33,7 +34,14 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
     // NAVEGACIÓN
     private async Task RegistrarProductoSobranteBodegaPagePopAsync()
     {
+        //    if (_enEjecucion)
+        //    {
+        //        return;
+        //    }
+        //    _enEjecucion = true;
+        //await Navigation.PopAsync();
         await PagePopAsync();
+        //_enEjecucion = false;
     }
     private async Task HistorialRegistroProductoSobrantePagePushAsync()
     {
@@ -53,6 +61,11 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
     }
     private async void Button_GuardarRegistroProductoSobrante_Clicked(object sender, EventArgs e)
     {
+        if (_enEjecucion)
+        {
+            return;
+        }
+        _enEjecucion = true;
         List<Tbl_ProductosInventario> inventario = new List<Tbl_ProductosInventario>();
         var productos = (ObservableCollection<ProductoInventarioModel>)CollectionView_RegistrarProductoSobranteBodega.ItemsSource;
         foreach (var p in productos)
@@ -71,6 +84,7 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
         }
         var a = inventario;
         await _repoProductosInventario.GuardarProductosInventarioAsync(inventario);
+        _enEjecucion = false;
     }
     private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
@@ -82,12 +96,21 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
     {
         await HistorialRegistroProductoSobrantePagePushAsync();
     }
-
     private async void Button_Regresar_Clicked(object sender, EventArgs e)
     {
+        if (_enEjecucion)
+        {
+            return;
+        }
+        _enEjecucion = true;
         await RegistrarProductoSobranteBodegaPagePopAsync();
+        _enEjecucion = false;
     }
-
+    protected override bool OnBackButtonPressed()
+    {
+        RegistrarProductoSobranteBodegaPagePopAsync().GetAwaiter();
+        return true;
+    }
 
 
     // LOGICA PARA EVENTOS
@@ -103,17 +126,13 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
         }
         CollectionView_RegistrarProductoSobranteBodega.ItemsSource = ProductosInventario;
     }
-    private Task PagePopAsync()
+    private async Task PagePopAsync()
     {
-        Dispatcher.Dispatch(async () =>
+        bool respuesta = await DisplayAlert("Alerta", "¿Desea regresar? Perderá el progreso realizado", "Confimar", "Cancelar");
+        if (respuesta)
         {
-            bool respuesta = await DisplayAlert("Alerta", "¿Desea regresar? Perderá el progreso realizado", "Confimar", "Cancelar");
-            if (respuesta)
-            {
-                await Navigation.PopAsync();
-            }
-        });
-        return Task.CompletedTask;
+            await Navigation.PopAsync();
+        }
     }
 
 

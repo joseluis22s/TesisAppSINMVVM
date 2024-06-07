@@ -9,7 +9,7 @@
 
     <Grid
         Margin="20"
-        RowDefinitions="Auto,Auto,Auto,Auto,Auto"
+        RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
         RowSpacing="12">
 
         <VerticalStackLayout>
@@ -67,6 +67,13 @@
             Clicked="Button_GuardarNuevoCheque_Clicked"
             HorizontalOptions="Center"
             Text="Guardar" />
+        <Button
+            x:Name="Button_Regresar"
+            Grid.Row="5"
+            Padding="20,15"
+            Clicked="Button_Regresar_Clicked"
+            HorizontalOptions="Center"
+            Text="Regresar" />
 
     </Grid>
 

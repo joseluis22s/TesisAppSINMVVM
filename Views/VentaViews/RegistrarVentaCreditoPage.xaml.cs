@@ -8,9 +8,10 @@ public partial class RegistrarVentaCreditoPage : ContentPage
     private Tbl_Comprador_Repository _repoComprador;
     private Tbl_VentaCredito_Repository _repoVentaCredito;
     private bool _ejecutarAppearing = true;
-	public RegistrarVentaCreditoPage()
-	{
-		InitializeComponent();
+    private bool _enEjecucion;
+    public RegistrarVentaCreditoPage()
+    {
+        InitializeComponent();
         _repoComprador = new Tbl_Comprador_Repository();
         _repoVentaCredito = new Tbl_VentaCredito_Repository();
     }
@@ -21,10 +22,16 @@ public partial class RegistrarVentaCreditoPage : ContentPage
     {
         await Navigation.PushModalAsync(new AgregarCompradorPage());
         _ejecutarAppearing = false;
+        //////////zauqiiiiiiiiiiiiiiiiiii
     }
-    private async Task HistorialVentasCredito()
+    private async Task HistorialVentasCreditoPushAsync()
     {
         await Navigation.PushAsync(new HistorialVentasCredito());
+    }
+    private async Task RegistrarVentaCreditoPagePopAsync()
+    {
+        //await Navigation.PopAsync();
+        await PermitirPopAsyncNavegacion();
     }
 
 
@@ -40,17 +47,49 @@ public partial class RegistrarVentaCreditoPage : ContentPage
     }
     private async void Button_AgregarComprador_Clicked(object sender, EventArgs e)
     {
+        if (_enEjecucion)
+        {
+            return;
+        }
+        _enEjecucion = true;
         await AgregarCompradorPagePushModalAsync();
+        _enEjecucion = false;
     }
     private async void Button_HistorialVentasCredito_Clicked(object sender, EventArgs e)
     {
-        await HistorialVentasCredito();
+        if (_enEjecucion)
+        {
+            return;
+        }
+        _enEjecucion = true;
+        await HistorialVentasCreditoPushAsync();
+        _enEjecucion = false;
     }
     private async void Button_GuardarVentaCredito_Clicked(object sender, EventArgs e)
     {
+        if (_enEjecucion)
+        {
+            return;
+        }
+        _enEjecucion = true;
         await GuardarCompraCreditoAsync();
+        _enEjecucion = false;
     }
-
+    private async void Button_Regresar_Clicked(object sender, EventArgs e)
+    {
+        if (_enEjecucion)
+        {
+            return;
+        }
+        _enEjecucion = true;
+        await RegistrarVentaCreditoPagePopAsync();
+        _enEjecucion = false;
+    }
+    protected override bool OnBackButtonPressed()
+    {
+        RegistrarVentaCreditoPagePopAsync().GetAwaiter();
+        return true;
+    }
 
     // LOGICA PARA EVENTOS
     private async Task CargarDatosPicker_Comprador()
@@ -75,6 +114,15 @@ public partial class RegistrarVentaCreditoPage : ContentPage
             await GuardarVentaCreditoDBAsync(ventaCredito);
         }
     }
+    private async Task PermitirPopAsyncNavegacion()
+    {
+        bool respuesta = await DisplayAlert("Alerta", "¿Desea regresar? Perderá el progreso realizado", "Confimar", "Cancelar");
+        if (respuesta)
+        {
+            await Navigation.PopAsync();
+        }
+    }
+
 
     // LÓGICA
     private string ControlarCamposGuardarCompraCredito()
@@ -101,7 +149,9 @@ public partial class RegistrarVentaCreditoPage : ContentPage
         await _repoVentaCredito.GuardarVentaCreditoAsync(ventaC);
     }
 
-    
+
+
+
 
 
 

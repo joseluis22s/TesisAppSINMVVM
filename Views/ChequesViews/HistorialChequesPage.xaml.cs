@@ -20,6 +20,10 @@ public partial class HistorialChequesPage : ContentPage
 
 
     // NAVEGACIÓN
+    private async Task HistorialChequesPagePopAsync()
+    {
+        await Navigation.PopAsync();
+    }
 
 
     // EVENTOS
@@ -27,6 +31,10 @@ public partial class HistorialChequesPage : ContentPage
     {
         base.OnAppearing();
         await CargarDatosCollectionView_HistorialCompras();
+    }
+    private async void Button_Regresar_Clicked(object sender, EventArgs e)
+    {
+        await HistorialChequesPagePopAsync();
     }
 
 
@@ -49,32 +57,7 @@ public partial class HistorialChequesPage : ContentPage
         }
         var a = _grupoCheques;
         CollectionView_HistorialCheques.ItemsSource = _grupoCheques;
-        //List<Tbl_Cheque> cheques = await ObtenerDBChequesAsync();
-        //List<string> diasFechas = cheques.Select(_cheque => _cheque.DIAFECHA).Distinct().ToList();
-
-        //var a = diasFechas;
-        //foreach (var diaFecha in diasFechas)
-        //{
-        //    var listaAux = cheques.Select(_cheque => _cheque).
-        //        Where(_cheque => _cheque.DIAFECHA == diaFecha).ToList();
-
-        //    foreach (var cheque in listaAux)
-        //    {
-        //        _grupoCheques.Add(new ChequeGroup(diaFecha, new List<Tbl_Cheque>
-        //        {
-        //            new Tbl_Cheque
-        //            {
-        //                NUMERO = cheque.NUMERO,
-        //                MONTO = cheque.MONTO,
-        //                PROVEEDOR = cheque.PROVEEDOR,
-        //                FECHA = cheque.FECHA,
-        //                DIAFECHA = cheque.DIAFECHA,
-        //            }
-        //        }));
-        //    }
-        //}
-        //var bb = _grupoCheques;
-        //CollectionView_HistorialCheques.ItemsSource = _grupoCheques;
+        
     }
 
     // BASE DE DATOS
@@ -82,8 +65,6 @@ public partial class HistorialChequesPage : ContentPage
     {
         return await _repoCheque.ObtenerChequesAsync();
     }
-
-    
 
 
     // LÓGICA DE COSAS VISUALES DE LA PÁGINA

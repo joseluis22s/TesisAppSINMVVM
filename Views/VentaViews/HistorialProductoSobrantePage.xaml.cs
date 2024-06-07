@@ -20,7 +20,8 @@ public partial class HistorialProductoSobrantePage : ContentPage
     // NAVEGACIÓN
     private async Task HistorialProductoSobrantePagePopAsync()
     {
-        await PagePopAsync();
+        //await PagePopAsync();
+        await Navigation.PopAsync();
     }
 
 
@@ -30,14 +31,16 @@ public partial class HistorialProductoSobrantePage : ContentPage
         base.OnAppearing();
         await CargarDatosCollectionView_Bodega();
     }
-    protected override bool OnBackButtonPressed()
-    {
-        HistorialProductoSobrantePagePopAsync().GetAwaiter();
-        return true;
-    }
     private async void Button_Regresar_Clicked(object sender, EventArgs e)
     {
+        RegistrarProductoSobranteBodegaPage._ejecutarAppearing = false;
         await HistorialProductoSobrantePagePopAsync();
+    }
+    protected override bool OnBackButtonPressed()
+    {
+        RegistrarProductoSobranteBodegaPage._ejecutarAppearing = false;
+        HistorialProductoSobrantePagePopAsync().GetAwaiter();
+        return true;
     }
 
 

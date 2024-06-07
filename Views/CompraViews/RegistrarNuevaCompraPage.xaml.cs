@@ -10,6 +10,7 @@ public partial class RegistrarNuevaCompraPage : ContentPage
     private List<Tbl_Producto> _productos;
     private Tbl_HistorialCompras_Repository _repohistorialCompras;
     private Tbl_Proveedor _proveedor;
+    private bool _enEjecucion;
 
     public RegistrarNuevaCompraPage()
 	{
@@ -28,10 +29,14 @@ public partial class RegistrarNuevaCompraPage : ContentPage
             BindingContext = _proveedor
         });
     }
-    private async Task RegistrarNuevaCompraPagePopAsync()
+    private async Task RegistrarNuevaCompraPagePopAsync(bool mostrarAlerta)
     {
-        await Navigation.PopAsync();
+        ProveedoresPage._permitirEjecucion = false;
+        await PermitirPopAsyncNavegacion(mostrarAlerta);
     }
+
+
+    
 
 
     // EVENTOS
@@ -42,19 +47,48 @@ public partial class RegistrarNuevaCompraPage : ContentPage
     }
     private async void Button_AgregarNuevoProductoPicker_Clicked(object sender, EventArgs e)
     {
+        if (_enEjecucion)
+        {
+            return;
+        }
+        _enEjecucion = true;
         await AgregarNuevoProducto();
+        _enEjecucion = false;
     }
     private void Button_GuardarNuevaCompra_Clicked(object sender, EventArgs e)
     {
+        if (_enEjecucion)
+        {
+            return;
+        }
+        _enEjecucion = true;
         AgregarNuevaCompra();
+        _enEjecucion = false;
     }
     private async void Button_HistorialCompras_Clicked(object sender, EventArgs e)
     {
+        if (_enEjecucion)
+        {
+            return;
+        }
+        _enEjecucion = true;
         await HistorialComprasContentPagePushAsync();
+        _enEjecucion = false;
     }
     private async void Button_Regresar_Clicked(object sender, EventArgs e)
     {
-        await RegistrarNuevaCompraPagePopAsync();
+        if (_enEjecucion)
+        {
+            return;
+        }
+        _enEjecucion = true;
+        await RegistrarNuevaCompraPagePopAsync(true);
+        _enEjecucion = false;
+    }
+    protected override bool OnBackButtonPressed()
+    {
+        RegistrarNuevaCompraPagePopAsync(true).GetAwaiter();
+        return true;
     }
     private void Entry_Precio_TextChanged(object sender, TextChangedEventArgs e)
     {
@@ -71,6 +105,22 @@ public partial class RegistrarNuevaCompraPage : ContentPage
 
 
     // LOGICA PARA EVENTOS
+    private async Task PermitirPopAsyncNavegacion(bool mostrarAlerta)
+    {
+        if (mostrarAlerta)
+        {
+            CompraPage._permitirEjecucion = false;
+            bool respuesta = await DisplayAlert("Alerta", "¿Desea regresar? Perderá el progreso realizado", "Confimar", "Cancelar");
+            if (respuesta)
+            {
+                await Navigation.PopAsync();
+            }
+        }
+        else
+        {
+            await Navigation.PopAsync();
+        }
+    }
     private async Task CargarDatosProductos()
     {
         _productos = await ObtenerProductosDBAsync();
@@ -123,7 +173,7 @@ public partial class RegistrarNuevaCompraPage : ContentPage
             {
                 NOMBRE = proveedorBinding.NOMBRE,
                 APELLIDO = proveedorBinding.APELLIDO,
-                DIAFECHA = MapearDayOfWeekEspanol(DateTime.Now.DayOfWeek) + "-" + DateTime.Now.ToString("dd/MM/yyyy"),
+                DIAFECHA = DateTime.Today.ToString("dddd, dd MMMM"),
                 PRODUCTO = itemProducto.PRODUCTO,
                 FECHA = DateTime.Now.ToString("dd/MM/yyyy"),
                 DIA = MapearDayOfWeekEspanol(DateTime.Now.DayOfWeek),//DateTime.Now.DayOfWeek.ToString().ToUpper(),
@@ -138,6 +188,7 @@ public partial class RegistrarNuevaCompraPage : ContentPage
         }
         else
         {
+            OcultarTecladoVaciarCampos();
             await Toast.Make("Los campos no deben estar vacios").Show();
         }
     }

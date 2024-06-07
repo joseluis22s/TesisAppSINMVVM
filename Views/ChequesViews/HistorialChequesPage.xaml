@@ -11,7 +11,7 @@
         Padding="10,0,10,10"
         BackgroundColor="#bbc2c9"
         StrokeShape="{RoundRectangle CornerRadius='2'}">
-        <Grid>
+        <Grid RowDefinitions="*,Auto" RowSpacing="10">
             <CollectionView
                 x:Name="CollectionView_HistorialCheques"
                 IsGrouped="True"
@@ -66,8 +66,12 @@
                     </DataTemplate>
                 </CollectionView.GroupHeaderTemplate>
             </CollectionView>
-
-
+            <Button
+                x:Name="Button_Regresar"
+                Grid.Row="1"
+                Clicked="Button_Regresar_Clicked"
+                HorizontalOptions="Center"
+                Text="Regresar" />
         </Grid>
     </Border>
 

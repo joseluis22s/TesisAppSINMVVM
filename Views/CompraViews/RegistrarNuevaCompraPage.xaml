@@ -6,7 +6,12 @@
     Title="COMPRA: Registrar compra"
     Appearing="ContentPage_Appearing"
     NavigationPage.HasBackButton="False">
-    <Grid Margin="15" RowDefinitions="Auto,*,Auto" VerticalOptions="Start" RowSpacing="15">
+
+    <Grid
+        Margin="15"
+        RowDefinitions="Auto,*,Auto"
+        RowSpacing="15"
+        VerticalOptions="Start">
         <Button
             x:Name="Button_HIstorialCompras"
             Clicked="Button_HistorialCompras_Clicked"

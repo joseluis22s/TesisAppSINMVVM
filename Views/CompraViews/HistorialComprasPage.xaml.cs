@@ -9,7 +9,6 @@ public partial class HistorialComprasPage : ContentPage
 
     Tbl_HistorialCompras_Repository _repoHistorialCompras;
     public List<Tbl_HistorialComprasGroupModel> _historialCompras { get; private set; } = new List<Tbl_HistorialComprasGroupModel>();
-
     private Tbl_Proveedor _proveedor;
 
     public HistorialComprasPage()
@@ -22,7 +21,8 @@ public partial class HistorialComprasPage : ContentPage
     // NAVEGACIÓN
     private async Task HistorialComprasPagePopAsync()
     {
-        await PagePopAsync();
+        //await PagePopAsync();
+        await Navigation.PopAsync();
     }
 
 
@@ -34,8 +34,19 @@ public partial class HistorialComprasPage : ContentPage
     }
     private async void Button_Regresar_Clicked(object sender, EventArgs e)
     {
+        //if (_enEjecucion)
+        //{
+        //    return;
+        //}
+        //_enEjecucion = true;
         await HistorialComprasPagePopAsync();
+        //_enEjecucion = false;
     }
+    //protected override bool OnBackButtonPressed()
+    //{
+    //    HistorialComprasPagePopAsync().GetAwaiter();
+    //    return true;
+    //}
 
 
 
@@ -55,18 +66,18 @@ public partial class HistorialComprasPage : ContentPage
     }
 
     // LÓGICA
-    private Task PagePopAsync()
-    {
-        Dispatcher.Dispatch(async () =>
-        {
-            bool respuesta = await DisplayAlert("Alerta", "¿Desea regresar? Perderá el progreso realizado", "Confimar", "Cancelar");
-            if (respuesta)
-            {
-                await Navigation.PopAsync();
-            }
-        });
-        return Task.CompletedTask;
-    }
+    //private Task PagePopAsync()
+    //{
+    //    Dispatcher.Dispatch(async () =>
+    //    {
+    //        bool respuesta = await DisplayAlert("Alerta", "¿Desea regresar? Perderá el progreso realizado", "Confimar", "Cancelar");
+    //        if (respuesta)
+    //        {
+    //            await Navigation.PopAsync();
+    //        }
+    //    });
+    //    return Task.CompletedTask;
+    //}
 
 
     // BASE DE DATOS

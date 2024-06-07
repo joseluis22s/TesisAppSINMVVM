@@ -6,7 +6,8 @@ namespace TesisAppSINMVVM.Views;
 public partial class AgregarCompradorPage : ContentPage
 {
 	private Tbl_Comprador_Repository _repoComprador;
-	public AgregarCompradorPage()
+    private bool _enEjecucion;
+    public AgregarCompradorPage()
 	{
 		InitializeComponent();
         _repoComprador = new Tbl_Comprador_Repository();
@@ -15,20 +16,32 @@ public partial class AgregarCompradorPage : ContentPage
 
 
     // NAVEGACIÓN
-    private async Task AgregarNuevoCompradorPagePushModalAsync()
+    private async Task AgregarNuevoCompradorPagePushModalAsync(bool mostrarAlerta)
     {
-        await Navigation.PopModalAsync();
+        await PermitirPopModalAsyncNavegacion(mostrarAlerta);
     }
 
     // EVENTOS
 
     private async void Button_GuardarComprador_Clicked(object sender, EventArgs e)
     {
+        if (_enEjecucion)
+        {
+            return;
+        }
+        _enEjecucion = true;
         await GuardarComprador();
+        _enEjecucion = false;
     }
     private async void Button_Cancelar_Clicked(object sender, EventArgs e)
     {
-        await AgregarNuevoCompradorPagePushModalAsync();
+        if (_enEjecucion)
+        {
+            return;
+        }
+        _enEjecucion = true;
+        await AgregarNuevoCompradorPagePushModalAsync(true);
+        _enEjecucion = false;
     }
 
 
@@ -51,6 +64,23 @@ public partial class AgregarCompradorPage : ContentPage
 
 
     // LÓGICA
+    private async Task PermitirPopModalAsyncNavegacion(bool mostrarAlerta)
+    {
+        //OcultarTeclado();
+        if (mostrarAlerta)
+        {
+            CompraPage._permitirEjecucion = false;
+            bool respuesta = await DisplayAlert("Alerta", "¿Desea regresar? Perderá el progreso realizado", "Confimar", "Cancelar");
+            if (respuesta)
+            {
+                await Navigation.PopModalAsync();
+            }
+        }
+        else
+        {
+            await Navigation.PopModalAsync();
+        }
+    }
 
 
     // BASE DE DATOS

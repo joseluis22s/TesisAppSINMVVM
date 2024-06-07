@@ -23,7 +23,8 @@ public partial class HistorialVentasCredito : ContentPage
     // NAVEGACIÓN
     private async Task HistorialVentasCreditoPagePopAsync()
     {
-        await PagePopAsync();
+        //await PagePopAsync();
+        await Navigation.PopAsync();
     }
 
 
