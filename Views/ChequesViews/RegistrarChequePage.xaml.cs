@@ -12,6 +12,7 @@ public partial class RegistrarChequePage : ContentPage
     private Tbl_Cheque_Repository _repoCheque;
     private List<Tbl_Proveedor> _proveedores;
     private bool _enEjecucion;
+    private double _montoCheque;
 
     public RegistrarChequePage()
     {
@@ -79,13 +80,31 @@ public partial class RegistrarChequePage : ContentPage
     private string ControlarCamposvalidosCargarCheque()
     {
         string numerocheque = Entry_NumeroCheque.Text;
-        string montocheque = Entry_MontoCheque.Text;
+        string montochequeEntero = Entry_MontoChequeEntero.Text;
+        string montochequeDecimal = Entry_MontoChequeDecimal.Text;
         var itemProveedor = (Tbl_Proveedor)Picker_Proveedores.SelectedItem;
-
-        if (string.IsNullOrEmpty(numerocheque) || itemProveedor is null || 
-            string.IsNullOrEmpty(montocheque) )
+        if (string.IsNullOrEmpty(montochequeEntero) && string.IsNullOrEmpty(montochequeDecimal))
         {
-            return "¡Llene todo los campos!";
+            _montoCheque = 0;
+        }
+        else if(string.IsNullOrEmpty(montochequeEntero) && !string.IsNullOrEmpty(montochequeDecimal))
+        {
+            _montoCheque = double.Parse("0." + montochequeDecimal);
+        }
+        else if (!string.IsNullOrEmpty(montochequeEntero) && string.IsNullOrEmpty(montochequeDecimal))
+        {
+            _montoCheque = double.Parse(montochequeEntero);
+        }
+        else
+        {
+            _montoCheque = double.Parse(montochequeEntero + "." + montochequeDecimal);
+        }
+        //m = double.Parse(montochequeEntero + "." + montochequeDecimal);
+        if (itemProveedor is null || string.IsNullOrEmpty(numerocheque) || 
+            //string.IsNullOrEmpty(montochequeEntero) || string.IsNullOrEmpty(montochequeDecimal) ||
+            _montoCheque == 0 )
+        {
+            return "Existen campos incompletos o erróneos";
         }
         return "true";
     }
@@ -94,12 +113,11 @@ public partial class RegistrarChequePage : ContentPage
         string resultado = ControlarCamposvalidosCargarCheque();
         if (resultado == "true")
         {
-            
             var itemProveedor = (Tbl_Proveedor)Picker_Proveedores.SelectedItem;
             Tbl_Cheque cheque = new Tbl_Cheque()
             {
                 NUMERO = int.Parse(Entry_NumeroCheque.Text),
-                MONTO = double.Parse(Entry_MontoCheque.Text),
+                MONTO = double.Parse(Entry_MontoChequeEntero.Text + "." + Entry_MontoChequeDecimal.Text),
                 PROVEEDOR = itemProveedor.NOMBRE + " " + itemProveedor.APELLIDO,
                 FECHA = DatePicker_FechasEmision.Date.ToString("dd/MM/yyyy"),
                 DIAFECHA = DatePicker_FechasEmision.Date.ToString("dddd, dd MMMM")
@@ -115,19 +133,22 @@ public partial class RegistrarChequePage : ContentPage
                 bool resultado1 = await DisplayAlert("Mensaje de confirmación", mensaje, "Confirmar", "Cancelar");
                 if (resultado1)
                 {
-                    ReiniciarCamposOcultarTeclado();
+                    OcultarTeclado();
                     await GuardarChequeDBAsync(cheque);
+                    ReiniciarCampos();
                     await Toast.Make("¡Registro guardado!").Show();
                 }
             }
             else
             {
+                OcultarTeclado();
                 await Toast.Make("Cheque registrado anteriormente").Show();
             }
 
         }
         else
         {
+            OcultarTeclado();
             await Toast.Make(resultado).Show();
         }
     }
@@ -176,20 +197,48 @@ public partial class RegistrarChequePage : ContentPage
     }
     private void MontoCheque_TextChanged()
     {
-        // Solo permite digitar con 2 decimales y un soslo punto decimal
-        if (Entry_MontoCheque.Text.Contains(".") && Entry_MontoCheque.Text.Split('.').Last().Length > 2)
+        
+        if (!string.IsNullOrEmpty(Entry_MontoChequeEntero.Text) )
         {
-            Entry_MontoCheque.Text = Entry_MontoCheque.Text.Substring(0, Entry_MontoCheque.Text.IndexOf(".") + 3);
+            if (Entry_MontoChequeEntero.Text.Contains("."))
+            {
+                Entry_MontoChequeEntero.Text = Entry_MontoChequeEntero.Text.Replace(".", "");
+            }
+            else if (!string.IsNullOrEmpty(Entry_MontoChequeDecimal.Text))
+            {
+                if (Entry_MontoChequeDecimal.Text.Contains("."))
+                {
+                    Entry_MontoChequeDecimal.Text = Entry_MontoChequeDecimal.Text.Replace(".", "");
+                }
+                
+            }
         }
+        else if (!string.IsNullOrEmpty(Entry_MontoChequeDecimal.Text))
+        {
+            if (Entry_MontoChequeDecimal.Text.Contains("."))
+            {
+                Entry_MontoChequeDecimal.Text = Entry_MontoChequeDecimal.Text.Replace(".", "");
+            }
+            else if (!string.IsNullOrEmpty(Entry_MontoChequeEntero.Text))
+            {
+                Entry_MontoChequeEntero.Text = Entry_MontoChequeEntero.Text.Replace(".", "");
+            }
+        }
+
     }
-    private void ReiniciarCamposOcultarTeclado()
+    private void ReiniciarCampos()
     {
-        Entry_NumeroCheque.Unfocus();
         Entry_NumeroCheque.Text = "";
-        Entry_MontoCheque.Unfocus();
-        Entry_MontoCheque.Text = "";
+        Entry_MontoChequeEntero.Text = "";
+        Entry_MontoChequeDecimal.Text = "";
         Picker_Proveedores.SelectedIndex = -1;
         DatePicker_FechasEmision.Date = DateTime.Today;
+    }
+    private void OcultarTeclado()
+    {
+        Entry_NumeroCheque.Unfocus();
+        Entry_MontoChequeEntero.Unfocus();
+        Entry_MontoChequeDecimal.Unfocus();
     }
 
     

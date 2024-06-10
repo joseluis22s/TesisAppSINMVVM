@@ -18,18 +18,38 @@
                     <Entry
                         x:Name="Entry_NumeroCheque"
                         Keyboard="Numeric"
+                        MaxLength="7"
                         TextChanged="Entry_NumeroCheque_TextChanged" />
                 </Border>
             </VerticalStackLayout>
-            <VerticalStackLayout Grid.Row="1">
+            <VerticalStackLayout Grid.Row="1" Padding="10,0">
                 <Label Style="{StaticResource LabelStyle}" Text="Monto" />
+                <Grid ColumnDefinitions="*,Auto,*" ColumnSpacing="3" Padding="5,0">
+                    <Border>
+                        <Entry
+                            x:Name="Entry_MontoChequeEntero"
+                            Keyboard="Numeric"
+                            MaxLength="7"
+                            Placeholder="0"
+                            TextChanged="Entry_MontoCheque_TextChanged" />
+                    </Border>
+                    <Label
+                        Grid.Column="1"
+                        Margin="0,0,0,0"
+                        FontSize="19"
+                        Text="."
+                        VerticalOptions="End" />
+                    <Border Grid.Column="2">
+                        <Entry
+                            x:Name="Entry_MontoChequeDecimal"
+                            Grid.Column="2"
+                            Keyboard="Numeric"
+                            MaxLength="2"
+                            Placeholder="00"
+                            TextChanged="Entry_MontoCheque_TextChanged" />
+                    </Border>
+                </Grid>
 
-                <Border>
-                    <Entry
-                        x:Name="Entry_MontoCheque"
-                        Keyboard="Numeric"
-                        TextChanged="Entry_MontoCheque_TextChanged" />
-                </Border>
             </VerticalStackLayout>
 
 
@@ -82,7 +102,7 @@
         <ResourceDictionary>
             <Style TargetType="Border">
                 <Setter Property="BackgroundColor" Value="#d3dbe8" />
-                <Setter Property="StrokeShape" Value="{RoundRectangle CornerRadius='10'}" />
+                <Setter Property="StrokeShape" Value="{RoundRectangle CornerRadius='25'}" />
                 <Setter Property="Padding" Value="13,-2" />
             </Style>
             <Style TargetType="Entry">

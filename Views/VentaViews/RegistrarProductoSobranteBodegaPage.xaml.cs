@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using TesisAppSINMVVM.Models;
 using TesisAppSINMVVM.Database.Tables;
 using CommunityToolkit.Maui.Alerts;
-using TesisAppSINMVVM.Platforms.Android;
 
 namespace TesisAppSINMVVM.Views.VentaViews;
 

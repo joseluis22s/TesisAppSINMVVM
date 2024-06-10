@@ -96,16 +96,16 @@ public partial class NuevaCompraContentView : ContentView
 
             Tbl_HistorialCompras compra = new Tbl_HistorialCompras()
             {
-                NOMBRE = proveedorBinding.NOMBRE,
-                APELLIDO = proveedorBinding.APELLIDO,
-                DIAFECHA = MapearDayOfWeekEspanol(DateTime.Now.DayOfWeek) + "-" + DateTime.Now.ToString("dd/MM/yyyy"),
-                PRODUCTO = itemProducto.PRODUCTO,
-                FECHA = DateTime.Now.ToString("dd/MM/yyyy"),
-                DIA = MapearDayOfWeekEspanol(DateTime.Now.DayOfWeek),//DateTime.Now.DayOfWeek.ToString().ToUpper(),
-                CANTIDAD = int.Parse(Entry_Cantidad.Text),
-                PRECIO = double.Parse(Entry_Precio.Text),
-                TOTAL = double.Parse(Label_ValorTotal.Text),
-                SALDOPENDIENTE = double.Parse(Entry_SaldoPendiente.Text)
+                //NOMBRE = proveedorBinding.NOMBRE,
+                //APELLIDO = proveedorBinding.APELLIDO,
+                //DIAFECHA = MapearDayOfWeekEspanol(DateTime.Now.DayOfWeek) + "-" + DateTime.Now.ToString("dd/MM/yyyy"),
+                //PRODUCTO = itemProducto.PRODUCTO,
+                //FECHA = DateTime.Now.ToString("dd/MM/yyyy"),
+                //DIA = MapearDayOfWeekEspanol(DateTime.Now.DayOfWeek),//DateTime.Now.DayOfWeek.ToString().ToUpper(),
+                //CANTIDAD = int.Parse(Entry_Cantidad.Text),
+                //PRECIO = double.Parse(Entry_Precio.Text),
+                //TOTAL = double.Parse(Label_ValorTotal.Text),
+                //SALDOPENDIENTE = double.Parse(Entry_SaldoPendiente.Text)
             };
             OcultarTecladoVaciarCampos();
             await GuardarRegistroProductoDBAsync(compra);

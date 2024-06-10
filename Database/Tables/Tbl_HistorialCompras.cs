@@ -10,7 +10,6 @@ public class Tbl_HistorialCompras
     public string APELLIDO { get; set; }
     public string PRODUCTO { get; set; }
     public string FECHA { get; set; }
-    public string DIA { get; set; }
     public int CANTIDAD { get; set; }
     public double PRECIO {  get; set; }
     public double TOTAL { get; set; }

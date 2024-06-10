@@ -57,7 +57,7 @@
                                         Placeholder="Cantidad"
                                         PlaceholderColor="#a1a1a1"
                                         Text="{Binding CANTIDAD}"
-                                        TextChanged="Entry_TextChanged_Cantidad"/>
+                                        TextChanged="Entry_TextChanged_Cantidad" MaxLength="6"/>
                                 </Border>
 
                                 <Border

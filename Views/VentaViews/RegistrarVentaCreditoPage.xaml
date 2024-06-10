@@ -42,9 +42,39 @@
 
         <VerticalStackLayout Grid.Row="2">
             <Label Style="{StaticResource LabelStyle}" Text="Monto vendido" />
-            <Border x:Name="Border_entry_MontoVendido">
-                <Entry x:Name="Entry_MontoVendido" Keyboard="Numeric" />
-            </Border>
+            <Grid
+                Padding="10,0"
+                ColumnDefinitions="*,Auto,*"
+                ColumnSpacing="4">
+                <Border>
+                    <Entry
+                        x:Name="Entry_MontoVendidoEntero"
+                        FontSize="15"
+                        HorizontalOptions="Center"
+                        Keyboard="Numeric"
+                        MaxLength="7"
+                        Placeholder="0"
+                        PlaceholderColor="#9e9e9e"
+                        TextChanged="Entry_MontoVendido_TextChanged" />
+                </Border>
+                <Label
+                    Grid.Column="1"
+                    Margin="0,0,0,0"
+                    FontSize="19"
+                    Text="."
+                    VerticalOptions="End" />
+                <Border Grid.Column="2">
+                    <Entry
+                        x:Name="Entry_MontoVendidoDecimal"
+                        FontSize="15"
+                        HorizontalOptions="Center"
+                        Keyboard="Numeric"
+                        MaxLength="2"
+                        Placeholder="00"
+                        PlaceholderColor="#9e9e9e"
+                        TextChanged="Entry_MontoVendido_TextChanged" />
+                </Border>
+            </Grid>
         </VerticalStackLayout>
         <VerticalStackLayout Grid.Row="3">
             <Label Style="{StaticResource LabelStyle}" Text="Descripción" />
@@ -52,7 +82,7 @@
                 <Entry
                     x:Name="Entry_Descripcion"
                     Placeholder="[OPCIONAL]"
-                    PlaceholderColor="#b3b3b3" />
+                    PlaceholderColor="#9e9e9e" />
             </Border>
         </VerticalStackLayout>
         <Button
@@ -82,7 +112,7 @@
             </Style>
             <Style TargetType="Border">
                 <Setter Property="BackgroundColor" Value="#d3dbe8" />
-                <Setter Property="StrokeShape" Value="{RoundRectangle CornerRadius='10'}" />
+                <Setter Property="StrokeShape" Value="{RoundRectangle CornerRadius='25'}" />
                 <Setter Property="Padding" Value="13,-2" />
             </Style>
 

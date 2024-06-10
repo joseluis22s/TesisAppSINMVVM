@@ -8,118 +8,167 @@
     NavigationPage.HasBackButton="False">
 
     <ScrollView>
-    <Grid
-        Margin="15"
-        RowDefinitions="Auto,*,Auto"
-        RowSpacing="15"
-        VerticalOptions="Start">
-        <Button
-            x:Name="Button_HIstorialCompras"
-            Clicked="Button_HistorialCompras_Clicked"
-            Text="Historial compras" />
         <Grid
-            Grid.Row="1"
-            Padding="10"
-            BackgroundColor="#d9d9d9"
-            ColumnDefinitions="*,auto"
-            RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
-            RowSpacing="7"
+            Margin="15"
+            RowDefinitions="Auto,*,Auto"
+            RowSpacing="15"
             VerticalOptions="Start">
+            <Button
+                x:Name="Button_HIstorialCompras"
+                Clicked="Button_HistorialCompras_Clicked"
+                Text="Historial compras" />
+            <Grid
+                Grid.Row="1"
+                Padding="10"
+                BackgroundColor="#d9d9d9"
+                ColumnDefinitions="*,auto"
+                RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+                RowSpacing="7"
+                VerticalOptions="Start">
 
 
-            <Label
-                Grid.ColumnSpan="2"
-                Padding="0,2"
-                BackgroundColor="#9e9e9e"
-                FontAttributes="Bold"
-                FontSize="18"
-                HorizontalTextAlignment="Center"
-                Text="NUEVA COMPRA" />
+                <Label
+                    Grid.ColumnSpan="2"
+                    Padding="0,2"
+                    BackgroundColor="#9e9e9e"
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    HorizontalTextAlignment="Center"
+                    Text="NUEVA COMPRA" />
 
-            <VerticalStackLayout Grid.Row="1">
-                <Label Style="{StaticResource LabelStyle}" Text="Producto" />
-                <Border>
-                    <Grid>
-                        <Picker
-                            x:Name="Picker_Producto"
+                <VerticalStackLayout Grid.Row="1">
+                    <Label Style="{StaticResource LabelStyle}" Text="Producto" />
+                    <Border>
+                        <Grid>
+                            <Picker
+                                x:Name="Picker_Producto"
+                                Margin="10,0"
+                                FontSize="16"
+                                HorizontalOptions="FillAndExpand"
+                                HorizontalTextAlignment="Center"
+                                ItemDisplayBinding="{Binding PRODUCTO}" />
+                            <Border x:Name="Border_PickerProductos">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="Border_PickerProductos_TapGestureRecognizer_Tapped" />
+                                </Border.GestureRecognizers>
+                            </Border>
+                        </Grid>
+
+                    </Border>
+                </VerticalStackLayout>
+                <Button
+                    x:Name="Button_AgregarProductoPicker"
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Margin="5,7,20,0"
+                    Padding="7"
+                    Clicked="Button_AgregarNuevoProductoPicker_Clicked"
+                    ImageSource="pencil_edit_icon.png"
+                    MaximumHeightRequest="30"
+                    VerticalOptions="Center" />
+                <VerticalStackLayout Grid.Row="2">
+                    <Label Style="{StaticResource LabelStyle}" Text="Precio" />
+                    <Grid ColumnDefinitions="*,Auto,*">
+                        <Border>
+                            <Entry
+                                x:Name="Entry_PrecioEntero"
+                                Keyboard="Numeric"
+                                MaxLength="6"
+                                Placeholder="0"
+                                PlaceholderColor="#9e9e9e"
+                                TextChanged="Entrys_TextChanged" />
+                        </Border>
+                        <Label
+                            Grid.Column="1"
+                            Margin="0,0,0,3"
+                            Text="."
+                            VerticalOptions="End" />
+                        <Border Grid.Column="2">
+                            <Entry
+                                x:Name="Entry_PrecioDecimal"
+                                Grid.Column="3"
+                                Keyboard="Numeric"
+                                MaxLength="2"
+                                Placeholder="00"
+                                PlaceholderColor="#9e9e9e"
+                                TextChanged="Entrys_TextChanged" />
+                        </Border>
+                    </Grid>
+
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Row="3">
+                    <Label Style="{StaticResource LabelStyle}" Text="Cantidad" />
+                    <Border>
+                        <Entry
+                            x:Name="Entry_Cantidad"
+                            Keyboard="Numeric"
+                            MaxLength="6"
+                            TextChanged="Entrys_TextChanged" />
+                    </Border>
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Row="4">
+                    <Label Style="{StaticResource LabelStyle}" Text="Valor Total" />
+                    <Border>
+                        <Label
+                            x:Name="Label_ValorTotal"
                             Margin="10,0"
                             FontSize="16"
-                            HorizontalOptions="FillAndExpand"
+                            HeightRequest="40"
                             HorizontalTextAlignment="Center"
-                            ItemDisplayBinding="{Binding PRODUCTO}" />
+                            VerticalTextAlignment="Center" />
+                    </Border>
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Row="5">
+                    <Label Style="{StaticResource LabelStyle}" Text="Saldo Pendiente" />
+                    <Grid ColumnDefinitions="*,Auto,*">
+                        <Border>
+                            <Entry
+                                x:Name="Entry_SaldoPendienteEntero"
+                                Keyboard="Numeric"
+                                MaxLength="6"
+                                Placeholder="0"
+                                PlaceholderColor="#9e9e9e"
+                                TextChanged="Entrys_TextChanged" />
+                        </Border>
+                        <Label
+                            Grid.Column="1"
+                            Margin="0,0,0,3"
+                            Text="."
+                            VerticalOptions="End" />
+                        <Border Grid.Column="2">
+                            <Entry
+                                x:Name="Entry_SaldoPendienteDecimal"
+                                Grid.Column="3"
+                                Keyboard="Numeric"
+                                MaxLength="2"
+                                Placeholder="00"
+                                PlaceholderColor="#9e9e9e"
+                                TextChanged="Entrys_TextChanged" />
+                        </Border>
                     </Grid>
-                </Border>
-            </VerticalStackLayout>
-            <Button
-                x:Name="Button_AgregarProductoPicker"
-                Grid.Row="1"
-                Grid.Column="2"
-                Margin="5,7,20,0"
-                Padding="7"
-                Clicked="Button_AgregarNuevoProductoPicker_Clicked"
-                ImageSource="pencil_edit_icon.png"
-                MaximumHeightRequest="30"
-                VerticalOptions="Center" />
-            <VerticalStackLayout Grid.Row="2">
-                <Label Style="{StaticResource LabelStyle}" Text="Precio" />
-                <Border>
-                    <Entry
-                        x:Name="Entry_Precio"
-                        Keyboard="Numeric"
-                        TextChanged="Entry_Precio_TextChanged" />
-                </Border>
-            </VerticalStackLayout>
-            <VerticalStackLayout Grid.Row="3">
-                <Label Style="{StaticResource LabelStyle}" Text="Cantidad" />
-                <Border>
-                    <Entry
-                        x:Name="Entry_Cantidad"
-                        Keyboard="Numeric"
-                        TextChanged="Entry_Cantidad_TextChanged" />
-                </Border>
-            </VerticalStackLayout>
-            <VerticalStackLayout Grid.Row="4">
-                <Label Style="{StaticResource LabelStyle}" Text="Valor Total" />
-                <Border>
-                    <Label
-                        x:Name="Label_ValorTotal"
-                        Margin="10,0"
-                        FontSize="16"
-                        HeightRequest="40"
-                        HorizontalTextAlignment="Center"
-                        VerticalTextAlignment="Center" />
-                </Border>
-            </VerticalStackLayout>
-            <VerticalStackLayout Grid.Row="5">
-                <Label Style="{StaticResource LabelStyle}" Text="Saldo Pendiente" />
-                <Border>
-                    <Entry
-                        x:Name="Entry_SaldoPendiente"
-                        Keyboard="Numeric"
-                        TextChanged="Entry_SaldoPendiente_TextChanged" />
-                </Border>
-            </VerticalStackLayout>
-            <Button
-                x:Name="Button_GuardarNuevaCompra"
-                Grid.Row="6"
-                Grid.ColumnSpan="2"
-                Margin="0,5,0,-2"
-                Padding="40,0"
-                BackgroundColor="#2b5499"
-                Clicked="Button_GuardarNuevaCompra_Clicked"
-                CornerRadius="10"
-                FontSize="16"
-                HorizontalOptions="Center"
-                Text="Guardar" />
 
+                </VerticalStackLayout>
+                <Button
+                    x:Name="Button_GuardarNuevaCompra"
+                    Grid.Row="6"
+                    Grid.ColumnSpan="2"
+                    Margin="0,5,0,-2"
+                    Padding="40,0"
+                    BackgroundColor="#2b5499"
+                    Clicked="Button_GuardarNuevaCompra_Clicked"
+                    CornerRadius="10"
+                    FontSize="16"
+                    HorizontalOptions="Center"
+                    Text="Guardar" />
+
+            </Grid>
+            <Button
+                x:Name="Button_Regresar"
+                Grid.Row="2"
+                Clicked="Button_Regresar_Clicked"
+                HorizontalOptions="Center"
+                Text="Regresar" />
         </Grid>
-        <Button
-            x:Name="Button_Regresar"
-            Grid.Row="2"
-            Clicked="Button_Regresar_Clicked"
-            HorizontalOptions="Center"
-            Text="Regresar" />
-    </Grid>
     </ScrollView>
 
     <ContentPage.Resources>

@@ -27,7 +27,7 @@
         <VerticalStackLayout>
             <Label Style="{StaticResource LabelStyle}" Text="Teléfono" />
             <Border>
-                <Entry x:Name="Entry_TelefonoComprador" />
+                <Entry x:Name="Entry_TelefonoComprador" MaxLength="10" Keyboard="Telephone"/>
             </Border>
         </VerticalStackLayout>
         <Button

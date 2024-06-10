@@ -1,5 +1,7 @@
+using CommunityToolkit.Maui.Alerts;
 using TesisAppSINMVVM.Database.Respositories;
 using TesisAppSINMVVM.Database.Tables;
+using TesisAppSINMVVM.Views.VentaViews;
 
 namespace TesisAppSINMVVM.Views;
 
@@ -18,6 +20,7 @@ public partial class AgregarCompradorPage : ContentPage
     // NAVEGACIÓN
     private async Task AgregarNuevoCompradorPagePushModalAsync(bool mostrarAlerta)
     {
+        RegistrarVentaCreditoPage._ejecutarAppearing = false;
         await PermitirPopModalAsyncNavegacion(mostrarAlerta);
     }
 
@@ -43,23 +46,39 @@ public partial class AgregarCompradorPage : ContentPage
         await AgregarNuevoCompradorPagePushModalAsync(true);
         _enEjecucion = false;
     }
-
+    protected override bool OnBackButtonPressed()
+    {
+        AgregarNuevoCompradorPagePushModalAsync(true).GetAwaiter();
+        return true;
+    }
 
     // LOGICA PARA EVENTOS
     private async Task GuardarComprador()
     {
-        string nombre = Entry_NombreComprador.Text;
-        string apellido = Entry_ApellidoComprador.Text;
-        string telefono = Entry_TelefonoComprador.Text;
-
-        Tbl_Comprador comprador = new Tbl_Comprador()
+        string resultado = ControlarCampos();
+        if (resultado == "true")
         {
-            NOMBRE = nombre,
-            APELLIDO = apellido,
-            TELEFONO = telefono
-        };
+            string nombre = Entry_NombreComprador.Text;
+            string apellido = Entry_ApellidoComprador.Text;
+            string telefono = Entry_TelefonoComprador.Text;
 
-        await GuardarCompradorDBAsync(comprador);
+            Tbl_Comprador comprador = new Tbl_Comprador()
+            {
+                NOMBRE = nombre,
+                APELLIDO = apellido,
+                TELEFONO = telefono
+            };
+
+            await GuardarCompradorDBAsync(comprador);
+            OcultarTecldo();
+            await Toast.Make("Registro guardado").Show();
+            await AgregarNuevoCompradorPagePushModalAsync(false);
+        }
+        else
+        {
+            await Toast.Make(resultado).Show();
+        }
+        
     }
 
 
@@ -81,7 +100,31 @@ public partial class AgregarCompradorPage : ContentPage
             await Navigation.PopModalAsync();
         }
     }
-
+    private string ControlarCampos()
+    {
+        string nombre = Entry_NombreComprador.Text;
+        string apellido = Entry_ApellidoComprador.Text;
+        string telefono = Entry_TelefonoComprador.Text;
+        bool tieneDigito = true;
+        if (string.IsNullOrEmpty(nombre) || string.IsNullOrEmpty(apellido) || 
+            string.IsNullOrEmpty(telefono) )
+        {
+            return "Debe llenar todos los campos";
+        }
+        foreach (char n in telefono)
+        {
+            if (!Char.IsDigit(n))
+            {
+                tieneDigito = false;
+                break;
+            }
+        }
+        if (telefono.Length != 10 || tieneDigito == false)
+        {
+            return "Teléfono no válido";
+        }
+        return "true";
+    }
 
     // BASE DE DATOS
     private async Task GuardarCompradorDBAsync(Tbl_Comprador comprador)
@@ -90,8 +133,12 @@ public partial class AgregarCompradorPage : ContentPage
     }
 
     
-
-
     // LÓGICA DE COSAS VISUALES DE LA PÁGINA
+    private void OcultarTecldo()
+    {
+        Entry_NombreComprador.Unfocus();
+        Entry_ApellidoComprador.Unfocus();
+        Entry_TelefonoComprador.Unfocus();
+    }
 
 }

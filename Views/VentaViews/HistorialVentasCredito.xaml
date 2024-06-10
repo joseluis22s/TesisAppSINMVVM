@@ -4,7 +4,8 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="Ventas: Historial créditos"
-    Appearing="ContentPage_Appearing">
+    Appearing="ContentPage_Appearing"
+    NavigationPage.HasBackButton="False">
     <Border
         Margin="10"
         Padding="10,0,10,10"
