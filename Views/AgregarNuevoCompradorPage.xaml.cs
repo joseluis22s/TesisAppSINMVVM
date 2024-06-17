@@ -5,11 +5,11 @@ using TesisAppSINMVVM.Views.VentaViews;
 
 namespace TesisAppSINMVVM.Views;
 
-public partial class AgregarCompradorPage : ContentPage
+public partial class AgregarNuevoCompradorPage : ContentPage
 {
 	private Tbl_Comprador_Repository _repoComprador;
     private bool _enEjecucion;
-    public AgregarCompradorPage()
+    public AgregarNuevoCompradorPage()
 	{
 		InitializeComponent();
         _repoComprador = new Tbl_Comprador_Repository();

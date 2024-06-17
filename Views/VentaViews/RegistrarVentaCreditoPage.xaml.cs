@@ -27,7 +27,7 @@ public partial class RegistrarVentaCreditoPage : ContentPage
     // NAVEGACIÓN
     private async Task AgregarCompradorPagePushModalAsync()
     {
-        await Navigation.PushModalAsync(new AgregarCompradorPage());
+        await Navigation.PushModalAsync(new AgregarNuevoCompradorPage());
         //_ejecutarAppearing = false;
         //////////zauqiiiiiiiiiiiiiiiiiii
     }

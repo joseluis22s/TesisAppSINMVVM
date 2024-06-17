@@ -56,6 +56,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Platforms\Android\google-services.json" />
 	  <None Remove="Resources\Images\bodega_icon.png" />
 	  <None Remove="Resources\Images\cheque_icon.png" />
 	  <None Remove="Resources\Images\compra_icon.png" />
@@ -63,6 +64,10 @@
 	  <None Remove="Resources\Images\por_cobrar_icon.png" />
 	  <None Remove="Resources\Images\remove_empty_icon.png" />
 	  <None Remove="Resources\Images\venta_icon.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <GoogleServicesJson Include="Platforms\Android\google-services.json" />
 	</ItemGroup>
 
 	
@@ -78,13 +83,20 @@
 		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.20" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.20" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
+		<PackageReference Include="Plugin.CloudFirestore" Version="4.1.0" />
 		<PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
 		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.8" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Views\AgregarNuevoCompradorPage.xaml.cs">
+	    <DependentUpon>AgregarNuevoCompradorPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\ChequesViews\RegistrarChequePage.xaml.cs">
 	    <DependentUpon>RegistrarChequePage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\CrearNuevoUsuarioPage.xaml.cs">
+	    <DependentUpon>CrearNuevoUsuarioPage.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\VentaViews\HistorialProductoSobrantePage.xaml.cs">
 	    <DependentUpon>HistorialProductoSobrantePage.xaml</DependentUpon>
@@ -98,7 +110,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Views\AgregarCompradorPage.xaml">
+	  <MauiXaml Update="Views\AgregarNuevoCompradorPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ChequesViews\HistorialChequesPage.xaml">
@@ -131,7 +143,7 @@
 	  <MauiXaml Update="Views\CompraPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\CrearNuevaCuentaPage.xaml">
+	  <MauiXaml Update="Views\CrearNuevoUsuarioPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\IniciarSesionPage.xaml">
@@ -155,6 +167,12 @@
 	  <MauiXaml Update="Views\VentaViews\RegistrarVentaCreditoPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-android'">
+	  <PackageReference Include="Xamarin.GooglePlayServices.Base">
+	    <Version>118.3.0.2</Version>
+	  </PackageReference>
 	</ItemGroup>
 
 </Project>

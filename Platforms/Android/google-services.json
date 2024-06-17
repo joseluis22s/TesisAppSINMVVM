@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "253522562310",
+    "firebase_url": "https://tesisapp-f7270-default-rtdb.firebaseio.com",
+    "project_id": "tesisapp-f7270",
+    "storage_bucket": "tesisapp-f7270.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:253522562310:android:9732d5ef1e7c6837576287",
+        "android_client_info": {
+          "package_name": "com.companyname.tesisappsinmvvm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_3oPQxXAyxrp_0q-VqXnwTQEX6a7bwIw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

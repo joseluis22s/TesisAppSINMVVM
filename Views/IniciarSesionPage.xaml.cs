@@ -16,7 +16,7 @@ public partial class IniciarSesionPage : ContentPage
     // NAVEGACIÓN
     private async Task CrearNuevaCuentaPagePushAsync()
     {
-        await Navigation.PushAsync(new CrearNuevaCuentaPage());
+        await Navigation.PushAsync(new CrearNuevoUsuarioPage());
     }
     private async Task PaginaPrincipalPagePushAsync()
     {

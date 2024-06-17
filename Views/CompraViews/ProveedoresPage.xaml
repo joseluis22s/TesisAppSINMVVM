@@ -53,14 +53,14 @@
                                 </Label.Text>
                             </Label>
                             <Label Grid.Row="1" Text="{Binding TELEFONO}" />
-                            <Border
+                            <!--<Border
                                 Grid.RowSpan="2"
                                 Grid.Column="1"
                                 Padding="7"
                                 BackgroundColor="#dceaf5"
                                 VerticalOptions="Center">
                                 <Image MaximumHeightRequest="25" Source="pencil_edit_icon.png" />
-                            </Border>
+                            </Border>-->
 
                         </Grid>
                     </Border>

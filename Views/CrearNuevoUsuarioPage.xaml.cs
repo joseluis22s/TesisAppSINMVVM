@@ -4,12 +4,12 @@ using TesisAppSINMVVM.Database.Respositories;
 
 namespace TesisAppSINMVVM.Views;
 
-public partial class CrearNuevaCuentaPage : ContentPage
+public partial class CrearNuevoUsuarioPage : ContentPage
 {
     private bool enEjecucion = false;
     private Tbl_Usuario_Repository TblUsuario_repo;
 
-    public CrearNuevaCuentaPage()
+    public CrearNuevoUsuarioPage()
 	{
 		InitializeComponent();
         TblUsuario_repo = new Tbl_Usuario_Repository();
