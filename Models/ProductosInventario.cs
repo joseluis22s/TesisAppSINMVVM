@@ -1,6 +1,6 @@
 ﻿namespace TesisAppSINMVVM.Models
 {
-    public class ProductosInvetarioModel
+    public class ProductosInventario
     {
         public string PRODUCTO { get; set; }
         public int CANTIDAD { get; set; }

@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using CommunityToolkit.Maui;
-using IeuanWalker.Maui.StateButton;
 
 namespace TesisAppSINMVVM
 {
@@ -17,7 +16,6 @@ namespace TesisAppSINMVVM
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
-                .UseStateButton()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
