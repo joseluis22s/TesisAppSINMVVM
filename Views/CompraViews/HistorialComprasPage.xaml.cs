@@ -1,32 +1,37 @@
 using TesisAppSINMVVM.Database.Respositories;
 using TesisAppSINMVVM.Database.Tables;
+using TesisAppSINMVVM.FirebaseDataBase.Repositories;
 using TesisAppSINMVVM.Models;
+using TesisAppSINMVVM.Models.Groups;
 
 namespace TesisAppSINMVVM.Views.CompraViews;
 
 public partial class HistorialComprasPage : ContentPage
 {
-
-    Tbl_HistorialCompras_Repository _repoHistorialCompras;
-    public List<Tbl_HistorialComprasGroupModel> _historialCompras { get; private set; } = new List<Tbl_HistorialComprasGroupModel>();
-    private Tbl_Proveedor _proveedor;
+    private Proveedor _proveedor;
+    //Tbl_HistorialCompras_Repository _repoHistorialCompras;
+    public List<HistorialComprasGroup> _historialCompras { get; private set; } = new List<HistorialComprasGroup>();
+    //private Tbl_Proveedor _proveedor;
 
     public HistorialComprasPage()
 	{
 		InitializeComponent();
-        _repoHistorialCompras = new Tbl_HistorialCompras_Repository();
+        _proveedor = (Proveedor)BindingContext;
+        //_repoHistorialCompras = new Tbl_HistorialCompras_Repository();
     }
 
 
     // NAVEGACIÓN
+    #region NAVEGACIÓN
     private async Task HistorialComprasPagePopAsync()
     {
         //await PagePopAsync();
         await Navigation.PopAsync();
     }
-
+    #endregion
 
     // EVENTOS
+    #region EVENTOS
     private async void ContentPage_Appearing(object sender, EventArgs e)
     {
         base.OnAppearing();
@@ -34,29 +39,18 @@ public partial class HistorialComprasPage : ContentPage
     }
     private async void Button_Regresar_Clicked(object sender, EventArgs e)
     {
-        //if (_enEjecucion)
-        //{
-        //    return;
-        //}
-        //_enEjecucion = true;
         await HistorialComprasPagePopAsync();
-        //_enEjecucion = false;
     }
-    //protected override bool OnBackButtonPressed()
-    //{
-    //    HistorialComprasPagePopAsync().GetAwaiter();
-    //    return true;
-    //}
+    #endregion
 
-
-
-    // LOGICA PARA EVENTOS
+    // LÓGICA PARA EVENTOS
+    #region LÓGICA PARA EVENTOS
     private async Task CargarDatosCollectionView_HistorialCompras()
     {
-        _proveedor = (Tbl_Proveedor)BindingContext;
-        var compras = await ObtenerHistorialProductosDBAsync(_proveedor.NOMBRE, _proveedor.APELLIDO);
+        _proveedor = (Proveedor)BindingContext;
+        var compras = await ObtenerHistorialProductosDBAsync(_proveedor.PROVEEDOR);
         var gruposCompras = compras.GroupBy(_grs => _grs.DIAFECHA)
-            .Select(g => new Tbl_HistorialComprasGroupModel(g.Key, g.ToList()));
+            .Select(g => new HistorialComprasGroup(g.Key, g.ToList()));
         _historialCompras.Clear();
         foreach (var grupo in gruposCompras)
         {
@@ -64,31 +58,25 @@ public partial class HistorialComprasPage : ContentPage
         }
         CollectionView_HistorialCompras.ItemsSource = _historialCompras;
     }
+    #endregion
 
     // LÓGICA
-    //private Task PagePopAsync()
-    //{
-    //    Dispatcher.Dispatch(async () =>
-    //    {
-    //        bool respuesta = await DisplayAlert("Alerta", "¿Desea regresar? Perderá el progreso realizado", "Confimar", "Cancelar");
-    //        if (respuesta)
-    //        {
-    //            await Navigation.PopAsync();
-    //        }
-    //    });
-    //    return Task.CompletedTask;
-    //}
+    #region LÓGICA
 
+    #endregion
 
     // BASE DE DATOS
-    private async Task<List<Tbl_HistorialCompras>> ObtenerHistorialProductosDBAsync(string nombreProveedor, string apellidoProveedor)
+    #region BASE DE DATOS
+    private async Task<List<HistorialCompras>> ObtenerHistorialProductosDBAsync(string proveedor)
     {
-        return await _repoHistorialCompras.ObtenerHistorialProductosAsync(nombreProveedor, apellidoProveedor);
+        return await HistorialCompras_Repository.ObtenerHistorialProductosAsync(proveedor);
     }
-
-    
-
+    #endregion
 
     // LÓGICA DE COSAS VISUALES DE LA PÁGINA
+    #region LÓGICA DE COSAS VISUALES DE LA PÁGINA
+
+    #endregion
+
 
 }

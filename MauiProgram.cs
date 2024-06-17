@@ -4,11 +4,35 @@ using CommunityToolkit.Maui;
 namespace TesisAppSINMVVM
 {
     // NAVEGACIÓN
+    #region NAVEGACIÓN
+
+    #endregion
+
     // EVENTOS
-    // LOGICA PARA EVENTOS
+    #region EVENTOS
+
+    #endregion
+
+    // LÓGICA PARA EVENTOS
+    #region LÓGICA PARA EVENTOS
+
+    #endregion
+
     // LÓGICA
+    #region LÓGICA
+
+    #endregion
+
     // BASE DE DATOS
+    #region BASE DE DATOS
+
+    #endregion
+
     // LÓGICA DE COSAS VISUALES DE LA PÁGINA
+    #region LÓGICA DE COSAS VISUALES DE LA PÁGINA
+
+    #endregion
+
     public static class MauiProgram
     {
         public static MauiApp CreateMauiApp()

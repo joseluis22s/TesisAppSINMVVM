@@ -62,6 +62,17 @@
             <Style TargetType="Button">
                 <Setter Property="CornerRadius" Value="25" />
             </Style>
+            <Style TargetType="Entry">
+                <Setter Property="Keyboard">
+                    <Keyboard x:FactoryMethod="Create">
+                        <x:Arguments>
+                            <KeyboardFlags>
+                                CapitalizeCharacter
+                            </KeyboardFlags>
+                        </x:Arguments>
+                    </Keyboard>
+                </Setter>
+            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
 

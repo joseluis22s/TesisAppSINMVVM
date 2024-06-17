@@ -2,6 +2,6 @@
 {
     public class Proveedor
     {
-        public string NOMBRE { get; set; }
+        public string PROVEEDOR { get; set; }
     }
 }

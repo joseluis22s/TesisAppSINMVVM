@@ -11,10 +11,11 @@
         Padding="10,0,10,10"
         BackgroundColor="#bbc2c9"
         StrokeShape="{RoundRectangle CornerRadius='2'}">
-        <Grid RowDefinitions="*,Auto" RowSpacing="15">
-
+        <Grid RowDefinitions="Auto,*,Auto" RowSpacing="15">
+            <Label Text="{Binding PROVEEDOR}" />
             <CollectionView
                 x:Name="CollectionView_HistorialCompras"
+                Grid.Row="1"
                 IsGrouped="True"
                 SelectionMode="None">
                 <CollectionView.EmptyView>
@@ -81,7 +82,7 @@
             </CollectionView>
             <Button
                 x:Name="Button_Regresar"
-                Grid.Row="1"
+                Grid.Row="2"
                 Clicked="Button_Regresar_Clicked"
                 HorizontalOptions="Center"
                 Text="Regresar" />

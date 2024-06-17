@@ -88,7 +88,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Views\AgregarNuevoCompradorPage.xaml.cs">
+	  <Compile Update="Views\ModalViews\AgregarNuevoCompradorPage.xaml.cs">
 	    <DependentUpon>AgregarNuevoCompradorPage.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\ChequesViews\RegistrarChequePage.xaml.cs">
@@ -112,13 +112,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Views\AgregarNuevoCompradorPage.xaml">
+	  <MauiXaml Update="Views\ModalViews\AgregarNuevoCompradorPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ChequesViews\HistorialChequesPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ChequesViews\RegistrarChequePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\CompraViews\CompraOpcionesPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\CompraViews\HistorialComprasPage.xaml">
@@ -136,7 +139,10 @@
 	  <MauiXaml Update="Views\Contents\NuevaCompraContentView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\AgregarNuevoProveedorPage.xaml">
+	  <MauiXaml Update="Views\ModalViews\AgregarNuevoProductoPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ModalViews\AgregarNuevoProveedorPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ChequesPage.xaml">
@@ -169,10 +175,6 @@
 	  <MauiXaml Update="Views\VentaViews\RegistrarVentaCreditoPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="FirebaseDataBase\Repositories\" />
 	</ItemGroup>
 
 </Project>
