@@ -94,6 +94,9 @@
 	  <Compile Update="Views\ChequesViews\RegistrarChequePage.xaml.cs">
 	    <DependentUpon>RegistrarChequePage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\EliminarCompraPage.xaml.cs">
+	    <DependentUpon>EliminarCompraPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\CrearNuevoUsuarioPage.xaml.cs">
 	    <DependentUpon>CrearNuevoUsuarioPage.xaml</DependentUpon>
 	  </Compile>
@@ -139,7 +142,7 @@
 	  <MauiXaml Update="Views\ChequesPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\CompraPage.xaml">
+	  <MauiXaml Update="Views\EliminarCompraPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\CrearNuevoUsuarioPage.xaml">
@@ -166,6 +169,10 @@
 	  <MauiXaml Update="Views\VentaViews\RegistrarVentaCreditoPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="FirebaseDataBase\Repositories\" />
 	</ItemGroup>
 
 </Project>

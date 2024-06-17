@@ -1,11 +1,15 @@
+using Plugin.CloudFirestore;
 using TesisAppSINMVVM.Contents;
 using TesisAppSINMVVM.Database.Respositories;
 using TesisAppSINMVVM.Database.Tables;
+using TesisAppSINMVVM.Models;
 
 namespace TesisAppSINMVVM.Views;
 
-public partial class CompraPage : ContentPage
+public partial class EliminarCompraPage : ContentPage
 {
+
+    private Proveedor _proveedordd = new Proveedor();
 
     private ContentView _nuevaCompraContentView;
     private ContentView _historialComprasContentView;
@@ -18,7 +22,7 @@ public partial class CompraPage : ContentPage
 
     public static bool _permitirEjecucion = true;
     public static bool _permitirContentView_BindingContextChanged = true;
-    public CompraPage()
+    public EliminarCompraPage()
     {
         InitializeComponent();
 
@@ -38,12 +42,13 @@ public partial class CompraPage : ContentPage
 
 
     // EVENTOS
-    private void ContentPage_Appearing(object sender, EventArgs e)
+    private async void ContentPage_Appearing(object sender, EventArgs e)
     {
         if (!_permitirEjecucion)
         {
             return;
         }
+        await ObtenerProveedoresAsync();
         // Controlar que no se cargue todos los proveedores solo los faltantes
         base.OnAppearing();
         Title = "COMPRA: Proveedores";
@@ -128,6 +133,7 @@ public partial class CompraPage : ContentPage
         return true;
     }
 
+
     // LÓGICA
     private async void CargarDatosCollectionView_Proveedores()
     {
@@ -151,6 +157,14 @@ public partial class CompraPage : ContentPage
 
 
     // BASE DE DATOS
+    private async Task ObtenerProveedoresAsync()
+    {
+        var documento = await CrossCloudFirestore.Current
+                                     .Instance
+                                     .CollectionGroup("PROVEEDOR")
+                                     .GetAsync();
+        var proveedores = documento.ToObjects<Proveedor>();
+    }
     private async Task<List<Tbl_Proveedor>> ObtenerProveedoresDBAsync()
     {
         return await _repoProveedor.ObtenerProveedoresAsync();

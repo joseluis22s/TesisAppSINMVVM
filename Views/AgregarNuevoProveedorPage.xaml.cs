@@ -6,13 +6,13 @@ namespace TesisAppSINMVVM.Views;
 public partial class AgregarNuevoProveedorPage : ContentPage
 {
 
-    private Tbl_Proveedor_Respository _repoProveedor;
+    //private Tbl_Proveedor_Respository _repoProveedor;
     private bool _enEjecucion;
 
     public AgregarNuevoProveedorPage()
 	{
 		InitializeComponent();
-        _repoProveedor =  new Tbl_Proveedor_Respository();
+        //_repoProveedor =  new Tbl_Proveedor_Respository();
 	}
 
     // NAVEGACIÓN
@@ -59,7 +59,7 @@ public partial class AgregarNuevoProveedorPage : ContentPage
         OcultarTeclado();
         if (mostrarAlerta)
         {
-            CompraPage._permitirEjecucion = false;
+            //CompraPage._permitirEjecucion = false;
             bool respuesta = await DisplayAlert("Alerta", "¿Desea regresar? Perderá el progreso realizado", "Confimar", "Cancelar");
             if (respuesta)
             {
@@ -116,17 +116,17 @@ public partial class AgregarNuevoProveedorPage : ContentPage
         OcultarTeclado();
         if (resultado == "true")
         {
-            bool existeProveedor = await VerificarExistenciaProveedorDBAsync();
-            if (existeProveedor)
-            {
-                await Toast.Make("Contacto ya existente").Show();
-            }
-            else
-            {
-                await GuardarNuevoProveedorDBAsync();
-                await Toast.Make("¡Contacto guardado!").Show();
-                await AgregarNuevaCuentaPagePopModalAsync(false);
-            }
+            bool existeProveedor /*= await VerificarExistenciaProveedorDBAsync()*/;
+            //if (existeProveedor)
+            //{
+            //    await Toast.Make("Contacto ya existente").Show();
+            //}
+            //else
+            //{
+            //    await GuardarNuevoProveedorDBAsync();
+            //    await Toast.Make("¡Contacto guardado!").Show();
+            //    await AgregarNuevaCuentaPagePopModalAsync(false);
+            //}
         }
         else
         {
@@ -136,16 +136,16 @@ public partial class AgregarNuevoProveedorPage : ContentPage
 
 
     // BASE DE DATOS
-    private async Task<bool> VerificarExistenciaProveedorDBAsync()
-    {
-        return await _repoProveedor.VerificarExistenciaProveedorAsync(Entry_NombreNuevoProveedor.Text, Entry_ApellidoNuevoProveedor.Text);
-    }
+    //private async Task<bool> VerificarExistenciaProveedorDBAsync()
+    //{
+    //    //return await _repoProveedor.VerificarExistenciaProveedorAsync(Entry_NombreNuevoProveedor.Text, Entry_ApellidoNuevoProveedor.Text);
+    //}
     private async Task GuardarNuevoProveedorDBAsync()
     {
         string nombre = Entry_NombreNuevoProveedor.Text;
         string apellido = Entry_ApellidoNuevoProveedor.Text;
         string telefono = Entry_TelefonoNuevoProveedor.Text;
-        await _repoProveedor.GuardarNuevoProveedorAsync(nombre,apellido,telefono);
+        //await _repoProveedor.GuardarNuevoProveedorAsync(nombre,apellido,telefono);
     }
 
 

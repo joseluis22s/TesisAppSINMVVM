@@ -228,7 +228,7 @@ public partial class RegistrarNuevaCompraPage : ContentPage
     {
         if (mostrarAlerta)
         {
-            CompraPage._permitirEjecucion = false;
+            //CompraPage._permitirEjecucion = false;
             bool respuesta = await DisplayAlert("Alerta", "¿Desea regresar? Perderá el progreso realizado", "Confimar", "Cancelar");
             if (respuesta)
             {

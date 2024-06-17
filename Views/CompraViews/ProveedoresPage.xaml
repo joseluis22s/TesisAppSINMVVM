@@ -44,15 +44,9 @@
                             <Label
                                 Margin="0,0,20,0"
                                 FontAttributes="Bold"
-                                FontSize="20">
-                                <Label.Text>
-                                    <MultiBinding StringFormat="{}{0} {1}">
-                                        <Binding Path="NOMBRE" />
-                                        <Binding Path="APELLIDO" />
-                                    </MultiBinding>
-                                </Label.Text>
+                                FontSize="20" Text="{Binding NOMBRE}">
                             </Label>
-                            <Label Grid.Row="1" Text="{Binding TELEFONO}" />
+                            <!--<Label Grid.Row="1" Text="{Binding TELEFONO}" />-->
                             <!--<Border
                                 Grid.RowSpan="2"
                                 Grid.Column="1"

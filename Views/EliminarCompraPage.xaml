@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="TesisAppSINMVVM.Views.CompraPage"
+    x:Class="TesisAppSINMVVM.Views.EliminarCompraPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:Models="clr-namespace:TesisAppSINMVVM.Models"

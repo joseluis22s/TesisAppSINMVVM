@@ -88,7 +88,7 @@ public partial class AgregarNuevoCompradorPage : ContentPage
         //OcultarTeclado();
         if (mostrarAlerta)
         {
-            CompraPage._permitirEjecucion = false;
+            //CompraPage._permitirEjecucion = false;
             bool respuesta = await DisplayAlert("Alerta", "¿Desea regresar? Perderá el progreso realizado", "Confimar", "Cancelar");
             if (respuesta)
             {
