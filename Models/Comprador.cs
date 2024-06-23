@@ -2,6 +2,6 @@
 {
     public class Comprador
     {
-        public string NOMBRE { get; set; }
+        public string COMPRADOR { get; set; }
     }
 }

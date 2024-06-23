@@ -95,12 +95,12 @@ public partial class AgregarNuevoProductoPage : ContentPage
             bool respuesta = await DisplayAlert("Alerta", "¿Desea regresar? Perderá el progreso realizado", "Confimar", "Cancelar");
             if (respuesta)
             {
-                await Navigation.PopAsync();
+                await Navigation.PopModalAsync();
             }
         }
         else
         {
-            await Navigation.PopAsync();
+            await Navigation.PopModalAsync();
         }
     }
     #endregion

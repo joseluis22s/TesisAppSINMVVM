@@ -4,9 +4,10 @@ using System.Runtime.CompilerServices;
 
 namespace TesisAppSINMVVM.Models
 {
-    public class ProductoInventarioModel : INotifyPropertyChanged
+    public class AuxProductoInventarioBodega : INotifyPropertyChanged
     {
         private string _producto;
+        private string _medida;
         private string _cantidad;
         private string _descripcion;
         private bool _esSeleccionado;
@@ -18,6 +19,15 @@ namespace TesisAppSINMVVM.Models
             {
                 _producto = value;
                 OnPropertyChanged(nameof(PRODUCTO));
+            }
+        }
+        public string MEDIDA
+        {
+            get { return _medida; }
+            set
+            {
+                _medida = value;
+                OnPropertyChanged(nameof(MEDIDA));
             }
         }
         public string CANTIDAD

@@ -5,7 +5,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="Bodega: Registar producto sobrante"
     Appearing="ContentPage_Appearing"
-    NavigationPage.HasBackButton="False" HideSoftInputOnTapped="True">
+    HideSoftInputOnTapped="True"
+    NavigationPage.HasBackButton="False">
 
     <Grid
         Margin="10"
@@ -42,7 +43,15 @@
                                 Margin="10,5"
                                 ColumnDefinitions="*,Auto"
                                 RowDefinitions="Auto,Auto,Auto,Auto">
-                                <Label Text="{Binding PRODUCTO}" VerticalTextAlignment="Center" />
+                                <!--<Label Text="{Binding PRODUCTO}" VerticalTextAlignment="Center" />-->
+                                <Label VerticalTextAlignment="Center">
+                                    <Label.Text>
+                                        <MultiBinding StringFormat="{}{0} - {1}">
+                                            <Binding Path="PRODUCTO" />
+                                            <Binding Path="MEDIDA" />
+                                        </MultiBinding>
+                                    </Label.Text>
+                                </Label>
                                 <CheckBox
                                     Grid.Column="1"
                                     CheckedChanged="CheckBox_CheckedChanged"
@@ -54,10 +63,11 @@
                                     <Entry
                                         IsVisible="{Binding ESSELECCIONADO}"
                                         Keyboard="Numeric"
+                                        MaxLength="6"
                                         Placeholder="Cantidad"
                                         PlaceholderColor="#a1a1a1"
                                         Text="{Binding CANTIDAD}"
-                                        TextChanged="Entry_TextChanged_Cantidad" MaxLength="6"/>
+                                        TextChanged="Entry_TextChanged_Cantidad" />
                                 </Border>
 
                                 <Border
@@ -68,7 +78,7 @@
                                         IsVisible="{Binding ESSELECCIONADO}"
                                         Placeholder="Descipción (opcional)"
                                         PlaceholderColor="#a1a1a1"
-                                        Text="{Binding DESCRIPCION}"/>
+                                        Text="{Binding DESCRIPCION}" />
                                 </Border>
                             </Grid>
                         </Border>

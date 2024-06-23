@@ -57,6 +57,20 @@
             <Style TargetType="Button">
                 <Setter Property="CornerRadius" Value="25" />
             </Style>
+            <Style TargetType="Entry">
+                <Setter Property="Margin" Value="15,0" />
+                <Setter Property="FontSize" Value="15" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+                <Setter Property="TextTransform" Value="Uppercase" />
+                <Setter Property="Keyboard">
+                    <Keyboard x:FactoryMethod="Create">
+                        <x:Arguments>
+                            <KeyboardFlags>CapitalizeCharacter</KeyboardFlags>
+                        </x:Arguments>
+                    </Keyboard>
+                </Setter>
+            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
 </ContentPage>

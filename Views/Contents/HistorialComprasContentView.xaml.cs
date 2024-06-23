@@ -1,6 +1,6 @@
 using TesisAppSINMVVM.Database.Respositories;
 using TesisAppSINMVVM.Database.Tables;
-using TesisAppSINMVVM.Models;
+using TesisAppSINMVVM.Models.Groups;
 
 namespace TesisAppSINMVVM.Contents;
 
@@ -9,7 +9,7 @@ public partial class HistorialComprasContentView : ContentView
     Tbl_HistorialCompras_Repository _repoHistorialCompras;
     public static bool _ejecutarBindingContextChanged;
 
-    public List<Tbl_HistorialComprasGroupModel> _historialCompras { get; private set; } = new List<Tbl_HistorialComprasGroupModel>();
+    //public List<Tbl_HistorialComprasGroupModel> _historialCompras { get; private set; } = new List<Tbl_HistorialComprasGroupModel>();
     public HistorialComprasContentView()
     {
         InitializeComponent();
@@ -52,8 +52,8 @@ public partial class HistorialComprasContentView : ContentView
             //    Agregar el grupo a la lista de grupos
             //    historialCompras.Add(grupo);
             //}
-            CollectionView_HistorialCompras.ItemsSource = _historialCompras;
-            _ejecutarBindingContextChanged = true;
+            //CollectionView_HistorialCompras.ItemsSource = _historialCompras;
+            //_ejecutarBindingContextChanged = true;
         }
     }
     // agregar 

@@ -1,8 +1,6 @@
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
-using Plugin.CloudFirestore;
-using TesisAppSINMVVM.Database.Respositories;
-using TesisAppSINMVVM.Database.Tables;
+using System.Text.RegularExpressions;
 using TesisAppSINMVVM.FirebaseDataBase.Repositories;
 using TesisAppSINMVVM.Models;
 using TesisAppSINMVVM.Views.ModalViews;
@@ -11,35 +9,28 @@ namespace TesisAppSINMVVM.Views.CompraViews;
 
 public partial class RegistrarNuevaCompraPage : ContentPage
 {
-    //private Proveedor _proveedor;
-    //private Tbl_Producto_Repository _repoProducto;
     private List<Producto> _productos;
-    private Tbl_HistorialCompras_Repository _repohistorialCompras;
-    //private List<Tbl_Producto> _productos;
-    //private Tbl_Proveedor _proveedor;
+    private bool _ejecutarTextChanged = true;
     private bool _enEjecucion;
-    private double _precio;
     private int _cantidad;
+    private double _precio;
     private double _total;
     private double _saldo;
-    private bool _ejecutarTextChanged = true;
+    private double _abono;
 
     public RegistrarNuevaCompraPage()
     {
         InitializeComponent();
-        //_repoProducto = new Tbl_Producto_Repository();
-        //_repohistorialCompras = new Tbl_HistorialCompras_Repository();
-        //_proveedor = (Proveedor)BindingContext;
     }
+
+
 
     // NAVEGACIÓN
     #region NAVEGACIÓN
     private async Task HistorialComprasContentPagePushAsync()
     {
-        //_proveedor = (Proveedor)BindingContext;
         await Navigation.PushAsync(new HistorialComprasPage
         {
-            //BindingContext = _proveedor
             BindingContext = this.BindingContext
         });
     }
@@ -74,14 +65,14 @@ public partial class RegistrarNuevaCompraPage : ContentPage
         // TODO: Revisar aquí si el picker se abre solo
         _enEjecucion = false;
     }
-    private void Button_GuardarNuevaCompra_Clicked(object sender, EventArgs e)
+    private async void Button_GuardarNuevaCompra_Clicked(object sender, EventArgs e)
     {
         if (_enEjecucion)
         {
             return;
         }
         _enEjecucion = true;
-        AgregarNuevaCompra();
+        await AgregarNuevaCompra();
         _enEjecucion = false;
     }
     private async void Button_HistorialCompras_Clicked(object sender, EventArgs e)
@@ -111,45 +102,52 @@ public partial class RegistrarNuevaCompraPage : ContentPage
     }
     private async void Border_PickerProductos_TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
-        if (_productos.Count == 0)
-        {
-            await Toast.Make("Debe agregar prodcutos").Show();
-        }
+        await Border_PickerProductos_Pulsado();
     }
     private void Entrys_TextChanged(object sender, TextChangedEventArgs e)
     {
-        //Entry entry = (Entry)sender;
-        //EvitarPunto(entry);
-        //ControlarEntrysPrecio(entry);
-        //CalcularTotal(entry);
-        TodosEntrys_TextChanged();
+        //if(!_ejecutarTextChanged)
+        //{
+            //return;
+        //}
+        Entry entry = (Entry)sender;
+        Entrys_TextoCambiado(entry);
     }
     #endregion
 
+
+
     // LÓGICA PARA EVENTOS
     #region LÓGICA PARA EVENTOS
-    private async Task PermitirPopAsyncNavegacion(bool mostrarAlerta)
+    private async Task CargarDatosPicker_Productos()
     {
-        if (mostrarAlerta)
+        _productos = await ObtenerProductosDBAsync();
+        if (_productos.Count == 0)
         {
-            //CompraPage._permitirEjecucion = false;
-            bool respuesta = await DisplayAlert("Alerta", "¿Desea regresar? Perderá el progreso realizado", "Confimar", "Cancelar");
-            if (respuesta)
-            {
-                await Navigation.PopAsync();
-            }
+            Picker_Productos.IsEnabled = false;
         }
         else
         {
-            await Navigation.PopAsync();
+            Border_PickerProductos.IsVisible = false;
+            Picker_Productos.IsEnabled = true;
+            Picker_Productos.ItemsSource = _productos;
         }
     }
-    
-    private async void AgregarNuevaCompra()
+    private async Task AgregarNuevaCompra()
     {
         bool camposValidos = VerificarCamposValidos();
         if (camposValidos)
         {
+            bool resultado1 = VerificarAbono();
+            if (resultado1 != true)
+            {
+                string mensaje1 = "El valor de ABONO ($" + _abono + ") es mayor al valor TOTAL DE COMPRA ($" + _total + ")";
+                bool resultado2 = await DisplayAlert("Mensaje de confirmación", mensaje1, "Confirmar", "Cancelar");
+                if (!resultado2)
+                {
+                    return;
+                }
+            }
             var proveedorBinding = (Proveedor)BindingContext;
             var itemProducto = (Producto)Picker_Productos.SelectedItem;
 
@@ -157,84 +155,91 @@ public partial class RegistrarNuevaCompraPage : ContentPage
             compra.DIAFECHA = DateTime.Today.ToString("dddd, dd MMMM");
             compra.PROVEEDOR = proveedorBinding.PROVEEDOR;
             compra.PRODUCTO = itemProducto.PRODUCTO;
+            compra.MEDIDA = itemProducto.MEDIDA;
             compra.FECHA = DateTime.Now.ToString("dd/MM/yyyy");
             compra.CANTIDAD = _cantidad;
             compra.PRECIO = _precio;
             compra.TOTAL = _total;
+            compra.ABONO = _abono;
             compra.SALDOPENDIENTE = _saldo;
 
-            string mensaje = "PROVEEDOR :  " + compra.PROVEEDOR +
-                             "\nPRODUCTO   :  " + compra.PRODUCTO +
+            string mensaje2 = "PROVEEDOR :  " + compra.PROVEEDOR +
+                             "\nPRODUCTO   :  " + compra.PRODUCTO + " - " + compra.MEDIDA +
                              "\nCANTIDAD    :  " + "x" + compra.CANTIDAD +
-                             "\nPRECIO        :  " + "$" + compra.PRECIO +
-                             "\nTOTAL         :  " + "$" + compra.TOTAL +
-                             "\nSALDO         :  " + "$" + compra.SALDOPENDIENTE;
-            bool resultado = await DisplayAlert("Mensaje de confirmación", mensaje, "Confirmar", "Cancelar");
-            if (resultado)
+                             "\nPRECIO         :  " + "$" + compra.PRECIO +
+                             "\nTOTAL           :  " + "$" + compra.TOTAL +
+                             "\nABONO          :  " + "$" + compra.ABONO +
+                             "\nSALDO           :  " + "$" + compra.SALDOPENDIENTE;
+            bool resultado3 = await DisplayAlert("Mensaje de confirmación", mensaje2, "Confirmar", "Cancelar");
+            if (resultado3)
             {
                 OcultarTeclado();
                 VaciarCampos();
                 await GuardarRegistroProductoDBAsync(compra);
-                await Toast.Make("El registro se ha guardado",ToastDuration.Long).Show();
-                //await DisplayAlert("AVISO", "El registro se ha guardado", "Aceptar");
+                await Toast.Make("El registro se ha guardado", ToastDuration.Long).Show();
             }
+            
         }
         else
         {
             OcultarTeclado();
-            await Toast.Make("Existen campos incompletos o erróneos").Show();
+            await Toast.Make("Existen campos incompletos o erróneos",ToastDuration.Long).Show();
         }
     }
-    private void EvitarPunto(Entry entry)
+    private async Task Border_PickerProductos_Pulsado()
     {
-        if (entry.Text.Contains('.'))
+        if (_productos.Count == 0)
         {
-            var a = entry.Text.Split('.');
-            entry.Text = a[0] + a[1];
+            await Toast.Make("¡Primero agregue productos!", ToastDuration.Long).Show();
         }
     }
-    private void CalcularTotal(Entry entry)
+    private void Entrys_TextoCambiado(Entry entry)
     {
-        if (entry != Entry_SaldoPendienteEntero || entry != Entry_SaldoPendienteDecimal)
-        {
-            if (string.IsNullOrEmpty(Entry_Cantidad.Text))
-            {
-                Label_ValorTotal.Text = "";
-            }
-            else
-            {
-                if (!Entry_Cantidad.Text.Equals("."))
-                {
-                    if (Entry_Cantidad.Text.Contains("."))
-                    {
-                        var a = Entry_Cantidad.Text.Split(".");
-                        var n = a[0] + a[1];
-                        var p = _precio * int.Parse(n);
-                        Label_ValorTotal.Text = p.ToString("F2");
-                    }
-                    else
-                    {
-                        var p = _precio * int.Parse(Entry_Cantidad.Text);
-                        Label_ValorTotal.Text = p.ToString("F2");
-                        _total = p;
-                    }
-                }
-            }
-        }
+        CalcularTotal_TextChanged(entry);
+        CalcularSaldo_TextChanged(entry);
+        LimpiarPuntosEntry(entry);
     }
+    
     #endregion
+
 
     // LÓGICA
     #region LÓGICA
+    private bool VerificarAbono()
+    {
+        if (_abono > _total)
+        {
+            return false;
+        }
+        return true;
+    }
     private bool VerificarCamposValidos()
     {
         var itemProducto = (Producto)Picker_Productos.SelectedItem;
         var precioE = Entry_PrecioEntero.Text;
         var precioD = Entry_PrecioDecimal.Text;
         var cantidad = Entry_Cantidad.Text;
-        var saldoE = Entry_SaldoPendienteEntero.Text;
-        var saldoD = Entry_SaldoPendienteDecimal.Text;
-        var total = Label_ValorTotal.Text;
+        var abonoE = Entry_AbonoEntero.Text;
+        var abonoD = Entry_AbonoDecimal.Text;
+        string saldo;
+        string total;
+        if (!string.IsNullOrEmpty(Label_SaldoPendiente.Text))
+        {
+            saldo = Label_SaldoPendiente.Text.Replace('$', ' ');
+        }
+        else
+        {
+            saldo = Label_SaldoPendiente.Text;
+        }
+        if (!string.IsNullOrEmpty(Label_ValorTotal.Text))
+        {
+            total = Label_ValorTotal.Text.Replace('$', ' ');
+        }
+        else
+        {
+            total = Label_ValorTotal.Text;
+        }
+    
         if (string.IsNullOrEmpty(precioE) && string.IsNullOrEmpty(precioD))
         {
             _precio = 0;
@@ -271,32 +276,41 @@ public partial class RegistrarNuevaCompraPage : ContentPage
             _total = double.Parse(total);
         }
 
-        if (string.IsNullOrEmpty(saldoE) && string.IsNullOrEmpty(saldoD))
+        //if (string.IsNullOrEmpty(abonoE) && string.IsNullOrEmpty(abonoD))
+        //{
+        //    if (!string.IsNullOrEmpty(total))
+        //    {
+        //        _ejecutarTextChanged = false;
+        //        _abono = 0;
+        //        Entry_AbonoEntero.Text = "0";
+        //        Entry_AbonoDecimal.Text = "00";
+        //        _ejecutarTextChanged = true;
+        //    }
+        //}
+        //else if ((string.IsNullOrEmpty(abonoE) && !string.IsNullOrEmpty(abonoD)))
+            if ((string.IsNullOrEmpty(abonoE) && !string.IsNullOrEmpty(abonoD)))
         {
-            if (!string.IsNullOrEmpty(total))
-            {
-                _ejecutarTextChanged = false;
-                _saldo = 0;
-                Entry_SaldoPendienteEntero.Text = "0";
-                Entry_SaldoPendienteDecimal.Text = "00";
-            }
+            _abono = double.Parse("0." + abonoD);
+            Entry_AbonoEntero.Text = "0";
         }
-        else if ((string.IsNullOrEmpty(saldoE) && !string.IsNullOrEmpty(saldoD)))
+        else if (!string.IsNullOrEmpty(abonoE) && string.IsNullOrEmpty(abonoD))
         {
-            _saldo = double.Parse("0." + saldoD);
-            Entry_SaldoPendienteEntero.Text = "0";
-        }
-        else if (!string.IsNullOrEmpty(saldoE) && string.IsNullOrEmpty(saldoD))
-        {
-            _saldo = double.Parse(saldoE);
-            //_ejecutarTextChanged = false;
-            Entry_SaldoPendienteDecimal.Text = "00";
+            _abono = double.Parse(abonoE);
+            //Entry_AbonoDecimal.Text = "00";
         }
         else
         {
-            _saldo = double.Parse(saldoE + "." + saldoD);
+            _abono = double.Parse(abonoE + "." + abonoD);
         }
 
+        if (string.IsNullOrEmpty(saldo))
+        {
+            _saldo = 0;
+        }
+        else if (!string.IsNullOrEmpty(saldo))
+        {
+            _saldo = double.Parse(saldo);
+        }
 
         if (itemProducto is null || _total == 0)
         {
@@ -307,7 +321,24 @@ public partial class RegistrarNuevaCompraPage : ContentPage
         
         return true;
     }
+    private async Task PermitirPopAsyncNavegacion(bool mostrarAlerta)
+    {
+        if (mostrarAlerta)
+        {
+            //CompraPage._permitirEjecucion = false;
+            bool respuesta = await DisplayAlert("Alerta", "¿Desea regresar? Perderá el progreso realizado", "Confimar", "Cancelar");
+            if (respuesta)
+            {
+                await Navigation.PopAsync();
+            }
+        }
+        else
+        {
+            await Navigation.PopAsync();
+        }
+    }
     #endregion
+
 
     // BASE DE DATOS
     #region BASE DE DATOS
@@ -322,30 +353,97 @@ public partial class RegistrarNuevaCompraPage : ContentPage
 
     #endregion
 
+
     // LÓGICA DE COSAS VISUALES DE LA PÁGINA
     #region LÓGICA DE COSAS VISUALES DE LA PÁGINA
-    private async Task CargarDatosPicker_Productos()
+    private void LimpiarPuntosEntry(Entry entry)
     {
-        _productos = await ObtenerProductosDBAsync();
-        if (_productos.Count == 0)
+        if (entry.Text.Contains("."))
         {
-            Picker_Productos.IsEnabled = false;
-        }
-        else
-        {
-            Border_PickerProductos.IsVisible = false;
-            Picker_Productos.IsEnabled = true;
-            Picker_Productos.ItemsSource = _productos;
+            entry.Text = Regex.Replace(entry.Text, @"\.", string.Empty);
         }
     }
+    private void CalcularTotal_TextChanged(Entry entry)
+    {
+        double precio = 0;
+        int cantidad = 0;
+        //TODO: Meter condición general para veridicar si los
+        //entrys son los de precios o cantiadad y evitar qu vaya a todas las condiciones
+        if (entry == Entry_PrecioEntero || entry == Entry_PrecioDecimal || entry == Entry_Cantidad)
+        {
+            if (!string.IsNullOrEmpty(Entry_PrecioEntero.Text) && !string.IsNullOrEmpty(Entry_PrecioDecimal.Text))
+            {
+                precio = double.Parse(Entry_PrecioEntero.Text + "." + Entry_PrecioDecimal.Text);
+            }
+            else if (!string.IsNullOrEmpty(Entry_PrecioEntero.Text))
+            {
+                precio = double.Parse(Entry_PrecioEntero.Text);
+            }
+            else if (!string.IsNullOrEmpty(Entry_PrecioDecimal.Text))
+            {
+                precio = double.Parse("0." + Entry_PrecioDecimal.Text);
+            }
 
+            if (!string.IsNullOrEmpty(Entry_Cantidad.Text))
+            {
+                cantidad = int.Parse(Entry_Cantidad.Text);
+            }
+
+            if (precio > 0 && cantidad > 0)
+            {
+                var valorTotal = precio * cantidad;
+                Label_ValorTotal.Text = "$ " + valorTotal.ToString("F2");
+            }
+            else
+            {
+                Label_ValorTotal.Text = string.Empty;
+            }
+    }
+}
+    private void CalcularSaldo_TextChanged(Entry entry)
+    {
+        double abono = 0;
+        double total = 0;
+        //TODO: Meter condición general para veridicar si los
+        //entrys son los de precios o cantiadad y evitar qu vaya a todas las condiciones
+        if (!string.IsNullOrEmpty(Label_ValorTotal.Text) && (entry == Entry_AbonoEntero || entry == Entry_AbonoDecimal))
+        {
+            if (!string.IsNullOrEmpty(Entry_AbonoEntero.Text) && !string.IsNullOrEmpty(Entry_AbonoDecimal.Text))
+            {
+                abono = double.Parse(Entry_AbonoEntero.Text + "." + Entry_AbonoDecimal.Text);
+            }
+            else if (!string.IsNullOrEmpty(Entry_AbonoEntero.Text) && string.IsNullOrEmpty(Entry_AbonoDecimal.Text))
+            {
+                abono = double.Parse(Entry_AbonoEntero.Text);
+            }
+            else if (string.IsNullOrEmpty(Entry_AbonoEntero.Text) && !string.IsNullOrEmpty(Entry_AbonoDecimal.Text))
+            {
+                abono = double.Parse("0." + Entry_AbonoDecimal.Text);
+            }
+
+            if (!string.IsNullOrEmpty(Label_ValorTotal.Text))
+            {
+                total = double.Parse(Label_ValorTotal.Text.Replace('$', ' '));
+            }
+
+            if (abono > 0 && total > 0)
+            {
+                double saldo = total - abono;
+                Label_SaldoPendiente.Text = "$ " + saldo.ToString("F2");
+            }
+            else
+            {
+                Label_SaldoPendiente.Text = string.Empty;
+            }
+        }
+    }
     private void OcultarTeclado()
     {
         Entry_PrecioEntero.Unfocus();
         Entry_PrecioDecimal.Unfocus();
         Entry_Cantidad.Unfocus();
-        Entry_SaldoPendienteEntero.Unfocus();
-        Entry_SaldoPendienteDecimal.Unfocus();
+        Entry_AbonoEntero.Unfocus();
+        Entry_AbonoDecimal.Unfocus();
     }
     private void VaciarCampos()
     {
@@ -354,290 +452,10 @@ public partial class RegistrarNuevaCompraPage : ContentPage
         Entry_PrecioDecimal.Text = "";
         Entry_Cantidad.Text = "";
         Label_ValorTotal.Text = "";
-        Entry_SaldoPendienteEntero.Text = "";
-        Entry_SaldoPendienteDecimal.Text = "";
+        Entry_AbonoEntero.Text = "";
+        Entry_AbonoDecimal.Text = "";
+        Label_SaldoPendiente.Text = "";
     }
-    private void ControlarEntrysPrecio(Entry entry)
-    {
-        if (!string.IsNullOrEmpty(entry.Text))
-        {
-            if (entry.Text.Contains("."))
-            {
-                entry.Text = entry.Text.Replace(".", "");
-            }
-            else if (!string.IsNullOrEmpty(entry.Text))
-            {
-                if (entry.Text.Contains("."))
-                {
-                    entry.Text = entry.Text.Replace(".", "");
-                }
-            }
-        }
-        //if (entry == Entry_PrecioEntero || entry == Entry_PrecioDecimal)
-        //{
-        //    if (!entry.Text.Equals("."))
-        //    {
-        //        if (entry.Text.Contains("."))
-        //        {
-        //            if (string.IsNullOrEmpty(Entry_PrecioEntero.Text) &&
-        //            string.IsNullOrEmpty(Entry_PrecioDecimal.Text))
-        //            {
-        //                _precio = 0;
-        //            }
-        //            else if (string.IsNullOrEmpty(Entry_PrecioEntero.Text) &&
-        //                !string.IsNullOrEmpty(Entry_PrecioDecimal.Text))
-        //            {
-        //                var pDecimal = Entry_PrecioDecimal.Text.Split(".");
-        //                string p = "0." + pDecimal[0] + pDecimal[1];
-        //                _precio = double.Parse(p);
-        //            }
-        //            else if (!string.IsNullOrEmpty(Entry_PrecioEntero.Text) &&
-        //                string.IsNullOrEmpty(Entry_PrecioDecimal.Text))
-        //            {
-        //                var pEntero = Entry_PrecioEntero.Text.Split(".");
-        //                string p = pEntero[0] + pEntero[1];
-        //                _precio = double.Parse(p);
-        //            }
-        //            else
-        //            {
-        //                if (Entry_PrecioEntero.Text.Contains("."))
-        //                {
-        //                    var pEntero = Entry_PrecioEntero.Text.Split(".");
-        //                    string p1 = pEntero[0] + pEntero[1];
-        //                    string p2 = Entry_PrecioDecimal.Text;
-        //                    string p = p1 + "." + p2;
-        //                    _precio = double.Parse(p);
-        //                }
-        //                else if (Entry_PrecioDecimal.Text.Contains("."))
-        //                {
-
-        //                    var pDecimal = Entry_PrecioDecimal.Text.Split(".");
-        //                    string p1 = pDecimal[0] + pDecimal[1];
-        //                    string p = "0." + p1;
-        //                    _precio = double.Parse(p);
-        //                }
-        //            }
-        //        }
-        //        else
-        //        {
-        //            if (string.IsNullOrEmpty(Entry_PrecioEntero.Text) &&
-        //            string.IsNullOrEmpty(Entry_PrecioDecimal.Text))
-        //            {
-        //                _precio = 0;
-        //            }
-        //            else if (string.IsNullOrEmpty(Entry_PrecioEntero.Text) &&
-        //                !string.IsNullOrEmpty(Entry_PrecioDecimal.Text))
-        //            {
-        //                string p = "0." + Entry_PrecioDecimal.Text;
-        //                _precio = double.Parse(p);
-        //            }
-        //            else if (!string.IsNullOrEmpty(Entry_PrecioEntero.Text) &&
-        //                string.IsNullOrEmpty(Entry_PrecioDecimal.Text))
-        //            {
-        //                string p = Entry_PrecioEntero.Text;
-        //                _precio = double.Parse(p);
-        //            }
-        //            else
-        //            {
-        //                string p = Entry_PrecioEntero.Text + "." + Entry_PrecioDecimal.Text;
-        //                _precio = double.Parse(p);
-        //            }
-        //        }
-        //    }
-
-        //}
-    }
-    private void TodosEntrys_TextChanged()
-    {
-        if (!_ejecutarTextChanged)
-        {
-            return;
-        }
-
-        if (!string.IsNullOrEmpty(Entry_PrecioEntero.Text))
-        {
-            if (Entry_PrecioEntero.Text.Contains("."))
-            {
-                Entry_PrecioEntero.Text = Entry_PrecioEntero.Text.Replace(".", "");
-            }
-            else if (!string.IsNullOrEmpty(Entry_PrecioEntero.Text))
-            {
-                if (!string.IsNullOrEmpty(Entry_PrecioDecimal.Text))
-                {
-                    if (Entry_PrecioDecimal.Text.Contains("."))
-                    {
-                        Entry_PrecioDecimal.Text = Entry_PrecioDecimal.Text.Replace(".", "");
-                    }
-                }
-            }
-        }
-        else if (!string.IsNullOrEmpty(Entry_PrecioDecimal.Text))
-        {
-            if (Entry_PrecioDecimal.Text.Contains("."))
-            {
-                Entry_PrecioDecimal.Text = Entry_PrecioDecimal.Text.Replace(".", "");
-            }
-            else if (!string.IsNullOrEmpty(Entry_PrecioEntero.Text))
-            {
-                Entry_PrecioEntero.Text = Entry_PrecioEntero.Text.Replace(".", "");
-            }
-        }
-
-
-        if (!string.IsNullOrEmpty(Entry_SaldoPendienteEntero.Text))
-        {
-            if (Entry_SaldoPendienteEntero.Text.Contains("."))// TODO: Aqui el entry tiene cero, a lo mejro por uqe le pngo para que se eva valor
-            {
-                Entry_SaldoPendienteEntero.Text = Entry_SaldoPendienteEntero.Text.Replace(".", "");
-            }
-            else if (!string.IsNullOrEmpty(Entry_SaldoPendienteEntero.Text))
-            {
-                if (Entry_SaldoPendienteDecimal.Text.Contains("."))
-                {
-                    Entry_SaldoPendienteDecimal.Text = Entry_SaldoPendienteDecimal.Text.Replace(".", "");
-                }
-            }
-        }
-        else if (!string.IsNullOrEmpty(Entry_SaldoPendienteDecimal.Text))
-        {
-            if (Entry_SaldoPendienteDecimal.Text.Contains("."))
-            {
-                Entry_SaldoPendienteDecimal.Text = Entry_SaldoPendienteDecimal.Text.Replace(".", "");
-            }
-            else if (!string.IsNullOrEmpty(Entry_PrecioEntero.Text))
-            {
-                Entry_SaldoPendienteEntero.Text = Entry_SaldoPendienteEntero.Text.Replace(".", "");
-            }
-        }
-
-        if (string.IsNullOrEmpty(Entry_PrecioEntero.Text) && string.IsNullOrEmpty(Entry_PrecioDecimal.Text) &&
-            string.IsNullOrEmpty(Entry_Cantidad.Text))
-        {
-            Label_ValorTotal.Text = "";
-        }
-        else if (string.IsNullOrEmpty(Entry_PrecioEntero.Text) && !string.IsNullOrEmpty(Entry_PrecioDecimal.Text) &&
-            string.IsNullOrEmpty(Entry_Cantidad.Text))
-        {
-            Label_ValorTotal.Text = "";
-        }
-        else if (string.IsNullOrEmpty(Entry_PrecioEntero.Text) && !string.IsNullOrEmpty(Entry_PrecioDecimal.Text) &&
-            !string.IsNullOrEmpty(Entry_Cantidad.Text))
-        {
-            var n1 = double.Parse("0." + Entry_PrecioDecimal.Text);
-            var n2 = int.Parse(Entry_Cantidad.Text);
-            var r = n1 * n2;
-            Label_ValorTotal.Text = r.ToString();
-        }
-        else if (!string.IsNullOrEmpty(Entry_PrecioEntero.Text) && !string.IsNullOrEmpty(Entry_PrecioDecimal.Text) &&
-            string.IsNullOrEmpty(Entry_Cantidad.Text))
-        {
-            Label_ValorTotal.Text = "";
-        }
-        else if (!string.IsNullOrEmpty(Entry_PrecioEntero.Text) && string.IsNullOrEmpty(Entry_PrecioDecimal.Text) &&
-            !string.IsNullOrEmpty(Entry_Cantidad.Text))
-        {
-            var n1 = double.Parse(Entry_PrecioEntero.Text);
-            var n2 = int.Parse(Entry_Cantidad.Text);
-            var r = n1 * n2;
-            Label_ValorTotal.Text = r.ToString();
-        }
-        else if (!string.IsNullOrEmpty(Entry_PrecioEntero.Text) && !string.IsNullOrEmpty(Entry_PrecioDecimal.Text) &&
-            !string.IsNullOrEmpty(Entry_Cantidad.Text))
-        {
-            var n1 = double.Parse(Entry_PrecioEntero.Text + "." + Entry_PrecioDecimal.Text);
-            var n2 = int.Parse(Entry_Cantidad.Text);
-            var r = n1 * n2;
-            Label_ValorTotal.Text = r.ToString();
-        }
-        else if (!string.IsNullOrEmpty(Entry_PrecioEntero.Text) && string.IsNullOrEmpty(Entry_PrecioDecimal.Text) &&
-            string.IsNullOrEmpty(Entry_Cantidad.Text))
-        {
-            Label_ValorTotal.Text = "";
-        }
-        else if (string.IsNullOrEmpty(Entry_PrecioEntero.Text) && string.IsNullOrEmpty(Entry_PrecioDecimal.Text) &&
-            !string.IsNullOrEmpty(Entry_Cantidad.Text))
-        {
-            Label_ValorTotal.Text = "";
-        }
-        _ejecutarTextChanged = true;
-    }
-
     #endregion
-
-
-
-
-    // LOGICA PARA EVENTOS
-
-
-    // LÓGICA
-
-    private string MapearDayOfWeekEspanol(DayOfWeek dayOfWeek)
-    {
-        Dictionary<DayOfWeek, string> dayOfWeekMap = new Dictionary<DayOfWeek, string>
-        {
-            { DayOfWeek.Sunday, "Domingo" },
-            { DayOfWeek.Monday, "Lunes" },
-            { DayOfWeek.Tuesday, "Martes" },
-            { DayOfWeek.Wednesday, "Miércoles" },
-            { DayOfWeek.Thursday, "Jueves" },
-            { DayOfWeek.Friday, "Viernes" },
-            { DayOfWeek.Saturday, "Sábado" }
-        };
-
-        return dayOfWeekMap[dayOfWeek];
-    }
-    private Task PagePopAsync()
-    {
-        Dispatcher.Dispatch(async () =>
-        {
-            bool respuesta = await DisplayAlert("Alerta", "¿Desea regresar? Perderá el progreso realizado", "Confimar", "Cancelar");
-            if (respuesta)
-            {
-                await Navigation.PopAsync();
-            }
-        });
-        return Task.CompletedTask;
-    }
-
-    // LÓGICA DE COSAS VISUALES DE LA PÁGINA  
-
-
-
-    //private async Task AgregarNuevoProducto()
-    //{
-    //    string nuevoProducto;
-    //    string medida;
-    //    do
-    //    {
-    //        nuevoProducto = await DisplayPromptAsync("NUEVO PRODUCTO", "Ingrese el nombre del producto:", "AGREGAR", "CANCELAR", null, -1, Keyboard.Create(KeyboardFlags.CapitalizeCharacter));
-    //        if (nuevoProducto is not null)
-    //        {
-    //            if (nuevoProducto != "")
-    //            {
-    //                nuevoProducto = nuevoProducto.Trim().ToUpper();
-    //                bool existeProducto = _productos.Any(p => p.PRODUCTO == nuevoProducto);
-    //                if (!existeProducto)
-    //                {
-
-    //                    Producto producto = new Producto();
-    //                    producto.PRODUCTO = nuevoProducto;
-    //                    await GuardarNuevoProductoAsync(producto);
-    //                    await CargarDatosPicker_Productos();
-    //                }
-    //                else
-    //                {
-    //                    await Toast.Make("El producto ya existe", ToastDuration.Long).Show();
-    //                }
-    //            }
-    //            else
-    //            {
-    //                await Toast.Make("¡El campo no debe estar vacío!").Show();
-    //            }
-    //        }
-    //    }
-    //    while (nuevoProducto == "");
-
-    //}
 
 }

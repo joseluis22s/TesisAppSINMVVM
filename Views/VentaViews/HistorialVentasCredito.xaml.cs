@@ -1,34 +1,32 @@
 using TesisAppSINMVVM.Database.Respositories;
 using TesisAppSINMVVM.Database.Tables;
+using TesisAppSINMVVM.FirebaseDataBase.Repositories;
 using TesisAppSINMVVM.Models;
 
 namespace TesisAppSINMVVM.Views.VentaViews;
 
 public partial class HistorialVentasCredito : ContentPage
 {
-    private Tbl_VentaCredito_Repository _repoVentaCredito;
-    private List<Tbl_VentaCreditoGroup> _grupoVentaCredito { get; set; } = new List<Tbl_VentaCreditoGroup>();
+    private List<VentaCreditoGroup> _grupoVentaCredito { get; set; } = new List<VentaCreditoGroup>();
 
 	public HistorialVentasCredito()
 	{
 		InitializeComponent();
-        _repoVentaCredito = new Tbl_VentaCredito_Repository();
-
     }
-
-
 
 
 
     // NAVEGACIÓN
+    #region NAVEGACIÓN
     private async Task HistorialVentasCreditoPagePopAsync()
     {
-        //await PagePopAsync();
         await Navigation.PopAsync();
     }
+    #endregion
 
 
     // EVENTOS
+    #region EVENTOS
     private async void ContentPage_Appearing(object sender, EventArgs e)
     {
         base.OnAppearing();
@@ -43,15 +41,17 @@ public partial class HistorialVentasCredito : ContentPage
     {
         await HistorialVentasCreditoPagePopAsync();
     }
+    #endregion
 
 
-    // LOGICA PARA EVENTOS
+    // LÓGICA PARA EVENTOS
+    #region LÓGICA PARA EVENTOS
     private async Task CargarDatosCollectionView_VentasCredito()
     {
         var ventasCredito = await ObtenerVentasCreditoDBAsync();
         var gruposVentaCredito = ventasCredito.GroupBy(_grs => _grs.DIAFECHAGUARDADO)
-            .Select(g => new Tbl_VentaCreditoGroup(g.Key, g.ToList()));
-        
+            .Select(g => new VentaCreditoGroup(g.Key, g.ToList()));
+
         _grupoVentaCredito.Clear();
         foreach (var grupo in gruposVentaCredito)
         {
@@ -59,9 +59,11 @@ public partial class HistorialVentasCredito : ContentPage
         }
         CollectionView_VentasCredito.ItemsSource = _grupoVentaCredito;
     }
+    #endregion
 
 
     // LÓGICA
+    #region LÓGICA
     private Task PagePopAsync()
     {
         Dispatcher.Dispatch(async () =>
@@ -74,16 +76,20 @@ public partial class HistorialVentasCredito : ContentPage
         });
         return Task.CompletedTask;
     }
+    #endregion
 
 
     // BASE DE DATOS
-    private async Task<List<Tbl_VentaCredito>> ObtenerVentasCreditoDBAsync()
+    #region BASE DE DATOS
+    private async Task<List<VentaCredito>> ObtenerVentasCreditoDBAsync()
     {
-        return await _repoVentaCredito.ObtenerVentasCreditoAsync();
+        return await VentaCredito_Repository.ObtenerVentasCreditoAsync();
     }
-
-    
+    #endregion
 
 
     // LÓGICA DE COSAS VISUALES DE LA PÁGINA
+    #region LÓGICA DE COSAS VISUALES DE LA PÁGINA
+
+    #endregion
 }

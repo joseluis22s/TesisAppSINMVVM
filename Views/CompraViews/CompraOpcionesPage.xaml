@@ -13,12 +13,16 @@
 
         <Button
             x:Name="Buttton_RegistarNuevaCompra"
+            Padding="17"
             Clicked="Buttton_RegistarNuevaCompra_Clicked"
+            FontSize="20"
             Text="REGISTAR NUEVA COMPRA" />
         <Button
             x:Name="Buttton_HistorialCompras"
             Grid.Row="1"
+            Padding="17"
             Clicked="Buttton_HistorialCompras_Clicked"
+            FontSize="20"
             Text="HISTORIAL COMPRAS" />
 
     </Grid>

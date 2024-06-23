@@ -20,7 +20,7 @@ public partial class AgregarNuevoCompradorPage : ContentPage
     // NAVEGACIÓN
     private async Task AgregarNuevoCompradorPagePushModalAsync(bool mostrarAlerta)
     {
-        RegistrarVentaCreditoPage._ejecutarAppearing = false;
+        RegistrarNuevaVentaCreditoPage._ejecutarAppearing = false;
         await PermitirPopModalAsyncNavegacion(mostrarAlerta);
     }
 

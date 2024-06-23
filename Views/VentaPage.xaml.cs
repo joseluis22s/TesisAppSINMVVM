@@ -17,7 +17,7 @@ public partial class VentaPage : ContentPage
     }
     private async Task RegistrarVentaCreditoPagePushAsync()
     {
-        await Navigation.PushAsync(new RegistrarVentaCreditoPage());
+        await Navigation.PushAsync(new RegistrarNuevaVentaCreditoPage());
     }
 
 

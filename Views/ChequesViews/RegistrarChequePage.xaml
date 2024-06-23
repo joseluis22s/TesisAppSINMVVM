@@ -49,27 +49,15 @@
                             TextChanged="Entry_MontoCheque_TextChanged" />
                     </Border>
                 </Grid>
-
             </VerticalStackLayout>
-
 
             <VerticalStackLayout Grid.Row="2">
                 <Label Style="{StaticResource LabelStyle}" Text="Proveedor" />
                 <Border>
-                    <Picker x:Name="Picker_Proveedores">
-                        <Picker.ItemDisplayBinding>
-                            <MultiBinding StringFormat="{}{0} {1}">
-                                <Binding Path="NOMBRE" />
-                                <Binding Path="APELLIDO" />
-                            </MultiBinding>
-                        </Picker.ItemDisplayBinding>
-                    </Picker>
+                    <Picker x:Name="Picker_Proveedores"
+                            ItemDisplayBinding="{Binding PROVEEDOR}"/>
                 </Border>
             </VerticalStackLayout>
-
-
-
-
             <VerticalStackLayout Grid.Row="3">
                 <Label Style="{StaticResource LabelStyle}" Text="Fecha" />
                 <Border>
@@ -79,7 +67,6 @@
                         HorizontalOptions="FillAndExpand" />
                 </Border>
             </VerticalStackLayout>
-
             <Button
                 x:Name="Button_GuardarNuevoCheque"
                 Grid.Row="4"
@@ -94,7 +81,6 @@
                 Clicked="Button_Regresar_Clicked"
                 HorizontalOptions="Center"
                 Text="Regresar" />
-
         </Grid>
     </ScrollView>
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="TesisAppSINMVVM.Views.VentaViews.RegistrarVentaCreditoPage"
+    x:Class="TesisAppSINMVVM.Views.VentaViews.RegistrarNuevaVentaCreditoPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="VENTA: Registrar venta a crédito"
@@ -21,14 +21,7 @@
             RowDefinitions="Auto,*">
             <Label Style="{StaticResource LabelStyle}" Text="Comprador" />
             <Border Grid.Row="1">
-                <Picker x:Name="Picker_Comprador">
-                    <Picker.ItemDisplayBinding>
-                        <MultiBinding StringFormat="{}{0} {1}">
-                            <Binding Path="NOMBRE" />
-                            <Binding Path="APELLIDO" />
-                        </MultiBinding>
-                    </Picker.ItemDisplayBinding>
-                </Picker>
+                <Picker x:Name="Picker_Comprador" ItemDisplayBinding="{Binding COMPRADOR}" />
             </Border>
             <Button
                 x:Name="Button_AgregarComprador"

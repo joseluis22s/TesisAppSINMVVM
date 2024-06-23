@@ -14,7 +14,9 @@
             RowDefinitions="Auto,Auto,*,Auto"
             RowSpacing="15"
             VerticalOptions="Start">
-            <Label Text="{Binding PROVEEDOR}" />
+            <Border Padding="5" StrokeShape="{RoundRectangle CornerRadius='1'}">
+                <Label Text="{Binding PROVEEDOR, StringFormat='PROVEEDOR: {0}'}" />
+            </Border>
             <Button
                 x:Name="Button_HIstorialCompras"
                 Grid.Row="1"
@@ -25,7 +27,7 @@
                 Padding="10"
                 BackgroundColor="#d9d9d9"
                 ColumnDefinitions="*,auto"
-                RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+                RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
                 RowSpacing="7"
                 VerticalOptions="Start">
 
@@ -48,8 +50,15 @@
                                 Margin="10,0"
                                 FontSize="16"
                                 HorizontalOptions="FillAndExpand"
-                                HorizontalTextAlignment="Center"
-                                ItemDisplayBinding="{Binding ., StringFormat='{0:PRODUCTO} - {0:MEDIDA}'}" />
+                                HorizontalTextAlignment="Center">
+                                <Picker.ItemDisplayBinding>
+                                    <MultiBinding StringFormat="{}{0} - {1}">
+                                        <Binding Path="PRODUCTO" />
+                                        <Binding Path="MEDIDA" />
+                                    </MultiBinding>
+                                </Picker.ItemDisplayBinding>
+                            </Picker>
+
                             <Border x:Name="Border_PickerProductos">
                                 <Border.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="Border_PickerProductos_TapGestureRecognizer_Tapped" />
@@ -63,23 +72,32 @@
                     x:Name="Button_AgregarProductoPicker"
                     Grid.Row="1"
                     Grid.Column="2"
-                    Margin="5,7,20,0"
-                    Padding="7"
+                    Margin="0,10,17,0"
+                    Padding="0"
                     Clicked="Button_AgregarNuevoProductoPicker_Clicked"
-                    ImageSource="pencil_edit_icon.png"
+                    FontSize="18"
                     MaximumHeightRequest="30"
+                    Text="+"
                     VerticalOptions="Center" />
                 <VerticalStackLayout Grid.Row="2">
                     <Label Style="{StaticResource LabelStyle}" Text="Precio" />
                     <Grid ColumnDefinitions="*,Auto,*">
                         <Border>
-                            <Entry
-                                x:Name="Entry_PrecioEntero"
-                                Keyboard="Numeric"
-                                MaxLength="6"
-                                Placeholder="0"
-                                PlaceholderColor="#9e9e9e"
-                                TextChanged="Entrys_TextChanged" />
+                            <Grid Margin="10,0" ColumnDefinitions="Auto,*">
+                                <Label
+                                    Text="$"
+                                    TextColor="#5c5c5c"
+                                    VerticalOptions="Center" />
+                                <Entry
+                                    x:Name="Entry_PrecioEntero"
+                                    Grid.Column="1"
+                                    Keyboard="Numeric"
+                                    MaxLength="6"
+                                    Placeholder="0"
+                                    PlaceholderColor="#9e9e9e"
+                                    TextChanged="Entrys_TextChanged" />
+                            </Grid>
+
                         </Border>
                         <Label
                             Grid.Column="1"
@@ -87,14 +105,20 @@
                             Text="."
                             VerticalOptions="End" />
                         <Border Grid.Column="2">
-                            <Entry
-                                x:Name="Entry_PrecioDecimal"
-                                Grid.Column="3"
-                                Keyboard="Numeric"
-                                MaxLength="2"
-                                Placeholder="00"
-                                PlaceholderColor="#9e9e9e"
-                                TextChanged="Entrys_TextChanged" />
+                            <Grid Margin="10,0" ColumnDefinitions="*,Auto">
+                                <Entry
+                                    x:Name="Entry_PrecioDecimal"
+                                    Keyboard="Numeric"
+                                    MaxLength="2"
+                                    Placeholder="00"
+                                    PlaceholderColor="#9e9e9e"
+                                    TextChanged="Entrys_TextChanged" />
+                                <Label
+                                    Grid.Column="1"
+                                    Text="ctvs"
+                                    TextColor="#5c5c5c"
+                                    VerticalOptions="Center" />
+                            </Grid>
                         </Border>
                     </Grid>
 
@@ -102,11 +126,23 @@
                 <VerticalStackLayout Grid.Row="3">
                     <Label Style="{StaticResource LabelStyle}" Text="Cantidad" />
                     <Border>
-                        <Entry
-                            x:Name="Entry_Cantidad"
-                            Keyboard="Numeric"
-                            MaxLength="6"
-                            TextChanged="Entrys_TextChanged" />
+                        <Grid
+                            Margin="10,0"
+                            ColumnDefinitions="Auto,*"
+                            HorizontalOptions="FillAndExpand">
+                            <Label
+                                Margin="20,0,-25,0"
+                                Text="X"
+                                TextColor="#5c5c5c"
+                                VerticalOptions="Center" />
+                            <Entry
+                                x:Name="Entry_Cantidad"
+                                Grid.Column="1"
+                                HorizontalOptions="FillAndExpand"
+                                Keyboard="Numeric"
+                                MaxLength="6"
+                                TextChanged="Entrys_TextChanged" />
+                        </Grid>
                     </Border>
                 </VerticalStackLayout>
                 <VerticalStackLayout Grid.Row="4">
@@ -122,16 +158,23 @@
                     </Border>
                 </VerticalStackLayout>
                 <VerticalStackLayout Grid.Row="5">
-                    <Label Style="{StaticResource LabelStyle}" Text="Saldo Pendiente" />
+                    <Label Style="{StaticResource LabelStyle}" Text="Abono" />
                     <Grid ColumnDefinitions="*,Auto,*">
                         <Border>
-                            <Entry
-                                x:Name="Entry_SaldoPendienteEntero"
-                                Keyboard="Numeric"
-                                MaxLength="6"
-                                Placeholder="0"
-                                PlaceholderColor="#9e9e9e"
-                                TextChanged="Entrys_TextChanged" />
+                            <Grid Margin="10,0" ColumnDefinitions="Auto,*">
+                                <Label
+                                    Text="$"
+                                    TextColor="#5c5c5c"
+                                    VerticalOptions="Center" />
+                                <Entry
+                                    x:Name="Entry_AbonoEntero"
+                                    Grid.Column="1"
+                                    Keyboard="Numeric"
+                                    MaxLength="6"
+                                    Placeholder="0"
+                                    PlaceholderColor="#9e9e9e"
+                                    TextChanged="Entrys_TextChanged" />
+                            </Grid>
                         </Border>
                         <Label
                             Grid.Column="1"
@@ -139,21 +182,39 @@
                             Text="."
                             VerticalOptions="End" />
                         <Border Grid.Column="2">
-                            <Entry
-                                x:Name="Entry_SaldoPendienteDecimal"
-                                Grid.Column="3"
-                                Keyboard="Numeric"
-                                MaxLength="2"
-                                Placeholder="00"
-                                PlaceholderColor="#9e9e9e"
-                                TextChanged="Entrys_TextChanged" />
+                            <Grid Margin="10,0" ColumnDefinitions="*,Auto">
+                                <Entry
+                                    x:Name="Entry_AbonoDecimal"
+                                    Keyboard="Numeric"
+                                    MaxLength="2"
+                                    Placeholder="00"
+                                    PlaceholderColor="#9e9e9e"
+                                    TextChanged="Entrys_TextChanged" />
+                                <Label
+                                    Grid.Column="1"
+                                    Text="ctvs"
+                                    TextColor="#5c5c5c"
+                                    VerticalOptions="Center" />
+                            </Grid>
+
                         </Border>
                     </Grid>
-
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Row="6">
+                    <Label Style="{StaticResource LabelStyle}" Text="Saldo pendiente" />
+                    <Border>
+                        <Label
+                            x:Name="Label_SaldoPendiente"
+                            Margin="10,0"
+                            FontSize="16"
+                            HeightRequest="40"
+                            HorizontalTextAlignment="Center"
+                            VerticalTextAlignment="Center" />
+                    </Border>
                 </VerticalStackLayout>
                 <Button
                     x:Name="Button_GuardarNuevaCompra"
-                    Grid.Row="6"
+                    Grid.Row="7"
                     Grid.ColumnSpan="2"
                     Margin="0,5,0,-2"
                     Padding="40,0"
@@ -191,19 +252,17 @@
                 <Setter Property="Spacing" Value="-3" />
             </Style>
             <Style TargetType="Entry">
-                <Setter Property="Margin" Value="15,0" />
+                <!--<Setter Property="Margin" Value="15,0" />-->
                 <Setter Property="FontSize" Value="15" />
-                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <!--<Setter Property="HorizontalOptions" Value="FillAndExpand" />-->
                 <Setter Property="HorizontalTextAlignment" Value="Center" />
-                <Setter Property="Keyboard">
+                <!--<Setter Property="Keyboard">
                     <Keyboard x:FactoryMethod="Create">
                         <x:Arguments>
-                            <KeyboardFlags>
-                                CapitalizeCharacter
-                            </KeyboardFlags>
+                            <KeyboardFlags>CapitalizeCharacter</KeyboardFlags>
                         </x:Arguments>
                     </Keyboard>
-                </Setter>
+                </Setter>-->
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>

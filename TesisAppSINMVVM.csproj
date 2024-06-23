@@ -103,8 +103,8 @@
 	  <Compile Update="Views\VentaViews\HistorialProductoSobrantePage.xaml.cs">
 	    <DependentUpon>HistorialProductoSobrantePage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\VentaViews\RegistrarVentaCreditoPage.xaml.cs">
-	    <DependentUpon>RegistrarVentaCreditoPage.xaml</DependentUpon>
+	  <Compile Update="Views\VentaViews\RegistrarNuevaVentaCreditoPage.xaml.cs">
+	    <DependentUpon>RegistrarNuevaVentaCreditoPage.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\VentaViews\RegistrarProductoSobranteBodegaPage.xaml.cs">
 	    <DependentUpon>RegistrarProductoSobranteBodegaPage.xaml</DependentUpon>
@@ -172,7 +172,7 @@
 	  <MauiXaml Update="Views\VentaViews\RegistrarProductoSobranteBodegaPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\VentaViews\RegistrarVentaCreditoPage.xaml">
+	  <MauiXaml Update="Views\VentaViews\RegistrarNuevaVentaCreditoPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

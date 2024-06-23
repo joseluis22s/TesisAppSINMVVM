@@ -1,36 +1,32 @@
 using CommunityToolkit.Maui.Alerts;
-using System.Runtime.Serialization;
-using TesisAppSINMVVM.Database.Respositories;
+using TesisAppSINMVVM.Models;
 using TesisAppSINMVVM.Database.Tables;
+using TesisAppSINMVVM.FirebaseDataBase.Repositories;
 
 namespace TesisAppSINMVVM.Views.ChequesViews;
 
 public partial class RegistrarChequePage : ContentPage
 {
-
-    private Tbl_Proveedor_Respository _repoProveedor;
-    private Tbl_Cheque_Repository _repoCheque;
-    private List<Tbl_Proveedor> _proveedores;
+    private List<Proveedor> _proveedores;
     private bool _enEjecucion;
     private double _montoCheque;
 
     public RegistrarChequePage()
     {
         InitializeComponent();
-        _repoProveedor = new Tbl_Proveedor_Respository();
-        _repoCheque = new Tbl_Cheque_Repository();
     }
 
-
-
     // NAVEGACIÓN
+    #region NAVEGACIÓN
     private async Task RegistrarChequePagePopAsync(bool mostrarAlerta)
     {
         await PermitirPopAsyncNavegacion(mostrarAlerta);
     }
+    #endregion
 
 
     // EVENTOS
+    #region EVENTOS
     private async void ContentPage_Appearing(object sender, EventArgs e)
     {
         base.OnAppearing();
@@ -69,63 +65,34 @@ public partial class RegistrarChequePage : ContentPage
         await RegistrarChequePagePopAsync(true);
         _enEjecucion = false;
     }
+    #endregion
 
-
-    // LOGICA PARA EVENTOS
+    // LÓGICA PARA EVENTOS
+    #region LÓGICA PARA EVENTOS
     private async Task CargarPickerInformacionAsync()
     {
         _proveedores = await ObtenerProveedoresDBAsync();
         Picker_Proveedores.ItemsSource = _proveedores;
     }
-    private string ControlarCamposvalidosCargarCheque()
-    {
-        string numerocheque = Entry_NumeroCheque.Text;
-        string montochequeEntero = Entry_MontoChequeEntero.Text;
-        string montochequeDecimal = Entry_MontoChequeDecimal.Text;
-        var itemProveedor = (Tbl_Proveedor)Picker_Proveedores.SelectedItem;
-        if (string.IsNullOrEmpty(montochequeEntero) && string.IsNullOrEmpty(montochequeDecimal))
-        {
-            _montoCheque = 0;
-        }
-        else if(string.IsNullOrEmpty(montochequeEntero) && !string.IsNullOrEmpty(montochequeDecimal))
-        {
-            _montoCheque = double.Parse("0." + montochequeDecimal);
-        }
-        else if (!string.IsNullOrEmpty(montochequeEntero) && string.IsNullOrEmpty(montochequeDecimal))
-        {
-            _montoCheque = double.Parse(montochequeEntero);
-        }
-        else
-        {
-            _montoCheque = double.Parse(montochequeEntero + "." + montochequeDecimal);
-        }
-        //m = double.Parse(montochequeEntero + "." + montochequeDecimal);
-        if (itemProveedor is null || string.IsNullOrEmpty(numerocheque) || 
-            //string.IsNullOrEmpty(montochequeEntero) || string.IsNullOrEmpty(montochequeDecimal) ||
-            _montoCheque == 0 )
-        {
-            return "Existen campos incompletos o erróneos";
-        }
-        return "true";
-    }
+    
     private async Task GuardarRegistroChequeAsync()
     {
         string resultado = ControlarCamposvalidosCargarCheque();
         if (resultado == "true")
         {
-            var itemProveedor = (Tbl_Proveedor)Picker_Proveedores.SelectedItem;
-            Tbl_Cheque cheque = new Tbl_Cheque()
+            var itemProveedor = (Proveedor)Picker_Proveedores.SelectedItem;
+            Cheque cheque = new Cheque()
             {
                 NUMERO = int.Parse(Entry_NumeroCheque.Text),
                 MONTO = double.Parse(Entry_MontoChequeEntero.Text + "." + Entry_MontoChequeDecimal.Text),
-                PROVEEDOR = itemProveedor.NOMBRE + " " + itemProveedor.APELLIDO,
+                PROVEEDOR = itemProveedor.PROVEEDOR,
                 FECHA = DatePicker_FechasEmision.Date.ToString("dd/MM/yyyy"),
                 DIAFECHA = DatePicker_FechasEmision.Date.ToString("dddd, dd MMMM")
             };
             bool existeCheque = await VerificarExistenciaChequeDBAsync(cheque.NUMERO);
             if (!existeCheque)
             {
-                
+
                 string mensaje = "CHEQUE       :  #" + cheque.NUMERO +
                                "\nMONTO         :  $" + cheque.MONTO +
                                "\nPROVEEDOR :  " + cheque.PROVEEDOR +
@@ -134,7 +101,7 @@ public partial class RegistrarChequePage : ContentPage
                 if (resultado1)
                 {
                     OcultarTeclado();
-                    await GuardarChequeDBAsync(cheque);
+                    await GuardarNuevoResgitroChequesDBAsync(cheque);
                     ReiniciarCampos();
                     await Toast.Make("¡Registro guardado!").Show();
                 }
@@ -152,6 +119,11 @@ public partial class RegistrarChequePage : ContentPage
             await Toast.Make(resultado).Show();
         }
     }
+
+    #endregion
+
+    // LÓGICA
+    #region LÓGICA
     private async Task PermitirPopAsyncNavegacion(bool mostrarAlerta)
     {
         if (mostrarAlerta)
@@ -167,26 +139,58 @@ public partial class RegistrarChequePage : ContentPage
             await Navigation.PopAsync();
         }
     }
-
+    //private async Task VerificarExistenciaCheque
+    private string ControlarCamposvalidosCargarCheque()
+    {
+        string numerocheque = Entry_NumeroCheque.Text;
+        string montochequeEntero = Entry_MontoChequeEntero.Text;
+        string montochequeDecimal = Entry_MontoChequeDecimal.Text;
+        var itemProveedor = (Proveedor)Picker_Proveedores.SelectedItem;
+        if (string.IsNullOrEmpty(montochequeEntero) && string.IsNullOrEmpty(montochequeDecimal))
+        {
+            _montoCheque = 0;
+        }
+        else if (string.IsNullOrEmpty(montochequeEntero) && !string.IsNullOrEmpty(montochequeDecimal))
+        {
+            _montoCheque = double.Parse("0." + montochequeDecimal);
+        }
+        else if (!string.IsNullOrEmpty(montochequeEntero) && string.IsNullOrEmpty(montochequeDecimal))
+        {
+            _montoCheque = double.Parse(montochequeEntero);
+        }
+        else
+        {
+            _montoCheque = double.Parse(montochequeEntero + "." + montochequeDecimal);
+        }
+        //m = double.Parse(montochequeEntero + "." + montochequeDecimal);
+        if (itemProveedor is null || string.IsNullOrEmpty(numerocheque) ||
+            //string.IsNullOrEmpty(montochequeEntero) || string.IsNullOrEmpty(montochequeDecimal) ||
+            _montoCheque == 0)
+        {
+            return "Existen campos incompletos o erróneos";
+        }
+        return "true";
+    }
+    #endregion
 
     // BASE DE DATOS
-    private async Task<List<Tbl_Proveedor>> ObtenerProveedoresDBAsync()
+    #region BASE DE DATOS
+    private async Task<List<Proveedor>> ObtenerProveedoresDBAsync()
     {
-        return await _repoProveedor.ObtenerProveedoresAsync();
+        return await Proveedor_Repository.ObtenerProveedoresAsync();
     }
-    private async Task GuardarChequeDBAsync(Tbl_Cheque cheque)
+    private async Task GuardarNuevoResgitroChequesDBAsync(Cheque cheque)
     {
-        await _repoCheque.GuardarChequeAsync(cheque);
+        await Cheque_Repository.GuardarNuevoResgitroChequesAsync(cheque);
     }
     private async Task<bool> VerificarExistenciaChequeDBAsync(int numeroCheque)
     {
-        return await _repoCheque.VerificarExistenciaChequeAsync(numeroCheque);
+        return await Cheque_Repository.VerificarExistenciaChequeAsync(numeroCheque);
     }
-
-
+    #endregion
 
     // LÓGICA DE COSAS VISUALES DE LA PÁGINA
-    /*TODO: ¿Hacerlos TASK?*/
+    #region LÓGICA DE COSAS VISUALES DE LA PÁGINA
     private void NumeroCheque_TextChanged()
     {
         // Solo permite digitar enteros
@@ -197,8 +201,8 @@ public partial class RegistrarChequePage : ContentPage
     }
     private void MontoCheque_TextChanged()
     {
-        
-        if (!string.IsNullOrEmpty(Entry_MontoChequeEntero.Text) )
+
+        if (!string.IsNullOrEmpty(Entry_MontoChequeEntero.Text))
         {
             if (Entry_MontoChequeEntero.Text.Contains("."))
             {
@@ -210,7 +214,7 @@ public partial class RegistrarChequePage : ContentPage
                 {
                     Entry_MontoChequeDecimal.Text = Entry_MontoChequeDecimal.Text.Replace(".", "");
                 }
-                
+
             }
         }
         else if (!string.IsNullOrEmpty(Entry_MontoChequeDecimal.Text))
@@ -240,6 +244,6 @@ public partial class RegistrarChequePage : ContentPage
         Entry_MontoChequeEntero.Unfocus();
         Entry_MontoChequeDecimal.Unfocus();
     }
+    #endregion
 
-    
 }

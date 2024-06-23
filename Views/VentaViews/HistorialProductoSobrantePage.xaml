@@ -82,7 +82,7 @@
                 Text="Regresar" />
         </Grid>
     </Border>
-    
+
     <ContentPage.Background>
         <LinearGradientBrush EndPoint="0.1,0.9">
             <GradientStop Offset="0.1" Color="#5d92e8" />

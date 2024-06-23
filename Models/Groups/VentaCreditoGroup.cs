@@ -2,10 +2,10 @@
 
 namespace TesisAppSINMVVM.Models
 {
-    public class Tbl_VentaCreditoGroup : List<Tbl_VentaCredito>
+    public class VentaCreditoGroup : List<VentaCredito>
     {
         public string NombreGrupo { get; private set; }
-        public Tbl_VentaCreditoGroup(string nombreGrupo, List<Tbl_VentaCredito> listaVentaCredito) : base(listaVentaCredito)
+        public VentaCreditoGroup(string nombreGrupo, List<VentaCredito> listaVentaCredito) : base(listaVentaCredito)
         {
             NombreGrupo = nombreGrupo;
         }

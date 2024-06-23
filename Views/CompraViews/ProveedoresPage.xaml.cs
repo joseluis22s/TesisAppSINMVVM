@@ -1,9 +1,7 @@
 using TesisAppSINMVVM.Models;
-using Plugin.CloudFirestore;
-using TesisAppSINMVVM.Database.Tables;
-using TesisAppSINMVVM.Database.Respositories;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
+using TesisAppSINMVVM.FirebaseDataBase.Repositories;
 
 namespace TesisAppSINMVVM.Views.CompraViews;
 
@@ -42,12 +40,12 @@ public partial class ProveedoresPage : ContentPage
 
     // EVENTOS
     #region EVENTOS
-    private void ContentPage_Appearing(object sender, EventArgs e)
+    private async void ContentPage_Appearing(object sender, EventArgs e)
     {
         if (_permitirEjecucion)
         {
             base.OnAppearing();
-            CargarDatosCollectionView_Proveedores();
+            await CargarDatosCollectionView_Proveedores();
         }
         _permitirEjecucion = true;
     }
@@ -59,7 +57,6 @@ public partial class ProveedoresPage : ContentPage
         }
         _enEjecucion = true;
         await AgregarNuevoProveedor();
-        //await AgregarNuevoProveedorPagePushModalAsync();
         _enEjecucion = false;
     }
     private async void CollectionView_Proveedores_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -83,7 +80,7 @@ public partial class ProveedoresPage : ContentPage
     #region LÓGICA PARA EVENTOS
     private async Task CargarDatosCollectionView_Proveedores()
     {
-        _proveedores = await ObtenerProveedoresAsync();
+        _proveedores = await ObtenerProveedoresDBAsync();
         CollectionView_Proveedores.ItemsSource = _proveedores;
     }
     private async Task ProveedorSelecionado()
@@ -111,7 +108,7 @@ public partial class ProveedoresPage : ContentPage
                     {
                         Proveedor proveedor = new Proveedor();
                         proveedor.PROVEEDOR = nuevoProveedor;
-                        await GuardarNuevoProveedorAsync(proveedor);
+                        await GuardarNuevoProveedorDBAsync(proveedor);
                         await CargarDatosCollectionView_Proveedores();
                         await Toast.Make("Se ha guardado el nuevo proveedor", ToastDuration.Long).Show();
                     }
@@ -138,26 +135,13 @@ public partial class ProveedoresPage : ContentPage
 
     // BASE DE DATOS
     #region BASE DE DATOS
-    private async Task<List<Proveedor>> ObtenerProveedoresAsync()
+    private async Task<List<Proveedor>> ObtenerProveedoresDBAsync()
     {
-        var documentos = await CrossCloudFirestore.Current
-                                     .Instance
-                                     .Collection("PROVEEDOR")
-                                     .GetAsync();
-        var proveedores = documentos.ToObjects<Proveedor>().ToList();
-        return proveedores;
+        return await Proveedor_Repository.ObtenerProveedoresAsync();
     }
-    private async Task GuardarNuevoProveedorAsync(Proveedor proveedor){
-        await CrossCloudFirestore.Current
-                         .Instance
-                         .Collection("PROVEEDOR")
-                         .AddAsync(proveedor);
+    private async Task GuardarNuevoProveedorDBAsync(Proveedor proveedor)
+    {
+        await Proveedor_Repository.GuardarNuevoProveedorAsync(proveedor);
     }
     #endregion
-
-
-    // LÓGICA DE COSAS VISUALES DE LA PÁGINA
-
-
-
 }

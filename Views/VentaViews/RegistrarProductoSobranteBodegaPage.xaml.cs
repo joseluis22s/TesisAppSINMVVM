@@ -3,54 +3,50 @@ using System.Collections.ObjectModel;
 using TesisAppSINMVVM.Models;
 using TesisAppSINMVVM.Database.Tables;
 using CommunityToolkit.Maui.Alerts;
+using System.Text.RegularExpressions;
+using TesisAppSINMVVM.FirebaseDataBase.Repositories;
+using CommunityToolkit.Maui.Core;
 
 namespace TesisAppSINMVVM.Views.VentaViews;
 
 public partial class RegistrarProductoSobranteBodegaPage : ContentPage
 {
-    private Tbl_Producto_Repository _repoProducto;
-    private Tbl_ProductosInventario_Repository _repoProductosInventario;
-    private List<Tbl_Producto> _productos;
-    private ObservableCollection<ProductoInventarioModel> _productosInventario = new ObservableCollection<ProductoInventarioModel>();
+    private List<Producto> _productos;
+    private ObservableCollection<AuxProductoInventarioBodega> _auxProductosInventario = new ObservableCollection<AuxProductoInventarioBodega>();
     private bool _enEjecucion;
     public static bool _ejecutarAppearing = true;
-    public ObservableCollection<ProductoInventarioModel> ProductosInventario
+    public ObservableCollection<AuxProductoInventarioBodega> _AuxProductosInventario
     {
-        get { return _productosInventario; }
+        get { return _auxProductosInventario; }
         set
         {
-            _productosInventario = value;
+            _auxProductosInventario = value;
         }
     }
-
+    //public ObservableCollection<AuxProductoInventarioBodega> _AuxProductosInventario { get; set; }
 
     public RegistrarProductoSobranteBodegaPage()
     {
         InitializeComponent();
-        _repoProducto = new Tbl_Producto_Repository();
-        _productos = new List<Tbl_Producto>();
-        _repoProductosInventario = new Tbl_ProductosInventario_Repository();
+        _productos = new List<Producto>();
     }
 
+
+
     // NAVEGACIÓN
+    #region NAVEGACIÓN
     private async Task RegistrarProductoSobranteBodegaPagePopAsync()
     {
-        //    if (_enEjecucion)
-        //    {
-        //        return;
-        //    }
-        //    _enEjecucion = true;
-        //await Navigation.PopAsync();
         await PagePopAsync();
-        //_enEjecucion = false;
     }
     private async Task HistorialRegistroProductoSobrantePagePushAsync()
     {
         await Navigation.PushAsync(new HistorialProductoSobrantePage());
     }
-
+    #endregion
 
     // EVENTOS
+    #region EVENTOS
     private async void ContentPage_Appearing(object sender, EventArgs e)
     {
         if (_ejecutarAppearing)
@@ -62,64 +58,108 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
     }
     private async void Button_GuardarRegistroProductoSobrante_Clicked(object sender, EventArgs e)
     {
-        var send = sender;
         if (_enEjecucion)
         {
             return;
         }
         _enEjecucion = true;
-        List<Tbl_ProductosInventario> inventario = new List<Tbl_ProductosInventario>();
-        var productos = (ObservableCollection<ProductoInventarioModel>)CollectionView_RegistrarProductoSobranteBodega.ItemsSource;
-        foreach (var p in productos)
+        List<ProductoInventarioBodega> inventarioProductosBodega = new List<ProductoInventarioBodega>();
+        _AuxProductosInventario = (ObservableCollection<AuxProductoInventarioBodega>)CollectionView_RegistrarProductoSobranteBodega.ItemsSource;
+
+        foreach (var p in _AuxProductosInventario)
         {
             if (p.ESSELECCIONADO == true)
             {
                 if (string.IsNullOrEmpty(p.CANTIDAD))
                 {
                     _enEjecucion = false;
-                    await Toast.Make("¡Los campos de cantidad no deben estar vacíos!").Show();
+                    await Toast.Make("¡Los campos de cantidad no deben estar vacíos!",ToastDuration.Long).Show();
                     return;
                 }
                 else
                 {
-                    inventario.Add(new Tbl_ProductosInventario
+                    inventarioProductosBodega.Add(new ProductoInventarioBodega
                     {
                         PRODUCTO = p.PRODUCTO,
+                        MEDIDA = p.MEDIDA,
                         CANTIDAD = int.Parse(p.CANTIDAD),
                         DESCRIPCION = p.DESCRIPCION,
                         FECHAGUARDADO = DateTime.Now.ToString("dd/MM/yyyy"),
                         DIAFECHAGUARDADO = DateTime.Now.ToString("dddd, dd MMMM")
                     });
                 }
-                
+
             }
         }
-        var a = inventario;
-        if (inventario.Count == 0)
+        if (inventarioProductosBodega.Count == 0)
         {
             await Toast.Make("Selecione al menos un producto").Show();
         }
         else
         {
-            foreach (var p in productos)
+            foreach (var p in _AuxProductosInventario)
             {
                 p.CANTIDAD = "";
                 p.DESCRIPCION = "";
                 p.ESSELECCIONADO = false;
             }
-            //#if ANDROID
-            //KeyboardHelper.HideKeyboard();
-            //#endif 
+            foreach (var productoInventarioBodega in inventarioProductosBodega)
+            {
+                await ProductoInventarioBodega_Repository.GuardarProductosInventarioAsync(productoInventarioBodega);
+            }
+            
             await Toast.Make("¡Registro guardado!").Show();
-            await _repoProductosInventario.GuardarProductosInventarioAsync(inventario);
         }
         _enEjecucion = false;
-        
+
+        //foreach (var p in _auxProductosInventario)
+        //{
+        //    if (p.ESSELECCIONADO == true)
+        //    {
+        //        if (string.IsNullOrEmpty(p.CANTIDAD))
+        //        {
+        //            _enEjecucion = false;
+        //            await Toast.Make("¡Los campos de cantidad no deben estar vacíos!").Show();
+        //            return;
+        //        }
+        //        else
+        //        {
+        //            inventarioProductosBodega.Add(new ProductoInventarioBodega
+        //            {
+        //                PRODUCTO = p.PRODUCTO,
+        //                MEDIDA = p.MEDIDA,
+        //                CANTIDAD = int.Parse(p.CANTIDAD),
+        //                DESCRIPCION = p.DESCRIPCION,
+        //                FECHAGUARDADO = DateTime.Now.ToString("dd/MM/yyyy"),
+        //                DIAFECHAGUARDADO = DateTime.Now.ToString("dddd, dd MMMM")
+        //            });
+        //        }
+
+        //    }
+        //}
+        //if (inventarioProductosBodega.Count == 0)
+        //{
+
+        //}
+        //else
+        //{
+        //    foreach (var p in _auxProductosInventario)
+        //    {
+        //        p.CANTIDAD = "";
+        //        p.DESCRIPCION = "";
+        //        p.ESSELECCIONADO = false;
+        //    }
+
+        //    await ProductoInventario_Repository.GuardarProductosInventarioAsync(inventarioProductosBodega);
+        //    await Toast.Make("¡Registro guardado!").Show();
+        //}
+        //_enEjecucion = false;
+
     }
     private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
         CheckBox checkBox = (CheckBox)sender;
-        ProductoInventarioModel producto = (ProductoInventarioModel)checkBox.BindingContext;
+        AuxProductoInventarioBodega producto = (AuxProductoInventarioBodega)checkBox.BindingContext;
         producto.ESSELECCIONADO = e.Value;
     }
     private async void Button_HistorialRegistroProductoSobrante_Clicked(object sender, EventArgs e)
@@ -129,10 +169,7 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
     private void Entry_TextChanged_Cantidad(object sender, TextChangedEventArgs e)
     {
         Entry entry = (Entry)sender;
-        if (entry.Text.Contains("."))
-        {
-            entry.Text = entry.Text.Replace(".", "");
-        }
+        LimpiarPuntosEntry(entry);
     }
     private async void Button_Regresar_Clicked(object sender, EventArgs e)
     {
@@ -150,25 +187,28 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
         return true;
     }
 
+    #endregion
 
-    // LOGICA PARA EVENTOS
+    // LÓGICA PARA EVENTOS
+    #region LÓGICA PARA EVENTOS
     private async Task CargarProductosInventario()
     {
         var productos = await ObtenerProdcutosDBAsync();
         foreach (var p in productos)
         {
-            ProductosInventario.Add(new ProductoInventarioModel
+            _AuxProductosInventario.Add(new AuxProductoInventarioBodega
             {
-                PRODUCTO = p.PRODUCTO
-
+                PRODUCTO = p.PRODUCTO,
+                MEDIDA = p.MEDIDA
             });
         }
-        CollectionView_RegistrarProductoSobranteBodega.ItemsSource = ProductosInventario;
+        var a = _AuxProductosInventario;
+        CollectionView_RegistrarProductoSobranteBodega.ItemsSource = _AuxProductosInventario;
     }
-    //private async Task GuardarRegistroProductoSobrante()
-    //{
+    #endregion
 
-    //}
+    // LÓGICA
+    #region LÓGICA
     private async Task PagePopAsync()
     {
         bool respuesta = await DisplayAlert("Alerta", "¿Desea regresar? Perderá el progreso realizado", "Confimar", "Cancelar");
@@ -177,31 +217,24 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
             await Navigation.PopAsync();
         }
     }
-
-
-    // LÓGICA
-
+    #endregion
 
     // BASE DE DATOS
-    private async Task<List<Tbl_Producto>> ObtenerProdcutosDBAsync()
+    #region BASE DE DATOS
+    private async Task<List<Producto>> ObtenerProdcutosDBAsync()
     {
-        return await _repoProducto.ObtenerProductosAsync();
+        return await Producto_Repository.ObtenerProductosAsync();
     }
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
+    #endregion
 
     // LÓGICA DE COSAS VISUALES DE LA PÁGINA
-
+    #region LÓGICA DE COSAS VISUALES DE LA PÁGINA
+    private void LimpiarPuntosEntry(Entry entry)
+    {
+        if (entry.Text.Contains("."))
+        {
+            entry.Text = Regex.Replace(entry.Text, @"\.", string.Empty);
+        }
+    }
+    #endregion
 }

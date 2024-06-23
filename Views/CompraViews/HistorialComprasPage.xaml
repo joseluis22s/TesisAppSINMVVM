@@ -8,11 +8,19 @@
     NavigationPage.HasBackButton="False">
     <Border
         Margin="10"
-        Padding="10,0,10,10"
+        Padding="10"
         BackgroundColor="#bbc2c9"
         StrokeShape="{RoundRectangle CornerRadius='2'}">
         <Grid RowDefinitions="Auto,*,Auto" RowSpacing="15">
-            <Label Text="{Binding PROVEEDOR}" />
+            <Border
+                Padding="0,3"
+                BackgroundColor="#999ea3"
+                Stroke="Transparent">
+                <Label
+                    FontSize="17"
+                    HorizontalOptions="Center"
+                    Text="{Binding PROVEEDOR, StringFormat='PROVEEDOR: {0} '}" />
+            </Border>
             <CollectionView
                 x:Name="CollectionView_HistorialCompras"
                 Grid.Row="1"
@@ -43,12 +51,17 @@
                             <Grid
                                 ColumnDefinitions="*,*,*"
                                 ColumnSpacing="7"
-                                RowDefinitions="Auto,Auto"
+                                RowDefinitions="Auto,Auto,Auto"
                                 RowSpacing="10">
                                 <Label
                                     FontAttributes="Bold"
                                     FontSize="15"
                                     Text="{Binding PRODUCTO}" />
+                                <Label
+                                    Grid.Row="1"
+                                    FontAttributes="Bold"
+                                    FontSize="15"
+                                    Text="{Binding MEDIDA}" />
 
                                 <Label Grid.Column="1" Text="{Binding CANTIDAD, StringFormat='x{0}'}" />
                                 <Label
@@ -61,6 +74,10 @@
                                     Text="{Binding TOTAL, StringFormat='Total: ${0}'}" />
                                 <Label
                                     Grid.Row="1"
+                                    Grid.Column="2"
+                                    Text="{Binding ABONO, StringFormat='Abono: ${0}'}" />
+                                <Label
+                                    Grid.Row="2"
                                     Grid.Column="2"
                                     Text="{Binding SALDOPENDIENTE, StringFormat='Saldo: ${0}'}" />
                             </Grid>

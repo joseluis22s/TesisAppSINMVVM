@@ -9,15 +9,12 @@ namespace TesisAppSINMVVM.Views.CompraViews;
 public partial class HistorialComprasPage : ContentPage
 {
     private Proveedor _proveedor;
-    //Tbl_HistorialCompras_Repository _repoHistorialCompras;
     public List<HistorialComprasGroup> _historialCompras { get; private set; } = new List<HistorialComprasGroup>();
-    //private Tbl_Proveedor _proveedor;
 
     public HistorialComprasPage()
 	{
 		InitializeComponent();
         _proveedor = (Proveedor)BindingContext;
-        //_repoHistorialCompras = new Tbl_HistorialCompras_Repository();
     }
 
 
@@ -25,7 +22,6 @@ public partial class HistorialComprasPage : ContentPage
     #region NAVEGACIÓN
     private async Task HistorialComprasPagePopAsync()
     {
-        //await PagePopAsync();
         await Navigation.PopAsync();
     }
     #endregion
@@ -49,8 +45,14 @@ public partial class HistorialComprasPage : ContentPage
     {
         _proveedor = (Proveedor)BindingContext;
         var compras = await ObtenerHistorialProductosDBAsync(_proveedor.PROVEEDOR);
-        var gruposCompras = compras.GroupBy(_grs => _grs.DIAFECHA)
-            .Select(g => new HistorialComprasGroup(g.Key, g.ToList()));
+        var gruposCompras = compras.OrderByDescending(c => c.FECHA)
+        .GroupBy(_grs => _grs.DIAFECHA)
+        .Select(g => new HistorialComprasGroup(g.Key, g.ToList()));
+        //var gruposCompras = compras.GroupBy(_grs => _grs.DIAFECHA)
+        //    .Select(g => new HistorialComprasGroup(g.Key, g.ToList()));
+
+        //TODO: Solo mostar los registros desde hace un mes, agregar un
+        //      boton para ver todos los regsitros (desde hace 3 meses)
         _historialCompras.Clear();
         foreach (var grupo in gruposCompras)
         {
