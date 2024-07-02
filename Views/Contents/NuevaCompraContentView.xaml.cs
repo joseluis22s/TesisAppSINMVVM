@@ -1,6 +1,7 @@
 using CommunityToolkit.Maui.Alerts;
 using TesisAppSINMVVM.Database.Respositories;
 using TesisAppSINMVVM.Database.Tables;
+using TesisAppSINMVVM.Models;
 using TesisAppSINMVVM.Views;
 
 namespace TesisAppSINMVVM.Contents;
@@ -108,7 +109,7 @@ public partial class NuevaCompraContentView : ContentView
                 //SALDOPENDIENTE = double.Parse(Entry_SaldoPendiente.Text)
             };
             OcultarTecladoVaciarCampos();
-            await GuardarRegistroProductoDBAsync(compra);
+            //await GuardarRegistroProductoDBAsync(compra);
             await _compraPage.DisplayAlert("AVISO", "El registro se ha guardado", "Aceptar");
         }
         else
@@ -136,7 +137,7 @@ public partial class NuevaCompraContentView : ContentView
                     else
                     {
 
-                        await GuardarProductoDBAsync(nuevoProducto);
+                        //await GuardarProductoDBAsync(nuevoProducto);
                         await CargarProductos();
                         await Toast.Make("el producto se ha guardado").Show();
                     }
@@ -245,10 +246,10 @@ public partial class NuevaCompraContentView : ContentView
     {
         return await _repoProducto.VerificarExistenciaProductoAsync(resultado);
     }
-    private async Task GuardarProductoDBAsync(string producto)
-    {
-        await _repoProducto.GuardarProductoAsync(producto);
-    }
+    //private async Task GuardarProductoDBAsync(string producto)
+    //{
+    //    await _repoProducto.GuardarProductoAsync(producto);
+    //}
     private async Task<List<Tbl_Producto>> ObtenerProdcutosDBAsync()
     {
         return await _repoProducto.ObtenerProductosAsync();
@@ -260,7 +261,7 @@ public partial class NuevaCompraContentView : ContentView
     }
 
     //      Tbl_HistorialCompras_Repository
-    private async Task GuardarRegistroProductoDBAsync(Tbl_HistorialCompras registroCompra)
+    private async Task GuardarRegistroProductoDBAsync(HistorialCompras registroCompra)
     {
         await _repohistorialCompras.GuardarRegistroProductoAsync(registroCompra);
     }

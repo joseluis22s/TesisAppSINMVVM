@@ -2,19 +2,25 @@ using TesisAppSINMVVM.Models;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using TesisAppSINMVVM.FirebaseDataBase.Repositories;
+using TesisAppSINMVVM.Database.Tables;
+using TesisAppSINMVVM.Database.Respositories;
+using Plugin.CloudFirestore;
+using System.Collections.Generic;
 
 namespace TesisAppSINMVVM.Views.CompraViews;
 
 public partial class ProveedoresPage : ContentPage
 {
-    private List<Proveedor> _proveedores;
-    private Proveedor _proveedor;
+    private Proveedor_Repository _repoProveedores = new Proveedor_Repository();
+    private List<Tbl_Proveedor> _tblProveedores = new List<Tbl_Proveedor>();
+    private Proveedor _proveedor = new Proveedor();
+    private Tbl_Proveedor _tblproveedor = new Tbl_Proveedor();
     private bool _enEjecucion;
     public static bool _permitirEjecucion = true;
 
     public ProveedoresPage()
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
     }
 
 
@@ -72,22 +78,31 @@ public partial class ProveedoresPage : ContentPage
         ProveedoresPagePopAsync().GetAwaiter();
         return true;
     }
+    private async void Button_EliminarProveedor_Clicked(object sender, EventArgs e)
+    {
+        await EliminarProveedor(sender);
+    }
 
+    private async void Button_EditarProveedor_Clicked(object sender, EventArgs e)
+    {
+        await EditarProveedor(sender);
+    }
     #endregion
 
-
+    
     // LÓGICA PARA EVENTOS
     #region LÓGICA PARA EVENTOS
     private async Task CargarDatosCollectionView_Proveedores()
     {
-        _proveedores = await ObtenerProveedoresDBAsync();
-        CollectionView_Proveedores.ItemsSource = _proveedores;
+        _tblProveedores = await ObtenerProveedoresDBAsync();
+        CollectionView_Proveedores.ItemsSource = _tblProveedores;
     }
     private async Task ProveedorSelecionado()
     {
-        if(_permitirEjecucion)
+        if (_permitirEjecucion)
         {
-            _proveedor = (Proveedor)CollectionView_Proveedores.SelectedItem;
+            _tblproveedor = (Tbl_Proveedor)CollectionView_Proveedores.SelectedItem;
+            _proveedor.PROVEEDOR = _tblproveedor.PROVEEDOR;
             await RegistrarNuevaCompraPagePushAsync(_proveedor);
         }
         _permitirEjecucion = true;
@@ -103,14 +118,14 @@ public partial class ProveedoresPage : ContentPage
                 if (nuevoProveedor != "")
                 {
                     nuevoProveedor = nuevoProveedor.Trim().ToUpper();
-                    bool existeProveedor = _proveedores.Any(p => p.PROVEEDOR == nuevoProveedor);
+                    bool existeProveedor = _tblProveedores.Any(p => p.PROVEEDOR == nuevoProveedor);
                     if (!existeProveedor)
                     {
                         Proveedor proveedor = new Proveedor();
                         proveedor.PROVEEDOR = nuevoProveedor;
                         await GuardarNuevoProveedorDBAsync(proveedor);
-                        await CargarDatosCollectionView_Proveedores();
                         await Toast.Make("Se ha guardado el nuevo proveedor", ToastDuration.Long).Show();
+                        await CargarDatosCollectionView_Proveedores();
                     }
                     else
                     {
@@ -124,7 +139,72 @@ public partial class ProveedoresPage : ContentPage
             }
         } while (nuevoProveedor == "");
     }
-
+    private async Task EliminarProveedor(object sender)
+    {
+        NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+        if (accessType == NetworkAccess.Internet)
+        {
+            Button button = (Button)sender;
+            Tbl_Proveedor tblProveedor = (Tbl_Proveedor)button.BindingContext;
+            Proveedor proveedor = new Proveedor()
+            {
+                PROVEEDOR = tblProveedor.PROVEEDOR
+            };
+            await BorrarProveedorDBAsync(proveedor);
+            await CargarDatosCollectionView_Proveedores();
+        }
+        else
+        {
+            await Toast.Make("Para eliminar un proveedor debe conectarse a internet", ToastDuration.Long).Show();
+        }
+    }
+    private async Task EditarProveedor(object sender)
+    {
+        NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+        if (accessType == NetworkAccess.Internet)
+        {
+            Button button = (Button)sender;
+            Tbl_Proveedor tblProveedor = (Tbl_Proveedor)button.BindingContext;
+            Proveedor proveedorActual = new Proveedor()
+            {
+                PROVEEDOR = tblProveedor.PROVEEDOR
+            };
+            string nuevoNombreProveeedor;
+            do
+            {
+                nuevoNombreProveeedor = await DisplayPromptAsync("CAMBIAR NOMBRE DE PROVEEDOR", "Ingrese el nuevo nombre para: " + proveedorActual.PROVEEDOR, "AGREGAR", "CANCELAR", null, -1, Keyboard.Create(KeyboardFlags.CapitalizeCharacter));
+                if (nuevoNombreProveeedor is not null)
+                {
+                    if (nuevoNombreProveeedor != "")
+                    {
+                        nuevoNombreProveeedor = nuevoNombreProveeedor.Trim().ToUpper();
+                        bool existeProveedor = _tblProveedores.Any(p => p.PROVEEDOR == nuevoNombreProveeedor);
+                        if (!existeProveedor)
+                        {
+                            //    Proveedor proveedor = new Proveedor();
+                            //    proveedor.PROVEEDOR = nuevoProveedor;
+                            //await GuardarNuevoProveedorDBAsync(proveedor);
+                            await EditarProveedorDBAsync(proveedorActual, nuevoNombreProveeedor);
+                            await Toast.Make("Se ha cambiado " + proveedorActual.PROVEEDOR + " a " + nuevoNombreProveeedor, ToastDuration.Long).Show();
+                            await CargarDatosCollectionView_Proveedores();
+                        }
+                        else
+                        {
+                            await Toast.Make("Proveedor ya existente", ToastDuration.Long).Show();
+                        }
+                    }
+                    else
+                    {
+                        await Toast.Make("El campo no debe estar vacío").Show();
+                    }
+                }
+            } while (nuevoNombreProveeedor == "");
+        }
+        else
+        {
+            await Toast.Make("Para editar un proveedor debe conectarse a internet", ToastDuration.Long).Show();
+        }
+    }
     #endregion
 
 
@@ -135,13 +215,22 @@ public partial class ProveedoresPage : ContentPage
 
     // BASE DE DATOS
     #region BASE DE DATOS
-    private async Task<List<Proveedor>> ObtenerProveedoresDBAsync()
+    private async Task<List<Tbl_Proveedor>> ObtenerProveedoresDBAsync()
     {
-        return await Proveedor_Repository.ObtenerProveedoresAsync();
+        return await _repoProveedores.ObtenerProveedoresAsync();
     }
     private async Task GuardarNuevoProveedorDBAsync(Proveedor proveedor)
     {
-        await Proveedor_Repository.GuardarNuevoProveedorAsync(proveedor);
+        await _repoProveedores.GuardarNuevoProveedorAsync(proveedor);
+    }
+    private async Task BorrarProveedorDBAsync(Proveedor proveedor)
+    {
+        await _repoProveedores.BorrarProveedorAsync(proveedor);
+    }
+    private async Task EditarProveedorDBAsync(Proveedor proveedor, string nuevoNombreProveeedor)
+    {
+        await _repoProveedores.EditarProveedorAsync(proveedor,nuevoNombreProveeedor);
     }
     #endregion
+
 }

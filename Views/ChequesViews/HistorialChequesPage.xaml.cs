@@ -7,6 +7,8 @@ namespace TesisAppSINMVVM.Views.ChequesViews;
 
 public partial class HistorialChequesPage : ContentPage
 {
+    private Cheque_Repository _repoCheque = new Cheque_Repository();
+    
     private List<ChequesGroup> _grupoCheques { get; set; } = new List<ChequesGroup>();
     private List<Cheque> _historialCheques;
 
@@ -41,10 +43,10 @@ public partial class HistorialChequesPage : ContentPage
     #region LÓGICA PARA EVENTOS
     private async Task CargarDatosCollectionView_HistorialCompras()
     {
-        List<Cheque> cheques = await ObtenerDBChequesAsync();
+        List<Tbl_Cheque> cheques = await ObtenerDBChequesAsync();
 
-        var gruposFechaCobro = cheques
-           .GroupBy(c => c.DIAFECHA)
+        var gruposFechaCobro = cheques.OrderByDescending(c => DateTime.Parse(c.FECHACOBRO))
+            .GroupBy(c => c.DIAFECHACOBRO)
            .Select(g => new ChequesGroup(g.Key, g.ToList()));
         //TODO: HACER QUE SEA POR FECHA DE COBRO (NUEVA IMPLMENTACIÓN)
         _grupoCheques.Clear();
@@ -63,9 +65,9 @@ public partial class HistorialChequesPage : ContentPage
 
 
     // BASE DE DATOS
-    private async Task<List<Cheque>> ObtenerDBChequesAsync()
+    private async Task<List<Tbl_Cheque>> ObtenerDBChequesAsync()
     {
-        return await Cheque_Repository.ObtenerChequesAsync();
+        return await _repoCheque.ObtenerChequesAsync();
     }
     #endregion
 
@@ -78,18 +80,4 @@ public partial class HistorialChequesPage : ContentPage
     #region LÓGICA DE COSAS VISUALES DE LA PÁGINA
 
     #endregion
-
-
-
-
-
-
-
-
-    //LÓGICA
-
-
-
-    // LÓGICA DE COSAS VISUALES DE LA PÁGINA
-
 }

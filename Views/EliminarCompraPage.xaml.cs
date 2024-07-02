@@ -13,7 +13,7 @@ public partial class EliminarCompraPage : ContentPage
 
     private ContentView _nuevaCompraContentView;
     private ContentView _historialComprasContentView;
-    private Tbl_Proveedor_Respository _repoProveedor;
+    private Tbl_Proveedor_Repository _repoProveedor;
     private List<Tbl_Proveedor> _proveedores;
     private bool _enEjecucion;
     private bool _ejecutarSelectionChanged = true;
@@ -29,7 +29,7 @@ public partial class EliminarCompraPage : ContentPage
         _nuevaCompraView = new NuevaCompraContentView();
         _nuevaCompraContentView = new NuevaCompraContentView();
         _historialComprasContentView = new HistorialComprasContentView();
-        _repoProveedor = new Tbl_Proveedor_Respository();
+        _repoProveedor = new Tbl_Proveedor_Repository();
         ContentView_CompraPageContenidoDinamico.Content = _nuevaCompraContentView;
     }
 
@@ -167,7 +167,7 @@ public partial class EliminarCompraPage : ContentPage
     }
     private async Task<List<Tbl_Proveedor>> ObtenerProveedoresDBAsync()
     {
-        return await _repoProveedor.ObtenerProveedoresAsync();
+        return await _repoProveedor.ObtenerTblProveedoresAsync();
     }
     private async Task BorrarTblProveedorDBAsync()
     {

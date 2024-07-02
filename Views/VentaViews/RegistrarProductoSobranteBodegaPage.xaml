@@ -60,14 +60,26 @@
                                     Grid.Row="1"
                                     IsVisible="{Binding ESSELECCIONADO}"
                                     Style="{StaticResource BorderStyle2}">
-                                    <Entry
-                                        IsVisible="{Binding ESSELECCIONADO}"
-                                        Keyboard="Numeric"
-                                        MaxLength="6"
-                                        Placeholder="Cantidad"
-                                        PlaceholderColor="#a1a1a1"
-                                        Text="{Binding CANTIDAD}"
-                                        TextChanged="Entry_TextChanged_Cantidad" />
+                                    <Grid
+                                        Margin="10,0"
+                                        ColumnDefinitions="Auto,*"
+                                        ColumnSpacing="3"
+                                        HorizontalOptions="FillAndExpand">
+                                        <Label
+                                            Text="#"
+                                            TextColor="#5c5c5c"
+                                            VerticalOptions="Center" />
+                                        <Entry
+                                            Grid.Column="1"
+                                            IsVisible="{Binding ESSELECCIONADO}"
+                                            Keyboard="Numeric"
+                                            MaxLength="6"
+                                            Placeholder="Cantidad"
+                                            PlaceholderColor="#a1a1a1"
+                                            Text="{Binding CANTIDAD}"
+                                            TextChanged="Entry_TextChanged_Cantidad" />
+                                    </Grid>
+
                                 </Border>
 
                                 <Border

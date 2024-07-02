@@ -1,5 +1,7 @@
 ﻿using SQLite;
 using TesisAppSINMVVM.Database.Tables;
+using TesisAppSINMVVM.Models;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace TesisAppSINMVVM.Database.Respositories
 {
@@ -26,10 +28,23 @@ namespace TesisAppSINMVVM.Database.Respositories
             }
             return false;
         }
-        public async Task GuardarChequeAsync(Tbl_Cheque cheque)
+        public async Task GuardarChequeAsync(Cheque cheque)
         {
             await InitAsync();
-            await conn.InsertAsync(cheque);
+            Tbl_Cheque tbl_Cheque = new Tbl_Cheque()
+            {
+                NUMERO = cheque.NUMERO,
+                MONTO = cheque.MONTO,
+                PROVEEDOR = cheque.PROVEEDOR,
+                FECHACOBRO = cheque.FECHACOBRO,
+                FECHAEMISION = cheque.FECHAEMISION,
+                DIAFECHACOBRO = cheque.DIAFECHACOBRO,
+            };
+            bool existeCheque = await VerificarExistenciaChequeAsync(tbl_Cheque.NUMERO);
+            if (!existeCheque)
+            {
+                await conn.InsertAsync(tbl_Cheque);
+            }
         }
         public async Task BorarTbl_Cheque()
         {

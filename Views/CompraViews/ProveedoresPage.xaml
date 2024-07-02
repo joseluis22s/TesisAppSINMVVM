@@ -46,6 +46,16 @@
                                 FontAttributes="Bold"
                                 FontSize="20"
                                 Text="{Binding PROVEEDOR}" />
+                            <HorizontalStackLayout Grid.Column="1" Spacing="5">
+                                <Button
+                                    x:Name="Button_EliminarProveedor"
+                                    Clicked="Button_EliminarProveedor_Clicked"
+                                    Text="X" />
+                                <Button
+                                    x:Name="Button_EditarProveedor"
+                                    Clicked="Button_EditarProveedor_Clicked"
+                                    Text="-" />
+                            </HorizontalStackLayout>
                         </Grid>
                     </Border>
                 </DataTemplate>

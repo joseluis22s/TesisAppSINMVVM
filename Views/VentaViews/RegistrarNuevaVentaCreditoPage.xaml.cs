@@ -11,6 +11,7 @@ namespace TesisAppSINMVVM.Views.VentaViews;
 
 public partial class RegistrarNuevaVentaCreditoPage : ContentPage
 {
+    private Comprador_Repository _repoComprador = new Comprador_Repository();
     private bool _enEjecucion;
     //private bool _paginaCargada = false;
     private double _montoVendido;
@@ -248,9 +249,9 @@ public partial class RegistrarNuevaVentaCreditoPage : ContentPage
 
     // BASE DE DATOS
     #region BASE DE DATOS
-    private async Task<List<Comprador>> ObtenerCompradoresDBAsync()
+    private async Task<List<Tbl_Comprador>> ObtenerCompradoresDBAsync()
     {
-        return await Comprador_Repository.ObtenerCompradoresAsync();
+        return await _repoComprador.ObtenerCompradoresAsync();
     }
     private async Task GuardarNuevoCompradorDBAsync(Comprador comprador)
     {

@@ -22,7 +22,7 @@ namespace TesisAppSINMVVM.Database.Respositories
             await conn.InsertAsync(comprador);
         }
 
-        public async Task<List<Tbl_Comprador>> ObtenerCompradoresAsync()
+        public async Task<List<Tbl_Comprador>> ObtenerTblCompradoresAsync()
         {
             await InitAsync();
             return await conn.Table<Tbl_Comprador>().ToListAsync();

@@ -11,6 +11,7 @@ namespace TesisAppSINMVVM.Views.VentaViews;
 
 public partial class RegistrarProductoSobranteBodegaPage : ContentPage
 {
+    private Producto_Repository _repoProducto;
     private List<Producto> _productos;
     private ObservableCollection<AuxProductoInventarioBodega> _auxProductosInventario = new ObservableCollection<AuxProductoInventarioBodega>();
     private bool _enEjecucion;
@@ -112,49 +113,7 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
         }
         _enEjecucion = false;
 
-        //foreach (var p in _auxProductosInventario)
-        //{
-        //    if (p.ESSELECCIONADO == true)
-        //    {
-        //        if (string.IsNullOrEmpty(p.CANTIDAD))
-        //        {
-        //            _enEjecucion = false;
-        //            await Toast.Make("¡Los campos de cantidad no deben estar vacíos!").Show();
-        //            return;
-        //        }
-        //        else
-        //        {
-        //            inventarioProductosBodega.Add(new ProductoInventarioBodega
-        //            {
-        //                PRODUCTO = p.PRODUCTO,
-        //                MEDIDA = p.MEDIDA,
-        //                CANTIDAD = int.Parse(p.CANTIDAD),
-        //                DESCRIPCION = p.DESCRIPCION,
-        //                FECHAGUARDADO = DateTime.Now.ToString("dd/MM/yyyy"),
-        //                DIAFECHAGUARDADO = DateTime.Now.ToString("dddd, dd MMMM")
-        //            });
-        //        }
-
-        //    }
-        //}
-        //if (inventarioProductosBodega.Count == 0)
-        //{
-
-        //}
-        //else
-        //{
-        //    foreach (var p in _auxProductosInventario)
-        //    {
-        //        p.CANTIDAD = "";
-        //        p.DESCRIPCION = "";
-        //        p.ESSELECCIONADO = false;
-        //    }
-
-        //    await ProductoInventario_Repository.GuardarProductosInventarioAsync(inventarioProductosBodega);
-        //    await Toast.Make("¡Registro guardado!").Show();
-        //}
-        //_enEjecucion = false;
-
+        
     }
     private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
@@ -211,19 +170,44 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
     #region LÓGICA
     private async Task PagePopAsync()
     {
-        bool respuesta = await DisplayAlert("Alerta", "¿Desea regresar? Perderá el progreso realizado", "Confimar", "Cancelar");
-        if (respuesta)
+        bool camposVacios = VerificarCamposVacios();
+        if (!camposVacios)
+        {
+            bool respuesta = await DisplayAlert("Alerta", "¿Desea regresar? Perderá el progreso realizado", "Confimar", "Cancelar");
+            if (respuesta)
+            {
+                await Navigation.PopAsync();
+            }
+        }
+        else
         {
             await Navigation.PopAsync();
         }
+    }
+    private bool VerificarCamposVacios()
+    {
+        int contador = 0;
+        _AuxProductosInventario = (ObservableCollection<AuxProductoInventarioBodega>)CollectionView_RegistrarProductoSobranteBodega.ItemsSource;
+        foreach (var p in _AuxProductosInventario)
+        {
+            if (p.ESSELECCIONADO == true)
+            {
+                contador++;
+            }
+        }
+        if (contador == 0) 
+        {
+            return true;
+        }
+        return false;
     }
     #endregion
 
     // BASE DE DATOS
     #region BASE DE DATOS
-    private async Task<List<Producto>> ObtenerProdcutosDBAsync()
+    private async Task<List<Tbl_Producto>> ObtenerProdcutosDBAsync()
     {
-        return await Producto_Repository.ObtenerProductosAsync();
+        return await _repoProducto.ObtenerProductosAsync();
     }
     #endregion
 

@@ -9,29 +9,52 @@
     <ScrollView>
         <Grid
             Margin="20"
-            RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
+            RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto"
             RowSpacing="12">
 
             <VerticalStackLayout>
                 <Label Style="{StaticResource LabelStyle}" Text="Número de cheque" />
                 <Border>
-                    <Entry
-                        x:Name="Entry_NumeroCheque"
-                        Keyboard="Numeric"
-                        MaxLength="7"
-                        TextChanged="Entry_NumeroCheque_TextChanged" />
+                    <Grid
+                        Margin="10,0"
+                        ColumnDefinitions="Auto,*"
+                        HorizontalOptions="FillAndExpand">
+                        <Label
+                            Margin="20,0,-25,0"
+                            Text="#"
+                            TextColor="#5c5c5c"
+                            VerticalOptions="Center" />
+                        <Entry
+                            x:Name="Entry_NumeroCheque"
+                            Grid.Column="1"
+                            Keyboard="Numeric"
+                            MaxLength="7"
+                            TextChanged="Entry_NumeroCheque_TextChanged" />
+
+
+                    </Grid>
                 </Border>
             </VerticalStackLayout>
             <VerticalStackLayout Grid.Row="1" Padding="10,0">
                 <Label Style="{StaticResource LabelStyle}" Text="Monto" />
-                <Grid ColumnDefinitions="*,Auto,*" ColumnSpacing="3" Padding="5,0">
+                <Grid
+                    Padding="5,0"
+                    ColumnDefinitions="*,Auto,*"
+                    ColumnSpacing="3">
                     <Border>
-                        <Entry
-                            x:Name="Entry_MontoChequeEntero"
-                            Keyboard="Numeric"
-                            MaxLength="7"
-                            Placeholder="0"
-                            TextChanged="Entry_MontoCheque_TextChanged" />
+                        <Grid Margin="10,0" ColumnDefinitions="Auto,*">
+                            <Label
+                                Text="$"
+                                TextColor="#5c5c5c"
+                                VerticalOptions="Center" />
+                            <Entry
+                                x:Name="Entry_MontoChequeEntero"
+                                Grid.Column="1"
+                                Keyboard="Numeric"
+                                MaxLength="7"
+                                Placeholder="0"
+                                TextChanged="Entry_MontoCheque_TextChanged" />
+                        </Grid>
                     </Border>
                     <Label
                         Grid.Column="1"
@@ -40,13 +63,20 @@
                         Text="."
                         VerticalOptions="End" />
                     <Border Grid.Column="2">
-                        <Entry
-                            x:Name="Entry_MontoChequeDecimal"
-                            Grid.Column="2"
-                            Keyboard="Numeric"
-                            MaxLength="2"
-                            Placeholder="00"
-                            TextChanged="Entry_MontoCheque_TextChanged" />
+                        <Grid Margin="10,0" ColumnDefinitions="*,Auto">
+                            <Entry
+                                x:Name="Entry_MontoChequeDecimal"
+                                Keyboard="Numeric"
+                                MaxLength="2"
+                                Placeholder="00"
+                                TextChanged="Entry_MontoCheque_TextChanged" />
+                            <Label
+                                Grid.Column="1"
+                                Text="ctvs"
+                                TextColor="#5c5c5c"
+                                VerticalOptions="Center" />
+                        </Grid>
+
                     </Border>
                 </Grid>
             </VerticalStackLayout>
@@ -54,29 +84,37 @@
             <VerticalStackLayout Grid.Row="2">
                 <Label Style="{StaticResource LabelStyle}" Text="Proveedor" />
                 <Border>
-                    <Picker x:Name="Picker_Proveedores"
-                            ItemDisplayBinding="{Binding PROVEEDOR}"/>
+                    <Picker x:Name="Picker_Proveedores" ItemDisplayBinding="{Binding PROVEEDOR}" />
                 </Border>
             </VerticalStackLayout>
             <VerticalStackLayout Grid.Row="3">
-                <Label Style="{StaticResource LabelStyle}" Text="Fecha" />
+                <Label Style="{StaticResource LabelStyle}" Text="Fecha de cobro" />
                 <Border>
                     <DatePicker
-                        x:Name="DatePicker_FechasEmision"
+                        x:Name="DatePicker_FechaCobro"
+                        Format="dd/MM/yyyy"
+                        HorizontalOptions="FillAndExpand" />
+                </Border>
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Row="4">
+                <Label Style="{StaticResource LabelStyle}" Text="Fecha de emisión" />
+                <Border>
+                    <DatePicker
+                        x:Name="DatePicker_FechaEmision"
                         Format="dd/MM/yyyy"
                         HorizontalOptions="FillAndExpand" />
                 </Border>
             </VerticalStackLayout>
             <Button
                 x:Name="Button_GuardarNuevoCheque"
-                Grid.Row="4"
+                Grid.Row="5"
                 Padding="20,15"
                 Clicked="Button_GuardarNuevoCheque_Clicked"
                 HorizontalOptions="Center"
                 Text="Guardar" />
             <Button
                 x:Name="Button_Regresar"
-                Grid.Row="5"
+                Grid.Row="6"
                 Padding="20,15"
                 Clicked="Button_Regresar_Clicked"
                 HorizontalOptions="Center"

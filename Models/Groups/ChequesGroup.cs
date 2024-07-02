@@ -3,12 +3,12 @@ using TesisAppSINMVVM.Database.Tables;
 
 namespace TesisAppSINMVVM.Models
 {
-    public class ChequesGroup : List<Cheque>
+    public class ChequesGroup : List<Tbl_Cheque>
     {
         public string DiaFecha { get; private set; }
-        public ChequesGroup(string daFecha, List<Cheque> cheques)  : base (cheques)
+        public ChequesGroup(string diaFecha, List<Tbl_Cheque> cheques)  : base (cheques)
         {
-            DiaFecha = daFecha;
+            DiaFecha = diaFecha;
         }
     }
 }

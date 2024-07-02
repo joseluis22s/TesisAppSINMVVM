@@ -33,7 +33,7 @@ public partial class HistorialComprasContentView : ContentView
         if (_ejecutarBindingContextChanged)
         {
             Tbl_Proveedor proveedorBinding = (Tbl_Proveedor)BindingContext;
-            var historial = await ObtenerHistorialProductosDBAsync(nameof(proveedorBinding.NOMBRE), nameof(proveedorBinding.APELLIDO));
+            var historial = await ObtenerHistorialProductosDBAsync(nameof(proveedorBinding.PROVEEDOR));
 
 
             //Crear un grupo para cada fecha
@@ -59,9 +59,9 @@ public partial class HistorialComprasContentView : ContentView
     // agregar 
 
     // BASE DE DATOS
-    private async Task<List<Tbl_HistorialCompras>> ObtenerHistorialProductosDBAsync(string nombreProveedor, string apellidoProveedor)
+    private async Task<List<Tbl_HistorialCompras>> ObtenerHistorialProductosDBAsync(string nombreProveedor)
     {
-        return await _repoHistorialCompras.ObtenerHistorialProductosAsync(nombreProveedor, apellidoProveedor);
+        return await _repoHistorialCompras.ObtenerHistorialProductosAsync(nombreProveedor);
     }
 
     

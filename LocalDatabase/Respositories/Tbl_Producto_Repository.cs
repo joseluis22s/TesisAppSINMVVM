@@ -1,5 +1,6 @@
 ﻿using SQLite;
 using TesisAppSINMVVM.Database.Tables;
+using TesisAppSINMVVM.Models;
 
 namespace TesisAppSINMVVM.Database.Respositories
 {
@@ -25,12 +26,12 @@ namespace TesisAppSINMVVM.Database.Respositories
             }
             return false;
         }
-        public async Task GuardarProductoAsync(string producto)
+        public async Task GuardarProductoAsync(Producto producto)
         {
             await InitAsync();
             Tbl_Producto Producto = new Tbl_Producto()
             {
-                PRODUCTO = producto
+                PRODUCTO = producto.PRODUCTO
             };
             await conn.InsertAsync(Producto);
         }

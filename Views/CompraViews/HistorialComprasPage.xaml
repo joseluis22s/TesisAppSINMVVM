@@ -38,6 +38,10 @@
                                 Text="NO SE HAN REALIZADO REGISTROS"
                                 TextColor="#1a1a1a" />
                             <Image MaximumHeightRequest="30" Source="remove_empty_icon.png" />
+                            <Button
+                                x:Name="Button_NavegarAgregarNuevaCompra"
+                                Clicked="Button_NavegarAgregarNuevaCompra_Clicked"
+                                Text="Agregar nuevo registro" />
                         </VerticalStackLayout>
                     </ContentView>
                 </CollectionView.EmptyView>

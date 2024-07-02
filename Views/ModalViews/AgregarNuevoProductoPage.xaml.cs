@@ -1,6 +1,7 @@
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using Plugin.CloudFirestore;
+using TesisAppSINMVVM.Database.Tables;
 using TesisAppSINMVVM.FirebaseDataBase.Repositories;
 using TesisAppSINMVVM.Models;
 
@@ -8,6 +9,7 @@ namespace TesisAppSINMVVM.Views.ModalViews;
 
 public partial class AgregarNuevoProductoPage : ContentPage
 {
+    private Producto_Repository _repoProducto;
 	public AgregarNuevoProductoPage()
 	{
 		InitializeComponent();
@@ -108,13 +110,13 @@ public partial class AgregarNuevoProductoPage : ContentPage
 
     // BASE DE DATOS
     #region BASE DE DATOS
-    private async Task<List<Producto>> ObtenerProductosDBAsync()
+    private async Task<List<Tbl_Producto>> ObtenerProductosDBAsync()
     {
-        return await Producto_Repository.ObtenerProductosAsync();
+        return await _repoProducto.ObtenerProductosAsync();
     }
     private async Task GuardarNuevoProductoDBAsync(Producto producto)
     {
-        await Producto_Repository.GuardarNuevoProductoAsync(producto);
+        await _repoProducto.GuardarNuevoProductoAsync(producto);
     }
     #endregion
 

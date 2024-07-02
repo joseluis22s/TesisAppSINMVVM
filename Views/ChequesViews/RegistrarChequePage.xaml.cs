@@ -7,7 +7,9 @@ namespace TesisAppSINMVVM.Views.ChequesViews;
 
 public partial class RegistrarChequePage : ContentPage
 {
-    private List<Proveedor> _proveedores;
+    private Cheque_Repository _repoCheque = new Cheque_Repository();
+    private Proveedor_Repository _repoProveedor = new Proveedor_Repository();
+    private List<Tbl_Proveedor> _tblProveedores;
     private bool _enEjecucion;
     private double _montoCheque;
 
@@ -71,8 +73,8 @@ public partial class RegistrarChequePage : ContentPage
     #region LÓGICA PARA EVENTOS
     private async Task CargarPickerInformacionAsync()
     {
-        _proveedores = await ObtenerProveedoresDBAsync();
-        Picker_Proveedores.ItemsSource = _proveedores;
+        _tblProveedores = await ObtenerProveedoresDBAsync();
+        Picker_Proveedores.ItemsSource = _tblProveedores;
     }
     
     private async Task GuardarRegistroChequeAsync()
@@ -80,23 +82,25 @@ public partial class RegistrarChequePage : ContentPage
         string resultado = ControlarCamposvalidosCargarCheque();
         if (resultado == "true")
         {
-            var itemProveedor = (Proveedor)Picker_Proveedores.SelectedItem;
+            var itemProveedor = (Tbl_Proveedor)Picker_Proveedores.SelectedItem;
             Cheque cheque = new Cheque()
             {
                 NUMERO = int.Parse(Entry_NumeroCheque.Text),
                 MONTO = double.Parse(Entry_MontoChequeEntero.Text + "." + Entry_MontoChequeDecimal.Text),
                 PROVEEDOR = itemProveedor.PROVEEDOR,
-                FECHA = DatePicker_FechasEmision.Date.ToString("dd/MM/yyyy"),
-                DIAFECHA = DatePicker_FechasEmision.Date.ToString("dddd, dd MMMM")
+                FECHACOBRO = DatePicker_FechaCobro.Date.ToString("dd/MM/yyyy"),
+                FECHAEMISION = DatePicker_FechaEmision.Date.ToString("dd/MM/yyyy"),
+                DIAFECHACOBRO = DatePicker_FechaCobro.Date.ToString("dddd, dd MMMM yyyy")
             };
             bool existeCheque = await VerificarExistenciaChequeDBAsync(cheque.NUMERO);
             if (!existeCheque)
             {
 
-                string mensaje = "CHEQUE       :  #" + cheque.NUMERO +
-                               "\nMONTO         :  $" + cheque.MONTO +
-                               "\nPROVEEDOR :  " + cheque.PROVEEDOR +
-                               "\nFECHA          :  " + cheque.FECHA;
+                string mensaje = "CHEQUE                    :  #" + cheque.NUMERO +
+                               "\nMONTO                     :  $" + cheque.MONTO +
+                               "\nPROVEEDOR             :  " + cheque.PROVEEDOR +
+                               "\nFECHA DE COBRO    :  " + cheque.FECHACOBRO +
+                               "\nFECHA DE EMISIÓN :  " + cheque.FECHAEMISION;
                 bool resultado1 = await DisplayAlert("Mensaje de confirmación", mensaje, "Confirmar", "Cancelar");
                 if (resultado1)
                 {
@@ -126,7 +130,8 @@ public partial class RegistrarChequePage : ContentPage
     #region LÓGICA
     private async Task PermitirPopAsyncNavegacion(bool mostrarAlerta)
     {
-        if (mostrarAlerta)
+        bool camposVacios = VerificarCamposVacios();
+        if (!camposVacios)
         {
             bool respuesta = await DisplayAlert("Alerta", "¿Desea regresar? Perderá el progreso realizado", "Confimar", "Cancelar");
             if (respuesta)
@@ -139,13 +144,26 @@ public partial class RegistrarChequePage : ContentPage
             await Navigation.PopAsync();
         }
     }
+    private bool VerificarCamposVacios()
+    {
+        var numerocheque = Entry_NumeroCheque.Text;
+        var monetoE = Entry_MontoChequeEntero.Text;
+        var montoD = Entry_MontoChequeDecimal.Text;
+        var proveedorItem = (Tbl_Proveedor)Picker_Proveedores.SelectedItem;
+        if (proveedorItem is null && string.IsNullOrEmpty(numerocheque) && 
+            string.IsNullOrEmpty(monetoE) && string.IsNullOrEmpty(montoD))
+        {
+            return true;
+        }
+        return false;
+    }
     //private async Task VerificarExistenciaCheque
     private string ControlarCamposvalidosCargarCheque()
     {
         string numerocheque = Entry_NumeroCheque.Text;
         string montochequeEntero = Entry_MontoChequeEntero.Text;
         string montochequeDecimal = Entry_MontoChequeDecimal.Text;
-        var itemProveedor = (Proveedor)Picker_Proveedores.SelectedItem;
+        var itemProveedor = (Tbl_Proveedor)Picker_Proveedores.SelectedItem;
         if (string.IsNullOrEmpty(montochequeEntero) && string.IsNullOrEmpty(montochequeDecimal))
         {
             _montoCheque = 0;
@@ -175,17 +193,17 @@ public partial class RegistrarChequePage : ContentPage
 
     // BASE DE DATOS
     #region BASE DE DATOS
-    private async Task<List<Proveedor>> ObtenerProveedoresDBAsync()
+    private async Task<List<Tbl_Proveedor>> ObtenerProveedoresDBAsync()
     {
-        return await Proveedor_Repository.ObtenerProveedoresAsync();
+        return await _repoProveedor.ObtenerProveedoresAsync();
     }
     private async Task GuardarNuevoResgitroChequesDBAsync(Cheque cheque)
     {
-        await Cheque_Repository.GuardarNuevoResgitroChequesAsync(cheque);
+        await _repoCheque.GuardarNuevoResgitroChequesAsync(cheque);
     }
     private async Task<bool> VerificarExistenciaChequeDBAsync(int numeroCheque)
     {
-        return await Cheque_Repository.VerificarExistenciaChequeAsync(numeroCheque);
+        return await _repoCheque.VerificarExistenciaChequeAsync(numeroCheque);
     }
     #endregion
 
@@ -236,7 +254,8 @@ public partial class RegistrarChequePage : ContentPage
         Entry_MontoChequeEntero.Text = "";
         Entry_MontoChequeDecimal.Text = "";
         Picker_Proveedores.SelectedIndex = -1;
-        DatePicker_FechasEmision.Date = DateTime.Today;
+        DatePicker_FechaCobro.Date = DateTime.Today;
+        DatePicker_FechaEmision.Date = DateTime.Today;
     }
     private void OcultarTeclado()
     {
