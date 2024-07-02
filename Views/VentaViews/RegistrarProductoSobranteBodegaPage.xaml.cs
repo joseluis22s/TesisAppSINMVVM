@@ -39,7 +39,7 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
     #region NAVEGACIÓN
     private async Task RegistrarProductoSobranteBodegaPagePopAsync()
     {
-        await PagePopAsync();
+        await PermitirPopAsyncNavegacion();
     }
     private async Task HistorialRegistroProductoSobrantePagePushAsync()
     {
@@ -176,7 +176,7 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
 
     // LÓGICA
     #region LÓGICA
-    private async Task PagePopAsync()
+    private async Task PermitirPopAsyncNavegacion()
     {
         bool camposVacios = VerificarCamposVacios();
         if (!camposVacios)

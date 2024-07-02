@@ -231,11 +231,31 @@ public partial class RegistrarNuevaVentaCreditoPage : ContentPage
     }
     private async Task PermitirPopAsyncNavegacion()
     {
-        bool respuesta = await DisplayAlert("Alerta", "¿Desea regresar? Perderá el progreso realizado", "Confimar", "Cancelar");
-        if (respuesta)
+        bool camposVacios = VerificarCamposVacios();
+        if (!camposVacios)
+        {
+            bool respuesta = await DisplayAlert("Alerta", "¿Desea regresar? Perderá el progreso realizado", "Confimar", "Cancelar");
+            if (respuesta)
+            {
+                await Navigation.PopAsync();
+            }
+        }
+        else
         {
             await Navigation.PopAsync();
         }
+    }
+    private bool VerificarCamposVacios()
+    {
+        var compradorItem = (Tbl_Comprador)Picker_Comprador.SelectedItem;
+        var montoVendidoE = Entry_MontoVendidoEntero.Text;
+        var montoVendidoD = Entry_MontoVendidoDecimal.Text;
+        if (compradorItem is null && string.IsNullOrEmpty(montoVendidoE) &&
+            string.IsNullOrEmpty(montoVendidoD))
+        {
+            return true;
+        }
+        return false;
     }
     private string ControlarCamposGuardarCompraCredito()
     {
