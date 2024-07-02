@@ -21,7 +21,14 @@
             RowDefinitions="Auto,*">
             <Label Style="{StaticResource LabelStyle}" Text="Comprador" />
             <Border Grid.Row="1">
-                <Picker x:Name="Picker_Comprador" ItemDisplayBinding="{Binding COMPRADOR}" />
+                <Grid>
+                    <Picker x:Name="Picker_Comprador" ItemDisplayBinding="{Binding COMPRADOR}" />
+                    <Border x:Name="Border_Picker_Comprador">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Border_Picker_Comprador_TapGestureRecognizer_Tapped" />
+                        </Border.GestureRecognizers>
+                    </Border>
+                </Grid>
             </Border>
             <Button
                 x:Name="Button_AgregarComprador"
@@ -40,15 +47,23 @@
                 ColumnDefinitions="*,Auto,*"
                 ColumnSpacing="4">
                 <Border>
-                    <Entry
-                        x:Name="Entry_MontoVendidoEntero"
-                        FontSize="15"
-                        HorizontalOptions="Center"
-                        Keyboard="Numeric"
-                        MaxLength="7"
-                        Placeholder="0"
-                        PlaceholderColor="#9e9e9e"
-                        TextChanged="Entry_MontoVendido_TextChanged" />
+                    <Grid Margin="10,0" ColumnDefinitions="Auto,*">
+                        <Label
+                            Text="$"
+                            TextColor="#5c5c5c"
+                            VerticalOptions="Center" />
+                        <Entry
+                            x:Name="Entry_MontoVendidoEntero"
+                            Grid.Column="1"
+                            FontSize="15"
+                            HorizontalOptions="Center"
+                            Keyboard="Numeric"
+                            MaxLength="7"
+                            Placeholder="0"
+                            PlaceholderColor="#9e9e9e"
+                            TextChanged="Entry_MontoVendido_TextChanged" />
+                    </Grid>
+
                 </Border>
                 <Label
                     Grid.Column="1"
@@ -57,15 +72,22 @@
                     Text="."
                     VerticalOptions="End" />
                 <Border Grid.Column="2">
-                    <Entry
-                        x:Name="Entry_MontoVendidoDecimal"
-                        FontSize="15"
-                        HorizontalOptions="Center"
-                        Keyboard="Numeric"
-                        MaxLength="2"
-                        Placeholder="00"
-                        PlaceholderColor="#9e9e9e"
-                        TextChanged="Entry_MontoVendido_TextChanged" />
+                    <Grid Margin="10,0" ColumnDefinitions="*,Auto">
+                        <Entry
+                            x:Name="Entry_MontoVendidoDecimal"
+                            FontSize="15"
+                            HorizontalOptions="Center"
+                            Keyboard="Numeric"
+                            MaxLength="2"
+                            Placeholder="00"
+                            PlaceholderColor="#9e9e9e"
+                            TextChanged="Entry_MontoVendido_TextChanged" />
+                        <Label
+                            Grid.Column="1"
+                            Text="ctvs"
+                            TextColor="#5c5c5c"
+                            VerticalOptions="Center" />
+                    </Grid>
                 </Border>
             </Grid>
         </VerticalStackLayout>

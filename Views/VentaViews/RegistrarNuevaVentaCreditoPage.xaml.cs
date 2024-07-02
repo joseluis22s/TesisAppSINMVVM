@@ -15,7 +15,7 @@ public partial class RegistrarNuevaVentaCreditoPage : ContentPage
     private bool _enEjecucion;
     //private bool _paginaCargada = false;
     private double _montoVendido;
-    private List<Comprador> _compradores;
+    private List<Tbl_Comprador> _tblCompradores;
 
     public static bool _ejecutarAppearing = true;
 
@@ -50,6 +50,10 @@ public partial class RegistrarNuevaVentaCreditoPage : ContentPage
             await CargarDatosPicker_Comprador();
         //    _paginaCargada = true;
         //}
+    }
+    private async void Border_Picker_Comprador_TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+    {
+        await Border_Picker_Comprador_Pulsado();
     }
     private async void Button_AgregarComprador_Clicked(object sender, EventArgs e)
     {
@@ -117,7 +121,7 @@ public partial class RegistrarNuevaVentaCreditoPage : ContentPage
                 if (nuevoComprador != "")
                 {
                     nuevoComprador = nuevoComprador.Trim().ToUpper();
-                    bool existeProveedor = _compradores.Any(p => p.COMPRADOR == nuevoComprador);
+                    bool existeProveedor = _tblCompradores.Any(p => p.COMPRADOR == nuevoComprador);
                     if (!existeProveedor)
                     {
                         Comprador comprador = new Comprador();
@@ -138,19 +142,26 @@ public partial class RegistrarNuevaVentaCreditoPage : ContentPage
             }
         } while (nuevoComprador == "");
     }
+    private async Task Border_Picker_Comprador_Pulsado()
+    {
+        if (_tblCompradores.Count == 0)
+        {
+            await Toast.Make("¡Primero agregue compradores!", ToastDuration.Long).Show();
+        }
+    }
     private async Task GuardarCompraCreditoAsync()
     {
         string resultado1 = ControlarCamposGuardarCompraCredito();
         if (resultado1 == "true")
         {
-            var itemComprador = (Comprador)Picker_Comprador.SelectedItem;
+            var itemComprador = (Tbl_Comprador)Picker_Comprador.SelectedItem;
             VentaCredito ventaCredito = new VentaCredito()
             {
                 COMPRADOR = itemComprador.COMPRADOR,
                 MONTOVENDIDO = _montoVendido,
                 DESCRIPCION = Entry_Descripcion.Text,
                 FECHAGUARDADO = DateTime.Now.ToString("dd/MM/yyyy"),
-                DIAFECHAGUARDADO = DateTime.Now.ToString("dddd, dd MMMM")
+                DIAFECHAGUARDADO = DateTime.Now.ToString("dddd, dd MMMM yyyyy")
             };
             string mensaje = "COMPRADOR        : " + ventaCredito.COMPRADOR +
                              "\nMONTO VENDIDO : $" + ventaCredito.MONTOVENDIDO +
@@ -206,8 +217,17 @@ public partial class RegistrarNuevaVentaCreditoPage : ContentPage
     #region LÓGICA
     private async Task CargarDatosPicker_Comprador()
     {
-        var compradores = await ObtenerCompradoresDBAsync();
-        Picker_Comprador.ItemsSource = compradores;
+        _tblCompradores = await ObtenerCompradoresDBAsync();
+        if (_tblCompradores.Count == 0)
+        {
+            Picker_Comprador.IsEnabled = false;
+        }
+        else
+        {
+            Border_Picker_Comprador.IsVisible = false;
+            Picker_Comprador.IsEnabled = true;
+            Picker_Comprador.ItemsSource = _tblCompradores;
+        }
     }
     private async Task PermitirPopAsyncNavegacion()
     {
@@ -219,7 +239,7 @@ public partial class RegistrarNuevaVentaCreditoPage : ContentPage
     }
     private string ControlarCamposGuardarCompraCredito()
     {
-        var itemComprador = (Comprador)Picker_Comprador.SelectedItem;
+        var itemComprador = (Tbl_Comprador)Picker_Comprador.SelectedItem;
         string montoE = Entry_MontoVendidoEntero.Text;
         string montoD = Entry_MontoVendidoDecimal.Text;
         if (string.IsNullOrEmpty(montoE) && string.IsNullOrEmpty(montoD))
@@ -290,4 +310,6 @@ public partial class RegistrarNuevaVentaCreditoPage : ContentPage
         Picker_Comprador.SelectedIndex = -1;
     }
     #endregion
+
+    
 }

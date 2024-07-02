@@ -6,11 +6,11 @@ using TesisAppSINMVVM.Views.VentaViews;
 
 namespace TesisAppSINMVVM.Views;
 
-public partial class AgregarNuevoCompradorPage : ContentPage
+public partial class EliminarAgregarNuevoCompradorPage : ContentPage
 {
-	private Tbl_Comprador_Repository _repoComprador;
+	private Tbl_Comprador_Repository _repoComprador = new Tbl_Comprador_Repository();
     private bool _enEjecucion;
-    public AgregarNuevoCompradorPage()
+    public EliminarAgregarNuevoCompradorPage()
 	{
 		InitializeComponent();
         _repoComprador = new Tbl_Comprador_Repository();
@@ -126,10 +126,10 @@ public partial class AgregarNuevoCompradorPage : ContentPage
     }
 
     // BASE DE DATOS
-    private async Task GuardarCompradorDBAsync(Tbl_Comprador comprador)
-    {
-        await _repoComprador.GuardarCompradorAsync(comprador);
-    }
+    //private async Task GuardarCompradorDBAsync(Tbl_Comprador comprador)
+    //{
+    //    await _repoComprador.GuardarCompradorAsync(comprador);
+    //}
 
     
     // LÓGICA DE COSAS VISUALES DE LA PÁGINA

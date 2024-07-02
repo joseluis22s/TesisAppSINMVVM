@@ -22,11 +22,11 @@ namespace TesisAppSINMVVM.Database.Respositories
         {
             await InitAsync();
             int resultado = await conn.Table<Tbl_Cheque>().Where(x => x.NUMERO == numeroCheque).CountAsync();
-            if (resultado > 0)
+            if (resultado == 0)
             {
-                return true;
+                return false;
             }
-            return false;
+            return true;
         }
         public async Task GuardarChequeAsync(Cheque cheque)
         {

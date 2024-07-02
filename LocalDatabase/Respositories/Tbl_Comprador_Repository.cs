@@ -27,7 +27,7 @@ namespace TesisAppSINMVVM.Database.Respositories
             bool exiteComprador = await VerificarExistenciaCompradoAsync(tblComprador.COMPRADOR);
             if (!exiteComprador)
             {
-                await conn.InsertAsync(comprador);
+                await conn.InsertAsync(tblComprador);
             }
         }
         public async Task<bool> VerificarExistenciaCompradoAsync(string comprador)
@@ -46,6 +46,11 @@ namespace TesisAppSINMVVM.Database.Respositories
         {
             await InitAsync();
             return await conn.Table<Tbl_Comprador>().ToListAsync();
+        }
+        public async Task BorrarTblCompradorAsync()
+        {
+            await InitAsync();
+            await conn.DropTableAsync<Tbl_Comprador>();
         }
     }
 }

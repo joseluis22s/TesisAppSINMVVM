@@ -11,7 +11,8 @@ namespace TesisAppSINMVVM.Views.VentaViews;
 
 public partial class RegistrarProductoSobranteBodegaPage : ContentPage
 {
-    private Producto_Repository _repoProducto;
+    private Producto_Repository _repoProducto = new Producto_Repository();
+    private ProductoInventarioBodega_Repository _repoProductoInventarioBodega = new ProductoInventarioBodega_Repository();
     private List<Producto> _productos;
     private ObservableCollection<AuxProductoInventarioBodega> _auxProductosInventario = new ObservableCollection<AuxProductoInventarioBodega>();
     private bool _enEjecucion;
@@ -64,56 +65,8 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
             return;
         }
         _enEjecucion = true;
-        List<ProductoInventarioBodega> inventarioProductosBodega = new List<ProductoInventarioBodega>();
-        _AuxProductosInventario = (ObservableCollection<AuxProductoInventarioBodega>)CollectionView_RegistrarProductoSobranteBodega.ItemsSource;
-
-        foreach (var p in _AuxProductosInventario)
-        {
-            if (p.ESSELECCIONADO == true)
-            {
-                if (string.IsNullOrEmpty(p.CANTIDAD))
-                {
-                    _enEjecucion = false;
-                    await Toast.Make("¡Los campos de cantidad no deben estar vacíos!",ToastDuration.Long).Show();
-                    return;
-                }
-                else
-                {
-                    inventarioProductosBodega.Add(new ProductoInventarioBodega
-                    {
-                        PRODUCTO = p.PRODUCTO,
-                        MEDIDA = p.MEDIDA,
-                        CANTIDAD = int.Parse(p.CANTIDAD),
-                        DESCRIPCION = p.DESCRIPCION,
-                        FECHAGUARDADO = DateTime.Now.ToString("dd/MM/yyyy"),
-                        DIAFECHAGUARDADO = DateTime.Now.ToString("dddd, dd MMMM")
-                    });
-                }
-
-            }
-        }
-        if (inventarioProductosBodega.Count == 0)
-        {
-            await Toast.Make("Selecione al menos un producto").Show();
-        }
-        else
-        {
-            foreach (var p in _AuxProductosInventario)
-            {
-                p.CANTIDAD = "";
-                p.DESCRIPCION = "";
-                p.ESSELECCIONADO = false;
-            }
-            foreach (var productoInventarioBodega in inventarioProductosBodega)
-            {
-                await ProductoInventarioBodega_Repository.GuardarProductosInventarioAsync(productoInventarioBodega);
-            }
-            
-            await Toast.Make("¡Registro guardado!").Show();
-        }
+        await GuardarProductoSobranteAsync();
         _enEjecucion = false;
-
-        
     }
     private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
@@ -152,7 +105,7 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
     #region LÓGICA PARA EVENTOS
     private async Task CargarProductosInventario()
     {
-        var productos = await ObtenerProdcutosDBAsync();
+        var productos = await ObtenerProductosDBAsync();
         foreach (var p in productos)
         {
             _AuxProductosInventario.Add(new AuxProductoInventarioBodega
@@ -161,8 +114,57 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
                 MEDIDA = p.MEDIDA
             });
         }
-        var a = _AuxProductosInventario;
         CollectionView_RegistrarProductoSobranteBodega.ItemsSource = _AuxProductosInventario;
+    }
+    private async Task GuardarProductoSobranteAsync()
+    {
+        List<ProductoInventarioBodega> inventarioProductosBodega = new List<ProductoInventarioBodega>();
+        _AuxProductosInventario = (ObservableCollection<AuxProductoInventarioBodega>)CollectionView_RegistrarProductoSobranteBodega.ItemsSource;
+
+        foreach (var p in _AuxProductosInventario)
+        {
+            if (p.ESSELECCIONADO == true)
+            {
+                if (string.IsNullOrEmpty(p.CANTIDAD))
+                {
+                    _enEjecucion = false;
+                    await Toast.Make("¡Los campos de cantidad no deben estar vacíos!", ToastDuration.Long).Show();
+                    return;
+                }
+                else
+                {
+                    inventarioProductosBodega.Add(new ProductoInventarioBodega
+                    {
+                        PRODUCTO = p.PRODUCTO,
+                        MEDIDA = p.MEDIDA,
+                        CANTIDAD = int.Parse(p.CANTIDAD),
+                        DESCRIPCION = p.DESCRIPCION,
+                        FECHAGUARDADO = DateTime.Now.ToString("dd/MM/yyyy"),
+                        DIAFECHAGUARDADO = DateTime.Now.ToString("dddd, dd MMMM")
+                    });
+                }
+
+            }
+        }
+        if (inventarioProductosBodega.Count == 0)
+        {
+            await Toast.Make("Selecione al menos un producto").Show();
+        }
+        else
+        {
+            foreach (var p in _AuxProductosInventario)
+            {
+                p.CANTIDAD = "";
+                p.DESCRIPCION = "";
+                p.ESSELECCIONADO = false;
+            }
+            foreach (var productoInventarioBodega in inventarioProductosBodega)
+            {
+                await GuardarProductosInventarioDBAsync(productoInventarioBodega);
+            }
+
+            await Toast.Make("¡Registro guardado!").Show();
+        }
     }
     #endregion
 
@@ -195,7 +197,7 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
                 contador++;
             }
         }
-        if (contador == 0) 
+        if (contador == 0)
         {
             return true;
         }
@@ -205,9 +207,13 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
 
     // BASE DE DATOS
     #region BASE DE DATOS
-    private async Task<List<Tbl_Producto>> ObtenerProdcutosDBAsync()
+    private async Task<List<Tbl_Producto>> ObtenerProductosDBAsync()
     {
         return await _repoProducto.ObtenerProductosAsync();
+    }
+    private async Task GuardarProductosInventarioDBAsync(ProductoInventarioBodega productoInventarioBodega)
+    {
+        await _repoProductoInventarioBodega.GuardarProductosInventarioAsync(productoInventarioBodega);
     }
     #endregion
 

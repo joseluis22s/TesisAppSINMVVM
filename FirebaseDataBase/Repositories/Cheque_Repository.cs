@@ -13,7 +13,6 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
         #region ESCRITURA
         public async Task GuardarNuevoResgitroChequesAsync(Cheque cheque)
         {
-            
             NetworkAccess accessType = Connectivity.Current.NetworkAccess;
             if (accessType == NetworkAccess.Internet)
             {

@@ -49,7 +49,8 @@ public partial class HistorialVentasCredito : ContentPage
     private async Task CargarDatosCollectionView_VentasCredito()
     {
         var ventasCredito = await ObtenerVentasCreditoDBAsync();
-        var gruposVentaCredito = ventasCredito.GroupBy(_grs => _grs.DIAFECHAGUARDADO)
+        var gruposVentaCredito = ventasCredito.OrderByDescending(vc => DateTime.Parse(vc.FECHAGUARDADO))
+            .GroupBy(_grs => _grs.DIAFECHAGUARDADO)
             .Select(g => new VentaCreditoGroup(g.Key, g.ToList()));
 
         _grupoVentaCredito.Clear();
