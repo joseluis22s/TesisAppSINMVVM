@@ -5,13 +5,13 @@ using System.Text.RegularExpressions;
 using TesisAppSINMVVM.Database.Tables;
 using TesisAppSINMVVM.FirebaseDataBase.Repositories;
 using TesisAppSINMVVM.Models;
-using static Microsoft.Maui.ApplicationModel.Permissions;
 
 namespace TesisAppSINMVVM.Views.VentaViews;
 
 public partial class RegistrarNuevaVentaCreditoPage : ContentPage
 {
     private Comprador_Repository _repoComprador = new Comprador_Repository();
+    private VentaCredito_Repository _repoVentaCredito = new VentaCredito_Repository();
     private bool _enEjecucion;
     //private bool _paginaCargada = false;
     private double _montoVendido;
@@ -255,11 +255,11 @@ public partial class RegistrarNuevaVentaCreditoPage : ContentPage
     }
     private async Task GuardarNuevoCompradorDBAsync(Comprador comprador)
     {
-        await Comprador_Repository.GuardarNuevoCompradorAsync(comprador);
+        await _repoComprador.GuardarNuevoCompradorAsync(comprador);
     }
     private async Task GuardarVentaCreditoDBAsync(VentaCredito ventaCredito)
     {
-        await VentaCredito_Repository.GuardarVentaCreditoAsync(ventaCredito);
+        await _repoVentaCredito.GuardarVentaCreditoAsync(ventaCredito);
     }
     #endregion
 

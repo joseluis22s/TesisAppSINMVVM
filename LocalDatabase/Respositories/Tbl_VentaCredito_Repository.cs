@@ -1,5 +1,6 @@
 ﻿using SQLite;
 using TesisAppSINMVVM.Database.Tables;
+using TesisAppSINMVVM.Models;
 
 namespace TesisAppSINMVVM.Database.Respositories
 {
@@ -16,9 +17,17 @@ namespace TesisAppSINMVVM.Database.Respositories
             var resultado = await conn.CreateTableAsync<Tbl_VentaCredito>();
         }
 
-        public async Task GuardarVentaCreditoAsync(Tbl_VentaCredito ventaC)
+        public async Task GuardarVentaCreditoAsync(VentaCredito ventaC)
         {
             await InitAsync();
+            Tbl_VentaCredito tblVentaC = new()
+            {
+                COMPRADOR = ventaC.COMPRADOR,
+                MONTOVENDIDO = ventaC.MONTOVENDIDO,
+                DESCRIPCION = ventaC.DESCRIPCION,
+                FECHAGUARDADO = ventaC.FECHAGUARDADO,
+                DIAFECHAGUARDADO = ventaC.DIAFECHAGUARDADO
+            };
             await conn.InsertAsync(ventaC);
         }
         public async Task<List<Tbl_VentaCredito>> ObtenerVentasCreditoAsync()

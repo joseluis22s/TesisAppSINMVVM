@@ -24,7 +24,7 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
             }
             else
             {
-                await _repoTblProveedor.GuardarNuevoProveedorAsync(proveedor);
+                await _repoTblComprador.GuardarCompradorAsync(comprador);
             }
             
         }

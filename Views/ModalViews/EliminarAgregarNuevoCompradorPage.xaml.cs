@@ -1,6 +1,7 @@
 using CommunityToolkit.Maui.Alerts;
 using TesisAppSINMVVM.Database.Respositories;
 using TesisAppSINMVVM.Database.Tables;
+using TesisAppSINMVVM.Models;
 using TesisAppSINMVVM.Views.VentaViews;
 
 namespace TesisAppSINMVVM.Views;
@@ -58,18 +59,16 @@ public partial class AgregarNuevoCompradorPage : ContentPage
         string resultado = ControlarCampos();
         if (resultado == "true")
         {
-            string nombre = Entry_NombreComprador.Text;
-            string apellido = Entry_ApellidoComprador.Text;
-            string telefono = Entry_TelefonoComprador.Text;
+            //string nombre = Entry_NombreComprador.Text;
+            //string apellido = Entry_ApellidoComprador.Text;
+            //string telefono = Entry_TelefonoComprador.Text;
 
-            Tbl_Comprador comprador = new Tbl_Comprador()
-            {
-                NOMBRE = nombre,
-                APELLIDO = apellido,
-                TELEFONO = telefono
-            };
+            //Comprador comprador = new Comprador()
+            //{
+            //    COMPRADOR
+            //};
 
-            await GuardarCompradorDBAsync(comprador);
+            //await GuardarCompradorDBAsync(comprador);
             OcultarTecldo();
             await Toast.Make("Registro guardado").Show();
             await AgregarNuevoCompradorPagePushModalAsync(false);
