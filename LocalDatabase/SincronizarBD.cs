@@ -1,10 +1,10 @@
 ﻿
+using Microsoft.Maui.Storage;
 using Plugin.CloudFirestore;
 using TesisAppSINMVVM.Database.Respositories;
 using TesisAppSINMVVM.Database.Tables;
 using TesisAppSINMVVM.FirebaseDataBase.Repositories;
 using TesisAppSINMVVM.Models;
-using static Microsoft.Maui.ApplicationModel.Permissions;
 
 namespace TesisAppSINMVVM.LocalDatabase
 {
@@ -13,9 +13,20 @@ namespace TesisAppSINMVVM.LocalDatabase
         private Proveedor_Repository _repoProveedor = new Proveedor_Repository();
         private Tbl_Proveedor_Repository _repoTblProveedor = new Tbl_Proveedor_Repository();
         private Cheque_Repository _repoCheque = new Cheque_Repository();
-        private Tbl_Cheque_Repository _repoTblCheque = new Tbl_Cheque_Repository(); 
+        private Tbl_Cheque_Repository _repoTblCheque = new Tbl_Cheque_Repository();
         private HistorialCompras_Repository _repoHistorialCompras = new HistorialCompras_Repository();
         private Tbl_HistorialCompras_Repository _repoTblHistorialCompras = new Tbl_HistorialCompras_Repository();
+        private Comprador_Repository _repoComprador = new Comprador_Repository();
+        private Tbl_Comprador_Repository _repoTblComprador = new Tbl_Comprador_Repository();
+        private Producto_Repository _repoProducto = new Producto_Repository();
+        private Tbl_Producto_Repository _repoTblProducto = new Tbl_Producto_Repository();
+        private ProductoInventarioBodega_Repository _repoProductoInventarioBodega = new ProductoInventarioBodega_Repository();
+        private Tbl_ProductosInventario_Repository _repoTblProductosInventario = new Tbl_ProductosInventario_Repository();
+        //private Usuario_Repository _repoUsuario = new Usuario_Repository();
+        private Tbl_Usuario_Repository _repoTblUsuario = new Tbl_Usuario_Repository();
+        private VentaCredito_Repository _repoVentaCredito = new VentaCredito_Repository();
+        private Tbl_VentaCredito_Repository _repoTblVentaCredito = new Tbl_VentaCredito_Repository();
+        
 
         public SincronizarBD() =>
         Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
@@ -43,51 +54,122 @@ namespace TesisAppSINMVVM.LocalDatabase
         //       llenar en el lado que falta BD local o BD  firebase
         private async Task Sincronizacion()
         {
-            await SincronizacionProveedores();
-            await SincronizacionHistorialCompras();
             await SincronizacionCheques();
+            await SincronizacionCompradores();
+            await SincronizacionHistorialCompras();
+            await SincronizacionProductos();
+            await SincronizacionProductosInventario();
+            await SincronizacionProveedores();
+
+            await SincronizacionVentaCredito();
         }
-        #region PROVEEDORES
-        private async Task SincronizacionProveedores()
+        #region CHEQUES
+        private async Task SincronizacionCheques()
         {
             var documentos = await CrossCloudFirestore.Current
                                          .Instance
-                                         .Collection("PROVEEDOR")
+                                         .Collection("CHEQUE")
                                          .GetAsync();
-            var proveedoresFirebase = documentos.ToObjects<Proveedor>().ToList();
-            List<Tbl_Proveedor> proveedoresLocal = await _repoTblProveedor.ObtenerTblProveedoresAsync();
+            var chequesFirebase = documentos.ToObjects<Cheque>().ToList();
+            List<Tbl_Cheque> chequesLocal = await _repoCheque.ObtenerChequesAsync();
 
-            List<Tbl_Proveedor> proveedoresLocalesParaAgregar = new List<Tbl_Proveedor>();
-            List<Proveedor> proveedoresFirebaseParaAgregar = new List<Proveedor>();
+            List<Tbl_Cheque> chequesLocalParaAgregar = new List<Tbl_Cheque>();
+            List<Cheque> chequesFirebaseParaAgregar = new List<Cheque>();
 
-            // Agregar proveedores de Firebase a la lista local
-            foreach (var proveedor in proveedoresFirebase)
+            // Agregar cheques de Firebase a la lista local
+            foreach (var cheque in chequesFirebase)
             {
-                if (!proveedoresLocal.Any(pl => pl.PROVEEDOR == proveedor.PROVEEDOR))
+                if (!chequesLocal.Any(cl => cl.NUMERO == cheque.NUMERO))
                 {
-                    proveedoresLocalesParaAgregar.Add(new Tbl_Proveedor { PROVEEDOR = proveedor.PROVEEDOR });
+                    chequesLocalParaAgregar.Add(new Tbl_Cheque
+                    {
+                        NUMERO = cheque.NUMERO,
+                        MONTO = cheque.MONTO,
+                        PROVEEDOR = cheque.PROVEEDOR,
+                        FECHACOBRO = cheque.FECHACOBRO,
+                        FECHAEMISION = cheque.FECHAEMISION,
+                        DIAFECHACOBRO = cheque.DIAFECHACOBRO,
+                    });
                 }
             }
             // Agregar proveedores de la lista local a Firebase
-            foreach (var proveedor in proveedoresLocal)
+            foreach (var cheque in chequesLocal)
             {
-                if (!proveedoresFirebase.Any(pf => pf.PROVEEDOR == proveedor.PROVEEDOR))
+                if (!chequesFirebase.Any(cf => cf.NUMERO == cheque.NUMERO))
                 {
-                    proveedoresFirebaseParaAgregar.Add(new Proveedor { PROVEEDOR = proveedor.PROVEEDOR });
+                    chequesFirebaseParaAgregar.Add(new Cheque
+                    {
+                        NUMERO = cheque.NUMERO,
+                        MONTO = cheque.MONTO,
+                        PROVEEDOR = cheque.PROVEEDOR,
+                        FECHACOBRO = cheque.FECHACOBRO,
+                        FECHAEMISION = cheque.FECHAEMISION,
+                        DIAFECHACOBRO = cheque.DIAFECHACOBRO,
+                    });
                 }
             }
 
-            foreach (var p in proveedoresFirebaseParaAgregar)
+            foreach (var p in chequesFirebaseParaAgregar)
             {
-                await _repoProveedor.GuardarNuevoProveedorAsync(p);
+                await _repoCheque.GuardarNuevoResgitroChequesAsync(p);
             }
-            foreach (var p in proveedoresLocalesParaAgregar)
+            foreach (var c in chequesLocalParaAgregar)
             {
-                Proveedor proveedor = new()
+                Cheque cheque = new()
                 {
-                    PROVEEDOR = p.PROVEEDOR
+                    NUMERO = c.NUMERO,
+                    MONTO = c.MONTO,
+                    PROVEEDOR = c.PROVEEDOR,
+                    FECHACOBRO = c.FECHACOBRO,
+                    FECHAEMISION = c.FECHAEMISION,
+                    DIAFECHACOBRO = c.DIAFECHACOBRO,
                 };
-                await _repoTblProveedor.GuardarNuevoProveedorAsync(proveedor);
+                await _repoTblCheque.GuardarChequeAsync(cheque);
+            }
+        }
+        #endregion
+
+        #region COMPRADORES
+        private async Task SincronizacionCompradores()
+        {
+            var documentos = await CrossCloudFirestore.Current
+                                         .Instance
+                                         .Collection("COMPRADOR")
+                                         .GetAsync();
+            var compradoresFirebase = documentos.ToObjects<Comprador>().ToList();
+            List<Tbl_Comprador> compradoresLocal = await _repoTblComprador.ObtenerTblCompradoresAsync();
+
+            List<Tbl_Comprador> compradoresLocalParaAgregar = new List<Tbl_Comprador>();
+            List<Comprador> compradoresFirebaseParaAgregar = new List<Comprador>();
+
+            // Agregar compradores de Firebase a la lista local
+            foreach (var c in compradoresFirebase)
+            {
+                if (!compradoresLocal.Any(cl => cl.COMPRADOR == c.COMPRADOR))
+                {
+                    compradoresLocalParaAgregar.Add(new Tbl_Comprador { COMPRADOR = c.COMPRADOR });
+                }
+            }
+            // Agregar proveedores de la lista local a Firebase
+            foreach (var c in compradoresLocal)
+            {
+                if (!compradoresFirebase.Any(cf => cf.COMPRADOR == c.COMPRADOR))
+                {
+                    compradoresFirebaseParaAgregar.Add(new Comprador { COMPRADOR = c.COMPRADOR });
+                }
+            }
+
+            foreach (var c in compradoresFirebaseParaAgregar)
+            {
+                await _repoComprador.GuardarNuevoCompradorAsync(c);
+            }
+            foreach (var c in compradoresLocalParaAgregar)
+            {
+                Comprador comprador = new()
+                {
+                    COMPRADOR = c.COMPRADOR
+                };
+                await _repoTblComprador.GuardarCompradorAsync(comprador);
             }
         }
         #endregion
@@ -121,7 +203,7 @@ namespace TesisAppSINMVVM.LocalDatabase
                     hcl.TOTAL == historialCompras.TOTAL
                 ))
                 {
-                    historialComprasLocalParaAgregar.Add(new Tbl_HistorialCompras 
+                    historialComprasLocalParaAgregar.Add(new Tbl_HistorialCompras
                     {
                         PRODUCTO = historialCompras.PRODUCTO,
                         DIAFECHA = historialCompras.DIAFECHA,
@@ -136,7 +218,7 @@ namespace TesisAppSINMVVM.LocalDatabase
                     });
                 }
             }
-            // Agregar proveedores de la lista local a Firebase
+            // Agregar historialCompras de la lista local a Firebase
             foreach (var historialCompras in historialCompraLocal)
             {
                 if (!historialComprasFirebase.Any(hcf =>
@@ -192,71 +274,274 @@ namespace TesisAppSINMVVM.LocalDatabase
         }
         #endregion
 
-        #region CHEQUES
-        private async Task SincronizacionCheques()
+        #region PRODUCTO
+        private async Task SincronizacionProductos()
         {
             var documentos = await CrossCloudFirestore.Current
                                          .Instance
-                                         .Collection("CHEQUE")
+                                         .Collection("PRODUCTO")
                                          .GetAsync();
-            var chequesFirebase = documentos.ToObjects<Cheque>().ToList();
-            List<Tbl_Cheque> chequesLocal = await _repoCheque.ObtenerChequesAsync();
+            var productosFirebase = documentos.ToObjects<Producto>().ToList();
+            List<Tbl_Producto> productosLocal = await _repoTblProducto.ObtenerProductosAsync();
 
-            List<Tbl_Cheque> chequesLocalParaAgregar = new List<Tbl_Cheque>();
-            List<Cheque> chequesFirebaseParaAgregar = new List<Cheque>();
+            List<Tbl_Producto> productosLocalParaAgregar = new List<Tbl_Producto>();
+            List<Producto> productosFirebaseParaAgregar = new List<Producto>();
 
-            // Agregar cheques de Firebase a la lista local
-            foreach (var cheque in chequesFirebase)
+            // Agregar proveedores de Firebase a la lista local
+            foreach (var producto in productosFirebase)
             {
-                if (!chequesLocal.Any(cl => cl.NUMERO == cheque.NUMERO))
+                if (!productosLocal.Any(pl =>
+                    pl.PRODUCTO == producto.PRODUCTO &&
+                    pl.MEDIDA == producto.MEDIDA
+                ))
                 {
-                    chequesLocalParaAgregar.Add(new Tbl_Cheque
+                    productosLocalParaAgregar.Add(new Tbl_Producto
                     {
-                        NUMERO = cheque.NUMERO,
-                        MONTO = cheque.MONTO,
-                        PROVEEDOR = cheque.PROVEEDOR,
-                        FECHACOBRO = cheque.FECHACOBRO,
-                        FECHAEMISION = cheque.FECHAEMISION,
-                        DIAFECHACOBRO = cheque.DIAFECHACOBRO,
+                        PRODUCTO = producto.PRODUCTO,
+                        MEDIDA = producto.MEDIDA
                     });
                 }
             }
             // Agregar proveedores de la lista local a Firebase
-            foreach (var cheque in chequesLocal)
+            foreach (var producto in productosLocal)
             {
-                if (!chequesFirebase.Any(cf => cf.NUMERO == cheque.NUMERO))
+                if (!productosFirebase.Any(pf =>
+                    pf.PRODUCTO == producto.PRODUCTO &&
+                    pf.MEDIDA == producto.MEDIDA
+                ))
                 {
-                    chequesFirebaseParaAgregar.Add(new Cheque 
+                    productosFirebaseParaAgregar.Add(new Producto
                     {
-                        NUMERO = cheque.NUMERO,
-                        MONTO = cheque.MONTO,
-                        PROVEEDOR = cheque.PROVEEDOR,
-                        FECHACOBRO = cheque.FECHACOBRO,
-                        FECHAEMISION = cheque.FECHAEMISION,
-                        DIAFECHACOBRO = cheque.DIAFECHACOBRO,
+                        PRODUCTO = producto.PRODUCTO,
+                        MEDIDA = producto.MEDIDA
                     });
                 }
             }
 
-            foreach (var p in chequesFirebaseParaAgregar)
+            foreach (var p in productosFirebaseParaAgregar)
             {
-                await _repoCheque.GuardarNuevoResgitroChequesAsync(p);
+                await _repoProducto.GuardarNuevoProductoAsync(p);
             }
-            foreach (var c in chequesLocalParaAgregar)
+            foreach (var p in productosLocalParaAgregar)
             {
-                Cheque cheque = new()
+                Producto producto = new()
                 {
-                    NUMERO = c.NUMERO,
-                    MONTO = c.MONTO,
-                    PROVEEDOR = c.PROVEEDOR,
-                    FECHACOBRO = c.FECHACOBRO,
-                    FECHAEMISION = c.FECHAEMISION,
-                    DIAFECHACOBRO = c.DIAFECHACOBRO,
+                        PRODUCTO = p.PRODUCTO,
+                        MEDIDA = p.MEDIDA
                 };
-                await _repoTblCheque.GuardarChequeAsync(cheque);
+                await _repoTblProducto.GuardarProductoAsync(producto);
             }
         }
         #endregion
+
+        #region PRODUCTOSINVENTARIO
+        private async Task SincronizacionProductosInventario()
+        {
+            var documentos = await CrossCloudFirestore.Current
+                                         .Instance
+                                         .Collection("PRODUCTOSINVENTARIO")
+                                         .GetAsync();
+            var productosinventarioFirebase = documentos.ToObjects<ProductoInventarioBodega>().ToList();
+            List<Tbl_ProductosInventario> productosinventarioLocal = await _repoTblProductosInventario.ObtenerInvetarioAsync();
+
+            List<Tbl_ProductosInventario> productosinventarioLocalParaAgregar = new List<Tbl_ProductosInventario>();
+            List<ProductoInventarioBodega> productosinventarioFirebaseParaAgregar = new List<ProductoInventarioBodega>();
+
+            // Agregar productos inventario de Firebase a la lista local
+            foreach (var productosinventario in productosinventarioFirebase)
+            {
+                if (!productosinventarioLocal.Any(pil =>
+                    pil.PRODUCTO == productosinventario.PRODUCTO &&
+                    pil.MEDIDA == productosinventario.MEDIDA &&
+                    pil.CANTIDAD == productosinventario.CANTIDAD &&
+                    pil.DESCRIPCION == productosinventario.DESCRIPCION &&
+                    pil.FECHAGUARDADO == productosinventario.FECHAGUARDADO &&
+                    pil.DIAFECHAGUARDADO == productosinventario.DIAFECHAGUARDADO
+                ))
+                {
+                    productosinventarioLocalParaAgregar.Add(new Tbl_ProductosInventario
+                    {
+                        PRODUCTO = productosinventario.PRODUCTO,
+                        MEDIDA = productosinventario.MEDIDA,
+                        CANTIDAD = productosinventario.CANTIDAD,
+                        DESCRIPCION = productosinventario.DESCRIPCION,
+                        FECHAGUARDADO = productosinventario.FECHAGUARDADO,
+                        DIAFECHAGUARDADO = productosinventario.DIAFECHAGUARDADO
+                    });
+                }
+            }
+            // Agregar proveedores de la lista local a Firebase
+            foreach (var productosinventario in productosinventarioLocal)
+            {
+                if (!productosinventarioFirebase.Any(pif =>
+                    pif.PRODUCTO == productosinventario.PRODUCTO &&
+                    pif.MEDIDA == productosinventario.MEDIDA &&
+                    pif.CANTIDAD == productosinventario.CANTIDAD &&
+                    pif.DESCRIPCION == productosinventario.DESCRIPCION &&
+                    pif.FECHAGUARDADO == productosinventario.FECHAGUARDADO &&
+                    pif.DIAFECHAGUARDADO == productosinventario.DIAFECHAGUARDADO
+                ))
+                {
+                    productosinventarioFirebaseParaAgregar.Add(new ProductoInventarioBodega
+                    {
+                        PRODUCTO = productosinventario.PRODUCTO,
+                        MEDIDA = productosinventario.MEDIDA,
+                        CANTIDAD = productosinventario.CANTIDAD,
+                        DESCRIPCION = productosinventario.DESCRIPCION,
+                        FECHAGUARDADO = productosinventario.FECHAGUARDADO,
+                        DIAFECHAGUARDADO = productosinventario.DIAFECHAGUARDADO
+                    });
+                }
+            }
+
+            foreach (var p in productosinventarioFirebaseParaAgregar)
+            {
+                await _repoProductoInventarioBodega.GuardarProductosInventarioAsync(p);
+            }
+            foreach (var pIB in productosinventarioLocalParaAgregar)
+            {
+                ProductoInventarioBodega productosinventario = new()
+                {
+                    PRODUCTO = pIB.PRODUCTO,
+                    MEDIDA = pIB.MEDIDA,
+                    CANTIDAD = pIB.CANTIDAD,
+                    DESCRIPCION = pIB.DESCRIPCION,
+                    FECHAGUARDADO = pIB.FECHAGUARDADO,
+                    DIAFECHAGUARDADO = pIB.DIAFECHAGUARDADO
+                };
+                await _repoTblProductosInventario.GuardarProductosInventarioAsync(productosinventario);
+            }
+        }
+        #endregion
+
+        #region PROVEEDORES
+        private async Task SincronizacionProveedores()
+        {
+            var documentos = await CrossCloudFirestore.Current
+                                         .Instance
+                                         .Collection("PROVEEDOR")
+                                         .GetAsync();
+            var proveedoresFirebase = documentos.ToObjects<Proveedor>().ToList();
+            List<Tbl_Proveedor> proveedoresLocal = await _repoProveedor.ObtenerProveedoresAsync();
+
+            List<Tbl_Proveedor> proveedoresLocalParaAgregar = new List<Tbl_Proveedor>();
+            List<Proveedor> proveedoresFirebaseParaAgregar = new List<Proveedor>();
+
+            // Agregar proveedores de Firebase a la lista local
+            foreach (var proveedor in proveedoresFirebase)
+            {
+                if (!proveedoresLocal.Any(pl => pl.PROVEEDOR == proveedor.PROVEEDOR))
+                {
+                    proveedoresLocalParaAgregar.Add(new Tbl_Proveedor { PROVEEDOR = proveedor.PROVEEDOR });
+                }
+            }
+            // Agregar proveedores de la lista local a Firebase
+            foreach (var proveedor in proveedoresLocal)
+            {
+                if (!proveedoresFirebase.Any(pf => pf.PROVEEDOR == proveedor.PROVEEDOR))
+                {
+                    proveedoresFirebaseParaAgregar.Add(new Proveedor { PROVEEDOR = proveedor.PROVEEDOR });
+                }
+            }
+
+            foreach (var p in proveedoresFirebaseParaAgregar)
+            {
+                await _repoProveedor.GuardarNuevoProveedorAsync(p);
+            }
+            foreach (var p in proveedoresLocalParaAgregar)
+            {
+                Proveedor proveedor = new()
+                {
+                    PROVEEDOR = p.PROVEEDOR
+                };
+                await _repoTblProveedor.GuardarNuevoProveedorAsync(proveedor);
+            }
+        }
+        #endregion
+
+
+        #region VENTACREDITO
+        private async Task SincronizacionVentaCredito()
+        {
+            var documentos = await CrossCloudFirestore.Current
+                                         .Instance
+                                         .Collection("VENTACREDITO")
+                                         .GetAsync();
+            var ventasCreditoFirebase = documentos.ToObjects<VentaCredito>().ToList();
+            List<Tbl_VentaCredito> ventasCreditoLocal = await _repoTblVentaCredito.ObtenerVentasCreditoAsync();
+
+            List<Tbl_VentaCredito> ventasCreditoLocalParaAgregar = new List<Tbl_VentaCredito>();
+            List<VentaCredito> ventasCreditoFirebaseParaAgregar = new List<VentaCredito>();
+
+            // Agregar ventas credito de Firebase a la lista local
+            foreach (var ventaCredito in ventasCreditoFirebase)
+            {
+                if (!ventasCreditoLocal.Any(vcl =>
+                    vcl.COMPRADOR == ventaCredito.COMPRADOR &&
+                    vcl.MONTOVENDIDO == ventaCredito.MONTOVENDIDO &&
+                    vcl.DESCRIPCION == ventaCredito.DESCRIPCION &&
+                    vcl.FECHAGUARDADO == ventaCredito.FECHAGUARDADO &&
+                    vcl.DIAFECHAGUARDADO == ventaCredito.DIAFECHAGUARDADO
+                ))
+                {
+                    ventasCreditoLocalParaAgregar.Add(new Tbl_VentaCredito
+                    {
+                        COMPRADOR = ventaCredito.COMPRADOR,
+                        MONTOVENDIDO = ventaCredito.MONTOVENDIDO,
+                        DESCRIPCION = ventaCredito.DESCRIPCION,
+                        FECHAGUARDADO = ventaCredito.FECHAGUARDADO,
+                        DIAFECHAGUARDADO = ventaCredito.DIAFECHAGUARDADO
+                    });
+                }
+            }
+
+            // Agregar ventas credito de la lista local a Firebase
+            foreach (var ventaCredito in ventasCreditoLocal)
+            {
+                if (!ventasCreditoFirebase.Any(vcf =>
+                    vcf.COMPRADOR == ventaCredito.COMPRADOR &&
+                    vcf.MONTOVENDIDO == ventaCredito.MONTOVENDIDO &&
+                    vcf.DESCRIPCION == ventaCredito.DESCRIPCION &&
+                    vcf.FECHAGUARDADO == ventaCredito.FECHAGUARDADO &&
+                    vcf.DIAFECHAGUARDADO == ventaCredito.DIAFECHAGUARDADO
+                ))
+                {
+                    ventasCreditoFirebaseParaAgregar.Add(new VentaCredito
+                    {
+                        COMPRADOR = ventaCredito.COMPRADOR,
+                        MONTOVENDIDO = ventaCredito.MONTOVENDIDO,
+                        DESCRIPCION = ventaCredito.DESCRIPCION,
+                        FECHAGUARDADO = ventaCredito.FECHAGUARDADO,
+                        DIAFECHAGUARDADO = ventaCredito.DIAFECHAGUARDADO
+                    });
+
+                    foreach (var v in ventasCreditoFirebaseParaAgregar)
+                    {
+                        await _repoVentaCredito.GuardarVentaCreditoAsync(v);
+                    }
+                    foreach (var vc in ventasCreditoLocalParaAgregar)
+                    {
+                        VentaCredito ventacredito = new()
+                        {
+                            COMPRADOR = vc.COMPRADOR,
+                            MONTOVENDIDO = vc.MONTOVENDIDO,
+                            DESCRIPCION = vc.DESCRIPCION,
+                            FECHAGUARDADO = vc.FECHAGUARDADO,
+                            DIAFECHAGUARDADO = vc.DIAFECHAGUARDADO
+                        };
+                        await _repoTblVentaCredito.GuardarVentaCreditoAsync(ventacredito);
+                    }
+                }
+            }
+        }
+        #endregion
+
+
+
+
+
+
+
 
 
 
