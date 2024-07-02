@@ -1,5 +1,6 @@
 ﻿using SQLite;
 using TesisAppSINMVVM.Database.Tables;
+using TesisAppSINMVVM.Models;
 
 namespace TesisAppSINMVVM.Database.Respositories
 {
@@ -16,10 +17,29 @@ namespace TesisAppSINMVVM.Database.Respositories
             var resultado = await conn.CreateTableAsync<Tbl_Comprador>();
         }
 
-        public async Task GuardarCompradorAsync(Tbl_Comprador comprador)
+        public async Task GuardarCompradorAsync(Comprador comprador)
         {
             await InitAsync();
-            await conn.InsertAsync(comprador);
+            Tbl_Comprador tblComprador = new()
+            {
+                COMPRADOR = comprador.COMPRADOR
+            };
+            bool exiteComprador = await VerificarExistenciaCompradoAsync(tblComprador.COMPRADOR);
+            if (!exiteComprador)
+            {
+                await conn.InsertAsync(comprador);
+            }
+        }
+        public async Task<bool> VerificarExistenciaCompradoAsync(string comprador)
+        {
+            await InitAsync();
+            int resultado = await conn.Table<Tbl_Comprador>().Where(c =>
+                c.COMPRADOR == comprador).CountAsync();
+            if (resultado == 0)
+            {
+                return false;
+            }
+            return true;
         }
 
         public async Task<List<Tbl_Comprador>> ObtenerTblCompradoresAsync()

@@ -11,12 +11,22 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
         private Tbl_Comprador_Repository _repoTblComprador = new Tbl_Comprador_Repository();
         public Comprador_Repository() { }
 
-        public static async Task GuardarNuevoCompradorAsync(Comprador comprador)
+        public async Task GuardarNuevoCompradorAsync(Comprador comprador)
         {
-            await CrossCloudFirestore.Current
+            NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+            if (accessType == NetworkAccess.Internet)
+            {
+                await CrossCloudFirestore.Current
                          .Instance
                          .Collection("COMPRADOR")
                          .AddAsync(comprador);
+                await _repoTblComprador.GuardarCompradorAsync(comprador);
+            }
+            else
+            {
+                await _repoTblProveedor.GuardarNuevoProveedorAsync(proveedor);
+            }
+            
         }
         #region LECTURA
         public async Task<List<Tbl_Comprador>> ObtenerCompradoresAsync()
