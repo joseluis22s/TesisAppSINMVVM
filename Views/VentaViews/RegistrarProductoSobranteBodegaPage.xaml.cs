@@ -76,7 +76,13 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
     }
     private async void Button_HistorialRegistroProductoSobrante_Clicked(object sender, EventArgs e)
     {
+        if (_enEjecucion)
+        {
+            return;
+        }
+        _enEjecucion = true;
         await HistorialRegistroProductoSobrantePagePushAsync();
+        _enEjecucion = false;
     }
     private void Entry_TextChanged_Cantidad(object sender, TextChangedEventArgs e)
     {

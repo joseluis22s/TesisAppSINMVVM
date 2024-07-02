@@ -49,7 +49,8 @@ public partial class HistorialProductoSobrantePage : ContentPage
     private async Task CargarDatosCollectionView_Bodega()
     {
         List<ProductoInventarioBodega> inventario = await ObtenerInvetarioDBAsync();
-        var gruposInvetarioProductos = inventario.GroupBy(_grs => _grs.DIAFECHAGUARDADO)
+        var gruposInvetarioProductos = inventario.OrderByDescending(c => DateTime.Parse(c.FECHAGUARDADO))
+            .GroupBy(_grs => _grs.DIAFECHAGUARDADO)
             .Select(g => new ProductoInventarioBodegaGroup(g.Key, g.ToList()));
 
         _grupoInventario.Clear();
