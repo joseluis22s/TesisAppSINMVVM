@@ -2,6 +2,8 @@
 {
     public class ProductoComprado
     {
+        // TODO: Hacer la sincronización con firebase y local
+        public string NUMEROCOMPRA {  get; set; }
         public string DIAFECHA { get; set; }
         public string PRODUCTO { get; set; }
         public string MEDIDA { get; set; }

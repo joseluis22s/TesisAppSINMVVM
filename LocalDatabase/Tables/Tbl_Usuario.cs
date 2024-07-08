@@ -1,6 +1,6 @@
 ﻿using SQLite;
 
-namespace TesisAppSINMVVM.Database.Tables;
+namespace TesisAppSINMVVM.LocalDatabase.Tables;
 
 [Table("TBL_USUARIO")]
 public class Tbl_Usuario

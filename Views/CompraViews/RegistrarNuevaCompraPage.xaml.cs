@@ -1,4 +1,5 @@
 using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 using System.Collections.ObjectModel;
 using TesisAppSINMVVM.Database.Tables;
 using TesisAppSINMVVM.FirebaseDataBase.Repositories;
@@ -9,6 +10,8 @@ namespace TesisAppSINMVVM.Views.CompraViews;
 public partial class RegistrarNuevaCompraPage : ContentPage
 {
     private Producto_Repository _repoProducto = new Producto_Repository();
+    private ProductoComp
+
     private bool _enEjecucion;
 
     private ObservableCollection<AuxProducto> _auxProductos = new ObservableCollection<AuxProducto>();
@@ -98,11 +101,12 @@ public partial class RegistrarNuevaCompraPage : ContentPage
                 if (camposVacios)
                 {
                     _enEjecucion = false;
-                    await Toast.Make("No deben existir campos vacíos").Show();
+                    await Toast.Make("No deben existir campos vacíos",ToastDuration.Long).Show();
                     return;
                 }
                 else
                 {
+
                     productosComprados.Add(new ProductoComprado
                     {
                         PRODUCTO = p.PRODUCTO,
@@ -137,6 +141,10 @@ public partial class RegistrarNuevaCompraPage : ContentPage
     private async Task<List<Tbl_Producto>> ObtenerProductosDBAsync()
     {
         return await _repoProducto.ObtenerProductosAsync();
+    }
+    private async Task<int> ObtenerNumeroCompras()
+    {
+        return 
     }
 
     #endregion

@@ -10,7 +10,7 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
     {
         private Tbl_Comprador_Repository _repoTblComprador = new Tbl_Comprador_Repository();
         public Comprador_Repository() { }
-
+        #region ESCRITURA
         public async Task GuardarNuevoCompradorAsync(Comprador comprador)
         {
             NetworkAccess accessType = Connectivity.Current.NetworkAccess;
@@ -26,8 +26,9 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
             {
                 await _repoTblComprador.GuardarCompradorAsync(comprador);
             }
-            
         }
+        #endregion
+
         #region LECTURA
         public async Task<List<Tbl_Comprador>> ObtenerCompradoresAsync()
         {

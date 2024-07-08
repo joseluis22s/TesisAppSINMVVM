@@ -1,6 +1,6 @@
 ﻿using SQLite;
 
-namespace TesisAppSINMVVM.Database.Tables;
+namespace TesisAppSINMVVM.LocalDatabase.Tables;
 public class Tbl_Producto
 {
     [PrimaryKey, AutoIncrement]
