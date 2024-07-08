@@ -129,7 +129,7 @@ public partial class NuevaCompraContentView : ContentView
                 {
                     //string nuevoProducto = await _compraPage.DisplayPromptAsync("NUEVO PRODUCTO", "Ingrese el nombre del producto:", "AGREGAR", "CANCELAR", null,-1,Keyboard.Create(KeyboardFlags.CapitalizeCharacter));
                     // TODO: De la misma que el double y el int, contorlar los espasio en blanco
-                    bool existeProducto = await VerificarExistenciaProductoDBAsync(nuevoProducto);
+                    bool existeProducto = false;/* await VerificarExistenciaProductoDBAsync(nuevoProducto);*/
                     if (existeProducto)
                     {
                         await Toast.Make("El producto ya existe").Show();
@@ -242,10 +242,10 @@ public partial class NuevaCompraContentView : ContentView
     // BASE DE DATOS
 
     //      Tbl_Producto_Repository
-    private async Task<bool> VerificarExistenciaProductoDBAsync(string resultado)
-    {
-        return await _repoProducto.VerificarExistenciaProductoAsync(resultado);
-    }
+    //private async Task<bool> VerificarExistenciaProductoDBAsync(string resultado)
+    //{
+    //    return await _repoProducto.VerificarExistenciaProductoAsync(resultado);
+    //}
     //private async Task GuardarProductoDBAsync(string producto)
     //{
     //    await _repoProducto.GuardarProductoAsync(producto);

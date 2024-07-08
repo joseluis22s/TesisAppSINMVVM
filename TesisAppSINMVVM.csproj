@@ -88,6 +88,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Views\CompraViews\EliminarRegistrarNuevaCompraProductoPage.xaml.cs">
+	    <DependentUpon>EliminarRegistrarNuevaCompraProductoPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\ModalViews\EliminarAgregarNuevoCompradorPage.xaml.cs">
 	    <DependentUpon>EliminarAgregarNuevoCompradorPage.xaml</DependentUpon>
 	  </Compile>
@@ -112,6 +115,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Views\CompraViews\RegistrarNuevaCompraPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\ModalViews\EliminarAgregarNuevoCompradorPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -130,7 +136,7 @@
 	  <MauiXaml Update="Views\CompraViews\ProveedoresPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\CompraViews\RegistrarNuevaCompraPage.xaml">
+	  <MauiXaml Update="Views\CompraViews\EliminarRegistrarNuevaCompraProductoPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Contents\HistorialComprasContentView.xaml">

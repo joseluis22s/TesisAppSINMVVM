@@ -16,10 +16,12 @@ namespace TesisAppSINMVVM.Database.Respositories
             conn = new SQLiteAsyncConnection(Constantes.DatabasePath, Constantes.Flags);
             var resultado = await conn.CreateTableAsync<Tbl_Producto>();
         }
-        public async Task<bool> VerificarExistenciaProductoAsync(string productoNOmbre)
+        public async Task<bool> VerificarExistenciaProductoAsync(string productoNOmbre, string medida)
         {
             await InitAsync();
-            int resultado = await conn.Table<Tbl_Producto>().CountAsync(producto => producto.PRODUCTO == productoNOmbre);
+            int resultado = await conn.Table<Tbl_Producto>().CountAsync(producto => 
+                producto.PRODUCTO == productoNOmbre &&
+                producto.MEDIDA == medida);
             if (resultado != 0)
             {
                 return true;
@@ -33,6 +35,7 @@ namespace TesisAppSINMVVM.Database.Respositories
             {
                 PRODUCTO = producto.PRODUCTO
             };
+            bool existeProduto = await VerificarExistenciaProductoAsync(producto.PRODUCTO, producto.MEDIDA);
             await conn.InsertAsync(Producto);
         }
         public async Task<List<Tbl_Producto>> ObtenerProductosAsync()

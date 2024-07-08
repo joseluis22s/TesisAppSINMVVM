@@ -1,4 +1,5 @@
 using TesisAppSINMVVM.Models;
+using TesisAppSINMVVM.Views.CompraViews;
 
 namespace TesisAppSINMVVM.Views.CompraViews;
 

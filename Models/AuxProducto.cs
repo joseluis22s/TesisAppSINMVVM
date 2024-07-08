@@ -1,14 +1,15 @@
-﻿using System.ComponentModel;
+﻿
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace TesisAppSINMVVM.Models
 {
-    public class AuxProductoInventarioBodega : INotifyPropertyChanged
+    public class AuxProducto : INotifyPropertyChanged
     {
         private string _producto;
         private string _medida;
-        private string _cantidad;
-        private string _descripcion;
+        private int _cantidad;
+        private double _precio;
         private bool _esSeleccionado;
 
         public string PRODUCTO
@@ -29,7 +30,7 @@ namespace TesisAppSINMVVM.Models
                 OnPropertyChanged(nameof(MEDIDA));
             }
         }
-        public string CANTIDAD
+        public int CANTIDAD
         {
             get { return _cantidad; }
             set
@@ -38,13 +39,13 @@ namespace TesisAppSINMVVM.Models
                 OnPropertyChanged(nameof(CANTIDAD));
             }
         }
-        public string DESCRIPCION
+        public double PRECIO
         {
-            get { return _descripcion; }
+            get { return _precio; }
             set
             {
-                _descripcion = value;
-                OnPropertyChanged(nameof(DESCRIPCION));
+                _precio = value;
+                OnPropertyChanged(nameof(PRECIO));
             }
         }
         public bool ESSELECCIONADO
@@ -56,6 +57,7 @@ namespace TesisAppSINMVVM.Models
                 OnPropertyChanged(nameof(ESSELECCIONADO));
             }
         }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

@@ -149,7 +149,6 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
                         DIAFECHAGUARDADO = DateTime.Now.ToString("dddd, dd MMMM")
                     });
                 }
-
             }
         }
         if (inventarioProductosBodega.Count == 0)
@@ -178,6 +177,8 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
     #region LÓGICA
     private async Task PermitirPopAsyncNavegacion()
     {
+        // TODO: Evaluar si el collection view tiene datos acragdor, es decir, si esta vacio, ya que si
+        // no hay datos  esta condicion se rompe
         bool camposVacios = VerificarCamposVacios();
         if (!camposVacios)
         {

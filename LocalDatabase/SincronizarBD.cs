@@ -71,7 +71,7 @@ namespace TesisAppSINMVVM.LocalDatabase
                                          .Collection("CHEQUE")
                                          .GetAsync();
             var chequesFirebase = documentos.ToObjects<Cheque>().ToList();
-            List<Tbl_Cheque> chequesLocal = await _repoCheque.ObtenerChequesAsync();
+            List<Tbl_Cheque> chequesLocal = await _repoTblCheque.ObtenerChequesAsync();
 
             List<Tbl_Cheque> chequesLocalParaAgregar = new List<Tbl_Cheque>();
             List<Cheque> chequesFirebaseParaAgregar = new List<Cheque>();

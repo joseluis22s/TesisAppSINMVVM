@@ -49,7 +49,7 @@ namespace TesisAppSINMVVM
             //Tbl_HistorialCompras_Repository _repoHistorialCompras = new Tbl_HistorialCompras_Repository();
             //Tbl_Comprador_Repository _repoComprador = new Tbl_Comprador_Repository();   
             //Tbl_VentaCredito_Repository _repoVentaCrediot = new Tbl_VentaCredito_Repository();
-            //Tbl_Producto_Repository tblProducto = new Tbl_Producto_Repository();
+            //Tbl_Producto_Repository _repotblProducto = new Tbl_Producto_Repository();
             //Tbl_ProductosInventario_Repository _repoTblProdcutoInvetario = new Tbl_ProductosInventario_Repository();
             SincronizarBD sincronizarBD = new SincronizarBD();
             //ServicioFirestore firebaseDataBase = new ServicioFirestore();
@@ -67,7 +67,7 @@ namespace TesisAppSINMVVM
             //_repoHistorialCompras.BorrarTblHistorialProductosAsync();
             //_repoComprador.BorrarTblCompradorAsync();
             //_repoVentaCrediot.BorrarTblVentaCredito();
-            //tblProducto.BorrarTablaTbl_ProductoAsync();
+            //_repotblProducto.BorrarTablaTbl_ProductoAsync();
             //_repoTblProdcutoInvetario.BorrarTblProductoInveario();
 
 #if DEBUG
