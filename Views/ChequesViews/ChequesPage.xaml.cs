@@ -1,3 +1,5 @@
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 using TesisAppSINMVVM.Views.ChequesViews;
 
 namespace TesisAppSINMVVM.Views;
@@ -14,7 +16,15 @@ public partial class ChequesPage : ContentPage
     // NAVEGACIÓN
     private async Task RegistarChequePagePushAsync()
     {
-        await Navigation.PushAsync(new RegistrarChequePage());
+        NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+        if (accessType == NetworkAccess.Internet)
+        {
+            await Navigation.PushAsync(new RegistrarChequePage());
+        }
+        else
+        {
+            await Toast.Make("Primero debe conectarse a internet", ToastDuration.Long).Show();
+        }
     }
     private async Task HistorialChequesPagePushAsync()
     {
@@ -23,11 +33,12 @@ public partial class ChequesPage : ContentPage
 
 
     // EVENTOS
-    private async void Border_RegistarCheque_TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+    private async void Buttton_RegistarCheque_Clicked(object sender, EventArgs e)
     {
         await RegistarChequePagePushAsync();
     }
-    private async void Border_HistorialCheques_TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+
+    private async void Buttton_HistorialCheques_Clicked(object sender, EventArgs e)
     {
         await HistorialChequesPagePushAsync();
     }

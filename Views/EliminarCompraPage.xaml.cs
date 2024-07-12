@@ -1,7 +1,7 @@
 using Plugin.CloudFirestore;
 using TesisAppSINMVVM.Contents;
 using TesisAppSINMVVM.Database.Respositories;
-using TesisAppSINMVVM.Database.Tables;
+using TesisAppSINMVVM.LocalDatabase.Tables;
 using TesisAppSINMVVM.Models;
 
 namespace TesisAppSINMVVM.Views;

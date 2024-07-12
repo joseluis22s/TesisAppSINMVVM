@@ -1,7 +1,7 @@
 using CommunityToolkit.Maui.Alerts;
 using TesisAppSINMVVM.Models;
-using TesisAppSINMVVM.Database.Tables;
 using TesisAppSINMVVM.FirebaseDataBase.Repositories;
+using TesisAppSINMVVM.LocalDatabase.Tables;
 
 namespace TesisAppSINMVVM.Views.ChequesViews;
 

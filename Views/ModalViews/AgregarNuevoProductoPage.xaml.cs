@@ -1,8 +1,7 @@
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
-using Plugin.CloudFirestore;
-using TesisAppSINMVVM.Database.Tables;
 using TesisAppSINMVVM.FirebaseDataBase.Repositories;
+using TesisAppSINMVVM.LocalDatabase.Tables;
 using TesisAppSINMVVM.Models;
 
 namespace TesisAppSINMVVM.Views.ModalViews;

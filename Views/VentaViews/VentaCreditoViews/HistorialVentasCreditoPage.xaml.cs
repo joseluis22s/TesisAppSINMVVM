@@ -1,15 +1,16 @@
-using TesisAppSINMVVM.Database.Respositories;
-using TesisAppSINMVVM.Database.Tables;
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 using TesisAppSINMVVM.FirebaseDataBase.Repositories;
 using TesisAppSINMVVM.Models;
+using TesisAppSINMVVM.Views.VentaViews.VentaCreditoViews;
 
 namespace TesisAppSINMVVM.Views.VentaViews;
 
-public partial class HistorialVentasCredito : ContentPage
+public partial class HistorialVentasCreditoPage : ContentPage
 {
     private List<VentaCreditoGroup> _grupoVentaCredito { get; set; } = new List<VentaCreditoGroup>();
 
-	public HistorialVentasCredito()
+	public HistorialVentasCreditoPage()
 	{
 		InitializeComponent();
     }
@@ -22,6 +23,18 @@ public partial class HistorialVentasCredito : ContentPage
     {
         await Navigation.PopAsync();
     }
+    private async Task RegistrarNuevaVentaCreditoPagePushAsync()
+    {
+        NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+        if (accessType == NetworkAccess.Internet)
+        {
+            await NavegacionRegistrarNuevaVentaCreditoPage();
+        }
+        else
+        {
+            await Toast.Make("Primero debe conectarse a internet", ToastDuration.Long).Show();
+        }
+    }
     #endregion
 
 
@@ -31,6 +44,10 @@ public partial class HistorialVentasCredito : ContentPage
     {
         base.OnAppearing();
         await CargarDatosCollectionView_VentasCredito();
+    }
+    private async void Button_NavegaRegistrarNuevaVentaCredito_Clicked(object sender, EventArgs e)
+    {
+        await RegistrarNuevaVentaCreditoPagePushAsync();
     }
     protected override bool OnBackButtonPressed()
     {
@@ -65,6 +82,24 @@ public partial class HistorialVentasCredito : ContentPage
 
     // LÓGICA
     #region LÓGICA
+    private async Task NavegacionRegistrarNuevaVentaCreditoPage()
+    {
+        // TODO: Ver si esta bien esta lógica
+        var stack = Navigation.NavigationStack.ToArray();
+        var lastPage = stack[stack.Length - 2];
+        if (lastPage is RegistrarNuevaVentaCreditoPage)
+        {
+            await Navigation.PopAsync();
+        }
+        else if (lastPage is OpcionesVentaCreditoPage)
+        {
+            await Navigation.PushAsync(new RegistrarNuevaVentaCreditoPage
+            {
+                BindingContext = this.BindingContext
+            });
+            Navigation.RemovePage(stack[stack.Length - 1]);
+        }
+    }
     private Task PagePopAsync()
     {
         Dispatcher.Dispatch(async () =>
@@ -93,4 +128,6 @@ public partial class HistorialVentasCredito : ContentPage
     #region LÓGICA DE COSAS VISUALES DE LA PÁGINA
 
     #endregion
+
+    
 }

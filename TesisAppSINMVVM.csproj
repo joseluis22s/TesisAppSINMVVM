@@ -100,16 +100,19 @@
 	  <Compile Update="Views\EliminarCompraPage.xaml.cs">
 	    <DependentUpon>EliminarCompraPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\CrearNuevoUsuarioPage.xaml.cs">
+	  <Compile Update="Views\LoginViews\CrearNuevoUsuarioPage.xaml.cs">
 	    <DependentUpon>CrearNuevoUsuarioPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\VentaViews\HistorialProductoSobrantePage.xaml.cs">
+	  <Compile Update="Views\VentaViews\BodegaViews\HistorialProductoSobrantePage.xaml.cs">
 	    <DependentUpon>HistorialProductoSobrantePage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\VentaViews\RegistrarNuevaVentaCreditoPage.xaml.cs">
+	  <Compile Update="Views\VentaViews\VentaCreditoViews\HistorialVentasCreditoPage.xaml.cs">
+	    <DependentUpon>HistorialVentasCreditoPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\VentaViews\VentaCreditoViews\RegistrarNuevaVentaCreditoPage.xaml.cs">
 	    <DependentUpon>RegistrarNuevaVentaCreditoPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\VentaViews\RegistrarProductoSobranteBodegaPage.xaml.cs">
+	  <Compile Update="Views\VentaViews\BodegaViews\RegistrarProductoSobranteBodegaPage.xaml.cs">
 	    <DependentUpon>RegistrarProductoSobranteBodegaPage.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
@@ -151,34 +154,40 @@
 	  <MauiXaml Update="Views\ModalViews\AgregarNuevoProveedorPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\ChequesPage.xaml">
+	  <MauiXaml Update="Views\ChequesViews\ChequesPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\EliminarCompraPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\CrearNuevoUsuarioPage.xaml">
+	  <MauiXaml Update="Views\LoginViews\CrearNuevoUsuarioPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\IniciarSesionPage.xaml">
+	  <MauiXaml Update="Views\LoginViews\IniciarSesionPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\PaginaPrincipalPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\VentaPage.xaml">
+	  <MauiXaml Update="Views\VentaViews\VentaPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\VentaViews\HistorialProductoSobrantePage.xaml">
+	  <MauiXaml Update="Views\VentaViews\BodegaViews\OpcionesBodegaPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\VentaViews\HistorialVentasCredito.xaml">
+	  <MauiXaml Update="Views\VentaViews\BodegaViews\HistorialProductoSobrantePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\VentaViews\RegistrarProductoSobranteBodegaPage.xaml">
+	  <MauiXaml Update="Views\VentaViews\VentaCreditoViews\HistorialVentasCreditoPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\VentaViews\RegistrarNuevaVentaCreditoPage.xaml">
+	  <MauiXaml Update="Views\VentaViews\BodegaViews\RegistrarProductoSobranteBodegaPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\VentaViews\VentaCreditoViews\OpcionesVentaCreditoPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\VentaViews\VentaCreditoViews\RegistrarNuevaVentaCreditoPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

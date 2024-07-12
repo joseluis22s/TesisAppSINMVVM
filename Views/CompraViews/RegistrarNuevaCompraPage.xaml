@@ -5,12 +5,19 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="VENTA: Registrar compra a crédito"
     Appearing="ContentPage_Appearing"
+    HideSoftInputOnTapped="True"
     NavigationPage.HasBackButton="False">
 
-    <Grid>
+    <Grid RowDefinitions="Auto,Auto,*,Auto,Auto">
         <Label Text="{Binding PROVEEDOR, StringFormat='PROVEEDOR: {0}'}" />
-        <Border BackgroundColor="#d9d9d9">
-            <Grid RowDefinitions="Auto,Auto,Auto">
+        <Border>
+            <Entry
+                x:Name="Entry_ValorTotalVenta"
+                Grid.Row="1"
+                IsReadOnly="True" />
+        </Border>
+        <Border Grid.Row="2" BackgroundColor="#d9d9d9">
+            <Grid RowDefinitions="Auto,Auto,Auto,*,Auto">
                 <Label
                     Padding="0,2"
                     BackgroundColor="#9e9e9e"
@@ -18,9 +25,22 @@
                     FontSize="18"
                     HorizontalTextAlignment="Center"
                     Text="NUEVA COMPRA" />
+                <Entry
+                    x:Name="Entry_NumeroCompra"
+                    Grid.Row="1"
+                    IsReadOnly="True" />
+                <VerticalStackLayout Grid.Row="2">
+                    <Label Text="Fecha de emisión" />
+                    <Border>
+                        <DatePicker
+                            x:Name="DatePicker_FechaGuardado"
+                            Format="dd/MM/yyyy"
+                            HorizontalOptions="FillAndExpand" />
+                    </Border>
+                </VerticalStackLayout>
                 <CollectionView
                     x:Name="CollectionView_Productos"
-                    Grid.Row="1"
+                    Grid.Row="3"
                     SelectionMode="None">
                     <CollectionView.EmptyView>
                         <ContentView>
@@ -33,7 +53,7 @@
                                 <Image MaximumHeightRequest="30" Source="remove_empty_icon.png" />
                                 <Button
                                     x:Name="Button_AgregarProdcuto"
-                                    Clicked="Button_AgregarProdcuto_Clicked"
+                                    Clicked="Button_AgregarProducto_Clicked"
                                     Text="Agregar un producto" />
                             </VerticalStackLayout>
                         </ContentView>
@@ -71,7 +91,7 @@
                                                 Placeholder="Cantidad"
                                                 PlaceholderColor="#a1a1a1"
                                                 Text="{Binding CANTIDAD}"
-                                                TextChanged="Entry_TextChanged_Cantidad" />
+                                                TextChanged="Entrys_TextChanged" />
                                         </Grid>
                                     </Border>
                                     <Border Grid.Row="3" IsVisible="{Binding ESSELECCIONADO}">
@@ -94,7 +114,8 @@
                                                         MaxLength="7"
                                                         Placeholder="0"
                                                         PlaceholderColor="#9e9e9e"
-                                                        TextChanged="Entry_PrecioUnitarioEntero_TextChanged" />
+                                                        Text="{Binding PRECIOE, Mode=TwoWay}"
+                                                        TextChanged="Entrys_TextChanged" />
                                                 </Grid>
                                             </Border>
                                             <Label
@@ -113,7 +134,8 @@
                                                         MaxLength="2"
                                                         Placeholder="00"
                                                         PlaceholderColor="#9e9e9e"
-                                                        TextChanged="Entry_PrecioUnitarioDecimal_TextChanged" />
+                                                        Text="{Binding PRECIOD, Mode=TwoWay}"
+                                                        TextChanged="Entrys_TextChanged" />
                                                     <Label
                                                         Grid.Column="1"
                                                         Text="ctvs"
@@ -123,21 +145,32 @@
                                             </Border>
                                         </Grid>
                                     </Border>
-                                    <Border Grid.Row="4" IsVisible="{Binding ESSELECCIONADO}">
-                                        <Label x:Name="Label_PrecioTotal" />
-                                    </Border>
+                                    <VerticalStackLayout Grid.Row="4" IsVisible="{Binding ESSELECCIONADO}">
+                                        <Label Text="Total" />
+                                        <Border>
+                                            <Entry IsReadOnly="True" Text="{Binding TOTAL, Mode=TwoWay}" />
+                                        </Border>
+                                    </VerticalStackLayout>
+
                                 </Grid>
                             </Border>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-                <Button
-                    x:Name="Button_GuardarNuevaCompra"
-                    Grid.Row="2"
-                    Text="Guardar" Clicked="Button_GuardarNuevaCompra_Clicked" />
+                <Label x:Name="Label_ValorTotal" Grid.Row="3" />
             </Grid>
         </Border>
 
+        <Button
+            x:Name="Button_GuardarNuevaCompra"
+            Grid.Row="3"
+            Clicked="Button_GuardarNuevaCompra_Clicked"
+            Text="Guardar" />
+        <Button
+            x:Name="Button_Regresar"
+            Grid.Row="4"
+            Clicked="Button_Regresar_Clicked"
+            Text="Regresar" />
     </Grid>
 
 

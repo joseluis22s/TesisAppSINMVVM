@@ -2,8 +2,8 @@ using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Core.Platform;
 using System.Text.RegularExpressions;
-using TesisAppSINMVVM.Database.Tables;
 using TesisAppSINMVVM.FirebaseDataBase.Repositories;
+using TesisAppSINMVVM.LocalDatabase.Tables;
 using TesisAppSINMVVM.Models;
 
 namespace TesisAppSINMVVM.Views.VentaViews;
@@ -30,7 +30,7 @@ public partial class RegistrarNuevaVentaCreditoPage : ContentPage
     #region NAVEGACIÓN
     private async Task HistorialVentasCreditoPushAsync()
     {
-        await Navigation.PushAsync(new HistorialVentasCredito());
+        await Navigation.PushAsync(new HistorialVentasCreditoPage());
     }
     private async Task RegistrarVentaCreditoPagePopAsync()
     {

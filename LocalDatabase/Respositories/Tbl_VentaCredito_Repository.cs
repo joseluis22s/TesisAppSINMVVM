@@ -1,5 +1,5 @@
 ﻿using SQLite;
-using TesisAppSINMVVM.Database.Tables;
+using TesisAppSINMVVM.LocalDatabase.Tables;
 using TesisAppSINMVVM.Models;
 
 namespace TesisAppSINMVVM.Database.Respositories

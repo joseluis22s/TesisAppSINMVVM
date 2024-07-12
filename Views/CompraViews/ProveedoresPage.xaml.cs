@@ -2,10 +2,7 @@ using TesisAppSINMVVM.Models;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using TesisAppSINMVVM.FirebaseDataBase.Repositories;
-using TesisAppSINMVVM.Database.Tables;
-using TesisAppSINMVVM.Database.Respositories;
-using Plugin.CloudFirestore;
-using System.Collections.Generic;
+using TesisAppSINMVVM.LocalDatabase.Tables;
 
 namespace TesisAppSINMVVM.Views.CompraViews;
 
@@ -92,6 +89,7 @@ public partial class ProveedoresPage : ContentPage
     
     // LÓGICA PARA EVENTOS
     #region LÓGICA PARA EVENTOS
+    
     private async Task CargarDatosCollectionView_Proveedores()
     {
         _tblProveedores = await ObtenerProveedoresDBAsync();
@@ -109,35 +107,43 @@ public partial class ProveedoresPage : ContentPage
     }
     private async Task AgregarNuevoProveedor()
     {
-        string nuevoProveedor;
-        do
+        NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+        if (accessType == NetworkAccess.Internet)
         {
-            nuevoProveedor = await DisplayPromptAsync("NUEVO PROVEEDOR", "Ingrese el nombre del producto:", "AGREGAR", "CANCELAR", null, -1, Keyboard.Create(KeyboardFlags.CapitalizeCharacter));
-            if (nuevoProveedor is not null)
+            string nuevoProveedor;
+            do
             {
-                if (nuevoProveedor != "")
+                nuevoProveedor = await DisplayPromptAsync("NUEVO PROVEEDOR", "Ingrese el nombre del producto:", "AGREGAR", "CANCELAR", null, -1, Keyboard.Create(KeyboardFlags.CapitalizeCharacter));
+                if (nuevoProveedor is not null)
                 {
-                    nuevoProveedor = nuevoProveedor.Trim().ToUpper();
-                    bool existeProveedor = _tblProveedores.Any(p => p.PROVEEDOR == nuevoProveedor);
-                    if (!existeProveedor)
+                    if (nuevoProveedor != "")
                     {
-                        Proveedor proveedor = new Proveedor();
-                        proveedor.PROVEEDOR = nuevoProveedor;
-                        await GuardarNuevoProveedorDBAsync(proveedor);
-                        await Toast.Make("Se ha guardado el nuevo proveedor", ToastDuration.Long).Show();
-                        await CargarDatosCollectionView_Proveedores();
+                        nuevoProveedor = nuevoProveedor.Trim().ToUpper();
+                        bool existeProveedor = _tblProveedores.Any(p => p.PROVEEDOR == nuevoProveedor);
+                        if (!existeProveedor)
+                        {
+                            Proveedor proveedor = new Proveedor();
+                            proveedor.PROVEEDOR = nuevoProveedor;
+                            await GuardarNuevoProveedorDBAsync(proveedor);
+                            await Toast.Make("Se ha guardado el nuevo proveedor", ToastDuration.Long).Show();
+                            await CargarDatosCollectionView_Proveedores();
+                        }
+                        else
+                        {
+                            await Toast.Make("Proveedor ya existente", ToastDuration.Long).Show();
+                        }
                     }
                     else
                     {
-                        await Toast.Make("Proveedor ya existente", ToastDuration.Long).Show();
+                        await Toast.Make("El campo no debe estar vacío").Show();
                     }
                 }
-                else
-                {
-                    await Toast.Make("El campo no debe estar vacío").Show();
-                }
-            }
-        } while (nuevoProveedor == "");
+            } while (nuevoProveedor == "");
+        }
+        else
+        {
+            await Toast.Make("Primero debe conectarse a internet", ToastDuration.Long).Show();
+        }
     }
     private async Task EliminarProveedor(object sender)
     {

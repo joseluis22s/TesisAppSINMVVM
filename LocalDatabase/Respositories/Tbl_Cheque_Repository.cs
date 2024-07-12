@@ -1,7 +1,6 @@
 ﻿using SQLite;
-using TesisAppSINMVVM.Database.Tables;
+using TesisAppSINMVVM.LocalDatabase.Tables;
 using TesisAppSINMVVM.Models;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace TesisAppSINMVVM.Database.Respositories
 {

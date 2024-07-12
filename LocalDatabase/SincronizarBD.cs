@@ -1,9 +1,7 @@
-﻿
-using Microsoft.Maui.Storage;
-using Plugin.CloudFirestore;
+﻿using Plugin.CloudFirestore;
 using TesisAppSINMVVM.Database.Respositories;
-using TesisAppSINMVVM.Database.Tables;
 using TesisAppSINMVVM.FirebaseDataBase.Repositories;
+using TesisAppSINMVVM.LocalDatabase.Tables;
 using TesisAppSINMVVM.Models;
 
 namespace TesisAppSINMVVM.LocalDatabase

@@ -25,9 +25,13 @@
                             <Label
                                 FontAutoScalingEnabled="True"
                                 HorizontalTextAlignment="Center"
-                                Text="NO SE HA REGISTRADO NINGÚN CONTACTO"
+                                Text="NO SE HA REGISTRADO NINGÚN CHEQUE"
                                 TextColor="#1a1a1a" />
                             <Image MaximumHeightRequest="30" Source="remove_empty_icon.png" />
+                            <Button
+                                x:Name="Button_NavegarAgregarNuevoRegistroCheque"
+                                Clicked="Button_NavegarAgregarNuevoRegistroCheque_Clicked"
+                                Text="Agregar nuevo registro" />
                         </VerticalStackLayout>
                     </ContentView>
 

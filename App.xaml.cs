@@ -1,7 +1,4 @@
-﻿using System.Security.Cryptography;
-using TesisAppSINMVVM.Database.Respositories;
-using TesisAppSINMVVM.Database.Tables;
-using TesisAppSINMVVM.Views;
+﻿using TesisAppSINMVVM.Views;
 
 namespace TesisAppSINMVVM
 {

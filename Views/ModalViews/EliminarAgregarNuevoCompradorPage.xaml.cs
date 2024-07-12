@@ -1,7 +1,5 @@
 using CommunityToolkit.Maui.Alerts;
 using TesisAppSINMVVM.Database.Respositories;
-using TesisAppSINMVVM.Database.Tables;
-using TesisAppSINMVVM.Models;
 using TesisAppSINMVVM.Views.VentaViews;
 
 namespace TesisAppSINMVVM.Views;

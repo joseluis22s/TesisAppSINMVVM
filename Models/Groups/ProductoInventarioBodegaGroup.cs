@@ -1,6 +1,4 @@
-﻿using TesisAppSINMVVM.Database.Tables;
-
-namespace TesisAppSINMVVM.Models
+﻿namespace TesisAppSINMVVM.Models
 {
     public class ProductoInventarioBodegaGroup : List<ProductoInventarioBodega>
     {

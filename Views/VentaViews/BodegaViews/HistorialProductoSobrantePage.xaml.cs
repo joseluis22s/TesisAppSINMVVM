@@ -1,7 +1,8 @@
-using TesisAppSINMVVM.Database.Respositories;
-using TesisAppSINMVVM.Database.Tables;
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 using TesisAppSINMVVM.FirebaseDataBase.Repositories;
 using TesisAppSINMVVM.Models;
+using TesisAppSINMVVM.Views.VentaViews.BodegaViews;
 
 namespace TesisAppSINMVVM.Views.VentaViews;
 
@@ -30,6 +31,18 @@ public partial class HistorialProductoSobrantePage : ContentPage
     {
         base.OnAppearing();
         await CargarDatosCollectionView_Bodega();
+    }
+    private async void Button_NavegarAgregarNuevoRegistroProductoSobrante_Clicked(object sender, EventArgs e)
+    {
+        NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+        if (accessType == NetworkAccess.Internet)
+        {
+            await NavegacionRegistrarProductoSobranteBodegaPage();
+        }
+        else
+        {
+            await Toast.Make("Primero debe conectarse a internet", ToastDuration.Long).Show();
+        }
     }
     private async void Button_Regresar_Clicked(object sender, EventArgs e)
     {
@@ -64,6 +77,23 @@ public partial class HistorialProductoSobrantePage : ContentPage
 
     // LÓGICA
     #region LÓGICA
+    private async Task NavegacionRegistrarProductoSobranteBodegaPage()
+    {
+        var stack = Navigation.NavigationStack.ToArray();
+        var lastPage = stack[stack.Length - 2];
+        if (lastPage is RegistrarProductoSobranteBodegaPage)
+        {
+            await Navigation.PopAsync();
+        }
+        else if (lastPage is OpcionesBodegaPage)
+        {
+            await Navigation.PushAsync(new RegistrarProductoSobranteBodegaPage
+            {
+                BindingContext = this.BindingContext
+            });
+            Navigation.RemovePage(stack[stack.Length - 1]);
+        }
+    }
     private Task PagePopAsync()
     {
         RegistrarProductoSobranteBodegaPage._ejecutarAppearing = false;
@@ -91,4 +121,6 @@ public partial class HistorialProductoSobrantePage : ContentPage
     #region LÓGICA DE COSAS VISUALES DE LA PÁGINA
 
     #endregion
+
+    
 }

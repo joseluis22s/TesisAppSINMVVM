@@ -36,6 +36,26 @@
                 Margin="10,5,10,5"
                 SelectionMode="None"
                 VerticalOptions="Start">
+                <CollectionView.EmptyView>
+                    <ContentView>
+                        <VerticalStackLayout
+                            x:Name="VerticalStackLayout_EmptyView_RegistrarProductoSobranteBodega"
+                            BackgroundColor="#e6e6e6"
+                            VerticalOptions="Center">
+                            <Label
+                                FontAutoScalingEnabled="True"
+                                HorizontalTextAlignment="Center"
+                                Text="NO SE HA REGISTRADO NINGÚN PRODUCTO"
+                                TextColor="#1a1a1a" />
+                            <Image MaximumHeightRequest="30" Source="remove_empty_icon.png" />
+                            <Button
+                                x:Name="Button_NavegarAgregarNuevoProducto"
+                                Clicked="Button_NavegarAgregarNuevoProducto_Clicked"
+                                Text="Agregar un producto" />
+                        </VerticalStackLayout>
+                    </ContentView>
+
+                </CollectionView.EmptyView>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Border Style="{StaticResource BorderStyle1}">

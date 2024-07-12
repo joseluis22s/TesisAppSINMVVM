@@ -1,6 +1,7 @@
-using TesisAppSINMVVM.Database.Respositories;
-using TesisAppSINMVVM.Database.Tables;
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 using TesisAppSINMVVM.FirebaseDataBase.Repositories;
+using TesisAppSINMVVM.LocalDatabase.Tables;
 using TesisAppSINMVVM.Models;
 
 namespace TesisAppSINMVVM.Views.ChequesViews;
@@ -24,6 +25,18 @@ public partial class HistorialChequesPage : ContentPage
     {
         await Navigation.PopAsync();
     }
+    private async Task RegistrarChequePagePushAsync()
+    {
+        NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+        if (accessType == NetworkAccess.Internet)
+        {
+            await NavegacionRegistrarChequePage();
+        }
+        else
+        {
+            await Toast.Make("Primero debe conectarse a internet", ToastDuration.Long).Show();
+        }
+    }
     #endregion
 
     // EVENTOS
@@ -36,6 +49,10 @@ public partial class HistorialChequesPage : ContentPage
     private async void Button_Regresar_Clicked(object sender, EventArgs e)
     {
         await HistorialChequesPagePopAsync();
+    }
+    private async void Button_NavegarAgregarNuevoRegistroCheque_Clicked(object sender, EventArgs e)
+    {
+        await RegistrarChequePagePushAsync();
     }
     #endregion
 
@@ -58,12 +75,32 @@ public partial class HistorialChequesPage : ContentPage
         CollectionView_HistorialCheques.ItemsSource = _grupoCheques;
 
     }
+
     #endregion
 
     // LÓGICA
     #region LÓGICA
+    private async Task NavegacionRegistrarChequePage()
+    {
+        // TODO: Ver si esta bien esta lógica
+        var stack = Navigation.NavigationStack.ToArray();
+        var lastPage = stack[stack.Length - 2];
+        if (lastPage is RegistrarChequePage)
+        {
+            await Navigation.PopAsync();
+        }
+        else if (lastPage is ChequesPage)
+        {
+            await Navigation.PushAsync(new RegistrarChequePage
+            {
+                BindingContext = this.BindingContext
+            });
+            Navigation.RemovePage(stack[stack.Length - 1]);
+        }
+    }
+    #endregion
 
-
+    #region BASE DE DATOS
     // BASE DE DATOS
     private async Task<List<Tbl_Cheque>> ObtenerDBChequesAsync()
     {
@@ -80,4 +117,6 @@ public partial class HistorialChequesPage : ContentPage
     #region LÓGICA DE COSAS VISUALES DE LA PÁGINA
 
     #endregion
+
+    
 }

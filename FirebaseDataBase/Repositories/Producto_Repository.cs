@@ -1,11 +1,6 @@
 ﻿using Plugin.CloudFirestore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TesisAppSINMVVM.Database.Respositories;
-using TesisAppSINMVVM.Database.Tables;
+using TesisAppSINMVVM.LocalDatabase.Tables;
 using TesisAppSINMVVM.Models;
 
 namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
@@ -31,9 +26,10 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
                {
                    PRODUCTO = p.PRODUCTO,
                    MEDIDA = p.MEDIDA
-               }).Where(p => !productosLocal.Any(pl =>
-               pl.PRODUCTO == p.PRODUCTO &&
-               pl.MEDIDA == p.MEDIDA
+               })
+               .Where(p => !productosLocal.Any(pl =>
+                pl.PRODUCTO == p.PRODUCTO &&
+                pl.MEDIDA == p.MEDIDA
                ));
             productos.AddRange(productosToAdd);
             return productos;

@@ -1,3 +1,6 @@
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
+using System.Collections.ObjectModel;
 using TesisAppSINMVVM.Models;
 using TesisAppSINMVVM.Views.CompraViews;
 
@@ -15,10 +18,18 @@ public partial class CompraOpcionesPage : ContentPage
     #region NAVEGACIÓN
     private async Task RegistarNuevaCompraPushAsync()
     {
-        await Navigation.PushAsync(new RegistrarNuevaCompraPage
+        NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+        if (accessType == NetworkAccess.Internet)
         {
-            BindingContext = this.BindingContext
-        });
+            await Navigation.PushAsync(new RegistrarNuevaCompraPage
+            {
+                BindingContext = this.BindingContext
+            });
+        }
+        else
+        {
+            await Toast.Make("Primero debe conectarse a internet", ToastDuration.Long).Show();
+        }
     }
     private async Task HistorialComprasPushAsync()
     {

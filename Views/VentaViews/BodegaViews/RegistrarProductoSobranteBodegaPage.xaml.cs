@@ -1,11 +1,11 @@
-using TesisAppSINMVVM.Database.Respositories;
 using System.Collections.ObjectModel;
 using TesisAppSINMVVM.Models;
-using TesisAppSINMVVM.Database.Tables;
 using CommunityToolkit.Maui.Alerts;
 using System.Text.RegularExpressions;
 using TesisAppSINMVVM.FirebaseDataBase.Repositories;
 using CommunityToolkit.Maui.Core;
+using TesisAppSINMVVM.LocalDatabase.Tables;
+using TesisAppSINMVVM.Views.ModalViews;
 
 namespace TesisAppSINMVVM.Views.VentaViews;
 
@@ -13,7 +13,6 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
 {
     private Producto_Repository _repoProducto = new Producto_Repository();
     private ProductoInventarioBodega_Repository _repoProductoInventarioBodega = new ProductoInventarioBodega_Repository();
-    private List<Producto> _productos;
     private ObservableCollection<AuxProductoInventarioBodega> _auxProductosInventario = new ObservableCollection<AuxProductoInventarioBodega>();
     private bool _enEjecucion;
     public static bool _ejecutarAppearing = true;
@@ -30,7 +29,6 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
     public RegistrarProductoSobranteBodegaPage()
     {
         InitializeComponent();
-        _productos = new List<Producto>();
     }
 
 
@@ -45,6 +43,18 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
     {
         await Navigation.PushAsync(new HistorialProductoSobrantePage());
     }
+    private async Task AgregarNuevoProductoPagePushModalAsync()
+    {
+        NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+        if (accessType == NetworkAccess.Internet)
+        {
+            await Navigation.PushModalAsync(new AgregarNuevoProductoPage());
+        }
+        else
+        {
+            await Toast.Make("Primero debe conectarse a internet", ToastDuration.Long).Show();
+        }
+    }
     #endregion
 
     // EVENTOS
@@ -57,6 +67,16 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
             await CargarProductosInventario();
         }
         _ejecutarAppearing = true;
+    }
+    private async void Button_NavegarAgregarNuevoProducto_Clicked(object sender, EventArgs e)
+    {
+        if (_enEjecucion)
+        {
+            return;
+        }
+        _enEjecucion = true;
+        await AgregarNuevoProductoPagePushModalAsync();
+        _enEjecucion = false;
     }
     private async void Button_GuardarRegistroProductoSobrante_Clicked(object sender, EventArgs e)
     {
@@ -153,7 +173,7 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
         }
         if (inventarioProductosBodega.Count == 0)
         {
-            await Toast.Make("Selecione al menos un producto").Show();
+            await Toast.Make("Selecione al menos un producto", ToastDuration.Long   ).Show();
         }
         else
         {
@@ -167,8 +187,7 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
             {
                 await GuardarProductosInventarioDBAsync(productoInventarioBodega);
             }
-
-            await Toast.Make("¡Registro guardado!").Show();
+            await Toast.Make("¡Registro guardado!",ToastDuration.Long).Show();
         }
     }
     #endregion
@@ -177,13 +196,19 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
     #region LÓGICA
     private async Task PermitirPopAsyncNavegacion()
     {
-        // TODO: Evaluar si el collection view tiene datos acragdor, es decir, si esta vacio, ya que si
-        // no hay datos  esta condicion se rompe
-        bool camposVacios = VerificarCamposVacios();
-        if (!camposVacios)
+        int productosCargados = _AuxProductosInventario.Count;
+        if (productosCargados != 0)
         {
-            bool respuesta = await DisplayAlert("Alerta", "¿Desea regresar? Perderá el progreso realizado", "Confimar", "Cancelar");
-            if (respuesta)
+            bool camposVacios = VerificarCamposVacios();
+            if (!camposVacios)
+            {
+                bool respuesta = await DisplayAlert("Alerta", "¿Desea regresar? Perderá el progreso realizado", "Confimar", "Cancelar");
+                if (respuesta)
+                {
+                    await Navigation.PopAsync();
+                }
+            }
+            else
             {
                 await Navigation.PopAsync();
             }
@@ -234,4 +259,6 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
         }
     }
     #endregion
+
+    
 }

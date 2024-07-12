@@ -1,4 +1,4 @@
-﻿using TesisAppSINMVVM.Database.Tables;
+﻿using TesisAppSINMVVM.LocalDatabase.Tables;
 
 namespace TesisAppSINMVVM.Models.Groups
 {

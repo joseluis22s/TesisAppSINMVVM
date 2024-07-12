@@ -1,8 +1,5 @@
-﻿using Plugin.CloudFirestore;
-using SQLite;
-using TesisAppSINMVVM.Database.Tables;
-using TesisAppSINMVVM.FirebaseDataBase;
-using TesisAppSINMVVM.FirebaseDataBase.Repositories;
+﻿using SQLite;
+using TesisAppSINMVVM.LocalDatabase.Tables;
 using TesisAppSINMVVM.Models;
 
 namespace TesisAppSINMVVM.Database.Respositories

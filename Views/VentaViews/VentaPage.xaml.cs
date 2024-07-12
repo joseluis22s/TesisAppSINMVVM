@@ -1,4 +1,6 @@
 using TesisAppSINMVVM.Views.VentaViews;
+using TesisAppSINMVVM.Views.VentaViews.BodegaViews;
+using TesisAppSINMVVM.Views.VentaViews.VentaCreditoViews;
 
 namespace TesisAppSINMVVM.Views;
 
@@ -11,24 +13,24 @@ public partial class VentaPage : ContentPage
 
 
     // NAVEGACIÓN
-    private async Task RegistrarProductoSobranteBodegaPagePushAsync()
+    private async Task OpcionesBodegaPagePushAsync()
     {
-        await Navigation.PushAsync(new RegistrarProductoSobranteBodegaPage());
+        await Navigation.PushAsync(new OpcionesBodegaPage());
     }
-    private async Task RegistrarVentaCreditoPagePushAsync()
+    private async Task OpcionesVentaCreditoPagePushAsync()
     {
-        await Navigation.PushAsync(new RegistrarNuevaVentaCreditoPage());
+        await Navigation.PushAsync(new OpcionesVentaCreditoPage());
     }
 
 
     // EVENTOS
     private async void Buttton_Bodega_Clicked(object sender, EventArgs e)
     {
-        await RegistrarProductoSobranteBodegaPagePushAsync();
+        await OpcionesBodegaPagePushAsync();
     }
     private async void Buttton_CuentasPorCobrar_Clicked(object sender, EventArgs e)
     {
-        await RegistrarVentaCreditoPagePushAsync();
+        await OpcionesVentaCreditoPagePushAsync();
     }
 
 

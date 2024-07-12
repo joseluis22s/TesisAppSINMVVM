@@ -8,8 +8,12 @@ namespace TesisAppSINMVVM.Models
     {
         private string _producto;
         private string _medida;
-        private int _cantidad;
-        private double _precio;
+        private string _cantidad;
+        //private string _precio;
+        private string _precioE;
+        private string _precioD;
+        private string _total;
+        private string _totalV;
         private bool _esSeleccionado;
 
         public string PRODUCTO
@@ -30,7 +34,7 @@ namespace TesisAppSINMVVM.Models
                 OnPropertyChanged(nameof(MEDIDA));
             }
         }
-        public int CANTIDAD
+        public string CANTIDAD
         {
             get { return _cantidad; }
             set
@@ -39,13 +43,49 @@ namespace TesisAppSINMVVM.Models
                 OnPropertyChanged(nameof(CANTIDAD));
             }
         }
-        public double PRECIO
+        public string PRECIOE
         {
-            get { return _precio; }
+            get { return _precioE; }
             set
             {
-                _precio = value;
-                OnPropertyChanged(nameof(PRECIO));
+                _precioE = value;
+                OnPropertyChanged(nameof(PRECIOE));
+            }
+        }
+        public string PRECIOD
+        {
+            get { return _precioD; }
+            set
+            {
+                _precioD = value;
+                OnPropertyChanged(nameof(PRECIOD));
+            }
+        }
+        //public string PRECIO
+        //{
+        //    get { return _precio; }
+        //    set
+        //    {
+        //        _precio = value;
+        //        OnPropertyChanged(nameof(PRECIO));
+        //    }
+        //}
+        public string TOTAL
+        {
+            get { return _total; }
+            set
+            {
+                _total = value;
+                OnPropertyChanged(nameof(TOTAL));
+            }
+        }
+        public string TOTALVENTA
+        {
+            get { return _totalV; }
+            set
+            {
+                _totalV = value;
+                OnPropertyChanged(nameof(TOTALVENTA));
             }
         }
         public bool ESSELECCIONADO

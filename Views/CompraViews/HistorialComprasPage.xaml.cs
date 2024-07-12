@@ -1,6 +1,9 @@
-using TesisAppSINMVVM.Database.Respositories;
-using TesisAppSINMVVM.Database.Tables;
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
+using System.Linq;
+using System.Runtime.InteropServices;
 using TesisAppSINMVVM.FirebaseDataBase.Repositories;
+using TesisAppSINMVVM.LocalDatabase.Tables;
 using TesisAppSINMVVM.Models;
 using TesisAppSINMVVM.Models.Groups;
 
@@ -8,14 +11,14 @@ namespace TesisAppSINMVVM.Views.CompraViews;
 
 public partial class HistorialComprasPage : ContentPage
 {
-    private HistorialCompras_Repository _repositoryHistorialCompras = new HistorialCompras_Repository();
-    private Proveedor _proveedor;
+    private ProductoComprado_Repository _repoProductoComprado = new ProductoComprado_Repository();
+    private string _nombreProveedor;
+    public List<ProductoCompradoGroup> _productosComprados { get; private set; } = new List<ProductoCompradoGroup>();
     public List<HistorialComprasGroup> _historialCompras { get; private set; } = new List<HistorialComprasGroup>();
 
     public HistorialComprasPage()
 	{
 		InitializeComponent();
-        _proveedor = (Proveedor)BindingContext;
     }
 
 
@@ -27,7 +30,15 @@ public partial class HistorialComprasPage : ContentPage
     }
     private async Task RegistrarNuevaCompraPagePushAsync()
     {
-        await NagevacionRegistrarNuevaCompraPage();
+        NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+        if (accessType == NetworkAccess.Internet)
+        {
+            await NavegacionRegistrarNuevaCompraPage();
+        }
+        else
+        {
+            await Toast.Make("Primero debe conectarse a internet", ToastDuration.Long).Show();
+        }
     }
     #endregion
     
@@ -38,6 +49,7 @@ public partial class HistorialComprasPage : ContentPage
     private async void ContentPage_Appearing(object sender, EventArgs e)
     {
         base.OnAppearing();
+        await CargarNombreProveedor();
         await CargarDatosCollectionView_HistorialCompras();
     }
     private async void Button_Regresar_Clicked(object sender, EventArgs e)
@@ -52,30 +64,24 @@ public partial class HistorialComprasPage : ContentPage
 
     // LÓGICA PARA EVENTOS
     #region LÓGICA PARA EVENTOS
+    private async Task CargarNombreProveedor()
+    {
+        Proveedor proveedor = (Proveedor)this.BindingContext;
+        _nombreProveedor = proveedor.PROVEEDOR;
+    }
     private async Task CargarDatosCollectionView_HistorialCompras()
     {
-        _proveedor = (Proveedor)BindingContext;
-        var compras = await ObtenerHistorialProductosDBAsync(_proveedor.PROVEEDOR);
-        var gruposComprasEmitido = compras.OrderByDescending(c => DateTime.Parse(c.FECHA))
-            .GroupBy(_grs => _grs.DIAFECHA)
-        .Select(g => new HistorialComprasGroup(g.Key, g.ToList()));
-        //var gruposCompras = compras.GroupBy(_grs => _grs.DIAFECHA)
-        //    .Select(g => new HistorialComprasGroup(g.Key, g.ToList()));
-
-        //TODO: Solo mostar los registros desde hace un mes, agregar un
-        //      boton para ver todos los regsitros (desde hace 3 meses)
-        _historialCompras.Clear();
-        foreach (var grupo in gruposComprasEmitido)
-        {
-            _historialCompras.Add(grupo);
-        }
-        CollectionView_HistorialCompras.ItemsSource = _historialCompras;
+        List<Tbl_ProductoComprado> productosComprados = await ObtenerProductosCompradosDBAsync(_nombreProveedor);
+        var productosCompradosGrouped = productosComprados
+            .GroupBy(p => p.DIAFECHAGUARDADO)
+            .Select(grupo => new ProductoCompradoGroup(grupo.Key, grupo.ToList()));
+        CollectionView_HistorialCompras.ItemsSource = productosCompradosGrouped.ToList();
     }
     #endregion
 
     // LÓGICA
     #region LÓGICA
-    private async Task NagevacionRegistrarNuevaCompraPage()
+    private async Task NavegacionRegistrarNuevaCompraPage()
     {
         var stack = Navigation.NavigationStack.ToArray();
         var lastPage = stack[stack.Length - 2];
@@ -87,7 +93,7 @@ public partial class HistorialComprasPage : ContentPage
         {
             await Navigation.PushAsync(new RegistrarNuevaCompraPage
             {
-                BindingContext = _proveedor
+                BindingContext = this.BindingContext
             });
             Navigation.RemovePage(stack[stack.Length - 1]);
         }
@@ -96,9 +102,9 @@ public partial class HistorialComprasPage : ContentPage
 
     // BASE DE DATOS
     #region BASE DE DATOS
-    private async Task<List<Tbl_HistorialCompras>> ObtenerHistorialProductosDBAsync(string proveedor)
+    private async Task<List<Tbl_ProductoComprado>> ObtenerProductosCompradosDBAsync(string proveedor)
     {
-        return await _repositoryHistorialCompras.ObtenerHistorialProductosAsync(proveedor);
+        return await _repoProductoComprado.ObtenerProductosCompradosAsync(proveedor);
     }
 
     #endregion

@@ -45,7 +45,6 @@
                         </VerticalStackLayout>
                     </ContentView>
                 </CollectionView.EmptyView>
-
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Border
@@ -53,49 +52,53 @@
                             BackgroundColor="#ccd3de"
                             StrokeShape="{RoundRectangle CornerRadius='5'}">
                             <Grid
-                                ColumnDefinitions="*,*,*"
+                                ColumnDefinitions="*,*,*,*"
                                 ColumnSpacing="7"
                                 RowDefinitions="Auto,Auto,Auto"
                                 RowSpacing="10">
                                 <Label
+                                    Grid.ColumnSpan="4"
+                                    BackgroundColor="#b1b9c4"
+                                    FontAttributes="Bold"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding NUMEROCOMPRA, StringFormat='COMPRA N° {0}'}" />
+                                <Label
+                                    Grid.Row="1"
                                     FontAttributes="Bold"
                                     FontSize="15"
                                     Text="{Binding PRODUCTO}" />
                                 <Label
-                                    Grid.Row="1"
+                                    Grid.Row="2"
                                     FontAttributes="Bold"
                                     FontSize="15"
                                     Text="{Binding MEDIDA}" />
 
-                                <Label Grid.Column="1" Text="{Binding CANTIDAD, StringFormat='x{0}'}" />
                                 <Label
                                     Grid.Row="1"
                                     Grid.Column="1"
-                                    Text="{Binding PRECIO, StringFormat='${0}'}" />
+                                    Text="{Binding CANTIDAD, StringFormat='x{0}'}" />
                                 <Label
-                                    Grid.Column="2"
-                                    FontAttributes="Bold"
-                                    Text="{Binding TOTAL, StringFormat='Total: ${0}'}" />
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    Text="{Binding PRECIO, StringFormat='${0}'}" />
                                 <Label
                                     Grid.Row="1"
                                     Grid.Column="2"
-                                    Text="{Binding ABONO, StringFormat='Abono: ${0}'}" />
-                                <Label
-                                    Grid.Row="2"
-                                    Grid.Column="2"
-                                    Text="{Binding SALDOPENDIENTE, StringFormat='Saldo: ${0}'}" />
+                                    FontAttributes="Bold"
+                                    Text="{Binding TOTAL, StringFormat='Total: ${0}'}" />
                             </Grid>
                         </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
+
                 <CollectionView.GroupHeaderTemplate>
                     <DataTemplate>
                         <HorizontalStackLayout>
                             <Label
-                                Margin="10,15,0,3"
+                                Margin="10,17,0,3"
                                 FontAttributes="Bold"
                                 FontSize="13"
-                                Text="{Binding NombreGrupo}" />
+                                Text="{Binding DiaFecha}" />
 
                         </HorizontalStackLayout>
                     </DataTemplate>

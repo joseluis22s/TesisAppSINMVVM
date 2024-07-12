@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="TesisAppSINMVVM.Views.VentaViews.BodegaViews.OpcionesBodegaPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="VENTA: Opciones bodega"
+    NavigationPage.HasBackButton="False">
+
+
+    <Grid
+        Margin="30"
+        RowDefinitions="Auto,Auto"
+        RowSpacing="10"
+        VerticalOptions="Center">
+
+        <Button
+            x:Name="Buttton_RegistrarProductoSobrante"
+            Padding="17"
+            Clicked="Buttton_RegistrarProductoSobrante_Clicked"
+            FontSize="20"
+            Text="REGISTAR PRODUCTO SOBRANTE" />
+        <Button
+            x:Name="Buttton_HistorialProductoSobrante"
+            Grid.Row="1"
+            Padding="17"
+            Clicked="Buttton_HistorialProductoSobrante_Clicked"
+            FontSize="20"
+            Text="HISTORIAL PRODUCTO SOBRANTE" />
+
+    </Grid>
+
+
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Button">
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <LinearGradientBrush EndPoint="2,1">
+                            <GradientStop Offset="0.1" Color="#e8f2ff" />
+                            <GradientStop Offset="1.0" Color="#4e82d4" />
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Padding" Value="5" />
+                <Setter Property="Margin" Value="20,0" />
+            </Style>
+            <Style TargetType="VerticalStackLayout">
+                <Setter Property="HorizontalOptions" Value="Center" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Background>
+        <LinearGradientBrush EndPoint="0.1,0.9">
+            <GradientStop Offset="0.1" Color="#5d92e8" />
+            <GradientStop Offset="1.0" Color="#044fc7" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
+
+</ContentPage>

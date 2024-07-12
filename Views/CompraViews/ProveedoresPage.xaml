@@ -31,7 +31,7 @@
                         <Label
                             FontAutoScalingEnabled="True"
                             HorizontalTextAlignment="Center"
-                            Text="NO SE HA REGISTRADO NINGÚN CONTACTO"
+                            Text="NO SE HA REGISTRADO NINGÚN PROVEEDOR"
                             TextColor="#1a1a1a" />
                         <Image MaximumHeightRequest="30" Source="remove_empty_icon.png" />
                     </VerticalStackLayout>

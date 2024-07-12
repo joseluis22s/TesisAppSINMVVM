@@ -1,6 +1,5 @@
 using TesisAppSINMVVM.Database.Respositories;
-using TesisAppSINMVVM.Database.Tables;
-using TesisAppSINMVVM.Models.Groups;
+using TesisAppSINMVVM.LocalDatabase.Tables;
 
 namespace TesisAppSINMVVM.Contents;
 

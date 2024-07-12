@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="TesisAppSINMVVM.Views.ChequesPage"
+    x:Class="TesisAppSINMVVM.Views.VentaViews.VentaCreditoViews.OpcionesVentaCreditoPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="CHEQUES"
+    Title="VENTA: Opciones venta crédito"
     NavigationPage.HasBackButton="False">
 
 
@@ -12,23 +12,29 @@
         RowDefinitions="Auto,Auto"
         RowSpacing="10"
         VerticalOptions="Center">
-        <Border x:Name="Border_RegistarCheque">
-            <Label Text="REGISTRAR NUEVO CHEQUE" />
-            <Border.GestureRecognizers>
-                <TapGestureRecognizer Tapped="Border_RegistarCheque_TapGestureRecognizer_Tapped" />
-            </Border.GestureRecognizers>
-        </Border>
-        <Border x:Name="Border_HistorialCheques" Grid.Row="1">
-            <Label Text="HISTORIAL CHEQUES" />
-            <Border.GestureRecognizers>
-                <TapGestureRecognizer Tapped="Border_HistorialCheques_TapGestureRecognizer_Tapped" />
-            </Border.GestureRecognizers>
-        </Border>
+
+        <Button
+            x:Name="Buttton_RegistrarNuevaVentaCredito"
+            Padding="17"
+            Clicked="Buttton_RegistrarNuevaVentaCredito_Clicked"
+            FontSize="20"
+            Text="REGISTAR VENTA CREDITO" />
+        <Button
+            x:Name="Buttton_HistorialVentasCredito"
+            Grid.Row="1"
+            Padding="17"
+            Clicked="Buttton_HistorialVentasCredito_Clicked"
+            FontSize="20"
+            Text="HISTORIAL VENTAS A CREDITO" />
+
     </Grid>
+
+
+
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            <Style TargetType="Border">
+            <Style TargetType="Button">
                 <Setter Property="Background">
                     <Setter.Value>
                         <LinearGradientBrush EndPoint="2,1">
@@ -37,18 +43,14 @@
                         </LinearGradientBrush>
                     </Setter.Value>
                 </Setter>
-                <Setter Property="StrokeShape" Value="{RoundRectangle CornerRadius='5'}" />
                 <Setter Property="Padding" Value="5" />
+                <Setter Property="Margin" Value="20,0" />
             </Style>
-            <Style TargetType="Label">
-                <Setter Property="FontSize" Value="20" />
-                <Setter Property="Padding" Value="20,0" />
-                <Setter Property="Margin" Value="40,0" />
-                <Setter Property="HorizontalTextAlignment" Value="Center" />
+            <Style TargetType="VerticalStackLayout">
+                <Setter Property="HorizontalOptions" Value="Center" />
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
-
 
     <ContentPage.Background>
         <LinearGradientBrush EndPoint="0.1,0.9">
