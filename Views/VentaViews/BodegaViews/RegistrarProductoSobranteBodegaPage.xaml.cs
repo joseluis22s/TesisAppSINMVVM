@@ -132,15 +132,33 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
     private async Task CargarProductosInventario()
     {
         var productos = await ObtenerProductosDBAsync();
-        foreach (var p in productos)
+        if (productos.Count == 0)
         {
-            _AuxProductosInventario.Add(new AuxProductoInventarioBodega
-            {
-                PRODUCTO = p.PRODUCTO,
-                MEDIDA = p.MEDIDA
-            });
+            VerticalStackLayout_EmptyView_RegistrarProductoSobranteBodega.IsVisible = true;
+            CollectionView_RegistrarProductoSobranteBodega.IsVisible = false;
         }
-        CollectionView_RegistrarProductoSobranteBodega.ItemsSource = _AuxProductosInventario;
+        else
+        {
+            VerticalStackLayout_EmptyView_RegistrarProductoSobranteBodega.IsVisible = false;
+            foreach (var p in productos)
+            {
+                _AuxProductosInventario.Add(new AuxProductoInventarioBodega
+                {
+                    PRODUCTO = p.PRODUCTO,
+                    MEDIDA = p.MEDIDA
+                });
+            }
+            CollectionView_RegistrarProductoSobranteBodega.ItemsSource = _AuxProductosInventario;
+        }
+        //foreach (var p in productos)
+        //{
+        //    _AuxProductosInventario.Add(new AuxProductoInventarioBodega
+        //    {
+        //        PRODUCTO = p.PRODUCTO,
+        //        MEDIDA = p.MEDIDA
+        //    });
+        //}
+        //CollectionView_RegistrarProductoSobranteBodega.ItemsSource = _AuxProductosInventario;
     }
     private async Task GuardarProductoSobranteAsync()
     {

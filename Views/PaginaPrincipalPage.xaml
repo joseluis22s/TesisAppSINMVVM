@@ -72,8 +72,6 @@
         <LinearGradientBrush EndPoint="0,1">
             <GradientStop Offset="0.7" Color="#5d92e8" />
             <GradientStop Offset="1.0" Color="#044fc7" />
-            <!--<GradientStop Offset="0.6" Color="#f0f0f0" />
-            <GradientStop Offset="1" Color="#4db835" />-->
         </LinearGradientBrush>
     </ContentPage.Background>
 

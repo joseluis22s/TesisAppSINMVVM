@@ -62,16 +62,35 @@ public partial class HistorialProductoSobrantePage : ContentPage
     private async Task CargarDatosCollectionView_Bodega()
     {
         List<ProductoInventarioBodega> inventario = await ObtenerInvetarioDBAsync();
-        var gruposInvetarioProductos = inventario.OrderByDescending(c => DateTime.Parse(c.FECHAGUARDADO))
+        if (inventario.Count == 0)
+        {
+            VerticalStackLayout_EmptyView_HistorialProductoSobrante.IsVisible = true;
+            CollectionView_Bodega.IsVisible = false;
+        }
+        else
+        {
+            VerticalStackLayout_EmptyView_HistorialProductoSobrante.IsVisible = false;
+            var gruposInvetarioProductos = inventario.OrderByDescending(c => DateTime.Parse(c.FECHAGUARDADO))
             .GroupBy(_grs => _grs.DIAFECHAGUARDADO)
             .Select(g => new ProductoInventarioBodegaGroup(g.Key, g.ToList()));
 
-        _grupoInventario.Clear();
-        foreach (var grupo in gruposInvetarioProductos)
-        {
-            _grupoInventario.Add(grupo);
+            _grupoInventario.Clear();
+            foreach (var grupo in gruposInvetarioProductos)
+            {
+                _grupoInventario.Add(grupo);
+            }
+            CollectionView_Bodega.ItemsSource = _grupoInventario;
         }
-        CollectionView_Bodega.ItemsSource = _grupoInventario;
+        //var gruposInvetarioProductos = inventario.OrderByDescending(c => DateTime.Parse(c.FECHAGUARDADO))
+        //    .GroupBy(_grs => _grs.DIAFECHAGUARDADO)
+        //    .Select(g => new ProductoInventarioBodegaGroup(g.Key, g.ToList()));
+
+        //_grupoInventario.Clear();
+        //foreach (var grupo in gruposInvetarioProductos)
+        //{
+        //    _grupoInventario.Add(grupo);
+        //}
+        //CollectionView_Bodega.ItemsSource = _grupoInventario;
     }
     #endregion
 

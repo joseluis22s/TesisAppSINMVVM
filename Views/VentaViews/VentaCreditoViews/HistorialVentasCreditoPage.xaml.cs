@@ -66,16 +66,35 @@ public partial class HistorialVentasCreditoPage : ContentPage
     private async Task CargarDatosCollectionView_VentasCredito()
     {
         var ventasCredito = await ObtenerVentasCreditoDBAsync();
-        var gruposVentaCredito = ventasCredito.OrderByDescending(vc => DateTime.Parse(vc.FECHAGUARDADO))
+        if (ventasCredito.Count == 0)
+        {
+            VerticalStackLayout_EmptyView_HistorialCheques.IsVisible = true;
+            CollectionView_VentasCredito.IsVisible = false;
+        }
+        else
+        {
+            VerticalStackLayout_EmptyView_HistorialCheques.IsVisible = false;
+            var gruposVentaCredito = ventasCredito.OrderByDescending(vc => DateTime.Parse(vc.FECHAGUARDADO))
             .GroupBy(_grs => _grs.DIAFECHAGUARDADO)
             .Select(g => new VentaCreditoGroup(g.Key, g.ToList()));
 
-        _grupoVentaCredito.Clear();
-        foreach (var grupo in gruposVentaCredito)
-        {
-            _grupoVentaCredito.Add(grupo);
+            _grupoVentaCredito.Clear();
+            foreach (var grupo in gruposVentaCredito)
+            {
+                _grupoVentaCredito.Add(grupo);
+            }
+            CollectionView_VentasCredito.ItemsSource = _grupoVentaCredito;
         }
-        CollectionView_VentasCredito.ItemsSource = _grupoVentaCredito;
+        //var gruposVentaCredito = ventasCredito.OrderByDescending(vc => DateTime.Parse(vc.FECHAGUARDADO))
+        //    .GroupBy(_grs => _grs.DIAFECHAGUARDADO)
+        //    .Select(g => new VentaCreditoGroup(g.Key, g.ToList()));
+
+        //_grupoVentaCredito.Clear();
+        //foreach (var grupo in gruposVentaCredito)
+        //{
+        //    _grupoVentaCredito.Add(grupo);
+        //}
+        //CollectionView_VentasCredito.ItemsSource = _grupoVentaCredito;
     }
     #endregion
 

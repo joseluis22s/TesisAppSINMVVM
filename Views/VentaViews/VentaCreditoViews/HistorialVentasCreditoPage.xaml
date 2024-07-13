@@ -12,26 +12,31 @@
         BackgroundColor="#bbc2c9"
         StrokeShape="{RoundRectangle CornerRadius='2'}">
         <Grid RowDefinitions="*,Auto" RowSpacing="15">
+            <VerticalStackLayout
+                x:Name="VerticalStackLayout_EmptyView_HistorialCheques"
+                BackgroundColor="#e6e6e6"
+                IsVisible="False"
+                VerticalOptions="Center">
+                <Label
+                    FontAutoScalingEnabled="True"
+                    HorizontalTextAlignment="Center"
+                    Text="NO SE HA REGISTRADO NADA"
+                    TextColor="#1a1a1a" />
+                <Image MaximumHeightRequest="30" Source="remove_empty_icon.png" />
+                <Button
+                    x:Name="Button_NavegaRegistrarNuevaVentaCredito"
+                    Clicked="Button_NavegaRegistrarNuevaVentaCredito_Clicked"
+                    Text="Agregar nuevo registro" />
+            </VerticalStackLayout>
             <CollectionView
                 x:Name="CollectionView_VentasCredito"
                 IsGrouped="True"
                 SelectionMode="None">
                 <CollectionView.EmptyView>
                     <ContentView>
-                        <VerticalStackLayout
-                            x:Name="VerticalStackLayout_EmptyView_HistorialCheques"
-                            BackgroundColor="#e6e6e6"
-                            VerticalOptions="Center">
-                            <Label
-                                FontAutoScalingEnabled="True"
-                                HorizontalTextAlignment="Center"
-                                Text="NO SE HA REGISTRADO NADA"
-                                TextColor="#1a1a1a" />
-                            <Image MaximumHeightRequest="30" Source="remove_empty_icon.png" />
-                            <Button
-                                x:Name="Button_NavegaRegistrarNuevaVentaCredito"
-                                Clicked="Button_NavegaRegistrarNuevaVentaCredito_Clicked"
-                                Text="Agregar nuevo registro" />
+                        <VerticalStackLayout BackgroundColor="Transparent" VerticalOptions="Center">
+                            <ActivityIndicator IsRunning="True" Color="Black" />
+                            <Label HorizontalOptions="Center" Text="CARGANDO" />
                         </VerticalStackLayout>
                     </ContentView>
                 </CollectionView.EmptyView>
