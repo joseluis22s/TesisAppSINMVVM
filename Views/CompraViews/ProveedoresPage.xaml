@@ -15,6 +15,7 @@
         <Button
             x:Name="Button_AgregarProveedor"
             Clicked="Button_AgregarProveedor_Clicked"
+            FontSize="18"
             HorizontalOptions="Center"
             Text="Agregar nuevo" />
 
@@ -31,23 +32,28 @@
                 TextColor="#1a1a1a" />
             <Image MaximumHeightRequest="30" Source="remove_empty_icon.png" />
         </VerticalStackLayout>
-        
+
         <CollectionView
             x:Name="CollectionView_Proveedores"
             Grid.Row="1"
             SelectionChanged="CollectionView_Proveedores_SelectionChanged"
             SelectionMode="Single">
+
             <CollectionView.EmptyView>
                 <ContentView>
-                    <VerticalStackLayout BackgroundColor="Transparent" VerticalOptions="Center" Spacing="5">
+                    <VerticalStackLayout
+                        BackgroundColor="Transparent"
+                        Spacing="5"
+                        VerticalOptions="Center">
                         <ActivityIndicator IsRunning="True" Color="Black" />
                         <Label
-                            FontSize="20"
+                            FontSize="17"
                             HorizontalOptions="Center"
                             Text="CARGANDO" />
                     </VerticalStackLayout>
                 </ContentView>
             </CollectionView.EmptyView>
+
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Border Margin="0,5">
@@ -56,36 +62,38 @@
                                 FontFamily="RobotoLight"
                                 FontSize="25"
                                 Text="{Binding PROVEEDOR}" />
-                            <HorizontalStackLayout
-                                Grid.Column="1"
-                                Spacing="15">
+                            <HorizontalStackLayout Grid.Column="1" Spacing="15">
                                 <Button
                                     x:Name="Button_EliminarProveedor"
                                     Clicked="Button_EliminarProveedor_Clicked"
                                     ImageSource="delete_icon.png"
-                                    Style="{StaticResource Button_OpcioneProveedor}" />
+                                    Style="{StaticResource Button_OpcionesProveedor}" />
                                 <Button
                                     x:Name="Button_EditarProveedor"
                                     Clicked="Button_EditarProveedor_Clicked"
                                     ImageSource="edit_pencil_icon.png"
-                                    Style="{StaticResource Button_OpcioneProveedor}" />
+                                    Style="{StaticResource Button_OpcionesProveedor}" />
                             </HorizontalStackLayout>
                         </Grid>
                     </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
+
         </CollectionView>
+
         <Button
             x:Name="Button_Regresar"
             Grid.Row="2"
             Clicked="Button_Regresar_Clicked"
+            FontSize="17"
             HorizontalOptions="Center"
             Text="Regresar" />
+
     </Grid>
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            <Style x:Key="Button_OpcioneProveedor" TargetType="Button">
+            <Style x:Key="Button_OpcionesProveedor" TargetType="Button">
                 <Setter Property="Padding" Value="11" />
                 <Setter Property="MaximumHeightRequest" Value="40" />
             </Style>
