@@ -76,11 +76,11 @@
                                         TextChanged="Entry_MontoCheque_TextChanged" />
 
                                 </Grid>
+                                
                             </Border>
 
                             <Label
                                 Grid.Column="1"
-                                Margin="0,0,0,0"
                                 FontSize="19"
                                 Text="."
                                 VerticalOptions="End" />

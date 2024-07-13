@@ -10,130 +10,185 @@
 
     <Grid
         Margin="20"
-        RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
+        RowDefinitions="Auto,Auto,Auto"
         RowSpacing="15">
+
         <Button
             x:Name="Button_HistorialVentasCredito"
             Clicked="Button_HistorialVentasCredito_Clicked"
             Text="Ver ventas a crédito" />
-        <Grid
+
+        <Border
             Grid.Row="1"
-            ColumnDefinitions="*,Auto"
-            ColumnSpacing="15"
-            RowDefinitions="Auto,*">
-            <Label Style="{StaticResource LabelStyle}" Text="Comprador" />
-            <Border Grid.Row="1">
-                <Grid>
-                    <Picker x:Name="Picker_Comprador" ItemDisplayBinding="{Binding COMPRADOR}" />
-                    <Border x:Name="Border_Picker_Comprador">
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="Border_Picker_Comprador_TapGestureRecognizer_Tapped" />
-                        </Border.GestureRecognizers>
+            Margin="20"
+            Padding="20,25,20,30"
+            BackgroundColor="#e0e0e0"
+            Stroke="#a6a6a6">
+            <Grid RowDefinitions="Auto,Auto,Auto">
+
+                <Grid
+                    ColumnDefinitions="*,Auto"
+                    ColumnSpacing="15"
+                    RowDefinitions="Auto,*">
+
+                    <Label Style="{StaticResource LabelStyle}" Text="Comprador" />
+
+                    <Border Grid.Row="1" Style="{StaticResource Border_entrys}">
+
+                        <Grid>
+
+                            <Picker
+                                x:Name="Picker_Comprador"
+                                Margin="13,0"
+                                ItemDisplayBinding="{Binding COMPRADOR}" />
+
+                            <Border x:Name="Border_Picker_Comprador">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="Border_Picker_Comprador_TapGestureRecognizer_Tapped" />
+                                </Border.GestureRecognizers>
+
+                            </Border>
+
+                        </Grid>
+
                     </Border>
+
+                    <Button
+                        x:Name="Button_AgregarComprador"
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Clicked="Button_AgregarComprador_Clicked"
+                        MaximumHeightRequest="40"
+                        MaximumWidthRequest="40"
+                        Text="+" />
+
                 </Grid>
-            </Border>
+
+                <VerticalStackLayout Grid.Row="1">
+
+                    <Label Style="{StaticResource LabelStyle}" Text="Monto vendido" />
+
+                    <Grid
+                        Padding="5,0"
+                        ColumnDefinitions="*,Auto,*"
+                        ColumnSpacing="3">
+
+                        <Border Style="{StaticResource Border_entrys}">
+
+                            <Grid Margin="10,0,0,0" ColumnDefinitions="Auto,*">
+
+                                <Label
+                                    Text="$"
+                                    TextColor="#5c5c5c"
+                                    VerticalOptions="Center" />
+
+                                <Entry
+                                    x:Name="Entry_MontoVendidoEntero"
+                                    Grid.Column="1"
+                                    HorizontalTextAlignment="Center"
+                                    Keyboard="Numeric"
+                                    MaxLength="7"
+                                    Placeholder="0"
+                                    PlaceholderColor="#9e9e9e"
+                                    TextChanged="Entry_MontoVendido_TextChanged" />
+                            </Grid>
+
+                        </Border>
+
+                        <Label
+                            Grid.Column="1"
+                            FontSize="19"
+                            Text="."
+                            VerticalOptions="End" />
+
+                        <Border Grid.Column="2" Style="{StaticResource Border_entrys}">
+
+                            <Grid Margin="10,0" ColumnDefinitions="*,Auto">
+
+                                <Entry
+                                    x:Name="Entry_MontoVendidoDecimal"
+                                    Keyboard="Numeric"
+                                    MaxLength="2"
+                                    Placeholder="00"
+                                    PlaceholderColor="#9e9e9e"
+                                    TextChanged="Entry_MontoVendido_TextChanged" />
+
+                                <Label
+                                    Grid.Column="1"
+                                    Text="ctvs"
+                                    TextColor="#5c5c5c"
+                                    VerticalOptions="Center" />
+
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Grid.Row="2">
+
+                    <Label Style="{StaticResource LabelStyle}" Text="Descripción" />
+
+                    <Border Style="{StaticResource Border_entrys}">
+
+                        <Entry
+                            x:Name="Entry_Descripcion"
+                            Placeholder="[OPCIONAL]"
+                            PlaceholderColor="#9e9e9e" />
+
+                    </Border>
+
+                </VerticalStackLayout>
+
+            </Grid>
+
+        </Border>
+
+        <Grid
+            Grid.Row="2"
+            Margin="15,0"
+            ColumnDefinitions="*,*"
+            ColumnSpacing="10">
             <Button
-                x:Name="Button_AgregarComprador"
-                Grid.Row="1"
-                Grid.Column="2"
-                Clicked="Button_AgregarComprador_Clicked"
-                MaximumHeightRequest="40"
-                MaximumWidthRequest="40"
-                Text="+" />
+                x:Name="Button_GuardarVentaCredito"
+                Grid.Row="3"
+                Clicked="Button_GuardarVentaCredito_Clicked"
+                Style="{StaticResource Button_RegistarVentaCredito}"
+                Text="Guardar" />
+
+            <Button
+                x:Name="Button_Regresar"
+                Grid.Row="4"
+                Grid.Column="1"
+                BackgroundColor="#4da36d"
+                Clicked="Button_Regresar_Clicked"
+                Style="{StaticResource Button_RegistarVentaCredito}"
+                Text="Regresar" />
+
         </Grid>
 
-        <VerticalStackLayout Grid.Row="2">
-            <Label Style="{StaticResource LabelStyle}" Text="Monto vendido" />
-            <Grid
-                Padding="10,0"
-                ColumnDefinitions="*,Auto,*"
-                ColumnSpacing="4">
-                <Border>
-                    <Grid Margin="10,0" ColumnDefinitions="Auto,*">
-                        <Label
-                            Text="$"
-                            TextColor="#5c5c5c"
-                            VerticalOptions="Center" />
-                        <Entry
-                            x:Name="Entry_MontoVendidoEntero"
-                            Grid.Column="1"
-                            FontSize="15"
-                            HorizontalOptions="Center"
-                            Keyboard="Numeric"
-                            MaxLength="7"
-                            Placeholder="0"
-                            PlaceholderColor="#9e9e9e"
-                            TextChanged="Entry_MontoVendido_TextChanged" />
-                    </Grid>
-
-                </Border>
-                <Label
-                    Grid.Column="1"
-                    Margin="0,0,0,0"
-                    FontSize="19"
-                    Text="."
-                    VerticalOptions="End" />
-                <Border Grid.Column="2">
-                    <Grid Margin="10,0" ColumnDefinitions="*,Auto">
-                        <Entry
-                            x:Name="Entry_MontoVendidoDecimal"
-                            FontSize="15"
-                            HorizontalOptions="Center"
-                            Keyboard="Numeric"
-                            MaxLength="2"
-                            Placeholder="00"
-                            PlaceholderColor="#9e9e9e"
-                            TextChanged="Entry_MontoVendido_TextChanged" />
-                        <Label
-                            Grid.Column="1"
-                            Text="ctvs"
-                            TextColor="#5c5c5c"
-                            VerticalOptions="Center" />
-                    </Grid>
-                </Border>
-            </Grid>
-        </VerticalStackLayout>
-        <VerticalStackLayout Grid.Row="3">
-            <Label Style="{StaticResource LabelStyle}" Text="Descripción" />
-            <Border>
-                <Entry
-                    x:Name="Entry_Descripcion"
-                    Placeholder="[OPCIONAL]"
-                    PlaceholderColor="#9e9e9e" />
-            </Border>
-        </VerticalStackLayout>
-        <Button
-            x:Name="Button_GuardarVentaCredito"
-            Grid.Row="4"
-            Margin="10"
-            Padding="25,15"
-            Clicked="Button_GuardarVentaCredito_Clicked"
-            CornerRadius="20"
-            HorizontalOptions="Center"
-            Text="Guardar" />
-        <Button
-            x:Name="Button_Regresar"
-            Grid.Row="5"
-            Clicked="Button_Regresar_Clicked"
-            HorizontalOptions="Center"
-            Text="Regresar" />
-
     </Grid>
-    
+
 
     <ContentPage.Resources>
         <ResourceDictionary>
+            <Style x:Key="Button_RegistarVentaCredito" TargetType="Button">
+                <Setter Property="Padding" Value="0,12" />
+                <Setter Property="FontSize" Value="18" />
+            </Style>
             <Style x:Key="LabelStyle" TargetType="Label">
                 <Setter Property="FontSize" Value="12" />
                 <Setter Property="Padding" Value="12,0" />
                 <Setter Property="FontAttributes" Value="Bold" />
             </Style>
-            <Style TargetType="Border">
-                <Setter Property="BackgroundColor" Value="#d3dbe8" />
+            <Style x:Key="Border_entrys" TargetType="Border">
+                <Setter Property="BackgroundColor" Value="#f5f5f5" />
                 <Setter Property="StrokeShape" Value="{RoundRectangle CornerRadius='25'}" />
-                <Setter Property="Padding" Value="13,-2" />
             </Style>
-
+            <Style TargetType="Entry">
+                <Setter Property="FontSize" Value="15" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
 
