@@ -18,7 +18,7 @@
             Padding="17"
             Clicked="Buttton_RegistrarNuevaVentaCredito_Clicked"
             FontSize="20"
-            Text="REGISTAR VENTA CREDITO" />
+            Text="REGISTAR VENTA A CREDITO" />
         <Button
             x:Name="Buttton_HistorialVentasCredito"
             Grid.Row="1"
@@ -35,28 +35,22 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style TargetType="Button">
-                <Setter Property="Background">
-                    <Setter.Value>
-                        <LinearGradientBrush EndPoint="2,1">
-                            <GradientStop Offset="0.1" Color="#e8f2ff" />
-                            <GradientStop Offset="1.0" Color="#4e82d4" />
-                        </LinearGradientBrush>
-                    </Setter.Value>
-                </Setter>
-                <Setter Property="Padding" Value="5" />
-                <Setter Property="Margin" Value="20,0" />
-            </Style>
-            <Style TargetType="VerticalStackLayout">
-                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="Background" Value="#b7ebc8" />
+                <Setter Property="BorderColor" Value="#44ad5a" />
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="Padding" Value="17" />
+                <Setter Property="TextColor" Value="#103317" />
+                <Setter Property="LineBreakMode" Value="WordWrap" />
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
 
     <ContentPage.Background>
-        <LinearGradientBrush EndPoint="0.1,0.9">
-            <GradientStop Offset="0.1" Color="#5d92e8" />
-            <GradientStop Offset="1.0" Color="#044fc7" />
-        </LinearGradientBrush>
+
+        <Color>
+            #d5eddd
+        </Color>
+
     </ContentPage.Background>
 
 </ContentPage>

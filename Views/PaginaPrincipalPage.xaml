@@ -48,20 +48,26 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
+
             <Style TargetType="Button">
                 <Setter Property="Background" Value="#b7ebc8" />
                 <Setter Property="BorderColor" Value="#44ad5a" />
                 <Setter Property="Padding" Value="5" />
+                <Setter Property="LineBreakMode" Value="WordWrap" />
             </Style>
+
             <Style TargetType="VerticalStackLayout">
                 <Setter Property="HorizontalOptions" Value="Center" />
             </Style>
+
             <Style x:Key="Label_ContenidoBotones" TargetType="Label">
                 <Setter Property="FontSize" Value="18" />
                 <Setter Property="Margin" Value="0,2" />
             </Style>
+
         </ResourceDictionary>
     </ContentPage.Resources>
+
     <ContentPage.Background>
         <Color>
             #d5eddd

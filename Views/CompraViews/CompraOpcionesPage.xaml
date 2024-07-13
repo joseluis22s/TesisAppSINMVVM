@@ -27,13 +27,16 @@
     <ContentPage.Resources>
 
         <ResourceDictionary>
+
             <Style TargetType="Button">
                 <Setter Property="Background" Value="#b7ebc8" />
                 <Setter Property="BorderColor" Value="#44ad5a" />
                 <Setter Property="FontSize" Value="20" />
                 <Setter Property="Padding" Value="17" />
                 <Setter Property="TextColor" Value="#103317" />
+                <Setter Property="LineBreakMode" Value="WordWrap" />
             </Style>
+
         </ResourceDictionary>
 
     </ContentPage.Resources>

@@ -124,16 +124,24 @@
 
                                 <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
 
-                                    <Label Margin="20,0,0,0" VerticalTextAlignment="Center">
-                                        <Label.Text>
-                                            <MultiBinding StringFormat="{}{0} - {1}">
-                                                <Binding Path="PRODUCTO" />
-                                                <Binding Path="MEDIDA" />
-                                            </MultiBinding>
-                                        </Label.Text>
-                                    </Label>
-
-
+                                    <Border
+                                        Margin="20,5"
+                                        Padding="5,0"
+                                        BackgroundColor="Transparent"
+                                        Stroke="#808080"
+                                        StrokeShape="{RoundRectangle CornerRadius='5'}">
+                                        <Label
+                                            FontAttributes="Bold"
+                                            HorizontalOptions="Center"
+                                            VerticalTextAlignment="Center">
+                                            <Label.Text>
+                                                <MultiBinding StringFormat="{}{0} - {1}">
+                                                    <Binding Path="PRODUCTO" />
+                                                    <Binding Path="MEDIDA" />
+                                                </MultiBinding>
+                                            </Label.Text>
+                                        </Label>
+                                    </Border>
 
                                     <CheckBox
                                         Grid.Column="1"
