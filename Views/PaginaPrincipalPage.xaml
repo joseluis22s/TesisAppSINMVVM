@@ -42,9 +42,6 @@
             </VerticalStackLayout>
 
         </Grid>
-
-
-
     </Grid>
 
 
@@ -52,17 +49,8 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style TargetType="Button">
-                <!--<Setter Property="Background" Value="#d5eddd"/>-->
                 <Setter Property="Background" Value="#b7ebc8" />
                 <Setter Property="BorderColor" Value="#44ad5a" />
-                <!--<Setter Property="Background">
-                    <Setter.Value>
-                        <LinearGradientBrush EndPoint="2,1">
-                            <GradientStop Offset="0.1" Color="#e8f2ff" />
-                            <GradientStop Offset="1.0" Color="#4e82d4" />
-                        </LinearGradientBrush>
-                    </Setter.Value>
-                </Setter>-->
                 <Setter Property="Padding" Value="5" />
             </Style>
             <Style TargetType="VerticalStackLayout">
@@ -70,23 +58,7 @@
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
-
-    <!--<ContentPage.Background>
-        <LinearGradientBrush EndPoint="0,1">
-            <GradientStop Offset="0.7" Color="#5d92e8" />
-            <GradientStop Offset="1.0" Color="#044fc7" />
-        </LinearGradientBrush>
-    </ContentPage.Background>-->
-    <!--<ContentPage.Background>
-        <LinearGradientBrush EndPoint="0,1">
-            <GradientStop Offset="0.7" Color="#b7ebc8" />
-            <GradientStop Offset="1.0" Color="#459656" />
-        </LinearGradientBrush>
-    </ContentPage.Background>-->
     <ContentPage.Background>
-        <!--<Color>
-            #b7ebc8
-        </Color>-->
         <Color>
             #d5eddd
         </Color>

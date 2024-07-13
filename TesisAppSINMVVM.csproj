@@ -57,10 +57,14 @@
 
 	<ItemGroup>
 	  <None Remove="Platforms\Android\google-services.json" />
+	  <None Remove="Resources\Fonts\Roboto-Light.ttf" />
+	  <None Remove="Resources\Fonts\Roboto-Regular.ttf" />
+	  <None Remove="Resources\Fonts\Roboto-Thin.ttf" />
 	  <None Remove="Resources\Images\bodega_icon.png" />
 	  <None Remove="Resources\Images\cheque_icon.png" />
 	  <None Remove="Resources\Images\compra_icon.png" />
-	  <None Remove="Resources\Images\pencil_edit_icon.png" />
+	  <None Remove="Resources\Images\delete_icon.png" />
+	  <None Remove="Resources\Images\edit_pencil_icon.png" />
 	  <None Remove="Resources\Images\por_cobrar_icon.png" />
 	  <None Remove="Resources\Images\remove_empty_icon.png" />
 	  <None Remove="Resources\Images\venta_icon.png" />

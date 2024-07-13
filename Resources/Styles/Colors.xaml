@@ -10,12 +10,22 @@
     <Color x:Key="Secondary">#DFD8F7</Color>
     <Color x:Key="SecondaryDarkText">#9880e5</Color>
     <Color x:Key="Tertiary">#2B0B98</Color>-->
-    <Color x:Key="Primary">#003f80</Color>
+
+
+    <!--<Color x:Key="Primary">#003f80</Color>
+    <Color x:Key="PrimaryDark">#99a2ea</Color>
+    <Color x:Key="PrimaryDarkText">#242424</Color>
+    <Color x:Key="Secondary">#d9d8f7</Color>
+    <Color x:Key="SecondaryDarkText">#8083e5</Color>
+    <Color x:Key="Tertiary">#0b1b98</Color>-->
+
+    <Color x:Key="Primary">#2d733c</Color>
     <Color x:Key="PrimaryDark">#99a2ea</Color>
     <Color x:Key="PrimaryDarkText">#242424</Color>
     <Color x:Key="Secondary">#d9d8f7</Color>
     <Color x:Key="SecondaryDarkText">#8083e5</Color>
     <Color x:Key="Tertiary">#0b1b98</Color>
+
 
     <Color x:Key="White">White</Color>
     <Color x:Key="Black">Black</Color>

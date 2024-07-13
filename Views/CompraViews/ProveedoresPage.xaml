@@ -11,6 +11,7 @@
         Margin="15,17"
         RowDefinitions="Auto,*,Auto"
         RowSpacing="15">
+
         <Button
             x:Name="Button_AgregarProveedor"
             Clicked="Button_AgregarProveedor_Clicked"
@@ -30,6 +31,7 @@
                 TextColor="#1a1a1a" />
             <Image MaximumHeightRequest="30" Source="remove_empty_icon.png" />
         </VerticalStackLayout>
+        
         <CollectionView
             x:Name="CollectionView_Proveedores"
             Grid.Row="1"
@@ -37,30 +39,36 @@
             SelectionMode="Single">
             <CollectionView.EmptyView>
                 <ContentView>
-                    <VerticalStackLayout BackgroundColor="Transparent" VerticalOptions="Center">
+                    <VerticalStackLayout BackgroundColor="Transparent" VerticalOptions="Center" Spacing="5">
                         <ActivityIndicator IsRunning="True" Color="Black" />
-                        <Label HorizontalOptions="Center" Text="CARGANDO" />
+                        <Label
+                            FontSize="20"
+                            HorizontalOptions="Center"
+                            Text="CARGANDO" />
                     </VerticalStackLayout>
                 </ContentView>
             </CollectionView.EmptyView>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Border Margin="0,5">
-                        <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
+                        <Grid ColumnDefinitions="*,Auto">
                             <Label
-                                Margin="0,0,20,0"
-                                FontAttributes="Bold"
-                                FontSize="20"
+                                FontFamily="RobotoLight"
+                                FontSize="25"
                                 Text="{Binding PROVEEDOR}" />
-                            <HorizontalStackLayout Grid.Column="1" Spacing="5">
+                            <HorizontalStackLayout
+                                Grid.Column="1"
+                                Spacing="15">
                                 <Button
                                     x:Name="Button_EliminarProveedor"
                                     Clicked="Button_EliminarProveedor_Clicked"
-                                    Text="X" />
+                                    ImageSource="delete_icon.png"
+                                    Style="{StaticResource Button_OpcioneProveedor}" />
                                 <Button
                                     x:Name="Button_EditarProveedor"
                                     Clicked="Button_EditarProveedor_Clicked"
-                                    Text="-" />
+                                    ImageSource="edit_pencil_icon.png"
+                                    Style="{StaticResource Button_OpcioneProveedor}" />
                             </HorizontalStackLayout>
                         </Grid>
                     </Border>
@@ -71,25 +79,34 @@
             x:Name="Button_Regresar"
             Grid.Row="2"
             Clicked="Button_Regresar_Clicked"
+            HorizontalOptions="Center"
             Text="Regresar" />
     </Grid>
 
     <ContentPage.Resources>
         <ResourceDictionary>
+            <Style x:Key="Button_OpcioneProveedor" TargetType="Button">
+                <Setter Property="Padding" Value="11" />
+                <Setter Property="MaximumHeightRequest" Value="40" />
+            </Style>
             <Style TargetType="Border">
-                <Setter Property="BackgroundColor" Value="#b0caeb" />
-                <Setter Property="StrokeShape" Value="{RoundRectangle CornerRadius='10'}" />
-                <Setter Property="Padding" Value="15,12" />
+                <Setter Property="BackgroundColor" Value="#a9d9b3" />
+                <Setter Property="StrokeShape" Value="{RoundRectangle CornerRadius='3'}" />
+                <Setter Property="Padding" Value="15" />
                 <Setter Property="Stroke" Value="Transparent" />
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <ContentPage.Background>
+    <!--<ContentPage.Background>
         <LinearGradientBrush EndPoint="1,0">
             <GradientStop Offset="0.1" Color="#5d92e8" />
             <GradientStop Offset="1.0" Color="#044fc7" />
         </LinearGradientBrush>
+    </ContentPage.Background>-->
+    <ContentPage.Background>
+        <Color>
+            #d5eddd
+        </Color>
     </ContentPage.Background>
-
 </ContentPage>
