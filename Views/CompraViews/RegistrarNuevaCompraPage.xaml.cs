@@ -127,15 +127,25 @@ public partial class RegistrarNuevaCompraPage : ContentPage
     private async Task CargarProductos_CollectionView_Productos()
     {
         var productos = await ObtenerProductosDBAsync();
-        foreach (var p in productos)
+        int aa = 0;
+        if (/*productos.Count*/aa == 0)
         {
-            _AuxProductos.Add(new AuxProducto
-            {
-                PRODUCTO = p.PRODUCTO,
-                MEDIDA = p.MEDIDA
-            });
+            VerticalStackLayout_EmptyView.IsVisible = true;
+            CollectionView_Productos.IsVisible = false;
         }
-        CollectionView_Productos.ItemsSource = _AuxProductos;
+        else
+        {
+            VerticalStackLayout_EmptyView.IsVisible = false;
+            foreach (var p in productos)
+            {
+                _AuxProductos.Add(new AuxProducto
+                {
+                    PRODUCTO = p.PRODUCTO,
+                    MEDIDA = p.MEDIDA
+                });
+            }
+            CollectionView_Productos.ItemsSource = _AuxProductos;
+        }
     }
     private async Task CargarNumeroCompra()
     {

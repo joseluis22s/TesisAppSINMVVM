@@ -12,26 +12,31 @@
         BackgroundColor="#bbc2c9"
         StrokeShape="{RoundRectangle CornerRadius='2'}">
         <Grid RowDefinitions="*,Auto" RowSpacing="10">
+            <VerticalStackLayout
+                x:Name="VerticalStackLayout_EmptyView_HistorialCheques"
+                BackgroundColor="Transparent"
+                IsVisible="False"
+                VerticalOptions="Center">
+                <Label
+                    FontAutoScalingEnabled="True"
+                    HorizontalTextAlignment="Center"
+                    Text="NO SE HA REGISTRADO NINGÚN CHEQUE"
+                    TextColor="#1a1a1a" />
+                <Image MaximumHeightRequest="30" Source="remove_empty_icon.png" />
+                <Button
+                    x:Name="Button_NavegarAgregarNuevoRegistroCheque"
+                    Clicked="Button_NavegarAgregarNuevoRegistroCheque_Clicked"
+                    Text="Agregar nuevo registro" />
+            </VerticalStackLayout>
             <CollectionView
                 x:Name="CollectionView_HistorialCheques"
                 IsGrouped="True"
                 SelectionMode="None">
                 <CollectionView.EmptyView>
                     <ContentView>
-                        <VerticalStackLayout
-                            x:Name="VerticalStackLayout_EmptyView_HistorialCheques"
-                            BackgroundColor="#e6e6e6"
-                            VerticalOptions="Center">
-                            <Label
-                                FontAutoScalingEnabled="True"
-                                HorizontalTextAlignment="Center"
-                                Text="NO SE HA REGISTRADO NINGÚN CHEQUE"
-                                TextColor="#1a1a1a" />
-                            <Image MaximumHeightRequest="30" Source="remove_empty_icon.png" />
-                            <Button
-                                x:Name="Button_NavegarAgregarNuevoRegistroCheque"
-                                Clicked="Button_NavegarAgregarNuevoRegistroCheque_Clicked"
-                                Text="Agregar nuevo registro" />
+                        <VerticalStackLayout BackgroundColor="Transparent" VerticalOptions="Center">
+                            <ActivityIndicator IsRunning="True" Color="Black" />
+                            <Label HorizontalOptions="Center" Text="CARGANDO" />
                         </VerticalStackLayout>
                     </ContentView>
 

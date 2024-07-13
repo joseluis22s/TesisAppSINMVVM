@@ -38,6 +38,23 @@
                             HorizontalOptions="FillAndExpand" />
                     </Border>
                 </VerticalStackLayout>
+                <VerticalStackLayout
+                    x:Name="VerticalStackLayout_EmptyView"
+                    Grid.Row="3"
+                    BackgroundColor="#e6e6e6"
+                    IsVisible="False"
+                    VerticalOptions="Center">
+                    <Label
+                        FontAutoScalingEnabled="True"
+                        HorizontalTextAlignment="Center"
+                        Text="NO SE HA REGISTRADO NINGÚN PRODUCTO"
+                        TextColor="#1a1a1a" />
+                    <Image MaximumHeightRequest="30" Source="remove_empty_icon.png" />
+                    <Button
+                        x:Name="Button_AgregarProdcuto"
+                        Clicked="Button_AgregarProducto_Clicked"
+                        Text="Agregar un producto" />
+                </VerticalStackLayout>
                 <CollectionView
                     x:Name="CollectionView_Productos"
                     Grid.Row="3"
@@ -45,16 +62,8 @@
                     <CollectionView.EmptyView>
                         <ContentView>
                             <VerticalStackLayout BackgroundColor="#e6e6e6" VerticalOptions="Center">
-                                <Label
-                                    FontAutoScalingEnabled="True"
-                                    HorizontalTextAlignment="Center"
-                                    Text="NO SE HA REGISTRADO NINGÚN PRODUCTO"
-                                    TextColor="#1a1a1a" />
-                                <Image MaximumHeightRequest="30" Source="remove_empty_icon.png" />
-                                <Button
-                                    x:Name="Button_AgregarProdcuto"
-                                    Clicked="Button_AgregarProducto_Clicked"
-                                    Text="Agregar un producto" />
+                                <ActivityIndicator IsRunning="True" Color="Black" />
+                                <Label HorizontalOptions="Center" Text="CARGANDO" />
                             </VerticalStackLayout>
                         </ContentView>
                     </CollectionView.EmptyView>

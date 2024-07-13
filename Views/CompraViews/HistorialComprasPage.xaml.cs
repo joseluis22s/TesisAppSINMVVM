@@ -72,10 +72,24 @@ public partial class HistorialComprasPage : ContentPage
     private async Task CargarDatosCollectionView_HistorialCompras()
     {
         List<Tbl_ProductoComprado> productosComprados = await ObtenerProductosCompradosDBAsync(_nombreProveedor);
-        var productosCompradosGrouped = productosComprados
+        if (productosComprados.Count == 0)
+        {
+            VerticalStackLayout_EmptyView.IsVisible = true;
+            CollectionView_HistorialCompras.IsVisible = false;
+        }
+        else
+        {
+            VerticalStackLayout_EmptyView.IsVisible = false;
+            var productosCompradosGrouped = productosComprados
             .GroupBy(p => p.DIAFECHAGUARDADO)
             .Select(grupo => new ProductoCompradoGroup(grupo.Key, grupo.ToList()));
-        CollectionView_HistorialCompras.ItemsSource = productosCompradosGrouped.ToList();
+            CollectionView_HistorialCompras.ItemsSource = productosCompradosGrouped.ToList();
+        }
+
+        //var productosCompradosGrouped = productosComprados
+        //    .GroupBy(p => p.DIAFECHAGUARDADO)
+        //    .Select(grupo => new ProductoCompradoGroup(grupo.Key, grupo.ToList()));
+        //CollectionView_HistorialCompras.ItemsSource = productosCompradosGrouped.ToList();
     }
     #endregion
 

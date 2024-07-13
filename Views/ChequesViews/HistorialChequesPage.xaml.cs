@@ -61,18 +61,37 @@ public partial class HistorialChequesPage : ContentPage
     private async Task CargarDatosCollectionView_HistorialCompras()
     {
         List<Tbl_Cheque> cheques = await ObtenerDBChequesAsync();
-
-        var gruposFechaCobro = cheques.OrderByDescending(c => DateTime.Parse(c.FECHACOBRO))
+        if (cheques.Count == 0)
+        {
+            VerticalStackLayout_EmptyView_HistorialCheques.IsVisible = true;
+            CollectionView_HistorialCheques.IsVisible = false;
+        }
+        else
+        {
+            VerticalStackLayout_EmptyView_HistorialCheques.IsVisible = false;
+            var gruposFechaCobro = cheques.OrderByDescending(c => DateTime.Parse(c.FECHACOBRO))
             .GroupBy(c => c.DIAFECHACOBRO)
            .Select(g => new ChequesGroup(g.Key, g.ToList()));
-        //TODO: HACER QUE SEA POR FECHA DE COBRO (NUEVA IMPLMENTACIÓN)
-        _grupoCheques.Clear();
-        foreach (var grupo in gruposFechaCobro)
-        {
-            _grupoCheques.Add(grupo);
+            //TODO: HACER QUE SEA POR FECHA DE COBRO (NUEVA IMPLMENTACIÓN)
+            _grupoCheques.Clear();
+            foreach (var grupo in gruposFechaCobro)
+            {
+                _grupoCheques.Add(grupo);
+            }
+            var a = _grupoCheques;
+            CollectionView_HistorialCheques.ItemsSource = _grupoCheques;
         }
-        var a = _grupoCheques;
-        CollectionView_HistorialCheques.ItemsSource = _grupoCheques;
+        //var gruposFechaCobro = cheques.OrderByDescending(c => DateTime.Parse(c.FECHACOBRO))
+        //    .GroupBy(c => c.DIAFECHACOBRO)
+        //   .Select(g => new ChequesGroup(g.Key, g.ToList()));
+        ////TODO: HACER QUE SEA POR FECHA DE COBRO (NUEVA IMPLMENTACIÓN)
+        //_grupoCheques.Clear();
+        //foreach (var grupo in gruposFechaCobro)
+        //{
+        //    _grupoCheques.Add(grupo);
+        //}
+        //var a = _grupoCheques;
+        //CollectionView_HistorialCheques.ItemsSource = _grupoCheques;
 
     }
 

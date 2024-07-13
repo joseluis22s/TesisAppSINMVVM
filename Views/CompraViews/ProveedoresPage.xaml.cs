@@ -93,7 +93,20 @@ public partial class ProveedoresPage : ContentPage
     private async Task CargarDatosCollectionView_Proveedores()
     {
         _tblProveedores = await ObtenerProveedoresDBAsync();
-        CollectionView_Proveedores.ItemsSource = _tblProveedores;
+        int aa = 0;
+        if (_tblProveedores.Count == 0)
+        {
+            VerticalStackLayout_EmptyView.IsVisible = true;
+            CollectionView_Proveedores.IsVisible = false;
+        }
+        else
+        {
+            VerticalStackLayout_EmptyView.IsVisible = false;
+            CollectionView_Proveedores.ItemsSource = _tblProveedores;
+        }
+        //_tblProveedores = await ObtenerProveedoresDBAsync();
+        //CollectionView_Proveedores.ItemsSource = _tblProveedores;
+
     }
     private async Task ProveedorSelecionado()
     {

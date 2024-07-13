@@ -17,6 +17,19 @@
             HorizontalOptions="Center"
             Text="Agregar nuevo" />
 
+        <VerticalStackLayout
+            x:Name="VerticalStackLayout_EmptyView"
+            Grid.Row="1"
+            BackgroundColor="#e6e6e6"
+            IsVisible="False"
+            VerticalOptions="Center">
+            <Label
+                FontAutoScalingEnabled="True"
+                HorizontalTextAlignment="Center"
+                Text="NO SE HA REGISTRADO NINGÚN PROVEEDOR"
+                TextColor="#1a1a1a" />
+            <Image MaximumHeightRequest="30" Source="remove_empty_icon.png" />
+        </VerticalStackLayout>
         <CollectionView
             x:Name="CollectionView_Proveedores"
             Grid.Row="1"
@@ -24,16 +37,9 @@
             SelectionMode="Single">
             <CollectionView.EmptyView>
                 <ContentView>
-                    <VerticalStackLayout
-                        x:Name="VerticalStackLayout_EmptyView"
-                        BackgroundColor="#e6e6e6"
-                        VerticalOptions="Center">
-                        <Label
-                            FontAutoScalingEnabled="True"
-                            HorizontalTextAlignment="Center"
-                            Text="NO SE HA REGISTRADO NINGÚN PROVEEDOR"
-                            TextColor="#1a1a1a" />
-                        <Image MaximumHeightRequest="30" Source="remove_empty_icon.png" />
+                    <VerticalStackLayout BackgroundColor="Transparent" VerticalOptions="Center">
+                        <ActivityIndicator IsRunning="True" Color="Black" />
+                        <Label HorizontalOptions="Center" Text="CARGANDO" />
                     </VerticalStackLayout>
                 </ContentView>
             </CollectionView.EmptyView>
