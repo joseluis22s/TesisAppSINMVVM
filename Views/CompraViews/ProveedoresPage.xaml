@@ -92,6 +92,7 @@
     </Grid>
 
     <ContentPage.Resources>
+        
         <ResourceDictionary>
             <Style x:Key="Button_OpcionesProveedor" TargetType="Button">
                 <Setter Property="Padding" Value="11" />
@@ -104,17 +105,14 @@
                 <Setter Property="Stroke" Value="Transparent" />
             </Style>
         </ResourceDictionary>
+        
     </ContentPage.Resources>
-
-    <!--<ContentPage.Background>
-        <LinearGradientBrush EndPoint="1,0">
-            <GradientStop Offset="0.1" Color="#5d92e8" />
-            <GradientStop Offset="1.0" Color="#044fc7" />
-        </LinearGradientBrush>
-    </ContentPage.Background>-->
+    
     <ContentPage.Background>
+        
         <Color>
             #d5eddd
         </Color>
+        
     </ContentPage.Background>
 </ContentPage>
