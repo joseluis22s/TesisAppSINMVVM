@@ -18,7 +18,7 @@
                     Margin="0,4,0,-1"
                     MaximumHeightRequest="50"
                     Source="compra_icon.png" />
-                <Label FontSize="16" Text="COMPRA" />
+                <Label Style="{StaticResource Label_ContenidoBotones}" Text="COMPRA" />
             </VerticalStackLayout>
         </Grid>
         <Grid Grid.Row="1">
@@ -28,7 +28,7 @@
                     Margin="0,2,0,-6"
                     MaximumHeightRequest="50"
                     Source="cheque_icon.png" />
-                <Label FontSize="16" Text="CHEQUES" />
+                <Label Style="{StaticResource Label_ContenidoBotones}" Text="CHEQUES" />
             </VerticalStackLayout>
         </Grid>
         <Grid Grid.Row="2">
@@ -38,7 +38,7 @@
                     Margin="0,1,0,-5"
                     MaximumHeightRequest="50"
                     Source="venta_icon.png" />
-                <Label FontSize="16" Text="VENTA" />
+                <Label Style="{StaticResource Label_ContenidoBotones}" Text="VENTA" />
             </VerticalStackLayout>
 
         </Grid>
@@ -55,6 +55,10 @@
             </Style>
             <Style TargetType="VerticalStackLayout">
                 <Setter Property="HorizontalOptions" Value="Center" />
+            </Style>
+            <Style x:Key="Label_ContenidoBotones" TargetType="Button">
+                <Setter Property="FontSize" Value="18" />
+                <Setter Property="Margin" Value="0,2" />
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
