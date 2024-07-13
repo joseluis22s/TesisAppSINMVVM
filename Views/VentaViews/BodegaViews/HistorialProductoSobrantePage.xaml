@@ -11,62 +11,85 @@
         Padding="10,0,10,10"
         BackgroundColor="#bbc2c9"
         StrokeShape="{RoundRectangle CornerRadius='2'}">
+
         <Grid RowDefinitions="*,Auto" RowSpacing="15">
+
             <VerticalStackLayout
                 x:Name="VerticalStackLayout_EmptyView_HistorialProductoSobrante"
                 BackgroundColor="Transparent"
                 IsVisible="False"
+                Spacing="8"
                 VerticalOptions="Center">
+
                 <Label
                     FontAutoScalingEnabled="True"
+                    FontSize="18"
                     HorizontalTextAlignment="Center"
+                    LineBreakMode="WordWrap"
                     Text="NO SE HA REGISTRADO NADA"
                     TextColor="#1a1a1a" />
                 <Image MaximumHeightRequest="30" Source="remove_empty_icon.png" />
                 <Button
                     x:Name="Button_NavegarAgregarNuevoRegistroProductoSobrante"
+                    Margin="45,0"
                     Clicked="Button_NavegarAgregarNuevoRegistroProductoSobrante_Clicked"
                     Text="Agregar nuevo registro" />
+
             </VerticalStackLayout>
+
             <CollectionView
                 x:Name="CollectionView_Bodega"
                 IsGrouped="True"
                 SelectionMode="None">
+
                 <CollectionView.EmptyView>
+
                     <ContentView>
                         <VerticalStackLayout BackgroundColor="Transparent" VerticalOptions="Center">
                             <ActivityIndicator IsRunning="True" Color="Black" />
                             <Label HorizontalOptions="Center" Text="CARGANDO" />
                         </VerticalStackLayout>
                     </ContentView>
+
                 </CollectionView.EmptyView>
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
+
                         <Border
-                            Padding="10,10,20,10"
+                            Padding="15,15,20,15"
                             BackgroundColor="#ccd3de"
                             StrokeShape="{RoundRectangle CornerRadius='5'}">
+
                             <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto,Auto">
+
                                 <Label
                                     x:Name="Label_Producto"
                                     FontAttributes="Bold"
-                                    FontSize="15"
+                                    FontSize="16"
                                     Text="{Binding PRODUCTO}" />
+
                                 <Label
                                     x:Name="Label_Cantidad"
                                     Grid.Column="1"
+                                    FontSize="19"
                                     Text="{Binding CANTIDAD, StringFormat='X{0}'}" />
-                                <Label x:Name="Label_Descripcion" Grid.Row="2">
+
+                                <Label
+                                    x:Name="Label_Descripcion"
+                                    Grid.Row="2"
+                                    FontSize="15">
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <Span Text="{Binding DESCRIPCION, StringFormat='Descripción: {0}'}" />
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
+
                                 <Label
                                     x:Name="Label_Fecha"
                                     Grid.Row="3"
+                                    FontSize="16"
                                     Text="{Binding FECHAGUARDADO}" />
                             </Grid>
                         </Border>
@@ -77,7 +100,7 @@
                         <Label
                             Margin="10,15,0,3"
                             FontAttributes="Bold"
-                            FontSize="13"
+                            FontSize="17"
                             Text="{Binding DiaFecha}" />
                     </DataTemplate>
                 </CollectionView.GroupHeaderTemplate>
@@ -92,10 +115,11 @@
     </Border>
 
     <ContentPage.Background>
-        <LinearGradientBrush EndPoint="0.1,0.9">
-            <GradientStop Offset="0.1" Color="#5d92e8" />
-            <GradientStop Offset="1.0" Color="#044fc7" />
-        </LinearGradientBrush>
+
+        <Color>
+            #d5eddd
+        </Color>
+
     </ContentPage.Background>
 
 </ContentPage>

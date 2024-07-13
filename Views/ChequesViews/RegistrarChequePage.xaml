@@ -5,141 +5,189 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="CHEQUES: Nuevo registro"
     Appearing="ContentPage_Appearing"
+    HideSoftInputOnTapped="True"
     NavigationPage.HasBackButton="False">
     <ScrollView>
-        <Grid
-            Margin="20"
-            RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto"
-            RowSpacing="12">
 
-            <VerticalStackLayout>
-                <Label Style="{StaticResource LabelStyle}" Text="Número de cheque" />
-                <Border>
-                    <Grid
-                        Margin="10,0"
-                        ColumnDefinitions="Auto,*"
-                        HorizontalOptions="FillAndExpand">
-                        <Label
-                            Margin="20,0,-25,0"
-                            Text="#"
-                            TextColor="#5c5c5c"
-                            VerticalOptions="Center" />
-                        <Entry
-                            x:Name="Entry_NumeroCheque"
-                            Grid.Column="1"
-                            Keyboard="Numeric"
-                            MaxLength="7"
-                            TextChanged="Entry_NumeroCheque_TextChanged" />
+        <Grid Grid.ColumnSpan="2" RowDefinitions="Auto,Auto">
 
+            <Border
+                Margin="20"
+                Padding="20,25,20,30"
+                BackgroundColor="#e0e0e0"
+                Stroke="#a6a6a6">
 
-                    </Grid>
-                </Border>
-            </VerticalStackLayout>
-            <VerticalStackLayout Grid.Row="1" Padding="10,0">
-                <Label Style="{StaticResource LabelStyle}" Text="Monto" />
-                <Grid
-                    Padding="5,0"
-                    ColumnDefinitions="*,Auto,*"
-                    ColumnSpacing="3">
-                    <Border>
-                        <Grid Margin="10,0" ColumnDefinitions="Auto,*">
+                <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" RowSpacing="7">
+
+                    <VerticalStackLayout>
+
+                        <Label Style="{StaticResource LabelStyle}" Text="Número de cheque" />
+
+                        <Border Style="{StaticResource Border_entrys}">
+
+                            <Grid
+                                Margin="10,0"
+                                ColumnDefinitions="Auto,*"
+                                HorizontalOptions="FillAndExpand">
+
+                                <Label
+                                    Margin="20,0,-25,0"
+                                    Text="#"
+                                    TextColor="#5c5c5c"
+                                    VerticalOptions="Center" />
+                                <Entry
+                                    x:Name="Entry_NumeroCheque"
+                                    Grid.Column="1"
+                                    FontSize="15"
+                                    Keyboard="Numeric"
+                                    MaxLength="12"
+                                    TextChanged="Entry_NumeroCheque_TextChanged" />
+
+                            </Grid>
+
+                        </Border>
+
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Row="1" Padding="10,0">
+
+                        <Label Style="{StaticResource LabelStyle}" Text="Monto" />
+
+                        <Grid
+                            Padding="5,0"
+                            ColumnDefinitions="*,Auto,*"
+                            ColumnSpacing="3">
+
+                            <Border Style="{StaticResource Border_entrys}">
+
+                                <Grid Margin="10,0" ColumnDefinitions="Auto,*">
+
+                                    <Label
+                                        Text="$"
+                                        TextColor="#5c5c5c"
+                                        VerticalOptions="Center" />
+                                    <Entry
+                                        x:Name="Entry_MontoChequeEntero"
+                                        Grid.Column="1"
+                                        HorizontalTextAlignment="Center"
+                                        Keyboard="Numeric"
+                                        MaxLength="7"
+                                        Placeholder="0"
+                                        TextChanged="Entry_MontoCheque_TextChanged" />
+
+                                </Grid>
+                            </Border>
+
                             <Label
-                                Text="$"
-                                TextColor="#5c5c5c"
-                                VerticalOptions="Center" />
-                            <Entry
-                                x:Name="Entry_MontoChequeEntero"
                                 Grid.Column="1"
-                                Keyboard="Numeric"
-                                MaxLength="7"
-                                Placeholder="0"
-                                TextChanged="Entry_MontoCheque_TextChanged" />
-                        </Grid>
-                    </Border>
-                    <Label
-                        Grid.Column="1"
-                        Margin="0,0,0,0"
-                        FontSize="19"
-                        Text="."
-                        VerticalOptions="End" />
-                    <Border Grid.Column="2">
-                        <Grid Margin="10,0" ColumnDefinitions="*,Auto">
-                            <Entry
-                                x:Name="Entry_MontoChequeDecimal"
-                                Keyboard="Numeric"
-                                MaxLength="2"
-                                Placeholder="00"
-                                TextChanged="Entry_MontoCheque_TextChanged" />
-                            <Label
-                                Grid.Column="1"
-                                Text="ctvs"
-                                TextColor="#5c5c5c"
-                                VerticalOptions="Center" />
+                                Margin="0,0,0,0"
+                                FontSize="19"
+                                Text="."
+                                VerticalOptions="End" />
+
+                            <Border Grid.Column="2" Style="{StaticResource Border_entrys}">
+
+                                <Grid Margin="10,0" ColumnDefinitions="*,Auto">
+                                    <Entry
+                                        x:Name="Entry_MontoChequeDecimal"
+                                        Keyboard="Numeric"
+                                        MaxLength="2"
+                                        Placeholder="00"
+                                        TextChanged="Entry_MontoCheque_TextChanged" />
+                                    <Label
+                                        Grid.Column="1"
+                                        Text="ctvs"
+                                        TextColor="#5c5c5c"
+                                        VerticalOptions="Center" />
+                                </Grid>
+
+                            </Border>
+
                         </Grid>
 
-                    </Border>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Row="2">
+
+                        <Label Style="{StaticResource LabelStyle}" Text="Proveedor" />
+
+                        <Border Style="{StaticResource Border_entrys}">
+                            <Picker
+                                x:Name="Picker_Proveedores"
+                                Margin="13,0"
+                                ItemDisplayBinding="{Binding PROVEEDOR}" />
+                        </Border>
+
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Row="3">
+
+                        <Label Style="{StaticResource LabelStyle}" Text="Fecha de cobro" />
+                        <Border Style="{StaticResource Border_entrys}">
+                            <DatePicker
+                                x:Name="DatePicker_FechaCobro"
+                                Margin="13,0"
+                                Format="dd/MM/yyyy"
+                                HorizontalOptions="FillAndExpand" />
+                        </Border>
+
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Row="4">
+
+                        <Label Style="{StaticResource LabelStyle}" Text="Fecha de emisión" />
+                        <Border Style="{StaticResource Border_entrys}">
+                            <DatePicker
+                                x:Name="DatePicker_FechaEmision"
+                                Margin="13,0"
+                                Format="dd/MM/yyyy"
+                                HorizontalOptions="FillAndExpand" />
+                        </Border>
+
+                    </VerticalStackLayout>
+
                 </Grid>
-            </VerticalStackLayout>
 
-            <VerticalStackLayout Grid.Row="2">
-                <Label Style="{StaticResource LabelStyle}" Text="Proveedor" />
-                <Border>
-                    <Picker x:Name="Picker_Proveedores" ItemDisplayBinding="{Binding PROVEEDOR}" />
-                </Border>
-            </VerticalStackLayout>
-            <VerticalStackLayout Grid.Row="3">
-                <Label Style="{StaticResource LabelStyle}" Text="Fecha de cobro" />
-                <Border>
-                    <DatePicker
-                        x:Name="DatePicker_FechaCobro"
-                        Format="dd/MM/yyyy"
-                        HorizontalOptions="FillAndExpand" />
-                </Border>
-            </VerticalStackLayout>
-            <VerticalStackLayout Grid.Row="4">
-                <Label Style="{StaticResource LabelStyle}" Text="Fecha de emisión" />
-                <Border>
-                    <DatePicker
-                        x:Name="DatePicker_FechaEmision"
-                        Format="dd/MM/yyyy"
-                        HorizontalOptions="FillAndExpand" />
-                </Border>
-            </VerticalStackLayout>
-            <Button
-                x:Name="Button_GuardarNuevoCheque"
-                Grid.Row="5"
-                Padding="20,15"
-                Clicked="Button_GuardarNuevoCheque_Clicked"
-                HorizontalOptions="Center"
-                Text="Guardar" />
-            <Button
-                x:Name="Button_Regresar"
-                Grid.Row="6"
-                Padding="20,15"
-                Clicked="Button_Regresar_Clicked"
-                HorizontalOptions="Center"
-                Text="Regresar" />
+            </Border>
+
+            <Grid
+                Grid.Row="1"
+                Margin="15,0"
+                ColumnDefinitions="*,*"
+                ColumnSpacing="10">
+
+                <Button
+                    x:Name="Button_GuardarNuevoCheque"
+                    Clicked="Button_GuardarNuevoCheque_Clicked"
+                    Style="{StaticResource Button_RegistarCheque}"
+                    Text="Guardar" />
+
+                <Button
+                    x:Name="Button_Regresar"
+                    Grid.Column="1"
+                    BackgroundColor="#4da36d"
+                    Clicked="Button_Regresar_Clicked"
+                    Style="{StaticResource Button_RegistarCheque}"
+                    Text="Regresar" />
+
+            </Grid>
+
         </Grid>
+
     </ScrollView>
 
     <ContentPage.Resources>
+
         <ResourceDictionary>
-            <Style TargetType="Border">
-                <Setter Property="BackgroundColor" Value="#d3dbe8" />
+            <Style x:Key="Button_RegistarCheque" TargetType="Button">
+                <Setter Property="Padding" Value="0,12" />
+                <Setter Property="FontSize" Value="18" />
+            </Style>
+            <Style x:Key="Border_entrys" TargetType="Border">
+                <Setter Property="BackgroundColor" Value="#f5f5f5" />
                 <Setter Property="StrokeShape" Value="{RoundRectangle CornerRadius='25'}" />
-                <Setter Property="Padding" Value="13,-2" />
             </Style>
             <Style TargetType="Entry">
-                <!--<Setter Property="Keyboard">
-                <Keyboard x:FactoryMethod="Create">
-                    <x:Arguments>
-                        <KeyboardFlags>
-                            CapitalizeCharacter
-                        </KeyboardFlags>
-                    </x:Arguments>
-                </Keyboard>
-            </Setter>-->
-                <Setter Property="Margin" Value="15,0" />
                 <Setter Property="FontSize" Value="15" />
                 <Setter Property="HorizontalOptions" Value="FillAndExpand" />
                 <Setter Property="HorizontalTextAlignment" Value="Center" />
@@ -153,10 +201,11 @@
     </ContentPage.Resources>
 
     <ContentPage.Background>
-        <LinearGradientBrush EndPoint="0.1,0.9">
-            <GradientStop Offset="0.1" Color="#5d92e8" />
-            <GradientStop Offset="1.0" Color="#044fc7" />
-        </LinearGradientBrush>
+
+        <Color>
+            #d5eddd
+        </Color>
+
     </ContentPage.Background>
 
 </ContentPage>

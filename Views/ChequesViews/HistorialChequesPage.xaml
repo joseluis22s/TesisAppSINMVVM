@@ -6,27 +6,36 @@
     Title="CHEQUES: Historial cheques"
     Appearing="ContentPage_Appearing"
     NavigationPage.HasBackButton="False">
+
     <Border
         Margin="10"
         Padding="10,0,10,10"
         BackgroundColor="#bbc2c9"
         StrokeShape="{RoundRectangle CornerRadius='2'}">
+
         <Grid RowDefinitions="*,Auto" RowSpacing="10">
+
             <VerticalStackLayout
                 x:Name="VerticalStackLayout_EmptyView_HistorialCheques"
                 BackgroundColor="Transparent"
                 IsVisible="False"
+                Spacing="8"
                 VerticalOptions="Center">
+
                 <Label
                     FontAutoScalingEnabled="True"
+                    FontSize="18"
                     HorizontalTextAlignment="Center"
+                    LineBreakMode="WordWrap"
                     Text="NO SE HA REGISTRADO NINGÚN CHEQUE"
                     TextColor="#1a1a1a" />
                 <Image MaximumHeightRequest="30" Source="remove_empty_icon.png" />
                 <Button
                     x:Name="Button_NavegarAgregarNuevoRegistroCheque"
+                    Margin="45,0"
                     Clicked="Button_NavegarAgregarNuevoRegistroCheque_Clicked"
                     Text="Agregar nuevo registro" />
+
             </VerticalStackLayout>
             <CollectionView
                 x:Name="CollectionView_HistorialCheques"
@@ -42,46 +51,58 @@
 
                 </CollectionView.EmptyView>
                 <CollectionView.ItemTemplate>
+
                     <DataTemplate>
                         <Border
-                            Padding="10,10,20,10"
+                            Padding="15,15,20,15"
                             BackgroundColor="#ccd3de"
                             StrokeShape="{RoundRectangle CornerRadius='5'}">
+
                             <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+
                                 <Label
                                     x:Name="Label_NumeroCheque"
                                     FontAttributes="Bold"
-                                    FontSize="15"
+                                    FontSize="17"
                                     Text="{Binding NUMERO, StringFormat='Cheque #: {0}'}" />
                                 <Label
                                     x:Name="Label_MontoCheque"
                                     Grid.Column="1"
+                                    FontSize="19"
                                     Text="{Binding MONTO, StringFormat='${0}'}" />
                                 <Label
                                     x:Name="Label_Proveedor"
                                     Grid.Row="2"
+                                    FontSize="17"
                                     Text="{Binding PROVEEDOR}" />
                                 <Label
                                     x:Name="Label_FechaEmision"
                                     Grid.Row="3"
+                                    FontSize="17"
                                     Text="{Binding FECHAEMISION, StringFormat='Emisión: {0}'}" />
                                 <Label
                                     x:Name="Label_FechaCobro"
                                     Grid.Row="4"
+                                    FontSize="17"
                                     Text="{Binding FECHACOBRO, StringFormat='Cobro: {0}'}" />
                             </Grid>
                         </Border>
                     </DataTemplate>
+
                 </CollectionView.ItemTemplate>
+
                 <CollectionView.GroupHeaderTemplate>
+
                     <DataTemplate>
                         <Label
                             Margin="10,15,0,3"
                             FontAttributes="Bold"
-                            FontSize="13"
+                            FontSize="17"
                             Text="{Binding DiaFecha}" />
                     </DataTemplate>
+
                 </CollectionView.GroupHeaderTemplate>
+
             </CollectionView>
             <Button
                 x:Name="Button_Regresar"
@@ -93,10 +114,11 @@
     </Border>
 
     <ContentPage.Background>
-        <LinearGradientBrush EndPoint="0.1,0.9">
-            <GradientStop Offset="0.1" Color="#5d92e8" />
-            <GradientStop Offset="1.0" Color="#044fc7" />
-        </LinearGradientBrush>
+
+        <Color>
+            #d5eddd
+        </Color>
+
     </ContentPage.Background>
 
 </ContentPage>

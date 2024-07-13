@@ -11,7 +11,7 @@
 
 
     <Grid
-        Margin="10,15"
+        Margin="10"
         RowDefinitions="Auto,*,Auto,Auto"
         RowSpacing="10">
 
@@ -38,7 +38,7 @@
         <Border
             Grid.Row="1"
             BackgroundColor="#d9d9d9"
-            Stroke="Transparent">
+            Stroke="#6e7571">
 
             <Grid RowDefinitions="Auto,*,Auto,Auto">
 
@@ -87,16 +87,20 @@
                     Grid.Row="1"
                     BackgroundColor="Transparent"
                     IsVisible="False"
+                    Spacing="8"
                     VerticalOptions="Center">
 
                     <Label
                         FontAutoScalingEnabled="True"
+                        FontSize="18"
                         HorizontalTextAlignment="Center"
+                        LineBreakMode="WordWrap"
                         Text="NO SE HA REGISTRADO NINGÚN PRODUCTO"
                         TextColor="#1a1a1a" />
                     <Image MaximumHeightRequest="30" Source="remove_empty_icon.png" />
                     <Button
                         x:Name="Button_AgregarProdcuto"
+                        Margin="45,0"
                         Clicked="Button_AgregarProducto_Clicked"
                         Text="Agregar un producto" />
 
@@ -285,9 +289,7 @@
                                         </Grid>
 
                                     </Border>
-
-
-
+                                    
                                 </Grid>
 
                             </Border>
@@ -298,16 +300,25 @@
             </Grid>
         </Border>
 
-        <Button
-            x:Name="Button_GuardarNuevaCompra"
+        <Grid
             Grid.Row="2"
-            Clicked="Button_GuardarNuevaCompra_Clicked"
-            Text="Guardar" />
-        <Button
-            x:Name="Button_Regresar"
-            Grid.Row="3"
-            Clicked="Button_Regresar_Clicked"
-            Text="Regresar" />
+            Margin="15,0"
+            ColumnDefinitions="*,*"
+            ColumnSpacing="10">
+            <Button
+                x:Name="Button_GuardarNuevaCompra"
+                Clicked="Button_GuardarNuevaCompra_Clicked"
+                Style="{StaticResource Button_RegistarNuevacompra}"
+                Text="Guardar" />
+            <Button
+                x:Name="Button_Regresar"
+                Grid.Column="1"
+                BackgroundColor="#4da36d"
+                Clicked="Button_Regresar_Clicked"
+                Style="{StaticResource Button_RegistarNuevacompra}"
+                Text="Regresar" />
+        </Grid>
+
     </Grid>
 
 
@@ -341,11 +352,11 @@
                 <Setter Property="StrokeShape" Value="{RoundRectangle CornerRadius='10'}" />
                 <Setter Property="Stroke" Value="#bfbfbf" />
             </Style>
-            <!--<Style x:Key="Button_OpcionesProveedor" TargetType="Button">
-                <Setter Property="Padding" Value="11" />
-                <Setter Property="MaximumHeightRequest" Value="40" />
+            <Style x:Key="Button_RegistarNuevacompra" TargetType="Button">
+                <Setter Property="Padding" Value="0,12" />
+                <Setter Property="FontSize" Value="18" />
             </Style>
-            <Style TargetType="Border">
+            <!--<Style TargetType="Border">
                 <Setter Property="BackgroundColor" Value="#a9d9b3" />
                 <Setter Property="StrokeShape" Value="{RoundRectangle CornerRadius='3'}" />
                 <Setter Property="Padding" Value="15" />

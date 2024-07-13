@@ -6,12 +6,15 @@
     Title="COMPRA: Historial compras"
     Appearing="ContentPage_Appearing"
     NavigationPage.HasBackButton="False">
+
     <Border
         Margin="10"
         Padding="10"
         BackgroundColor="#bbc2c9"
         StrokeShape="{RoundRectangle CornerRadius='2'}">
+
         <Grid RowDefinitions="Auto,*,Auto" RowSpacing="15">
+
             <Border
                 Padding="0,3"
                 BackgroundColor="#999ea3"
@@ -21,23 +24,29 @@
                     HorizontalOptions="Center"
                     Text="{Binding PROVEEDOR, StringFormat='PROVEEDOR: {0} '}" />
             </Border>
+
             <VerticalStackLayout
                 x:Name="VerticalStackLayout_EmptyView"
                 Grid.Row="1"
-                BackgroundColor="#e6e6e6"
+                BackgroundColor="Transparent"
                 IsVisible="False"
+                Spacing="8"
                 VerticalOptions="Center">
                 <Label
                     FontAutoScalingEnabled="True"
+                    FontSize="18"
                     HorizontalTextAlignment="Center"
+                    LineBreakMode="WordWrap"
                     Text="NO SE HAN REALIZADO REGISTROS"
                     TextColor="#1a1a1a" />
                 <Image MaximumHeightRequest="30" Source="remove_empty_icon.png" />
                 <Button
                     x:Name="Button_NavegarAgregarNuevaCompra"
+                    Margin="45,0"
                     Clicked="Button_NavegarAgregarNuevaCompra_Clicked"
                     Text="Agregar nuevo registro" />
             </VerticalStackLayout>
+
             <CollectionView
                 x:Name="CollectionView_HistorialCompras"
                 Grid.Row="1"
@@ -45,7 +54,7 @@
                 SelectionMode="None">
                 <CollectionView.EmptyView>
                     <ContentView>
-                        <VerticalStackLayout BackgroundColor="#e6e6e6" VerticalOptions="Center">
+                        <VerticalStackLayout BackgroundColor="Transparent" VerticalOptions="Center">
                             <ActivityIndicator IsRunning="True" Color="Black" />
                             <Label HorizontalOptions="Center" Text="CARGANDO" />
                         </VerticalStackLayout>
@@ -118,11 +127,13 @@
                 Text="Regresar" />
         </Grid>
     </Border>
+
     <ContentPage.Background>
-        <LinearGradientBrush EndPoint="0.1,0.9">
-            <GradientStop Offset="0.1" Color="#5d92e8" />
-            <GradientStop Offset="1.0" Color="#044fc7" />
-        </LinearGradientBrush>
+
+        <Color>
+            #d5eddd
+        </Color>
+
     </ContentPage.Background>
 
 </ContentPage>

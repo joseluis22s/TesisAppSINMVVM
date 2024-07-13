@@ -12,48 +12,55 @@
         Margin="10"
         RowDefinitions="Auto,*,Auto"
         RowSpacing="10">
+
         <Button
             x:Name="Button_HistorialRegistroProductoSobrante"
             Clicked="Button_HistorialRegistroProductoSobrante_Clicked"
             Text="Ver todos los registros" />
 
-
-        <!--<Border Grid.Row="3" >-->
         <Grid
             Grid.Row="1"
             Padding="10,10,10,13"
             BackgroundColor="#bbc2c9"
             RowDefinitions="Auto,*,Auto"
             RowSpacing="5">
+
             <Label
                 BackgroundColor="#82878c"
                 FontAttributes="Bold"
                 HorizontalTextAlignment="Center"
                 Text="SELECCIONE PRODUCTOS SOBRANTES" />
+
             <VerticalStackLayout
                 x:Name="VerticalStackLayout_EmptyView_RegistrarProductoSobranteBodega"
                 Grid.Row="1"
                 BackgroundColor="Transparent"
                 IsVisible="False"
                 VerticalOptions="Center">
+
                 <Label
                     FontAutoScalingEnabled="True"
+                    FontSize="18"
                     HorizontalTextAlignment="Center"
+                    LineBreakMode="WordWrap"
                     Text="NO SE HA REGISTRADO NINGÚN PRODUCTO"
                     TextColor="#1a1a1a" />
                 <Image MaximumHeightRequest="30" Source="remove_empty_icon.png" />
                 <Button
                     x:Name="Button_NavegarAgregarNuevoProducto"
+                    Margin="45,0"
                     Clicked="Button_NavegarAgregarNuevoProducto_Clicked"
                     Text="Agregar un producto" />
 
             </VerticalStackLayout>
+
             <CollectionView
                 x:Name="CollectionView_RegistrarProductoSobranteBodega"
                 Grid.Row="1"
                 Margin="10,5,10,5"
                 SelectionMode="None"
                 VerticalOptions="Start">
+
                 <CollectionView.EmptyView>
                     <ContentView>
                         <VerticalStackLayout BackgroundColor="Transparent" VerticalOptions="Center">
@@ -63,39 +70,55 @@
                     </ContentView>
 
                 </CollectionView.EmptyView>
+
                 <CollectionView.ItemTemplate>
+
                     <DataTemplate>
+
                         <Border Style="{StaticResource BorderStyle1}">
+
                             <Grid
-                                Margin="10,5"
+                                Margin="0,11"
                                 ColumnDefinitions="*,Auto"
                                 RowDefinitions="Auto,Auto,Auto,Auto">
-                                <!--<Label Text="{Binding PRODUCTO}" VerticalTextAlignment="Center" />-->
-                                <Label VerticalTextAlignment="Center">
-                                    <Label.Text>
-                                        <MultiBinding StringFormat="{}{0} - {1}">
-                                            <Binding Path="PRODUCTO" />
-                                            <Binding Path="MEDIDA" />
-                                        </MultiBinding>
-                                    </Label.Text>
-                                </Label>
+
+                                <Border
+                                    Padding="5,0"
+                                    BackgroundColor="Transparent"
+                                    Stroke="#808080"
+                                    StrokeShape="{RoundRectangle CornerRadius='5'}">
+                                    <Label VerticalTextAlignment="Center">
+                                        <Label.Text>
+                                            <MultiBinding StringFormat="{}{0} - {1}">
+                                                <Binding Path="PRODUCTO" />
+                                                <Binding Path="MEDIDA" />
+                                            </MultiBinding>
+                                        </Label.Text>
+                                    </Label>
+                                </Border>
+
                                 <CheckBox
                                     Grid.Column="1"
                                     CheckedChanged="CheckBox_CheckedChanged"
                                     IsChecked="{Binding ESSELECCIONADO, Mode=TwoWay}" />
+
                                 <Border
                                     Grid.Row="1"
+                                    Margin="8,5,8,0"
                                     IsVisible="{Binding ESSELECCIONADO}"
                                     Style="{StaticResource BorderStyle2}">
+
                                     <Grid
                                         Margin="10,0"
                                         ColumnDefinitions="Auto,*"
                                         ColumnSpacing="3"
                                         HorizontalOptions="FillAndExpand">
+
                                         <Label
                                             Text="#"
                                             TextColor="#5c5c5c"
                                             VerticalOptions="Center" />
+
                                         <Entry
                                             Grid.Column="1"
                                             IsVisible="{Binding ESSELECCIONADO}"
@@ -111,53 +134,47 @@
 
                                 <Border
                                     Grid.Row="2"
+                                    Margin="8,0,8,5"
                                     IsVisible="{Binding ESSELECCIONADO}"
                                     Style="{StaticResource BorderStyle2}">
+
                                     <Entry
                                         IsVisible="{Binding ESSELECCIONADO}"
                                         Placeholder="Descipción (opcional)"
                                         PlaceholderColor="#a1a1a1"
                                         Text="{Binding DESCRIPCION}" />
+
                                 </Border>
+
                             </Grid>
                         </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
+
             </CollectionView>
             <Button
                 x:Name="Button_GuardarRegistroProductoSobrante"
                 Grid.Row="2"
-                Padding="25,15"
-                BackgroundColor="#2455a6"
+                Padding="70,0"
                 Clicked="Button_GuardarRegistroProductoSobrante_Clicked"
-                CornerRadius="20"
                 HorizontalOptions="Center"
                 Text="Guardar" />
-            <!--<Border BackgroundColor="Transparent" Background="Transparent" Stroke="Transparent"/>-->
+
         </Grid>
+
         <Button
             x:Name="Button_Regresar"
             Grid.Row="2"
-            Padding="70,0"
-            BackgroundColor="#3b72cc"
-            BorderColor="#3765b0"
+            BackgroundColor="#4da36d"
             BorderWidth="2"
             Clicked="Button_Regresar_Clicked"
             HorizontalOptions="Center"
             Text="Regresar" />
 
-        <!--</Border>-->
-
-
     </Grid>
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            <!--<Style x:Key="LabelStyle" TargetType="Label">
-                <Setter Property="FontSize" Value="12" />
-                <Setter Property="Padding" Value="12,0" />
-                <Setter Property="FontAttributes" Value="Bold" />
-            </Style>-->
             <Style x:Key="BorderStyle1" TargetType="Border">
                 <Setter Property="BackgroundColor" Value="Transparent" />
                 <Setter Property="Background" Value="#c5cbd4" />
@@ -176,10 +193,11 @@
     </ContentPage.Resources>
 
     <ContentPage.Background>
-        <LinearGradientBrush EndPoint="0.1,0.9">
-            <GradientStop Offset="0.1" Color="#5d92e8" />
-            <GradientStop Offset="1.0" Color="#044fc7" />
-        </LinearGradientBrush>
+
+        <Color>
+            #d5eddd
+        </Color>
+
     </ContentPage.Background>
 
 

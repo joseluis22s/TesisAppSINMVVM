@@ -5,7 +5,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="VENTA: Registrar venta a crédito"
     Appearing="ContentPage_Appearing"
+    HideSoftInputOnTapped="True"
     NavigationPage.HasBackButton="False">
+
     <Grid
         Margin="20"
         RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
@@ -117,6 +119,7 @@
             Text="Regresar" />
 
     </Grid>
+    
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -135,10 +138,11 @@
     </ContentPage.Resources>
 
     <ContentPage.Background>
-        <LinearGradientBrush EndPoint="0.1,0.9">
-            <GradientStop Offset="0.1" Color="#5d92e8" />
-            <GradientStop Offset="1.0" Color="#044fc7" />
-        </LinearGradientBrush>
+
+        <Color>
+            #d5eddd
+        </Color>
+
     </ContentPage.Background>
 
 </ContentPage>
