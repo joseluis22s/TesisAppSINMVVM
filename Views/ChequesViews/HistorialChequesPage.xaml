@@ -37,12 +37,12 @@
                     Text="Agregar nuevo registro" />
 
             </VerticalStackLayout>
-            
+
             <CollectionView
                 x:Name="CollectionView_HistorialCheques"
                 IsGrouped="True"
                 SelectionMode="None">
-                
+
                 <CollectionView.EmptyView>
                     <ContentView>
                         <VerticalStackLayout BackgroundColor="Transparent" VerticalOptions="Center">
@@ -52,7 +52,7 @@
                     </ContentView>
 
                 </CollectionView.EmptyView>
-                
+
                 <CollectionView.ItemTemplate>
 
                     <DataTemplate>
@@ -107,14 +107,14 @@
                 </CollectionView.GroupHeaderTemplate>
 
             </CollectionView>
-            
+
             <Button
                 x:Name="Button_Regresar"
                 Grid.Row="1"
                 Clicked="Button_Regresar_Clicked"
                 HorizontalOptions="Center"
                 Text="Regresar" />
-            
+
         </Grid>
     </Border>
 
