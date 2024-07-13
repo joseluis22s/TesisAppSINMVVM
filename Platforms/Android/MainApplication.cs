@@ -27,6 +27,11 @@ namespace TesisAppSINMVVM
                 handler.PlatformView.BackgroundTintList =
                 Android.Content.Res.ColorStateList.ValueOf(Colors.Transparent.ToAndroid());
             });
+            Microsoft.Maui.Handlers.DatePickerHandler.Mapper.AppendToMapping("DatePickerCustomization", (handler, view) =>
+            {
+                handler.PlatformView.BackgroundTintList =
+                Android.Content.Res.ColorStateList.ValueOf(Colors.Transparent.ToAndroid());
+            });
 
             return MauiProgram.CreateMauiApp();
         }

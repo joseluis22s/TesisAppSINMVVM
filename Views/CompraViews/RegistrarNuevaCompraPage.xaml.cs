@@ -32,7 +32,7 @@ public partial class RegistrarNuevaCompraPage : ContentPage
     public RegistrarNuevaCompraPage()
     {
         InitializeComponent();
-        Entry_ValorTotalVenta.Text = $"Valor total: {valorTotalVenta:F2}";
+        Label_ValorTotalVenta.Text = "$" + valorTotalVenta.ToString();
     }
     // NAVEGACIÓN
     #region NAVEGACIÓN
@@ -123,12 +123,12 @@ public partial class RegistrarNuevaCompraPage : ContentPage
     {
         Proveedor proveedor = (Proveedor)this.BindingContext;
         _nombreProveedor = proveedor.PROVEEDOR;
+        Label_NombreProveedor.Text = _nombreProveedor;
     }
     private async Task CargarProductos_CollectionView_Productos()
     {
         var productos = await ObtenerProductosDBAsync();
-        int aa = 0;
-        if (/*productos.Count*/aa == 0)
+        if (productos.Count == 0)
         {
             VerticalStackLayout_EmptyView.IsVisible = true;
             CollectionView_Productos.IsVisible = false;
@@ -152,7 +152,7 @@ public partial class RegistrarNuevaCompraPage : ContentPage
         List<int> numerosComprasExistentes = await ObtenerNumeroComprasDBAsync(_nombreProveedor);
         int numeroMayor = numerosComprasExistentes.Max();
         _numeroCompra = numeroMayor + 1;
-        Entry_NumeroCompra.Text = "Compra N°" + _numeroCompra;
+        Label_NumeroCompra.Text = _numeroCompra.ToString();
     }
     private async Task GuardarNuevaCompra()
     {
@@ -243,7 +243,7 @@ public partial class RegistrarNuevaCompraPage : ContentPage
                 }
             }
         }
-        Entry_ValorTotalVenta.Text = $"Valor total: {valorTotalVenta:F2}";
+        Label_ValorTotalVenta.Text = "$" + valorTotalVenta.ToString();
     }
     // LÓGICA
     #region LÓGICA

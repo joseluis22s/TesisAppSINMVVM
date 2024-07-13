@@ -56,7 +56,7 @@
             <Style TargetType="VerticalStackLayout">
                 <Setter Property="HorizontalOptions" Value="Center" />
             </Style>
-            <Style x:Key="Label_ContenidoBotones" TargetType="Button">
+            <Style x:Key="Label_ContenidoBotones" TargetType="Label">
                 <Setter Property="FontSize" Value="18" />
                 <Setter Property="Margin" Value="0,2" />
             </Style>
