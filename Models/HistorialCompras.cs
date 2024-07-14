@@ -10,7 +10,7 @@
         public int CANTIDAD { get; set; }
         public double PRECIO { get; set; }
         public double TOTAL { get; set; }
-        public double ABONO { get; set; }
-        public double SALDOPENDIENTE { get; set; }
+        //public double ABONO { get; set; }
+        //public double SALDOPENDIENTE { get; set; }
     }
 }

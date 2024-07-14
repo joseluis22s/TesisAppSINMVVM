@@ -191,13 +191,13 @@ namespace TesisAppSINMVVM.LocalDatabase
                 if (!historialCompraLocal.Any(hcl =>
                     hcl.PRODUCTO == historialCompras.PRODUCTO &&
                     hcl.DIAFECHA == historialCompras.DIAFECHA &&
-                    hcl.ABONO == historialCompras.ABONO &&
+                    //hcl.ABONO == historialCompras.ABONO &&
                     hcl.CANTIDAD == historialCompras.CANTIDAD &&
                     hcl.FECHA == historialCompras.FECHA &&
                     hcl.MEDIDA == historialCompras.MEDIDA &&
                     hcl.PRECIO == historialCompras.PRECIO &&
                     hcl.PROVEEDOR == historialCompras.PROVEEDOR &&
-                    hcl.SALDOPENDIENTE == historialCompras.SALDOPENDIENTE &&
+                    //hcl.SALDOPENDIENTE == historialCompras.SALDOPENDIENTE &&
                     hcl.TOTAL == historialCompras.TOTAL
                 ))
                 {
@@ -205,13 +205,13 @@ namespace TesisAppSINMVVM.LocalDatabase
                     {
                         PRODUCTO = historialCompras.PRODUCTO,
                         DIAFECHA = historialCompras.DIAFECHA,
-                        ABONO = historialCompras.ABONO,
+                        //ABONO = historialCompras.ABONO,
                         CANTIDAD = historialCompras.CANTIDAD,
                         FECHA = historialCompras.FECHA,
                         MEDIDA = historialCompras.MEDIDA,
                         PRECIO = historialCompras.PRECIO,
                         PROVEEDOR = historialCompras.PROVEEDOR,
-                        SALDOPENDIENTE = historialCompras.SALDOPENDIENTE,
+                        //SALDOPENDIENTE = historialCompras.SALDOPENDIENTE,
                         TOTAL = historialCompras.TOTAL
                     });
                 }
@@ -222,13 +222,13 @@ namespace TesisAppSINMVVM.LocalDatabase
                 if (!historialComprasFirebase.Any(hcf =>
                  hcf.PRODUCTO == historialCompras.PRODUCTO &&
                     hcf.DIAFECHA == historialCompras.DIAFECHA &&
-                    hcf.ABONO == historialCompras.ABONO &&
+                    //hcf.ABONO == historialCompras.ABONO &&
                     hcf.CANTIDAD == historialCompras.CANTIDAD &&
                     hcf.FECHA == historialCompras.FECHA &&
                     hcf.MEDIDA == historialCompras.MEDIDA &&
                     hcf.PRECIO == historialCompras.PRECIO &&
                     hcf.PROVEEDOR == historialCompras.PROVEEDOR &&
-                    hcf.SALDOPENDIENTE == historialCompras.SALDOPENDIENTE &&
+                    //hcf.SALDOPENDIENTE == historialCompras.SALDOPENDIENTE &&
                     hcf.TOTAL == historialCompras.TOTAL
                 ))
                 {
@@ -236,13 +236,13 @@ namespace TesisAppSINMVVM.LocalDatabase
                     {
                         PRODUCTO = historialCompras.PRODUCTO,
                         DIAFECHA = historialCompras.DIAFECHA,
-                        ABONO = historialCompras.ABONO,
+                        //ABONO = historialCompras.ABONO,
                         CANTIDAD = historialCompras.CANTIDAD,
                         FECHA = historialCompras.FECHA,
                         MEDIDA = historialCompras.MEDIDA,
                         PRECIO = historialCompras.PRECIO,
                         PROVEEDOR = historialCompras.PROVEEDOR,
-                        SALDOPENDIENTE = historialCompras.SALDOPENDIENTE,
+                        //SALDOPENDIENTE = historialCompras.SALDOPENDIENTE,
                         TOTAL = historialCompras.TOTAL
                     });
                 }
@@ -258,13 +258,13 @@ namespace TesisAppSINMVVM.LocalDatabase
                 {
                     PRODUCTO = hc.PRODUCTO,
                     DIAFECHA = hc.DIAFECHA,
-                    ABONO = hc.ABONO,
+                    //ABONO = hc.ABONO,
                     CANTIDAD = hc.CANTIDAD,
                     FECHA = hc.FECHA,
                     MEDIDA = hc.MEDIDA,
                     PRECIO = hc.PRECIO,
                     PROVEEDOR = hc.PROVEEDOR,
-                    SALDOPENDIENTE = hc.SALDOPENDIENTE,
+                    //SALDOPENDIENTE = hc.SALDOPENDIENTE,
                     TOTAL = hc.TOTAL
                 };
                 await _repoTblHistorialCompras.GuardarRegistroProductoAsync(historialCompra);

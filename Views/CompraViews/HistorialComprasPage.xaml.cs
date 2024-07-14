@@ -14,7 +14,6 @@ public partial class HistorialComprasPage : ContentPage
     private ProductoComprado_Repository _repoProductoComprado = new ProductoComprado_Repository();
     private string _nombreProveedor;
     public List<ProductoCompradoGroup> _productosComprados { get; private set; } = new List<ProductoCompradoGroup>();
-    public List<HistorialComprasGroup> _historialCompras { get; private set; } = new List<HistorialComprasGroup>();
 
     public HistorialComprasPage()
 	{

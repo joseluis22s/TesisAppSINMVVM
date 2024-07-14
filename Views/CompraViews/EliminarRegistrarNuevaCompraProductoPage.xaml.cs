@@ -163,16 +163,17 @@ public partial class EliminarRegistrarNuevaCompraProductoPage : ContentPage
             compra.CANTIDAD = _cantidad;
             compra.PRECIO = _precio;
             compra.TOTAL = _total;
-            compra.ABONO = _abono;
-            compra.SALDOPENDIENTE = _saldo;
+            //compra.ABONO = _abono;
+            //compra.SALDOPENDIENTE = _saldo;
 
             string mensaje2 = "PROVEEDOR :  " + compra.PROVEEDOR +
                              "\nPRODUCTO   :  " + compra.PRODUCTO + " - " + compra.MEDIDA +
                              "\nCANTIDAD    :  " + "x" + compra.CANTIDAD +
                              "\nPRECIO         :  " + "$" + compra.PRECIO +
-                             "\nTOTAL           :  " + "$" + compra.TOTAL +
-                             "\nABONO          :  " + "$" + compra.ABONO +
-                             "\nSALDO           :  " + "$" + compra.SALDOPENDIENTE;
+                             "\nTOTAL           :  " + "$" + compra.TOTAL /*+*/
+                             //"\nABONO          :  " + "$" + compra.ABONO +
+                             //"\nSALDO           :  " + "$" + compra.SALDOPENDIENTE;
+                             ;
             bool resultado3 = await DisplayAlert("Mensaje de confirmación", mensaje2, "Confirmar", "Cancelar");
             if (resultado3)
             {

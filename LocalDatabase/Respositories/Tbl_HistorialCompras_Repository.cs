@@ -29,8 +29,8 @@ namespace TesisAppSINMVVM.Database.Respositories
                 CANTIDAD = registroCompra.CANTIDAD,
                 PRECIO = registroCompra.PRECIO,
                 TOTAL = registroCompra.TOTAL,
-                ABONO = registroCompra.ABONO,
-                SALDOPENDIENTE = registroCompra.SALDOPENDIENTE
+                //ABONO = registroCompra.ABONO,
+                //SALDOPENDIENTE = registroCompra.SALDOPENDIENTE
             };
             bool existeHistorialCompra = await VerificarExistenciaHistorialCompraAsync(tbl_HistorialCompra);
             if (!existeHistorialCompra)
@@ -56,9 +56,9 @@ namespace TesisAppSINMVVM.Database.Respositories
                 x.FECHA == compra.FECHA &&
                 x.CANTIDAD == compra.CANTIDAD &&
                 x.PRECIO == compra.PRECIO &&
-                x.TOTAL == compra.TOTAL &&
+                x.TOTAL == compra.TOTAL /*&&
                 x.ABONO == compra.ABONO &&
-                x.DIAFECHA == compra.DIAFECHA
+                x.DIAFECHA == compra.DIAFECHA*/
             ).CountAsync();
             if (resultado == 0)
             {

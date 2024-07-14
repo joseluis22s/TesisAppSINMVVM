@@ -58,8 +58,8 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
                         CANTIDAD = p.CANTIDAD,
                         PRECIO = p.PRECIO,
                         TOTAL = p.TOTAL,
-                        ABONO = p.ABONO,
-                        SALDOPENDIENTE = p.SALDOPENDIENTE,
+                        //ABONO = p.ABONO,
+                        //SALDOPENDIENTE = p.SALDOPENDIENTE,
                     })
                     .Where(p => !historialComprasLocal.Any(pl => pl.PRODUCTO == p.PRODUCTO));
 
