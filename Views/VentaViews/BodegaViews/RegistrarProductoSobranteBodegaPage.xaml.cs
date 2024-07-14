@@ -162,50 +162,58 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
     }
     private async Task GuardarProductoSobranteAsync()
     {
-        List<ProductoInventarioBodega> inventarioProductosBodega = new List<ProductoInventarioBodega>();
-        _AuxProductosInventario = (ObservableCollection<AuxProductoInventarioBodega>)CollectionView_RegistrarProductoSobranteBodega.ItemsSource;
-
-        foreach (var p in _AuxProductosInventario)
+        NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+        if (accessType == NetworkAccess.Internet)
         {
-            if (p.ESSELECCIONADO == true)
+            List<ProductoInventarioBodega> inventarioProductosBodega = new List<ProductoInventarioBodega>();
+            _AuxProductosInventario = (ObservableCollection<AuxProductoInventarioBodega>)CollectionView_RegistrarProductoSobranteBodega.ItemsSource;
+
+            foreach (var p in _AuxProductosInventario)
             {
-                if (string.IsNullOrEmpty(p.CANTIDAD))
+                if (p.ESSELECCIONADO == true)
                 {
-                    _enEjecucion = false;
-                    await Toast.Make("¡Los campos de cantidad no deben estar vacíos!", ToastDuration.Long).Show();
-                    return;
-                }
-                else
-                {
-                    inventarioProductosBodega.Add(new ProductoInventarioBodega
+                    if (string.IsNullOrEmpty(p.CANTIDAD))
                     {
-                        PRODUCTO = p.PRODUCTO,
-                        MEDIDA = p.MEDIDA,
-                        CANTIDAD = int.Parse(p.CANTIDAD),
-                        DESCRIPCION = p.DESCRIPCION,
-                        FECHAGUARDADO = DateTime.Now.ToString("dd/MM/yyyy"),
-                        DIAFECHAGUARDADO = DateTime.Now.ToString("dddd, dd MMMM")
-                    });
+                        _enEjecucion = false;
+                        await Toast.Make("¡Los campos de cantidad no deben estar vacíos!", ToastDuration.Long).Show();
+                        return;
+                    }
+                    else
+                    {
+                        inventarioProductosBodega.Add(new ProductoInventarioBodega
+                        {
+                            PRODUCTO = p.PRODUCTO,
+                            MEDIDA = p.MEDIDA,
+                            CANTIDAD = int.Parse(p.CANTIDAD),
+                            DESCRIPCION = p.DESCRIPCION,
+                            FECHAGUARDADO = DateTime.Now.ToString("dd/MM/yyyy"),
+                            DIAFECHAGUARDADO = DateTime.Now.ToString("dddd, dd MMMM")
+                        });
+                    }
                 }
             }
-        }
-        if (inventarioProductosBodega.Count == 0)
-        {
-            await Toast.Make("Selecione al menos un producto", ToastDuration.Long   ).Show();
+            if (inventarioProductosBodega.Count == 0)
+            {
+                await Toast.Make("Selecione al menos un producto", ToastDuration.Long).Show();
+            }
+            else
+            {
+                foreach (var p in _AuxProductosInventario)
+                {
+                    p.CANTIDAD = "";
+                    p.DESCRIPCION = "";
+                    p.ESSELECCIONADO = false;
+                }
+                foreach (var productoInventarioBodega in inventarioProductosBodega)
+                {
+                    await GuardarProductosInventarioDBAsync(productoInventarioBodega);
+                }
+                await Toast.Make("¡Registro guardado!", ToastDuration.Long).Show();
+            }
         }
         else
         {
-            foreach (var p in _AuxProductosInventario)
-            {
-                p.CANTIDAD = "";
-                p.DESCRIPCION = "";
-                p.ESSELECCIONADO = false;
-            }
-            foreach (var productoInventarioBodega in inventarioProductosBodega)
-            {
-                await GuardarProductosInventarioDBAsync(productoInventarioBodega);
-            }
-            await Toast.Make("¡Registro guardado!",ToastDuration.Long).Show();
+            await Toast.Make("Primero debe conectarse a internet", ToastDuration.Long).Show();
         }
     }
     #endregion
@@ -278,5 +286,5 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
     }
     #endregion
 
-    
+
 }

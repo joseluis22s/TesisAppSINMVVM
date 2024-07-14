@@ -35,7 +35,28 @@ namespace TesisAppSINMVVM.Database.Respositories
                 CONTRASENA = contrasena,
                 CORREO = correo,
             };
-            await conn.InsertAsync(Usuario);
+
+            bool existeNombreUsuario = await VerificarExistenciaNombreUsuarioAsync(usuario);
+            if (!existeNombreUsuario)
+            {
+                await conn.InsertAsync(Usuario);
+            }
+        }
+        public async Task<List<Tbl_Usuario>> ObtenerUsuariosAsync()
+        {
+            await InitAsync();
+            return await conn.Table<Tbl_Usuario>().ToListAsync();
+        }
+        public async Task<bool> VerificarExistenciaNombreUsuarioAsync(string usuario)
+        {
+            await InitAsync();
+            int resultado = await conn.Table<Tbl_Usuario>().Where(x =>
+                x.USUARIO == usuario).CountAsync();
+            if (resultado == 0)
+            {
+                return false;
+            }
+            return true;
         }
 
         public async Task<bool> VerificarContrasenaCorrectaAsync(string nombreUsuario, string contrasena)

@@ -9,6 +9,7 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
     {
         private Tbl_Comprador_Repository _repoTblComprador = new Tbl_Comprador_Repository();
         public Comprador_Repository() { }
+
         #region ESCRITURA
         public async Task GuardarNuevoCompradorAsync(Comprador comprador)
         {
@@ -21,10 +22,10 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
                          .AddAsync(comprador);
                 await _repoTblComprador.GuardarCompradorAsync(comprador);
             }
-            else
-            {
-                await _repoTblComprador.GuardarCompradorAsync(comprador);
-            }
+            //else
+            //{
+            //    await _repoTblComprador.GuardarCompradorAsync(comprador);
+            //}
         }
         #endregion
 

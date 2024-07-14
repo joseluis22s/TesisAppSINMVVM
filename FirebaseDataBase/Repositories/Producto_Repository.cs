@@ -10,6 +10,26 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
         private Tbl_Producto_Repository _repoTblProducto = new Tbl_Producto_Repository();
         public Producto_Repository() { }
 
+        #region ESCRITURA
+        public async Task GuardarNuevoProductoAsync(Producto producto)
+        {
+            NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+            if (accessType == NetworkAccess.Internet)
+            {
+                await CrossCloudFirestore.Current
+                             .Instance
+                             .Collection("PRODUCTO")
+                             .AddAsync(producto);
+                await _repoTblProducto.GuardarProductoAsync(producto);
+            }
+            //else
+            //{
+            //    await _repoTblProducto.GuardarProductoAsync(producto);
+            //}
+        }
+        #endregion
+
+        #region LECTURA
         public async Task<List<Tbl_Producto>> ObtenerProductosAsync()
         {
             var documentos = await CrossCloudFirestore.Current
@@ -34,22 +54,7 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
             productos.AddRange(productosToAdd);
             return productos;
         }
+        #endregion
 
-        public async Task GuardarNuevoProductoAsync(Producto producto)
-        {
-            NetworkAccess accessType = Connectivity.Current.NetworkAccess;
-            if (accessType == NetworkAccess.Internet)
-            {
-                await CrossCloudFirestore.Current
-                             .Instance
-                             .Collection("PRODUCTO")
-                             .AddAsync(producto);
-                await _repoTblProducto.GuardarProductoAsync(producto);
-            }
-            else
-            {
-                await _repoTblProducto.GuardarProductoAsync(producto);
-            }
-        }
     }
 }

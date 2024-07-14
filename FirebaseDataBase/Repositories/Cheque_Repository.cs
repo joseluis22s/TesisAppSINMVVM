@@ -22,10 +22,10 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
                          .AddAsync(cheque);
                 await _repoTblCheque.GuardarChequeAsync(cheque);
             }
-            else
-            {
-                await _repoTblCheque.GuardarChequeAsync(cheque);
-            }
+            //else
+            //{
+            //    await _repoTblCheque.GuardarChequeAsync(cheque);
+            //}
         }
         #endregion
 
@@ -58,28 +58,8 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
             return cheques;
         }
 
-
         public async Task<bool> VerificarExistenciaChequeAsync(int numeroCheque)
         {
-            //var querys = await CrossCloudFirestore.Current
-            //                         .Instance
-            //                         .Collection("CHEQUE")
-            //                         .WhereEqualsTo("NUMERO", numeroCheque)
-            //                         .GetAsync();
-            //var chequesContadosFirebase = query.ToObjects<Cheque>().ToList().Count();
-
-            //var chequesLocaal = await _repoTblCheque.ObtenerChequesAsync();
-            //int chequesContadosLocal = chequesLocal.Count();
-
-            //List<Tbl_Cheque> chequess = new List<Tbl_Cheque>(chequesLocal);
-
-            //if (chequesContadosFirebase != 0)
-            //{
-            //    return true;
-            //}
-            //return false;
-
-
             var query = await CrossCloudFirestore.Current
                                       .Instance
                                       .Collection("CHEQUE")

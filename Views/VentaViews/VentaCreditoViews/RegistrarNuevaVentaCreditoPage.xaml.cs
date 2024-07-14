@@ -46,8 +46,8 @@ public partial class RegistrarNuevaVentaCreditoPage : ContentPage
         //TODO: Eliminar página creada y su condición, no se pa que se usa
         //if (!_paginaCargada)
         //{
-            base.OnAppearing();
-            await CargarDatosPicker_Comprador();
+        base.OnAppearing();
+        await CargarDatosPicker_Comprador();
         //    _paginaCargada = true;
         //}
     }
@@ -112,35 +112,43 @@ public partial class RegistrarNuevaVentaCreditoPage : ContentPage
     #region LÓGICA PARA EVENTOS
     private async Task AgregarNuevoComprador()
     {
-        string nuevoComprador;
-        do
+        NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+        if (accessType == NetworkAccess.Internet)
         {
-            nuevoComprador = await DisplayPromptAsync("NUEVO COMPRADOR", "Ingrese el nombre del nuevo comprador:", "AGREGAR", "CANCELAR", null, -1, Keyboard.Create(KeyboardFlags.CapitalizeCharacter));
-            if (nuevoComprador is not null)
+            string nuevoComprador;
+            do
             {
-                if (nuevoComprador != "")
+                nuevoComprador = await DisplayPromptAsync("NUEVO COMPRADOR", "Ingrese el nombre del nuevo comprador:", "AGREGAR", "CANCELAR", null, -1, Keyboard.Create(KeyboardFlags.CapitalizeCharacter));
+                if (nuevoComprador is not null)
                 {
-                    nuevoComprador = nuevoComprador.Trim().ToUpper();
-                    bool existeProveedor = _tblCompradores.Any(p => p.COMPRADOR == nuevoComprador);
-                    if (!existeProveedor)
+                    if (nuevoComprador != "")
                     {
-                        Comprador comprador = new Comprador();
-                        comprador.COMPRADOR = nuevoComprador;
-                        await GuardarNuevoCompradorDBAsync(comprador);
-                        await CargarDatosPicker_Comprador();
-                        await Toast.Make("Se ha guardado el nuevo comprador", ToastDuration.Long).Show();
+                        nuevoComprador = nuevoComprador.Trim().ToUpper();
+                        bool existeProveedor = _tblCompradores.Any(p => p.COMPRADOR == nuevoComprador);
+                        if (!existeProveedor)
+                        {
+                            Comprador comprador = new Comprador();
+                            comprador.COMPRADOR = nuevoComprador;
+                            await GuardarNuevoCompradorDBAsync(comprador);
+                            await CargarDatosPicker_Comprador();
+                            await Toast.Make("Se ha guardado el nuevo comprador", ToastDuration.Long).Show();
+                        }
+                        else
+                        {
+                            await Toast.Make("Comprador ya existente", ToastDuration.Long).Show();
+                        }
                     }
                     else
                     {
-                        await Toast.Make("Comprador ya existente", ToastDuration.Long).Show();
+                        await Toast.Make("El campo no debe estar vacío").Show();
                     }
                 }
-                else
-                {
-                    await Toast.Make("El campo no debe estar vacío").Show();
-                }
-            }
-        } while (nuevoComprador == "");
+            } while (nuevoComprador == "");
+        }
+        else
+        {
+            await Toast.Make("Primero debe conectarse a internet", ToastDuration.Long).Show();
+        }
     }
     private async Task Border_Picker_Comprador_Pulsado()
     {
@@ -331,5 +339,5 @@ public partial class RegistrarNuevaVentaCreditoPage : ContentPage
     }
     #endregion
 
-    
+
 }

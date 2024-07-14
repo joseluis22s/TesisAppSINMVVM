@@ -14,6 +14,8 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
         private Tbl_ProductosInventario_Repository _repoProductosInventario = new Tbl_ProductosInventario_Repository();
         public ProductoInventarioBodega_Repository() { }
 
+
+        #region ESCRITURA
         public async Task GuardarProductosInventarioAsync(ProductoInventarioBodega productoInventarioBodega)
         {
             NetworkAccess accessType = Connectivity.Current.NetworkAccess;
@@ -25,11 +27,14 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
                              .AddAsync(productoInventarioBodega);
                 await _repoProductosInventario.GuardarProductosInventarioAsync(productoInventarioBodega);
             }
-            else
-            {
-                await _repoProductosInventario.GuardarProductosInventarioAsync(productoInventarioBodega);
-            }
+            //else
+            //{
+            //    await _repoProductosInventario.GuardarProductosInventarioAsync(productoInventarioBodega);
+            //}
         }
+        #endregion
+
+        #region LECTURA
         public static async Task<List<ProductoInventarioBodega>> ObtenerProductosInventarioAsync()
         {
             var documentos = await CrossCloudFirestore.Current
@@ -39,6 +44,6 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
             var inventarioProductos = documentos.ToObjects<ProductoInventarioBodega>().ToList();
             return inventarioProductos;
         }
-
+        #endregion
     }
 }

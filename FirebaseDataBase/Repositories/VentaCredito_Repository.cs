@@ -14,15 +14,7 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
         private Tbl_VentaCredito_Repository _repoTblVentaCredito = new Tbl_VentaCredito_Repository();
         public VentaCredito_Repository() { }
 
-        public static async Task<List<VentaCredito>> ObtenerVentasCreditoAsync()
-        {
-            var documentos = await CrossCloudFirestore.Current
-                                         .Instance
-                                         .Collection("VENTACREDITO")
-                                         .GetAsync();
-            var ventasCredito = documentos.ToObjects<VentaCredito>().ToList();
-            return ventasCredito;
-        }
+        #region ESCRITURA
         public async Task GuardarVentaCreditoAsync(VentaCredito ventaCredito)
         {
             NetworkAccess accessType = Connectivity.Current.NetworkAccess;
@@ -34,10 +26,24 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
                              .AddAsync(ventaCredito);
                 await _repoTblVentaCredito.GuardarVentaCreditoAsync(ventaCredito);
             }
-            else
-            {
-                await _repoTblVentaCredito.GuardarVentaCreditoAsync(ventaCredito);
-            }
+            //else
+            //{
+            //    await _repoTblVentaCredito.GuardarVentaCreditoAsync(ventaCredito);
+            //}
         }
+        #endregion
+
+        #region LECTURA
+        public static async Task<List<VentaCredito>> ObtenerVentasCreditoAsync()
+        {
+            var documentos = await CrossCloudFirestore.Current
+                                         .Instance
+                                         .Collection("VENTACREDITO")
+                                         .GetAsync();
+            var ventasCredito = documentos.ToObjects<VentaCredito>().ToList();
+            return ventasCredito;
+        }
+        #endregion
+
     }
 }

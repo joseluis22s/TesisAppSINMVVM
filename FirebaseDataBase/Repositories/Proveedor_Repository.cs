@@ -29,10 +29,10 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
                              .AddAsync(proveedor);
                 await _repoTblProveedor.GuardarNuevoProveedorAsync(proveedor);
             }
-            else
-            {
-                await _repoTblProveedor.GuardarNuevoProveedorAsync(proveedor);
-            }
+            //else
+            //{
+            //    await _repoTblProveedor.GuardarNuevoProveedorAsync(proveedor);
+            //}
         }
         public async Task BorrarProveedorAsync(Proveedor proveedor)
         {

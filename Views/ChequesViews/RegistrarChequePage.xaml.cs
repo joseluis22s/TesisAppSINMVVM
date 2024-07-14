@@ -2,6 +2,7 @@ using CommunityToolkit.Maui.Alerts;
 using TesisAppSINMVVM.Models;
 using TesisAppSINMVVM.FirebaseDataBase.Repositories;
 using TesisAppSINMVVM.LocalDatabase.Tables;
+using CommunityToolkit.Maui.Core;
 
 namespace TesisAppSINMVVM.Views.ChequesViews;
 
@@ -76,52 +77,60 @@ public partial class RegistrarChequePage : ContentPage
         _tblProveedores = await ObtenerProveedoresDBAsync();
         Picker_Proveedores.ItemsSource = _tblProveedores;
     }
-    
     private async Task GuardarRegistroChequeAsync()
     {
-        string resultado = ControlarCamposvalidosCargarCheque();
-        if (resultado == "true")
+        NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+        if (accessType == NetworkAccess.Internet)
         {
-            var itemProveedor = (Tbl_Proveedor)Picker_Proveedores.SelectedItem;
-            Cheque cheque = new Cheque()
+            string resultado = ControlarCamposvalidosCargarCheque();
+            if (resultado == "true")
             {
-                NUMERO = int.Parse(Entry_NumeroCheque.Text),
-                MONTO = double.Parse(Entry_MontoChequeEntero.Text + "." + Entry_MontoChequeDecimal.Text),
-                PROVEEDOR = itemProveedor.PROVEEDOR,
-                FECHACOBRO = DatePicker_FechaCobro.Date.ToString("dd/MM/yyyy"),
-                FECHAEMISION = DatePicker_FechaEmision.Date.ToString("dd/MM/yyyy"),
-                DIAFECHACOBRO = DatePicker_FechaCobro.Date.ToString("dddd, dd MMMM yyyy")
-            };
-            bool existeCheque = await VerificarExistenciaChequeDBAsync(cheque.NUMERO);
-            if (!existeCheque)
-            {
+                var itemProveedor = (Tbl_Proveedor)Picker_Proveedores.SelectedItem;
+                Cheque cheque = new Cheque()
+                {
+                    NUMERO = int.Parse(Entry_NumeroCheque.Text),
+                    MONTO = double.Parse(Entry_MontoChequeEntero.Text + "." + Entry_MontoChequeDecimal.Text),
+                    PROVEEDOR = itemProveedor.PROVEEDOR,
+                    FECHACOBRO = DatePicker_FechaCobro.Date.ToString("dd/MM/yyyy"),
+                    FECHAEMISION = DatePicker_FechaEmision.Date.ToString("dd/MM/yyyy"),
+                    DIAFECHACOBRO = DatePicker_FechaCobro.Date.ToString("dddd, dd MMMM yyyy")
+                };
+                bool existeCheque = await VerificarExistenciaChequeDBAsync(cheque.NUMERO);
+                if (!existeCheque)
+                {
 
-                string mensaje = "CHEQUE                    :  #" + cheque.NUMERO +
-                               "\nMONTO                     :  $" + cheque.MONTO +
-                               "\nPROVEEDOR             :  " + cheque.PROVEEDOR +
-                               "\nFECHA DE COBRO    :  " + cheque.FECHACOBRO +
-                               "\nFECHA DE EMISIÓN :  " + cheque.FECHAEMISION;
-                bool resultado1 = await DisplayAlert("Mensaje de confirmación", mensaje, "Confirmar", "Cancelar");
-                if (resultado1)
+                    string mensaje = "CHEQUE                    :  #" + cheque.NUMERO +
+                                   "\nMONTO                     :  $" + cheque.MONTO +
+                                   "\nPROVEEDOR             :  " + cheque.PROVEEDOR +
+                                   "\nFECHA DE COBRO    :  " + cheque.FECHACOBRO +
+                                   "\nFECHA DE EMISIÓN :  " + cheque.FECHAEMISION;
+                    bool resultado1 = await DisplayAlert("Mensaje de confirmación", mensaje, "Confirmar", "Cancelar");
+                    if (resultado1)
+                    {
+                        OcultarTeclado();
+                        await GuardarNuevoResgitroChequesDBAsync(cheque);
+                        ReiniciarCampos();
+                        await Toast.Make("¡Registro guardado!").Show();
+                    }
+                }
+                else
                 {
                     OcultarTeclado();
-                    await GuardarNuevoResgitroChequesDBAsync(cheque);
-                    ReiniciarCampos();
-                    await Toast.Make("¡Registro guardado!").Show();
+                    await Toast.Make("Cheque registrado anteriormente").Show();
                 }
+
             }
             else
             {
                 OcultarTeclado();
-                await Toast.Make("Cheque registrado anteriormente").Show();
+                await Toast.Make(resultado).Show();
             }
-
         }
         else
         {
-            OcultarTeclado();
-            await Toast.Make(resultado).Show();
+            await Toast.Make("Primero debe conectarse a internet", ToastDuration.Long).Show();
         }
+        
     }
 
     #endregion

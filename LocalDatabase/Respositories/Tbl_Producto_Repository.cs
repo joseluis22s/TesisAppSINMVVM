@@ -22,21 +22,25 @@ namespace TesisAppSINMVVM.Database.Respositories
             int resultado = await conn.Table<Tbl_Producto>().CountAsync(producto => 
                 producto.PRODUCTO == productoNOmbre &&
                 producto.MEDIDA == medida);
-            if (resultado != 0)
+            if (resultado == 0)
             {
-                return true;
+                return false;
             }
-            return false;
+            return true;
         }
         public async Task GuardarProductoAsync(Producto producto)
         {
             await InitAsync();
             Tbl_Producto Producto = new Tbl_Producto()
             {
-                PRODUCTO = producto.PRODUCTO
+                PRODUCTO = producto.PRODUCTO,
+                MEDIDA = producto.MEDIDA
             };
             bool existeProduto = await VerificarExistenciaProductoAsync(producto.PRODUCTO, producto.MEDIDA);
-            await conn.InsertAsync(Producto);
+            if (!existeProduto)
+            {
+                await conn.InsertAsync(Producto);
+            }
         }
         public async Task<List<Tbl_Producto>> ObtenerProductosAsync()
         {

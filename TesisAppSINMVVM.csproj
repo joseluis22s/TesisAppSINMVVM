@@ -92,17 +92,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Views\CompraViews\EliminarRegistrarNuevaCompraProductoPage.xaml.cs">
-	    <DependentUpon>EliminarRegistrarNuevaCompraProductoPage.xaml</DependentUpon>
-	  </Compile>
 	  <Compile Update="Views\ModalViews\EliminarAgregarNuevoCompradorPage.xaml.cs">
 	    <DependentUpon>EliminarAgregarNuevoCompradorPage.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\ChequesViews\RegistrarChequePage.xaml.cs">
 	    <DependentUpon>RegistrarChequePage.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="Views\EliminarCompraPage.xaml.cs">
-	    <DependentUpon>EliminarCompraPage.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\LoginViews\CrearNuevoUsuarioPage.xaml.cs">
 	    <DependentUpon>CrearNuevoUsuarioPage.xaml</DependentUpon>
@@ -143,9 +137,6 @@
 	  <MauiXaml Update="Views\CompraViews\ProveedoresPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\CompraViews\EliminarRegistrarNuevaCompraProductoPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	  <MauiXaml Update="Views\ModalViews\AgregarNuevoProductoPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -153,9 +144,6 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ChequesViews\ChequesPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\EliminarCompraPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\LoginViews\CrearNuevoUsuarioPage.xaml">

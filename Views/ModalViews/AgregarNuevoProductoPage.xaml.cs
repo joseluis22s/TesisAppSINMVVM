@@ -9,10 +9,12 @@ namespace TesisAppSINMVVM.Views.ModalViews;
 public partial class AgregarNuevoProductoPage : ContentPage
 {
     private Producto_Repository _repoProducto;
-	public AgregarNuevoProductoPage()
-	{
-		InitializeComponent();
-	}
+    private bool _enEjecucion;
+
+    public AgregarNuevoProductoPage()
+    {
+        InitializeComponent();
+    }
 
 
 
@@ -29,37 +31,23 @@ public partial class AgregarNuevoProductoPage : ContentPage
     #region EVENTOS
     private async void Button_GuardarNuevoProducto_Clicked(object sender, EventArgs e)
     {
-        string nombreProducto = Entry_Producto.Text;
-        string medida = Entry_Medida.Text;
-        if (string.IsNullOrEmpty(nombreProducto) || string.IsNullOrEmpty(medida))
+        if (_enEjecucion)
         {
-            await Toast.Make("Llene todos los campos",ToastDuration.Long).Show();
+            return;
         }
-        else
-        {
-            var productos = await ObtenerProductosDBAsync();
-            nombreProducto = nombreProducto.Trim().ToUpper();
-            medida = medida.Trim().ToUpper();
-            bool existeProducto = productos.Any(p => p.PRODUCTO == nombreProducto && p.MEDIDA == medida);
-            if (!existeProducto)
-            {
-                Producto producto = new Producto();
-                producto.PRODUCTO = nombreProducto;
-                producto.MEDIDA = medida;
-                await GuardarNuevoProductoDBAsync(producto);
-                OcultarTeclado();
-                await Toast.Make("Se ha guardado el nuevo producto", ToastDuration.Long).Show();
-                await AgregarNuevoProductoPagePopModalAsync(false);
-            }
-            else
-            {
-                await Toast.Make("Producto ya existente", ToastDuration.Long).Show();
-            }
-        }
+        _enEjecucion = true;
+        await GuardarNuevoProductoAsync();
+        _enEjecucion = false;
     }
     private async void Button_Cancelar_Clicked(object sender, EventArgs e)
     {
+        if (_enEjecucion)
+        {
+            return;
+        }
+        _enEjecucion = true;
         await Cancelar();
+        _enEjecucion = false;
     }
     protected override bool OnBackButtonPressed()
     {
@@ -71,6 +59,44 @@ public partial class AgregarNuevoProductoPage : ContentPage
 
     // LÓGICA PARA EVENTOS
     #region LÓGICA PARA EVENTOS
+    private async Task GuardarNuevoProductoAsync()
+    {
+        NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+        if (accessType == NetworkAccess.Internet)
+        {
+            string nombreProducto = Entry_Producto.Text;
+            string medida = Entry_Medida.Text;
+            if (string.IsNullOrEmpty(nombreProducto) || string.IsNullOrEmpty(medida))
+            {
+                await Toast.Make("Llene todos los campos", ToastDuration.Long).Show();
+            }
+            else
+            {
+                var productos = await ObtenerProductosDBAsync();
+                nombreProducto = nombreProducto.Trim().ToUpper();
+                medida = medida.Trim().ToUpper();
+                bool existeProducto = productos.Any(p => p.PRODUCTO == nombreProducto && p.MEDIDA == medida);
+                if (!existeProducto)
+                {
+                    Producto producto = new Producto();
+                    producto.PRODUCTO = nombreProducto;
+                    producto.MEDIDA = medida;
+                    await GuardarNuevoProductoDBAsync(producto);
+                    OcultarTeclado();
+                    await Toast.Make("Se ha guardado el nuevo producto", ToastDuration.Long).Show();
+                    await AgregarNuevoProductoPagePopModalAsync(false);
+                }
+                else
+                {
+                    await Toast.Make("Producto ya existente", ToastDuration.Long).Show();
+                }
+            }
+        }
+        else
+        {
+            await Toast.Make("Primero debe conectarse a internet", ToastDuration.Long).Show();
+        }
+    }
     private async Task Cancelar()
     {
         string nombreProducto = Entry_Producto.Text;
@@ -125,7 +151,7 @@ public partial class AgregarNuevoProductoPage : ContentPage
     private void OcultarTeclado()
     {
         Entry_Producto.Unfocus();
-        Entry_Medida.Unfocus(); 
+        Entry_Medida.Unfocus();
     }
     #endregion
 }

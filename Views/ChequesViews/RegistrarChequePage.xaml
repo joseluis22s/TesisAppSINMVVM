@@ -76,7 +76,7 @@
                                         TextChanged="Entry_MontoCheque_TextChanged" />
 
                                 </Grid>
-                                
+
                             </Border>
 
                             <Label

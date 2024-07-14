@@ -19,7 +19,11 @@ namespace TesisAppSINMVVM.LocalDatabase.Respositories
             conn = new SQLiteAsyncConnection(Constantes.DatabasePath, Constantes.Flags);
             var resultado = await conn.CreateTableAsync<Tbl_ProductoComprado>();
         }
-
+        public async Task<List<Tbl_ProductoComprado>> ObtenerTodosProductosCompradosAsync()
+        {
+            await InitAsync();
+            return await conn.Table<Tbl_ProductoComprado>().ToListAsync();
+        }
         public async Task<List<Tbl_ProductoComprado>> ObtenerProductosCompradosAsync(string nombreProveedor)
         {
             await InitAsync();

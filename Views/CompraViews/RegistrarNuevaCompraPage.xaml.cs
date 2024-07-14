@@ -206,6 +206,8 @@ public partial class RegistrarNuevaCompraPage : ContentPage
                 {
                     await GuardarNuevaCompraProductoCompradoDBAsync(productoComprado);
                 }
+                //TODO: HAcer un contador de los que estan aquí y los que estan en Firebase, ya que
+                // ya que se puede ir la conexión en medio del guardado
                 await Toast.Make("¡Registro guardado!", ToastDuration.Long).Show();
             }
         }

@@ -1,6 +1,7 @@
 ﻿using Plugin.CloudFirestore;
 using TesisAppSINMVVM.Database.Respositories;
 using TesisAppSINMVVM.FirebaseDataBase.Repositories;
+using TesisAppSINMVVM.LocalDatabase.Respositories;
 using TesisAppSINMVVM.LocalDatabase.Tables;
 using TesisAppSINMVVM.Models;
 
@@ -12,7 +13,8 @@ namespace TesisAppSINMVVM.LocalDatabase
         private Tbl_Proveedor_Repository _repoTblProveedor = new Tbl_Proveedor_Repository();
         private Cheque_Repository _repoCheque = new Cheque_Repository();
         private Tbl_Cheque_Repository _repoTblCheque = new Tbl_Cheque_Repository();
-        private Tbl_HistorialCompras_Repository _repoTblHistorialCompras = new Tbl_HistorialCompras_Repository();
+        private ProductoComprado_Repository _repoProductoComprado = new ProductoComprado_Repository();
+        private Tbl_ProductoComprado_Repository _repoTblProductoComprado = new Tbl_ProductoComprado_Repository();
         private Comprador_Repository _repoComprador = new Comprador_Repository();
         private Tbl_Comprador_Repository _repoTblComprador = new Tbl_Comprador_Repository();
         private Producto_Repository _repoProducto = new Producto_Repository();
@@ -53,13 +55,14 @@ namespace TesisAppSINMVVM.LocalDatabase
         {
             await SincronizacionCheques();
             await SincronizacionCompradores();
-            await SincronizacionProductoComprado();
             await SincronizacionProductos();
+            await SincronizacionProductoComprado();
             await SincronizacionProductosInventario();
             await SincronizacionProveedores();
 
             await SincronizacionVentaCredito();
         }
+
         #region CHEQUES
         private async Task SincronizacionCheques()
         {
@@ -174,7 +177,96 @@ namespace TesisAppSINMVVM.LocalDatabase
         #region HISTORIALCOMPRAS
         private async Task SincronizacionProductoComprado()
         {
-            
+            var documentos = await CrossCloudFirestore.Current
+                                         .Instance
+                                         .Collection("PRODUCTOCOMPRADO")
+                                         .GetAsync();
+            var productosCompradoFirebase = documentos.ToObjects<ProductoComprado>().ToList();
+            List<Tbl_ProductoComprado> productosCompradoLocal = await _repoProductoComprado.ObtenerTodosProductosCompradosAsync();
+
+            List<Tbl_ProductoComprado> productosCompradoLocalParaAgregar = new List<Tbl_ProductoComprado>();
+            List<ProductoComprado> productosCompradoFirebaseParaAgregar = new List<ProductoComprado>();
+
+            // Agregar productos comprado de Firebase a la lista local
+            foreach (var productoComprado in productosCompradoFirebase)
+            {
+                if (!productosCompradoLocal.Any(pcl => 
+                    pcl.NUMEROCOMPRA == productoComprado.NUMEROCOMPRA &&
+                    pcl.PRODUCTO == productoComprado.PRODUCTO &&
+                    pcl.MEDIDA == productoComprado.MEDIDA &&
+                    pcl.CANTIDAD == productoComprado.CANTIDAD &&
+                    pcl.PRECIO == productoComprado.PRECIO &&
+                    pcl.TOTAL == productoComprado.TOTAL &&
+                    pcl.FECHAGUARDADO == productoComprado.FECHAGUARDADO &&
+                    pcl.DIAFECHAGUARDADO == productoComprado.DIAFECHAGUARDADO &&
+                    pcl.PROVEEDOR == productoComprado.PROVEEDOR
+                ))
+                {
+                    productosCompradoLocalParaAgregar.Add(new Tbl_ProductoComprado 
+                    {
+                        NUMEROCOMPRA = productoComprado.NUMEROCOMPRA,
+                        PRODUCTO = productoComprado.PRODUCTO,
+                        MEDIDA = productoComprado.MEDIDA,
+                        CANTIDAD = productoComprado.CANTIDAD,
+                        PRECIO = productoComprado.PRECIO,
+                        TOTAL = productoComprado.TOTAL,
+                        FECHAGUARDADO = productoComprado.FECHAGUARDADO,
+                        DIAFECHAGUARDADO = productoComprado.DIAFECHAGUARDADO,
+                        PROVEEDOR = productoComprado.PROVEEDOR,
+                    });
+                }
+            }
+
+            // Agregar productos comprado de la lista local a Firebase
+            foreach (var productoComprado in productosCompradoLocal)
+            {
+                if (!productosCompradoFirebase.Any(pcf => 
+                    pcf.NUMEROCOMPRA == pcf.NUMEROCOMPRA &&
+                    pcf.PRODUCTO == pcf.PRODUCTO &&
+                    pcf.MEDIDA == pcf.MEDIDA &&
+                    pcf.CANTIDAD == pcf.CANTIDAD &&
+                    pcf.PRECIO == pcf.PRECIO &&
+                    pcf.TOTAL == pcf.TOTAL &&
+                    pcf.FECHAGUARDADO == pcf.FECHAGUARDADO &&
+                    pcf.DIAFECHAGUARDADO == pcf.DIAFECHAGUARDADO &&
+                    pcf.PROVEEDOR == pcf.PROVEEDOR
+                ))
+                {
+                    productosCompradoFirebaseParaAgregar.Add(new ProductoComprado 
+                    {
+                        NUMEROCOMPRA = productoComprado.NUMEROCOMPRA,
+                        PRODUCTO = productoComprado.PRODUCTO,
+                        MEDIDA = productoComprado.MEDIDA,
+                        CANTIDAD = productoComprado.CANTIDAD,
+                        PRECIO = productoComprado.PRECIO,
+                        TOTAL = productoComprado.TOTAL,
+                        FECHAGUARDADO = productoComprado.FECHAGUARDADO,
+                        DIAFECHAGUARDADO = productoComprado.DIAFECHAGUARDADO,
+                        PROVEEDOR = productoComprado.PROVEEDOR,
+                    });
+                }
+            }
+
+            foreach (var p in productosCompradoFirebaseParaAgregar)
+            {
+                await _repoProductoComprado.GuardarNuevaCompraProductoCompradoAsync(p);
+            }
+            foreach (var p in productosCompradoLocalParaAgregar)
+            {
+                ProductoComprado productoComprado = new()
+                {
+                    NUMEROCOMPRA = p.NUMEROCOMPRA,
+                    PRODUCTO = p.PRODUCTO,
+                    MEDIDA = p.MEDIDA,
+                    CANTIDAD = p.CANTIDAD,
+                    PRECIO = p.PRECIO,
+                    TOTAL = p.TOTAL,
+                    FECHAGUARDADO = p.FECHAGUARDADO,
+                    DIAFECHAGUARDADO = p.DIAFECHAGUARDADO,
+                    PROVEEDOR = p.PROVEEDOR
+                };
+                await _repoTblProductoComprado.GuardarNuevaCompraProductoCompradoAsync(productoComprado);
+            }
         }
         #endregion
 
@@ -339,6 +431,7 @@ namespace TesisAppSINMVVM.LocalDatabase
                     proveedoresLocalParaAgregar.Add(new Tbl_Proveedor { PROVEEDOR = proveedor.PROVEEDOR });
                 }
             }
+
             // Agregar proveedores de la lista local a Firebase
             foreach (var proveedor in proveedoresLocal)
             {
@@ -362,7 +455,6 @@ namespace TesisAppSINMVVM.LocalDatabase
             }
         }
         #endregion
-
 
         #region VENTACREDITO
         private async Task SincronizacionVentaCredito()
