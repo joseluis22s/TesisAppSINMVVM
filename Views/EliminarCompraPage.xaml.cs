@@ -1,5 +1,4 @@
 using Plugin.CloudFirestore;
-using TesisAppSINMVVM.Contents;
 using TesisAppSINMVVM.Database.Respositories;
 using TesisAppSINMVVM.LocalDatabase.Tables;
 using TesisAppSINMVVM.Models;
@@ -18,17 +17,12 @@ public partial class EliminarCompraPage : ContentPage
     private bool _enEjecucion;
     private bool _ejecutarSelectionChanged = true;
     private Tbl_Proveedor _proveedor;
-    private NuevaCompraContentView _nuevaCompraView;
 
     public static bool _permitirEjecucion = true;
     public static bool _permitirContentView_BindingContextChanged = true;
     public EliminarCompraPage()
     {
         InitializeComponent();
-
-        _nuevaCompraView = new NuevaCompraContentView();
-        _nuevaCompraContentView = new NuevaCompraContentView();
-        _historialComprasContentView = new HistorialComprasContentView();
         _repoProveedor = new Tbl_Proveedor_Repository();
         ContentView_CompraPageContenidoDinamico.Content = _nuevaCompraContentView;
     }
@@ -180,7 +174,6 @@ public partial class EliminarCompraPage : ContentPage
     {
         _ejecutarSelectionChanged = false;
         CollectionView_Proveedores.SelectedItem = null;
-        HistorialComprasContentView._ejecutarBindingContextChanged = false;
         Grid_ProveedoresCompraPage.IsVisible = false;
         VerticalStackLayout_OpcionesCompraPage.IsVisible = true;
     }

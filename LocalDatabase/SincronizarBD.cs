@@ -12,7 +12,6 @@ namespace TesisAppSINMVVM.LocalDatabase
         private Tbl_Proveedor_Repository _repoTblProveedor = new Tbl_Proveedor_Repository();
         private Cheque_Repository _repoCheque = new Cheque_Repository();
         private Tbl_Cheque_Repository _repoTblCheque = new Tbl_Cheque_Repository();
-        private HistorialCompras_Repository _repoHistorialCompras = new HistorialCompras_Repository();
         private Tbl_HistorialCompras_Repository _repoTblHistorialCompras = new Tbl_HistorialCompras_Repository();
         private Comprador_Repository _repoComprador = new Comprador_Repository();
         private Tbl_Comprador_Repository _repoTblComprador = new Tbl_Comprador_Repository();
@@ -54,7 +53,7 @@ namespace TesisAppSINMVVM.LocalDatabase
         {
             await SincronizacionCheques();
             await SincronizacionCompradores();
-            await SincronizacionHistorialCompras();
+            await SincronizacionProductoComprado();
             await SincronizacionProductos();
             await SincronizacionProductosInventario();
             await SincronizacionProveedores();
@@ -173,102 +172,9 @@ namespace TesisAppSINMVVM.LocalDatabase
         #endregion
 
         #region HISTORIALCOMPRAS
-        private async Task SincronizacionHistorialCompras()
+        private async Task SincronizacionProductoComprado()
         {
-            var documentos = await CrossCloudFirestore.Current
-                                         .Instance
-                                         .Collection("HISTORIALCOMPRAS")
-                                         .GetAsync();
-            var historialComprasFirebase = documentos.ToObjects<HistorialCompras>().ToList();
-            List<Tbl_HistorialCompras> historialCompraLocal = await _repoTblHistorialCompras.ObtenerTodoHistorialProductosAsync();
-
-            List<Tbl_HistorialCompras> historialComprasLocalParaAgregar = new List<Tbl_HistorialCompras>();
-            List<HistorialCompras> historialComprasFirebaseParaAgregar = new List<HistorialCompras>();
-
-            // Agregar historial compras de Firebase a la lista local
-            foreach (var historialCompras in historialComprasFirebase)
-            {
-                if (!historialCompraLocal.Any(hcl =>
-                    hcl.PRODUCTO == historialCompras.PRODUCTO &&
-                    hcl.DIAFECHA == historialCompras.DIAFECHA &&
-                    //hcl.ABONO == historialCompras.ABONO &&
-                    hcl.CANTIDAD == historialCompras.CANTIDAD &&
-                    hcl.FECHA == historialCompras.FECHA &&
-                    hcl.MEDIDA == historialCompras.MEDIDA &&
-                    hcl.PRECIO == historialCompras.PRECIO &&
-                    hcl.PROVEEDOR == historialCompras.PROVEEDOR &&
-                    //hcl.SALDOPENDIENTE == historialCompras.SALDOPENDIENTE &&
-                    hcl.TOTAL == historialCompras.TOTAL
-                ))
-                {
-                    historialComprasLocalParaAgregar.Add(new Tbl_HistorialCompras
-                    {
-                        PRODUCTO = historialCompras.PRODUCTO,
-                        DIAFECHA = historialCompras.DIAFECHA,
-                        //ABONO = historialCompras.ABONO,
-                        CANTIDAD = historialCompras.CANTIDAD,
-                        FECHA = historialCompras.FECHA,
-                        MEDIDA = historialCompras.MEDIDA,
-                        PRECIO = historialCompras.PRECIO,
-                        PROVEEDOR = historialCompras.PROVEEDOR,
-                        //SALDOPENDIENTE = historialCompras.SALDOPENDIENTE,
-                        TOTAL = historialCompras.TOTAL
-                    });
-                }
-            }
-            // Agregar historialCompras de la lista local a Firebase
-            foreach (var historialCompras in historialCompraLocal)
-            {
-                if (!historialComprasFirebase.Any(hcf =>
-                 hcf.PRODUCTO == historialCompras.PRODUCTO &&
-                    hcf.DIAFECHA == historialCompras.DIAFECHA &&
-                    //hcf.ABONO == historialCompras.ABONO &&
-                    hcf.CANTIDAD == historialCompras.CANTIDAD &&
-                    hcf.FECHA == historialCompras.FECHA &&
-                    hcf.MEDIDA == historialCompras.MEDIDA &&
-                    hcf.PRECIO == historialCompras.PRECIO &&
-                    hcf.PROVEEDOR == historialCompras.PROVEEDOR &&
-                    //hcf.SALDOPENDIENTE == historialCompras.SALDOPENDIENTE &&
-                    hcf.TOTAL == historialCompras.TOTAL
-                ))
-                {
-                    historialComprasFirebaseParaAgregar.Add(new HistorialCompras
-                    {
-                        PRODUCTO = historialCompras.PRODUCTO,
-                        DIAFECHA = historialCompras.DIAFECHA,
-                        //ABONO = historialCompras.ABONO,
-                        CANTIDAD = historialCompras.CANTIDAD,
-                        FECHA = historialCompras.FECHA,
-                        MEDIDA = historialCompras.MEDIDA,
-                        PRECIO = historialCompras.PRECIO,
-                        PROVEEDOR = historialCompras.PROVEEDOR,
-                        //SALDOPENDIENTE = historialCompras.SALDOPENDIENTE,
-                        TOTAL = historialCompras.TOTAL
-                    });
-                }
-            }
-
-            foreach (var p in historialComprasFirebaseParaAgregar)
-            {
-                await _repoHistorialCompras.GuardarRegistroProductoAsync(p);
-            }
-            foreach (var hc in historialComprasLocalParaAgregar)
-            {
-                HistorialCompras historialCompra = new()
-                {
-                    PRODUCTO = hc.PRODUCTO,
-                    DIAFECHA = hc.DIAFECHA,
-                    //ABONO = hc.ABONO,
-                    CANTIDAD = hc.CANTIDAD,
-                    FECHA = hc.FECHA,
-                    MEDIDA = hc.MEDIDA,
-                    PRECIO = hc.PRECIO,
-                    PROVEEDOR = hc.PROVEEDOR,
-                    //SALDOPENDIENTE = hc.SALDOPENDIENTE,
-                    TOTAL = hc.TOTAL
-                };
-                await _repoTblHistorialCompras.GuardarRegistroProductoAsync(historialCompra);
-            }
+            
         }
         #endregion
 
