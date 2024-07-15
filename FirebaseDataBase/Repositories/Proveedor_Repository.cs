@@ -78,6 +78,7 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
             var proveedoresFirebase = documentos.ToObjects<Proveedor>().ToList();
 
             return proveedoresFirebase;
+
             //var documentos = await CrossCloudFirestore.Current
             //                             .Instance
             //                             .Collection("PROVEEDOR")
