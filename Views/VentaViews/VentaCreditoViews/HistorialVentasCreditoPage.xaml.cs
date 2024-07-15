@@ -85,16 +85,6 @@ public partial class HistorialVentasCreditoPage : ContentPage
             }
             CollectionView_VentasCredito.ItemsSource = _grupoVentaCredito;
         }
-        //var gruposVentaCredito = ventasCredito.OrderByDescending(vc => DateTime.Parse(vc.FECHAGUARDADO))
-        //    .GroupBy(_grs => _grs.DIAFECHAGUARDADO)
-        //    .Select(g => new VentaCreditoGroup(g.Key, g.ToList()));
-
-        //_grupoVentaCredito.Clear();
-        //foreach (var grupo in gruposVentaCredito)
-        //{
-        //    _grupoVentaCredito.Add(grupo);
-        //}
-        //CollectionView_VentasCredito.ItemsSource = _grupoVentaCredito;
     }
     #endregion
 
