@@ -1,7 +1,5 @@
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
-using System.Linq;
-using System.Runtime.InteropServices;
 using TesisAppSINMVVM.FirebaseDataBase.Repositories;
 using TesisAppSINMVVM.LocalDatabase.Tables;
 using TesisAppSINMVVM.Models;
@@ -12,6 +10,7 @@ namespace TesisAppSINMVVM.Views.CompraViews;
 public partial class HistorialComprasPage : ContentPage
 {
     private ProductoComprado_Repository _repoProductoComprado = new ProductoComprado_Repository();
+    private List<ProductoCompradoGroup> _grupoProductoComprado { get; set; } = new List<ProductoCompradoGroup>();
     private string _nombreProveedor;
     public List<ProductoCompradoGroup> _productosComprados { get; private set; } = new List<ProductoCompradoGroup>();
 
@@ -79,16 +78,21 @@ public partial class HistorialComprasPage : ContentPage
         else
         {
             VerticalStackLayout_EmptyView.IsVisible = false;
-            var productosCompradosGrouped = productosComprados
-            .GroupBy(p => p.DIAFECHAGUARDADO)
-            .Select(grupo => new ProductoCompradoGroup(grupo.Key, grupo.ToList()));
-            CollectionView_HistorialCompras.ItemsSource = productosCompradosGrouped.ToList();
-        }
 
-        //var productosCompradosGrouped = productosComprados
-        //    .GroupBy(p => p.DIAFECHAGUARDADO)
-        //    .Select(grupo => new ProductoCompradoGroup(grupo.Key, grupo.ToList()));
-        //CollectionView_HistorialCompras.ItemsSource = productosCompradosGrouped.ToList();
+            var gruposFechaEmision = productosComprados.OrderByDescending(c => DateTime.Parse(c.FECHAGUARDADO))
+                .GroupBy(c => c.DIAFECHAGUARDADO)
+                .Select(g => new ProductoCompradoGroup(
+                    g.Key,
+                    g.OrderByDescending(c => c.NUMEROCOMPRA).ToList()
+                ));
+            _grupoProductoComprado.Clear();
+            foreach (var grupo in gruposFechaEmision)
+            {
+                _grupoProductoComprado.Add(grupo);
+            }
+
+            CollectionView_HistorialCompras.ItemsSource = _grupoProductoComprado.ToList();
+        }
     }
     #endregion
 

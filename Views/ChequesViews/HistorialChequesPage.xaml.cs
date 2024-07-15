@@ -72,7 +72,6 @@ public partial class HistorialChequesPage : ContentPage
             var gruposFechaCobro = cheques.OrderByDescending(c => DateTime.Parse(c.FECHACOBRO))
             .GroupBy(c => c.DIAFECHACOBRO)
            .Select(g => new ChequesGroup(g.Key, g.ToList()));
-            //TODO: HACER QUE SEA POR FECHA DE COBRO (NUEVA IMPLMENTACIÓN)
             _grupoCheques.Clear();
             foreach (var grupo in gruposFechaCobro)
             {
@@ -81,17 +80,6 @@ public partial class HistorialChequesPage : ContentPage
             var a = _grupoCheques;
             CollectionView_HistorialCheques.ItemsSource = _grupoCheques;
         }
-        //var gruposFechaCobro = cheques.OrderByDescending(c => DateTime.Parse(c.FECHACOBRO))
-        //    .GroupBy(c => c.DIAFECHACOBRO)
-        //   .Select(g => new ChequesGroup(g.Key, g.ToList()));
-        ////TODO: HACER QUE SEA POR FECHA DE COBRO (NUEVA IMPLMENTACIÓN)
-        //_grupoCheques.Clear();
-        //foreach (var grupo in gruposFechaCobro)
-        //{
-        //    _grupoCheques.Add(grupo);
-        //}
-        //var a = _grupoCheques;
-        //CollectionView_HistorialCheques.ItemsSource = _grupoCheques;
 
     }
 

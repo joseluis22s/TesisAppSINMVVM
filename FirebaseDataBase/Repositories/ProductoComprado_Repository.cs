@@ -51,6 +51,7 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
 
 
             List<int> numerosCompra = new List<int>(/*numerosCompraLocal*/);
+            
             //numerosCompra = numerosCompraFirebase.Except(numerosCompraLocal).ToList();
             //numerosCompra.Sort((x, y) => y.CompareTo(x));
             return numerosCompraFirebase;

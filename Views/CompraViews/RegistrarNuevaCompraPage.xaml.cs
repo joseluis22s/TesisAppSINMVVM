@@ -150,9 +150,17 @@ public partial class RegistrarNuevaCompraPage : ContentPage
     private async Task CargarNumeroCompra()
     {
         List<int> numerosComprasExistentes = await ObtenerNumeroComprasDBAsync(_nombreProveedor);
-        int numeroMayor = numerosComprasExistentes.Max();
-        _numeroCompra = numeroMayor + 1;
-        Label_NumeroCompra.Text = _numeroCompra.ToString();
+        if (numerosComprasExistentes.Count == 0)
+        {
+            Label_NumeroCompra.Text = "1";
+            _numeroCompra = 1;
+        }
+        else
+        {
+            int numeroMayor = numerosComprasExistentes.Max();
+            _numeroCompra = numeroMayor + 1;
+            Label_NumeroCompra.Text = _numeroCompra.ToString();
+        }
     }
     private async Task GuardarNuevaCompra()
     {
