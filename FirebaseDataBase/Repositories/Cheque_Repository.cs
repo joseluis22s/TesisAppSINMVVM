@@ -68,12 +68,43 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
                                  DIAFECHACOBRO = cheque2.DIAFECHACOBRO
                              });
 
-                await _repoTblCheque.EditarChequeAsync(cheque.NUMERO);
+                await _repoTblCheque.EditarChequeAsync(cheque1, cheque2);
             }
         }
         #endregion
 
         #region LECTURA
+        public async Task<List<string>> ObtenerIDChequesPorProveedorAsync(string nombreProveedor)
+        {
+            var query = await CrossCloudFirestore.Current
+                                      .Instance
+                                      .Collection("CHEQUE")
+                                      .WhereEqualsTo("NUMERO", nombreProveedor)
+                                      .GetAsync();
+            var documentos = query.Documents.ToList();
+
+            List<string> idsDocumentos = new List<string> ();
+
+            foreach (var id in documentos)
+            {
+                idsDocumentos.Add(id.Id);
+            }
+            return idsDocumentos;
+        }
+        public async Task EditarProveedorNuevoenCheque(string nombreProveedor, string nuevoNombre)
+        {
+            List<string> ids = await ObtenerIDChequesPorProveedorAsync(nombreProveedor);
+            foreach (var id in ids)
+            {
+                await CrossCloudFirestore.Current
+                            .Instance
+                            .Collection("CHEQUE")
+                            .Document(id)
+                            .UpdateAsync(new { PROVEEDOR = nuevoNombre });
+                await _repoTblCheque.EditarProveedorEnCheque(nombreProveedor, nuevoNombre);
+            }
+            
+        }
         public async Task<List<Tbl_Cheque>> ObtenerChequesAsync()
         {
             var documentos = await CrossCloudFirestore.Current
@@ -136,24 +167,6 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
                 return true;
             }
             return false;
-
-            //List<Tbl_Cheque> cheques = new List<Tbl_Cheque>(chequesLocal);
-
-            //var chequesToAdd = chequesFirebase
-            //    .Select(p => new Tbl_Cheque
-            //    {
-            //        NUMERO = p.NUMERO,
-            //        MONTO = p.MONTO,
-            //        PROVEEDOR = p.PROVEEDOR,
-            //        FECHACOBRO = p.FECHACOBRO,
-            //        FECHAEMISION = p.FECHAEMISION,
-            //        DIAFECHA = p.DIAFECHA
-            //    })
-            //    .Where(p => !chequesLocal.Any(pl => pl.NUMERO == p.NUMERO));
-
-            //cheques.AddRange(chequesToAdd);
-
-            //return cheques;
         }
         #endregion
 

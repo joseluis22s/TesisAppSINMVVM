@@ -77,12 +77,14 @@ namespace TesisAppSINMVVM.Database.Respositories
         public async Task EditarProveedorAsync(Proveedor proveedor,string nuevoNombrePRoveedor)
         {
             await InitAsync();
+
+            List<Tbl_Proveedor> proveedoresLocal = await ObtenerProveedoresAsync();
             var p = await ObtenerProveedorAsync(proveedor);
             p.PROVEEDOR = nuevoNombrePRoveedor;
             await conn.UpdateAsync(p);
             //await conn.UpdateAsync(Tbl_Proveedor);
         }
-
+        
         ////Borrar usuarios 'Tbl_Usuario'
         //public async Task<int> BorrarUsuarios()
         //{

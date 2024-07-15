@@ -53,7 +53,8 @@ namespace TesisAppSINMVVM.Database.Respositories
         public async Task EditarChequeAsync(Cheque cheque, Cheque nuevoCheque)
         {
             await InitAsync();
-            var p = await ObtenerChequeAsync(cheque);
+            var p1 = await ObtenerChequesAsync(/*cheque.NUMERO*/);
+            var p = p1.First();
             p.MONTO = nuevoCheque.MONTO;
             p.PROVEEDOR = nuevoCheque.PROVEEDOR;
             p.FECHACOBRO = nuevoCheque.FECHACOBRO;
@@ -71,11 +72,20 @@ namespace TesisAppSINMVVM.Database.Respositories
             await InitAsync();
             return await conn.Table<Tbl_Cheque>().ToListAsync();
         }
-        public async Task<Tbl_Cheque> ObtenerChequeAsync(Cheque cheque)
+        public async /*Task<Tbl_Cheque>*/Task<List<Tbl_Cheque>> ObtenerChequezzzzzAsync(int numCheque)
         {
             await InitAsync();
-            return await conn.Table<Tbl_Cheque>().Where(c => c.NUMERO == cheque.NUMERO).FirstAsync();
+            return await conn.Table<Tbl_Cheque>().ToListAsync();
         }
-
+        public async Task EditarProveedorEnCheque(string nombreProveedor, string nuevoNombre)
+        {
+            await InitAsync();
+            var proveedoresEncheque = await conn.Table<Tbl_Cheque>().Where(p => p.PROVEEDOR == nombreProveedor).ToListAsync();
+            foreach (var cheque in proveedoresEncheque)
+            {
+                cheque.PROVEEDOR = nuevoNombre;
+                await conn.UpdateAsync(cheque);
+            }
+        }
     }
 }

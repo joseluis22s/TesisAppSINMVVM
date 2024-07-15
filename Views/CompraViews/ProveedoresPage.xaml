@@ -92,7 +92,7 @@
     </Grid>
 
     <ContentPage.Resources>
-        
+
         <ResourceDictionary>
             <Style x:Key="Button_OpcionesProveedor" TargetType="Button">
                 <Setter Property="Padding" Value="11" />
@@ -105,15 +105,15 @@
                 <Setter Property="Stroke" Value="Transparent" />
             </Style>
         </ResourceDictionary>
-        
+
     </ContentPage.Resources>
-    
+
     <ContentPage.Background>
-        
+
         <Color>
             #d5eddd
         </Color>
-        
+
     </ContentPage.Background>
-    
+
 </ContentPage>

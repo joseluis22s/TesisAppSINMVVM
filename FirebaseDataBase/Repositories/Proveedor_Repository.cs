@@ -29,10 +29,6 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
                              .AddAsync(proveedor);
                 await _repoTblProveedor.GuardarNuevoProveedorAsync(proveedor);
             }
-            //else
-            //{
-            //    await _repoTblProveedor.GuardarNuevoProveedorAsync(proveedor);
-            //}
         }
         public async Task BorrarProveedorAsync(Proveedor proveedor)
         {
@@ -73,7 +69,7 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
         #endregion
 
         #region LECTURA
-        public async Task<List<Tbl_Proveedor>> ObtenerProveedoresAsync()
+        public async Task<List</*Tbl_*/Proveedor>> ObtenerProveedoresAsync()
         {
             var documentos = await CrossCloudFirestore.Current
                                          .Instance
@@ -81,16 +77,23 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
                                          .GetAsync();
             var proveedoresFirebase = documentos.ToObjects<Proveedor>().ToList();
 
-            List<Tbl_Proveedor> proveedoresLocal = await _repoTblProveedor.ObtenerTblProveedoresAsync();
-            List<Tbl_Proveedor> proveedores = new List<Tbl_Proveedor>(proveedoresLocal);
+            return proveedoresFirebase;
+            //var documentos = await CrossCloudFirestore.Current
+            //                             .Instance
+            //                             .Collection("PROVEEDOR")
+            //                             .GetAsync();
+            //var proveedoresFirebase = documentos.ToObjects<Proveedor>().ToList();
 
-            var proveedoresToAdd = proveedoresFirebase
-                .Select(p => new Tbl_Proveedor { PROVEEDOR = p.PROVEEDOR })
-                .Where(p => !proveedoresLocal.Any(pl => pl.PROVEEDOR == p.PROVEEDOR));
+            //List<Tbl_Proveedor> proveedoresLocal = await _repoTblProveedor.ObtenerTblProveedoresAsync();
+            //List<Tbl_Proveedor> proveedores = new List<Tbl_Proveedor>(proveedoresLocal);
 
-            proveedores.AddRange(proveedoresToAdd);
+            //var proveedoresToAdd = proveedoresFirebase
+            //    .Select(p => new Tbl_Proveedor { PROVEEDOR = p.PROVEEDOR })
+            //    .Where(p => !proveedoresLocal.Any(pl => pl.PROVEEDOR == p.PROVEEDOR));
 
-            return proveedores;
+            //proveedores.AddRange(proveedoresToAdd);
+
+            //return proveedores;
         }
         #endregion
 

@@ -52,7 +52,7 @@ namespace TesisAppSINMVVM
 
             //Tbl_Producto_Repository _repotblProducto = new Tbl_Producto_Repository();
             //Tbl_ProductosInventario_Repository _repoTblProdcutoInvetario = new Tbl_ProductosInventario_Repository();
-            SincronizarBD sincronizarBD = new SincronizarBD();
+            //SincronizarBD sincronizarBD = new SincronizarBD();
             //ServicioFirestore firebaseDataBase = new ServicioFirestore();
             // TODO: Eliminar este comentario
             //firebaseDataBase.DesactivarUmbralCache();

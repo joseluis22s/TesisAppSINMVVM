@@ -56,43 +56,64 @@
                 <CollectionView.ItemTemplate>
 
                     <DataTemplate>
-                        
-                        
-                        <Border
-                            Padding="15,15,20,15"
-                            BackgroundColor="#ccd3de"
-                            StrokeShape="{RoundRectangle CornerRadius='5'}">
 
-                            <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+                        <SwipeView>
+                            <SwipeView.LeftItems>
+                                <SwipeItems>
 
-                                <Label
-                                    x:Name="Label_NumeroCheque"
-                                    FontAttributes="Bold"
-                                    FontSize="17"
-                                    Text="{Binding NUMERO, StringFormat='Cheque #: {0}'}" />
-                                <Label
-                                    x:Name="Label_MontoCheque"
-                                    Grid.Column="1"
-                                    FontSize="19"
-                                    Text="{Binding MONTO, StringFormat='${0}'}" />
-                                <Label
-                                    x:Name="Label_Proveedor"
-                                    Grid.Row="2"
-                                    FontSize="17"
-                                    Text="{Binding PROVEEDOR}" />
-                                <Label
-                                    x:Name="Label_FechaEmision"
-                                    Grid.Row="3"
-                                    FontSize="17"
-                                    Text="{Binding FECHAEMISION, StringFormat='Emisión: {0}'}" />
-                                <Label
-                                    x:Name="Label_FechaCobro"
-                                    Grid.Row="4"
-                                    FontSize="17"
-                                    Text="{Binding FECHACOBRO, StringFormat='Cobro: {0}'}" />
-                            </Grid>
-                        </Border>
-                        
+                                    <SwipeItem
+                                        x:Name="SwipeItem_Editar"
+                                        BackgroundColor="LightGreen"
+                                        Clicked="SwipeItem_Editar_Clicked"
+                                        IconImageSource="edit_pencil_icon.png"
+                                        Text="Editar" />
+                                    <SwipeItem
+                                        x:Name="SwipeItem_Eliminar"
+                                        BackgroundColor="LightPink"
+                                        Clicked="SwipeItem_Eliminar_Clicked"
+                                        IconImageSource="delete_icon.png"
+                                        Text="Eliminar" />
+                                </SwipeItems>
+
+                            </SwipeView.LeftItems>
+
+                            <Border
+                                Padding="15,15,20,15"
+                                BackgroundColor="#ccd3de"
+                                StrokeShape="{RoundRectangle CornerRadius='5'}">
+
+                                <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+
+                                    <Label
+                                        x:Name="Label_NumeroCheque"
+                                        FontAttributes="Bold"
+                                        FontSize="17"
+                                        Text="{Binding NUMERO, StringFormat='Cheque #: {0}'}" />
+                                    <Label
+                                        x:Name="Label_MontoCheque"
+                                        Grid.Column="1"
+                                        FontSize="19"
+                                        Text="{Binding MONTO, StringFormat='${0}'}" />
+                                    <Label
+                                        x:Name="Label_Proveedor"
+                                        Grid.Row="2"
+                                        FontSize="17"
+                                        Text="{Binding PROVEEDOR}" />
+                                    <Label
+                                        x:Name="Label_FechaEmision"
+                                        Grid.Row="3"
+                                        FontSize="17"
+                                        Text="{Binding FECHAEMISION, StringFormat='Emisión: {0}'}" />
+                                    <Label
+                                        x:Name="Label_FechaCobro"
+                                        Grid.Row="4"
+                                        FontSize="17"
+                                        Text="{Binding FECHACOBRO, StringFormat='Cobro: {0}'}" />
+                                </Grid>
+                            </Border>
+
+                        </SwipeView>
+
                     </DataTemplate>
 
                 </CollectionView.ItemTemplate>

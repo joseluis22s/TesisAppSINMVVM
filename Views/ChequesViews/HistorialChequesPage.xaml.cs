@@ -3,6 +3,7 @@ using CommunityToolkit.Maui.Core;
 using TesisAppSINMVVM.FirebaseDataBase.Repositories;
 using TesisAppSINMVVM.LocalDatabase.Tables;
 using TesisAppSINMVVM.Models;
+using TesisAppSINMVVM.Views.ModalViews;
 
 namespace TesisAppSINMVVM.Views.ChequesViews;
 
@@ -144,4 +145,19 @@ public partial class HistorialChequesPage : ContentPage
     #region LÓGICA DE COSAS VISUALES DE LA PÁGINA
 
     #endregion
+
+    private async void SwipeItem_Editar_Clicked(object sender, EventArgs e)
+    {
+        SwipeItem item = sender as SwipeItem;
+        Tbl_Cheque cheque = (Tbl_Cheque)item.BindingContext;
+        await Navigation.PushModalAsync(new EditarChequePage
+        {
+            BindingContext = /*this.BindingContext*/cheque
+        });
+    }
+
+    private void SwipeItem_Eliminar_Clicked(object sender, EventArgs e)
+    {
+
+    }
 }

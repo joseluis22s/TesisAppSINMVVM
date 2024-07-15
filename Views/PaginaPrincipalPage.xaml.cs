@@ -1,9 +1,11 @@
+using TesisAppSINMVVM.LocalDatabase;
 using TesisAppSINMVVM.Views.CompraViews;
 
 namespace TesisAppSINMVVM.Views;
 
 public partial class PaginaPrincipalPage : ContentPage
 {
+    int _contador = 0;
     public PaginaPrincipalPage()
     {
         InitializeComponent();
@@ -38,6 +40,16 @@ public partial class PaginaPrincipalPage : ContentPage
     private async void Button_Venta_Clicked(object sender, EventArgs e)
     {
         await VentaPagePushAsync();
+    }
+
+    private void ContentPage_Loaded(object sender, EventArgs e)
+    {
+        if (_contador == 0)
+        {
+            SincronizarBD sincronizarBD = new SincronizarBD();
+            sincronizarBD.SincornizarDBInicio();
+            _contador = 1;
+        }
     }
 
     // LÓGICA DE EVENTOS

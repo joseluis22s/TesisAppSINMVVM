@@ -25,17 +25,36 @@ namespace TesisAppSINMVVM.LocalDatabase
         private Tbl_Usuario_Repository _repoTblUsuario = new Tbl_Usuario_Repository();
         private VentaCredito_Repository _repoVentaCredito = new VentaCredito_Repository();
         private Tbl_VentaCredito_Repository _repoTblVentaCredito = new Tbl_VentaCredito_Repository();
-        
 
-        public SincronizarBD() =>
-        Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
-
-        ~SincronizarBD() =>
-            Connectivity.ConnectivityChanged -= Connectivity_ConnectivityChanged;
-
-        void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
+        public SincronizarBD()
         {
-            if (e.NetworkAccess == NetworkAccess.Internet)
+
+        }
+
+        //public SincronizarBD() =>
+        //Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
+
+        //~SincronizarBD() =>
+        //    Connectivity.ConnectivityChanged -= Connectivity_ConnectivityChanged;
+
+        //void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
+        //{
+        //    //if (e.NetworkAccess == NetworkAccess.Internet)
+        //    //{
+        //    //    try
+        //    //    {
+        //    //        Sincronizacion().GetAwaiter();
+        //    //    }
+        //    //    catch (Exception ex)
+        //    //    {
+        //    //        string msg = ex.Message;
+        //    //    }
+        //    //}
+        //}
+        public void SincornizarDBInicio()
+        {
+            NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+            if (accessType == NetworkAccess.Internet)
             {
                 try
                 {
