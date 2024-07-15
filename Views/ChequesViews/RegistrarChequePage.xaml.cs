@@ -25,6 +25,10 @@ public partial class RegistrarChequePage : ContentPage
     {
         await PermitirPopAsyncNavegacion(mostrarAlerta);
     }
+    private async Task NavegarPaginaPrincipalPagePopToRootAsync()
+    {
+        await Navigation.PopToRootAsync();
+    }
     #endregion
 
 
@@ -67,6 +71,10 @@ public partial class RegistrarChequePage : ContentPage
         _enEjecucion = true;
         await RegistrarChequePagePopAsync(true);
         _enEjecucion = false;
+    }
+    private async void ImageButton_Home_Clicked(object sender, EventArgs e)
+    {
+        await NavegarPaginaPrincipalPagePopToRootAsync();
     }
     #endregion
 
@@ -273,5 +281,4 @@ public partial class RegistrarChequePage : ContentPage
         Entry_MontoChequeDecimal.Unfocus();
     }
     #endregion
-
 }

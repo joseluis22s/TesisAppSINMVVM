@@ -58,6 +58,11 @@ public partial class HistorialVentasCreditoPage : ContentPage
     {
         await HistorialVentasCreditoPagePopAsync();
     }
+
+    private async void ImageButton_Home_Clicked(object sender, EventArgs e)
+    {
+        await NavegarPaginaPrincipalPagePopToRootAsync();
+    }
     #endregion
 
 
@@ -85,6 +90,10 @@ public partial class HistorialVentasCreditoPage : ContentPage
             }
             CollectionView_VentasCredito.ItemsSource = _grupoVentaCredito;
         }
+    }
+    private async Task NavegarPaginaPrincipalPagePopToRootAsync()
+    {
+        await Navigation.PopToRootAsync();
     }
     #endregion
 
@@ -130,6 +139,7 @@ public partial class HistorialVentasCreditoPage : ContentPage
     {
         return await VentaCredito_Repository.ObtenerVentasCreditoAsync();
     }
+
     #endregion
 
 
@@ -137,6 +147,4 @@ public partial class HistorialVentasCreditoPage : ContentPage
     #region LÓGICA DE COSAS VISUALES DE LA PÁGINA
 
     #endregion
-
-    
 }

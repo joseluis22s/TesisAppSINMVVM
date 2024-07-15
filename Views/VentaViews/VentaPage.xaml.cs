@@ -22,7 +22,6 @@ public partial class VentaPage : ContentPage
         await Navigation.PushAsync(new OpcionesVentaCreditoPage());
     }
 
-
     // EVENTOS
     private async void Buttton_Bodega_Clicked(object sender, EventArgs e)
     {
@@ -32,8 +31,6 @@ public partial class VentaPage : ContentPage
     {
         await OpcionesVentaCreditoPagePushAsync();
     }
-
-
     // LOGICA PARA EVENTOS
     // LÓGICA
     // BASE DE DATOS

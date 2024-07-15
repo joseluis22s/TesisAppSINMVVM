@@ -9,11 +9,12 @@ namespace TesisAppSINMVVM.Views.VentaViews;
 public partial class HistorialProductoSobrantePage : ContentPage
 {
     private List<ProductoInventarioBodegaGroup> _grupoInventario {  get; set; } = new List<ProductoInventarioBodegaGroup>();
+    private bool _enEjecucion;
     public HistorialProductoSobrantePage()
 	{
 		InitializeComponent();
     }
-
+    // TODO: Aqui quitar _enEjecucion;
 
 
     // NAVEGACIÓN
@@ -34,6 +35,11 @@ public partial class HistorialProductoSobrantePage : ContentPage
     }
     private async void Button_NavegarAgregarNuevoRegistroProductoSobrante_Clicked(object sender, EventArgs e)
     {
+        if (_enEjecucion)
+        {
+            return;
+        }
+        _enEjecucion = true;
         NetworkAccess accessType = Connectivity.Current.NetworkAccess;
         if (accessType == NetworkAccess.Internet)
         {
@@ -43,17 +49,28 @@ public partial class HistorialProductoSobrantePage : ContentPage
         {
             await Toast.Make("Primero debe conectarse a internet", ToastDuration.Long).Show();
         }
+        _enEjecucion = false;
     }
     private async void Button_Regresar_Clicked(object sender, EventArgs e)
     {
+        if (_enEjecucion)
+        {
+            return;
+        }
+        _enEjecucion = true;
         RegistrarProductoSobranteBodegaPage._ejecutarAppearing = false;
         await HistorialProductoSobrantePagePopAsync();
+        _enEjecucion = false;
     }
     protected override bool OnBackButtonPressed()
     {
         RegistrarProductoSobranteBodegaPage._ejecutarAppearing = false;
         HistorialProductoSobrantePagePopAsync().GetAwaiter();
         return true;
+    }
+    private async void ImageButton_Home_Clicked(object sender, EventArgs e)
+    {
+        await NavegarPaginaPrincipalPagePopToRootAsync();
     }
     #endregion
 
@@ -91,6 +108,10 @@ public partial class HistorialProductoSobrantePage : ContentPage
         //    _grupoInventario.Add(grupo);
         //}
         //CollectionView_Bodega.ItemsSource = _grupoInventario;
+    }
+    private async Task NavegarPaginaPrincipalPagePopToRootAsync()
+    {
+        await Navigation.PopToRootAsync();
     }
     #endregion
 
@@ -134,12 +155,11 @@ public partial class HistorialProductoSobrantePage : ContentPage
     {
         return await ProductoInventarioBodega_Repository.ObtenerProductosInventarioAsync();
     }
+
     #endregion
 
     // LÓGICA DE COSAS VISUALES DE LA PÁGINA
     #region LÓGICA DE COSAS VISUALES DE LA PÁGINA
 
     #endregion
-
-    
 }

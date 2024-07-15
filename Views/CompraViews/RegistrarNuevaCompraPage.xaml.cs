@@ -40,6 +40,10 @@ public partial class RegistrarNuevaCompraPage : ContentPage
     {
         await PermitirPopAsyncNavegacion();
     }
+    private async Task NavegarPaginaPrincipalPagePopToRootAsync()
+    {
+        await Navigation.PopToRootAsync();
+    }
     private async Task AgregarNuevoProductoPagePushModalAsync()
     {
         NetworkAccess accessType = Connectivity.Current.NetworkAccess;
@@ -113,7 +117,10 @@ public partial class RegistrarNuevaCompraPage : ContentPage
         await AgregarNuevoProductoPagePushModalAsync();
         _enEjecucion = false;
     }
-
+    private async void ImageButton_Home_Clicked(object sender, EventArgs e)
+    {
+        await NavegarPaginaPrincipalPagePopToRootAsync();
+    }
     #endregion
 
 
@@ -189,12 +196,11 @@ public partial class RegistrarNuevaCompraPage : ContentPage
                             PRODUCTO = p.PRODUCTO,
                             MEDIDA = p.MEDIDA,
                             CANTIDAD = int.Parse(p.CANTIDAD),
-                            PRECIO = double.Parse(p.PRECIOE + "." +p.PRECIOD),
+                            PRECIO = double.Parse(p.PRECIOE + "." + p.PRECIOD),
                             TOTAL = double.Parse(p.TOTAL),
                             FECHAGUARDADO = DatePicker_FechaGuardado.Date.ToString("dd MMMM yyyy"),
                             DIAFECHAGUARDADO = DatePicker_FechaGuardado.Date.ToString("dddd, dd MMMM yyyy"),
                             PROVEEDOR = _nombreProveedor
-                            // TODO: Verificar si se pasa el proveedor
                         });
                     }
                 }
@@ -207,6 +213,8 @@ public partial class RegistrarNuevaCompraPage : ContentPage
             {
                 foreach (var p in _AuxProductos)
                 {
+                    p.PRECIOE = "";
+                    p.PRECIOD = "";
                     p.CANTIDAD = "";
                     p.ESSELECCIONADO = false;
                 }
@@ -253,7 +261,7 @@ public partial class RegistrarNuevaCompraPage : ContentPage
                 }
             }
         }
-        Label_ValorTotalVenta.Text = "$" + valorTotalVenta.ToString();
+        Label_ValorTotalVenta.Text = "$" + valorTotalVenta.ToString("F2");
     }
     // LÓGICA
     #region LÓGICA
@@ -339,4 +347,6 @@ public partial class RegistrarNuevaCompraPage : ContentPage
         }
     }
     #endregion
+
+
 }

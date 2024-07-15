@@ -5,7 +5,9 @@ namespace TesisAppSINMVVM.Views.VentaViews.VentaCreditoViews;
 
 public partial class OpcionesVentaCreditoPage : ContentPage
 {
-	public OpcionesVentaCreditoPage()
+    private bool _enEjecucion;
+    //TODO: Ver si se puede eliminar _enEjecucion
+    public OpcionesVentaCreditoPage()
 	{
 		InitializeComponent();
 	}
@@ -30,6 +32,10 @@ public partial class OpcionesVentaCreditoPage : ContentPage
     {
         await Navigation.PushAsync(new HistorialVentasCreditoPage());
     }
+    private async Task NavegarPaginaPrincipalPagePopToRootAsync()
+    {
+        await Navigation.PopToRootAsync();
+    }
     #endregion
 
 
@@ -37,12 +43,28 @@ public partial class OpcionesVentaCreditoPage : ContentPage
     #region EVENTOS
     private async void Buttton_RegistrarNuevaVentaCredito_Clicked(object sender, EventArgs e)
     {
+        if (_enEjecucion)
+        {
+            return;
+        }
+        _enEjecucion = true;
         await RegistrarNuevaVentaCreditoPagePushAsync();
+        _enEjecucion = false;
     }
 
     private async void Buttton_HistorialVentasCredito_Clicked(object sender, EventArgs e)
     {
+        if (_enEjecucion)
+        {
+            return;
+        }
+        _enEjecucion = true;
         await HistorialVentasCreditoPagePushAsync();
+        _enEjecucion = false;
+    }
+    private async void ImageButton_Home_Clicked(object sender, EventArgs e)
+    {
+        await NavegarPaginaPrincipalPagePopToRootAsync();
     }
     #endregion
 

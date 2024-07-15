@@ -152,19 +152,27 @@
 
             <Grid
                 Grid.Row="1"
-                Margin="15,0"
-                ColumnDefinitions="*,*"
+                Margin="20,0"
+                ColumnDefinitions="*,*,*,*,*"
                 ColumnSpacing="10">
 
                 <Button
                     x:Name="Button_GuardarNuevoCheque"
+                    Grid.ColumnSpan="2"
                     Clicked="Button_GuardarNuevoCheque_Clicked"
                     Style="{StaticResource Button_RegistarCheque}"
                     Text="Guardar" />
+                <ImageButton
+                    x:Name="ImageButton_Home"
+                    Grid.Column="2"
+                    Clicked="ImageButton_Home_Clicked"
+                    MaximumHeightRequest="50"
+                    Source="home_icon.png" />
 
                 <Button
                     x:Name="Button_Regresar"
-                    Grid.Column="1"
+                    Grid.Column="3"
+                    Grid.ColumnSpan="2"
                     BackgroundColor="#4da36d"
                     Clicked="Button_Regresar_Clicked"
                     Style="{StaticResource Button_RegistarCheque}"

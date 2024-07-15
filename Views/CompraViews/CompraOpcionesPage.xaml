@@ -8,7 +8,7 @@
 
     <Grid
         Margin="30"
-        RowDefinitions="Auto,Auto"
+        RowDefinitions="Auto,Auto,Auto"
         RowSpacing="10"
         VerticalOptions="Center">
 
@@ -21,6 +21,12 @@
             Grid.Row="1"
             Clicked="Buttton_HistorialCompras_Clicked"
             Text="HISTORIAL COMPRAS" />
+        <ImageButton
+            x:Name="ImageButton_Home"
+            Grid.Row="2"
+            Clicked="ImageButton_Home_Clicked"
+            MaximumHeightRequest="50"
+            Source="home_icon.png" />
 
     </Grid>
 

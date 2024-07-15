@@ -36,6 +36,10 @@ public partial class RegistrarNuevaVentaCreditoPage : ContentPage
     {
         await PermitirPopAsyncNavegacion();
     }
+    private async Task NavegarPaginaPrincipalPagePopToRootAsync()
+    {
+        await Navigation.PopToRootAsync();
+    }
     #endregion
 
 
@@ -104,6 +108,10 @@ public partial class RegistrarNuevaVentaCreditoPage : ContentPage
     {
         Entry entry = (Entry)sender;
         MontoVendido_TextoCambiado(entry);
+    }
+    private async void ImageButton_Home_Clicked(object sender, EventArgs e)
+    {
+        await NavegarPaginaPrincipalPagePopToRootAsync();
     }
     #endregion
 
@@ -337,7 +345,6 @@ public partial class RegistrarNuevaVentaCreditoPage : ContentPage
         Entry_Descripcion.Text = "";
         Picker_Comprador.SelectedIndex = -1;
     }
+
     #endregion
-
-
 }

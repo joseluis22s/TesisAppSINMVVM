@@ -8,7 +8,8 @@ namespace TesisAppSINMVVM.Views.CompraViews;
 
 public partial class CompraOpcionesPage : ContentPage
 {
-	public CompraOpcionesPage()
+    private bool _enEjecucion;
+    public CompraOpcionesPage()
 	{
 		InitializeComponent();
 	}
@@ -38,20 +39,38 @@ public partial class CompraOpcionesPage : ContentPage
             BindingContext = this.BindingContext
         });
     }
-
+    private async Task NavegarPaginaPrincipalPagePopToRootAsync()
+    {
+        await Navigation.PopToRootAsync();
+    }
     #endregion
 
     // EVENTOS
     #region EVENTOS
     private async void Buttton_RegistarNuevaCompra_Clicked(object sender, EventArgs e)
     {
+        if (_enEjecucion)
+        {
+            return;
+        }
+        _enEjecucion = true;
         await RegistarNuevaCompraPushAsync();
+        _enEjecucion = false;
     }
     private async void Buttton_HistorialCompras_Clicked(object sender, EventArgs e)
     {
+        if (_enEjecucion)
+        {
+            return;
+        }
+        _enEjecucion = true;
         await HistorialComprasPushAsync();
+        _enEjecucion = false;
     }
-
+    private async void ImageButton_Home_Clicked(object sender, EventArgs e)
+    {
+        await NavegarPaginaPrincipalPagePopToRootAsync();
+    }
     #endregion
 
     // LÓGICA PARA EVENTOS
@@ -73,4 +92,6 @@ public partial class CompraOpcionesPage : ContentPage
     #region LÓGICA DE COSAS VISUALES DE LA PÁGINA
 
     #endregion
+
+
 }

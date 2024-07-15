@@ -27,6 +27,50 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
             //    await _repoTblCheque.GuardarChequeAsync(cheque);
             //}
         }
+        public async Task EliminarRegistroCheque(Cheque cheque)
+        {
+            NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+            if (accessType == NetworkAccess.Internet)
+            {
+                var documentoCheque = await CrossCloudFirestore.Current
+                                      .Instance
+                                      .Collection("CHEQUE")
+                                      .WhereEqualsTo("NUMERO", cheque.NUMERO)
+                                      .GetAsync();
+                string idDocumento = documentoCheque.Documents.First().Id;
+                await CrossCloudFirestore.Current
+                             .Instance
+                             .Collection("PROVEEDOR")
+                             .Document(idDocumento).DeleteAsync();
+                await _repoTblCheque.BorrarChequeAsync(cheque.NUMERO);
+            }
+        }
+        public async Task EditarRegistroCheque(Cheque cheque1, Cheque cheque2 )
+        {
+            NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+            if (accessType == NetworkAccess.Internet)
+            {
+                var documentoCheque = await CrossCloudFirestore.Current
+                                      .Instance
+                                      .Collection("CHEQUE")
+                                      .WhereEqualsTo("NUMERO", cheque1.NUMERO)
+                                      .GetAsync();
+                string idDocumento = documentoCheque.Documents.First().Id;
+                await CrossCloudFirestore.Current
+                             .Instance
+                             .Collection("CHEQUE")
+                             .Document(idDocumento)
+                             .UpdateAsync(new { 
+                                 MONTO = cheque2.MONTO,
+                                 PROVEEDOR = cheque2.PROVEEDOR,
+                                 FECHACOBRO = cheque2.FECHACOBRO,
+                                 FECHAEMISION = cheque2.FECHAEMISION,
+                                 DIAFECHACOBRO = cheque2.DIAFECHACOBRO
+                             });
+
+                await _repoTblCheque.EditarChequeAsync(cheque.NUMERO);
+            }
+        }
         #endregion
 
         #region LECTURA

@@ -45,6 +45,22 @@ namespace TesisAppSINMVVM.Database.Respositories
                 await conn.InsertAsync(tbl_Cheque);
             }
         }
+        public async Task BorrarChequeAsync(int numeroCheque)
+        {
+            await InitAsync();
+            await conn.Table<Tbl_Cheque>().Where(p => p.NUMERO == numeroCheque).DeleteAsync();
+        }
+        public async Task EditarChequeAsync(Cheque cheque, Cheque nuevoCheque)
+        {
+            await InitAsync();
+            var p = await ObtenerChequeAsync(cheque);
+            p.MONTO = nuevoCheque.MONTO;
+            p.PROVEEDOR = nuevoCheque.PROVEEDOR;
+            p.FECHACOBRO = nuevoCheque.FECHACOBRO;
+            p.FECHAEMISION = nuevoCheque.FECHAEMISION;
+            p.DIAFECHACOBRO = nuevoCheque.DIAFECHACOBRO;
+            await conn.UpdateAsync(p);
+        }
         public async Task BorarTbl_Cheque()
         {
             await InitAsync();
@@ -54,6 +70,11 @@ namespace TesisAppSINMVVM.Database.Respositories
         {
             await InitAsync();
             return await conn.Table<Tbl_Cheque>().ToListAsync();
+        }
+        public async Task<Tbl_Cheque> ObtenerChequeAsync(Cheque cheque)
+        {
+            await InitAsync();
+            return await conn.Table<Tbl_Cheque>().Where(c => c.NUMERO == cheque.NUMERO).FirstAsync();
         }
 
     }

@@ -56,6 +56,8 @@
                 <CollectionView.ItemTemplate>
 
                     <DataTemplate>
+                        
+                        
                         <Border
                             Padding="15,15,20,15"
                             BackgroundColor="#ccd3de"
@@ -90,6 +92,7 @@
                                     Text="{Binding FECHACOBRO, StringFormat='Cobro: {0}'}" />
                             </Grid>
                         </Border>
+                        
                     </DataTemplate>
 
                 </CollectionView.ItemTemplate>
@@ -108,12 +111,24 @@
 
             </CollectionView>
 
-            <Button
-                x:Name="Button_Regresar"
+            <Grid
                 Grid.Row="1"
-                Clicked="Button_Regresar_Clicked"
-                HorizontalOptions="Center"
-                Text="Regresar" />
+                Margin="10,0"
+                ColumnDefinitions="*,Auto"
+                ColumnSpacing="15">
+                <ImageButton
+                    x:Name="ImageButton_Home"
+                    BackgroundColor="#ccd3de"
+                    Clicked="ImageButton_Home_Clicked"
+                    MaximumHeightRequest="50"
+                    Source="home_icon.png" />
+                <Button
+                    x:Name="Button_Regresar"
+                    Grid.Column="1"
+                    Clicked="Button_Regresar_Clicked"
+                    HorizontalOptions="Center"
+                    Text="Regresar" />
+            </Grid>
 
         </Grid>
     </Border>

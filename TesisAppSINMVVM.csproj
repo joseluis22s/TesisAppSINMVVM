@@ -65,6 +65,7 @@
 	  <None Remove="Resources\Images\compra_icon.png" />
 	  <None Remove="Resources\Images\delete_icon.png" />
 	  <None Remove="Resources\Images\edit_pencil_icon.png" />
+	  <None Remove="Resources\Images\home_icon.png" />
 	  <None Remove="Resources\Images\por_cobrar_icon.png" />
 	  <None Remove="Resources\Images\remove_empty_icon.png" />
 	  <None Remove="Resources\Images\venta_icon.png" />

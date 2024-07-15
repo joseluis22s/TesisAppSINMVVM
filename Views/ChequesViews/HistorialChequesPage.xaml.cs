@@ -11,7 +11,7 @@ public partial class HistorialChequesPage : ContentPage
     private Cheque_Repository _repoCheque = new Cheque_Repository();
     
     private List<ChequesGroup> _grupoCheques { get; set; } = new List<ChequesGroup>();
-    private List<Cheque> _historialCheques;
+    private bool _enEjecucion;
 
 
     public HistorialChequesPage()
@@ -48,11 +48,27 @@ public partial class HistorialChequesPage : ContentPage
     }
     private async void Button_Regresar_Clicked(object sender, EventArgs e)
     {
+        if (_enEjecucion)
+        {
+            return;
+        }
+        _enEjecucion = true;
         await HistorialChequesPagePopAsync();
+        _enEjecucion = false;
     }
     private async void Button_NavegarAgregarNuevoRegistroCheque_Clicked(object sender, EventArgs e)
     {
+        if (_enEjecucion)
+        {
+            return;
+        }
+        _enEjecucion = true;
         await RegistrarChequePagePushAsync();
+        _enEjecucion = false;
+    }
+    private async void ImageButton_Home_Clicked(object sender, EventArgs e)
+    {
+        await NavegarPaginaPrincipalPagePopToRootAsync();
     }
     #endregion
 
@@ -82,7 +98,10 @@ public partial class HistorialChequesPage : ContentPage
         }
 
     }
-
+    private async Task NavegarPaginaPrincipalPagePopToRootAsync()
+    {
+        await Navigation.PopToRootAsync();
+    }
     #endregion
 
     // LÓGICA
@@ -113,6 +132,7 @@ public partial class HistorialChequesPage : ContentPage
     {
         return await _repoCheque.ObtenerChequesAsync();
     }
+
     #endregion
 
     // BASE DE DATOS
@@ -124,6 +144,4 @@ public partial class HistorialChequesPage : ContentPage
     #region LÓGICA DE COSAS VISUALES DE LA PÁGINA
 
     #endregion
-
-    
 }

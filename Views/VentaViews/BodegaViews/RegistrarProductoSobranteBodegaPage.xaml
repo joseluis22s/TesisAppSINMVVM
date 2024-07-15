@@ -152,24 +152,38 @@
                 </CollectionView.ItemTemplate>
 
             </CollectionView>
-            <Button
-                x:Name="Button_GuardarRegistroProductoSobrante"
-                Grid.Row="2"
-                Padding="70,0"
-                Clicked="Button_GuardarRegistroProductoSobrante_Clicked"
-                HorizontalOptions="Center"
-                Text="Guardar" />
+
+
 
         </Grid>
 
-        <Button
-            x:Name="Button_Regresar"
+        <Grid
             Grid.Row="2"
-            BackgroundColor="#4da36d"
-            BorderWidth="2"
-            Clicked="Button_Regresar_Clicked"
-            HorizontalOptions="Center"
-            Text="Regresar" />
+            Margin="15,0"
+            ColumnDefinitions="*,*,*,*,*"
+            ColumnSpacing="10">
+            <Button
+                x:Name="Button_GuardarRegistroProductoSobrante"
+                Grid.ColumnSpan="2"
+                Clicked="Button_GuardarRegistroProductoSobrante_Clicked"
+                Style="{StaticResource Button_RegistarProductoSobrante}"
+                Text="Guardar" />
+            <ImageButton
+                x:Name="ImageButton_Home"
+                Grid.Column="2"
+                Clicked="ImageButton_Home_Clicked"
+                MaximumHeightRequest="50"
+                Source="home_icon.png" />
+            <Button
+                x:Name="Button_Regresar"
+                Grid.Column="3"
+                Grid.ColumnSpan="2"
+                BackgroundColor="#4da36d"
+                BorderWidth="2"
+                Clicked="Button_Regresar_Clicked"
+                Style="{StaticResource Button_RegistarProductoSobrante}"
+                Text="Regresar" />
+        </Grid>
 
     </Grid>
 
@@ -188,7 +202,10 @@
                 <Setter Property="StrokeShape" Value="{RoundRectangle CornerRadius='10'}" />
                 <Setter Property="Padding" Value="13,-2" />
             </Style>
-
+            <Style x:Key="Button_RegistarProductoSobrante" TargetType="Button">
+                <Setter Property="Padding" Value="0,12" />
+                <Setter Property="FontSize" Value="18" />
+            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
 

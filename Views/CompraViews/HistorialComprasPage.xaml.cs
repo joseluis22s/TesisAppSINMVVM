@@ -13,6 +13,7 @@ public partial class HistorialComprasPage : ContentPage
     private List<ProductoCompradoGroup> _grupoProductoComprado { get; set; } = new List<ProductoCompradoGroup>();
     private string _nombreProveedor;
     public List<ProductoCompradoGroup> _productosComprados { get; private set; } = new List<ProductoCompradoGroup>();
+    private bool _enEjecucion;
 
     public HistorialComprasPage()
 	{
@@ -41,7 +42,6 @@ public partial class HistorialComprasPage : ContentPage
     #endregion
     
 
-
     // EVENTOS
     #region EVENTOS
     private async void ContentPage_Appearing(object sender, EventArgs e)
@@ -52,11 +52,27 @@ public partial class HistorialComprasPage : ContentPage
     }
     private async void Button_Regresar_Clicked(object sender, EventArgs e)
     {
+        if (_enEjecucion)
+        {
+            return;
+        }
+        _enEjecucion = true;
         await HistorialComprasPagePopAsync();
+        _enEjecucion = false;
     }
     private async void Button_NavegarAgregarNuevaCompra_Clicked(object sender, EventArgs e)
     {
+        if (_enEjecucion)
+        {
+            return;
+        }
+        _enEjecucion = true;
         await RegistrarNuevaCompraPagePushAsync();
+        _enEjecucion = false;
+    }
+    private async void ImageButton_Home_Clicked(object sender, EventArgs e)
+    {
+        await NavegarPaginaPrincipalPagePopToRootAsync();
     }
     #endregion
 
@@ -94,6 +110,10 @@ public partial class HistorialComprasPage : ContentPage
             CollectionView_HistorialCompras.ItemsSource = _grupoProductoComprado.ToList();
         }
     }
+    private async Task NavegarPaginaPrincipalPagePopToRootAsync()
+    {
+        await Navigation.PopToRootAsync();
+    }
     #endregion
 
     // LÓGICA
@@ -124,12 +144,11 @@ public partial class HistorialComprasPage : ContentPage
         return await _repoProductoComprado.ObtenerProductosCompradosAsync(proveedor);
     }
 
+
     #endregion
 
     // LÓGICA DE COSAS VISUALES DE LA PÁGINA
     #region LÓGICA DE COSAS VISUALES DE LA PÁGINA
 
     #endregion
-
-    
 }

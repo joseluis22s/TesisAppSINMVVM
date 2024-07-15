@@ -55,6 +55,10 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
             await Toast.Make("Primero debe conectarse a internet", ToastDuration.Long).Show();
         }
     }
+    private async Task NavegarPaginaPrincipalPagePopToRootAsync()
+    {
+        await Navigation.PopToRootAsync();
+    }
     #endregion
 
     // EVENTOS
@@ -124,7 +128,10 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
         RegistrarProductoSobranteBodegaPagePopAsync().GetAwaiter();
         return true;
     }
-
+    private async void ImageButton_Home_Clicked(object sender, EventArgs e)
+    {
+        await NavegarPaginaPrincipalPagePopToRootAsync();
+    }
     #endregion
 
     // LÓGICA PARA EVENTOS
@@ -284,7 +291,6 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
             entry.Text = Regex.Replace(entry.Text, @"\.", string.Empty);
         }
     }
+
     #endregion
-
-
 }

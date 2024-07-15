@@ -303,16 +303,24 @@
         <Grid
             Grid.Row="2"
             Margin="15,0"
-            ColumnDefinitions="*,*"
+            ColumnDefinitions="*,*,*,*,*"
             ColumnSpacing="10">
             <Button
                 x:Name="Button_GuardarNuevaCompra"
+                Grid.ColumnSpan="2"
                 Clicked="Button_GuardarNuevaCompra_Clicked"
                 Style="{StaticResource Button_RegistarNuevacompra}"
                 Text="Guardar" />
+            <ImageButton
+                x:Name="ImageButton_Home"
+                Grid.Column="2"
+                Clicked="ImageButton_Home_Clicked"
+                MaximumHeightRequest="50"
+                Source="home_icon.png" />
             <Button
                 x:Name="Button_Regresar"
-                Grid.Column="1"
+                Grid.Column="3"
+                Grid.ColumnSpan="2"
                 BackgroundColor="#4da36d"
                 Clicked="Button_Regresar_Clicked"
                 Style="{StaticResource Button_RegistarNuevacompra}"
@@ -356,12 +364,6 @@
                 <Setter Property="Padding" Value="0,12" />
                 <Setter Property="FontSize" Value="18" />
             </Style>
-            <!--<Style TargetType="Border">
-                <Setter Property="BackgroundColor" Value="#a9d9b3" />
-                <Setter Property="StrokeShape" Value="{RoundRectangle CornerRadius='3'}" />
-                <Setter Property="Padding" Value="15" />
-                <Setter Property="Stroke" Value="Transparent" />
-            </Style>-->
         </ResourceDictionary>
 
     </ContentPage.Resources>

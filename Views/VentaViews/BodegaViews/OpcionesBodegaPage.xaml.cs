@@ -5,6 +5,7 @@ namespace TesisAppSINMVVM.Views.VentaViews.BodegaViews;
 
 public partial class OpcionesBodegaPage : ContentPage
 {
+    private bool _enEjecucion;
     public OpcionesBodegaPage()
     {
         InitializeComponent();
@@ -28,20 +29,39 @@ public partial class OpcionesBodegaPage : ContentPage
     {
         await Navigation.PushAsync(new HistorialProductoSobrantePage());
     }
+    private async Task NavegarPaginaPrincipalPagePopToRootAsync()
+    {
+        await Navigation.PopToRootAsync();
+    }
     #endregion
 
 
     // EVENTOS
     #region EVENTOS
-
     private async void Buttton_RegistrarProductoSobrante_Clicked(object sender, EventArgs e)
     {
+        if (_enEjecucion)
+        {
+            return;
+        }
+        _enEjecucion = true;
         await RegistrarProductoSobranteBodegaPagePushAsync();
+        _enEjecucion = false;
     }
 
     private async void Buttton_HistorialProductoSobrante_Clicked(object sender, EventArgs e)
     {
+        if (_enEjecucion)
+        {
+            return;
+        }
+        _enEjecucion = true;
         await HistorialProductoSobrantePagePushAsync();
+        _enEjecucion = false;
+    }
+    private async void ImageButton_Home_Clicked(object sender, EventArgs e)
+    {
+        await NavegarPaginaPrincipalPagePopToRootAsync();
     }
     #endregion
 
