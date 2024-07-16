@@ -69,7 +69,7 @@
                                     Text="Editar" />
                                 <SwipeItem
                                     BackgroundColor="LightPink"
-                                    Clicked="SwipeItem_Editar_Clicked"
+                                    Clicked="SwipeItem_Eliminar_Clicked"
                                     IconImageSource="delete_icon.png"
                                     Text="Eliminar" />
                             </SwipeView.LeftItems>

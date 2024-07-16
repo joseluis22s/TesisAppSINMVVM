@@ -1,3 +1,5 @@
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 using TesisAppSINMVVM.FirebaseDataBase.Repositories;
 using TesisAppSINMVVM.LocalDatabase.Tables;
 using TesisAppSINMVVM.Models;
@@ -7,7 +9,8 @@ namespace TesisAppSINMVVM.Views.ChequesViews;
 public partial class HistorialChequesEmitidosPage : ContentPage
 {
     private Cheque_Repository _repoChequeEmitido = new Cheque_Repository();
-    private List<ChequesGroup> _grupoChequeEmitido { get; set; } = new List<ChequesGroup>();    
+    private List<ChequesGroup> _grupoChequeEmitido { get; set; } = new List<ChequesGroup>();
+    private bool _enEjecucion;
     public HistorialChequesEmitidosPage()
 	{
 		InitializeComponent();
@@ -15,8 +18,26 @@ public partial class HistorialChequesEmitidosPage : ContentPage
 
     // NAVEGACIÓN
     #region NAVEGACIÓN
-
-
+    private async Task HistorialChequesEmitidosPagePopAsync()
+    {
+        await Navigation.PopAsync();
+    }
+    private async Task RegistrarChequePagePushAsync()
+    {
+        NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+        if (accessType == NetworkAccess.Internet)
+        {
+            await NavegacionRegistrarChequePage();
+        }
+        else
+        {
+            await Toast.Make("Primero debe conectarse a internet", ToastDuration.Long).Show();
+        }
+    }
+    private async Task NavegarPaginaPrincipalPagePopToRootAsync()
+    {
+        await Navigation.PopToRootAsync();
+    }
     #endregion
 
 
@@ -27,24 +48,39 @@ public partial class HistorialChequesEmitidosPage : ContentPage
         base.OnAppearing();
         await CargarDatosCollectionView_HistorialChequesEmitidos();
     }
-    private void ImageButton_Home_Clicked(object sender, EventArgs e)
+    private async void ImageButton_Home_Clicked(object sender, EventArgs e)
     {
-
+        await NavegarPaginaPrincipalPagePopToRootAsync();
     }
-
-    private void Button_Regresar_Clicked(object sender, EventArgs e)
+    private async void Button_Regresar_Clicked(object sender, EventArgs e)
     {
-
+        if (_enEjecucion)
+        {
+            return;
+        }
+        _enEjecucion = true;
+        await HistorialChequesEmitidosPagePopAsync();
+        _enEjecucion = false;
     }
-    private void Button_NavegarNuevoResgitroChequeEmitido_Clicked(object sender, EventArgs e)
+    private async void Button_NavegarNuevoResgitroChequeEmitido_Clicked(object sender, EventArgs e)
     {
-
+        if (_enEjecucion)
+        {
+            return;
+        }
+        _enEjecucion = true;
+        await RegistrarChequePagePushAsync();
+        _enEjecucion = false;
     }
     private void SwipeItem_Editar_Clicked(object sender, EventArgs e)
     {
 
     }
     private void CheckBox_Cheque_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    {
+
+    }
+    private void SwipeItem_Eliminar_Clicked(object sender, EventArgs e)
     {
 
     }
@@ -83,7 +119,24 @@ public partial class HistorialChequesEmitidosPage : ContentPage
 
     // LÓGICA
     #region LÓGICA
-
+    private async Task NavegacionRegistrarChequePage()
+    {
+        // TODO: Ver si esta bien esta lógica
+        var stack = Navigation.NavigationStack.ToArray();
+        var lastPage = stack[stack.Length - 2];
+        if (lastPage is RegistrarChequePage)
+        {
+            await Navigation.PopAsync();
+        }
+        else if (lastPage is ChequesPage)
+        {
+            await Navigation.PushAsync(new RegistrarChequePage
+            {
+                BindingContext = this.BindingContext
+            });
+            Navigation.RemovePage(stack[stack.Length - 1]);
+        }
+    }
     #endregion
 
 
@@ -93,6 +146,8 @@ public partial class HistorialChequesEmitidosPage : ContentPage
     {
         return await _repoChequeEmitido.ObtenerChequesAsync();
     }
+
+
 
 
 
