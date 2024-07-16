@@ -64,7 +64,7 @@
                             StrokeShape="{RoundRectangle CornerRadius='5'}">
 
                             <Grid
-                                BackgroundColor="Red"
+                                BackgroundColor="Blue"
                                 ColumnDefinitions="*,Auto"
                                 RowDefinitions="Auto,Auto,Auto,Auto">
 
