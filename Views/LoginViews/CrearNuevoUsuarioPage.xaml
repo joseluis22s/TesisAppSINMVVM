@@ -7,7 +7,7 @@
     NavigationPage.HasNavigationBar="False">
 
     <Grid
-        BackgroundColor="Transparent"
+        BackgroundColor="Transparent" 
         RowDefinitions="Auto,Auto"
         RowSpacing="15"
         VerticalOptions="CenterAndExpand">
