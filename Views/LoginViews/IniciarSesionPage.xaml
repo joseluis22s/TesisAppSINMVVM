@@ -6,42 +6,31 @@
     Title="IniciarSesionPage"
     NavigationPage.HasNavigationBar="False">
     <VerticalStackLayout VerticalOptions="Center">
-        <Frame
-            Margin="0,-70"
-            Padding="0"
-            BackgroundColor="White"
-            CornerRadius="70"
-            HasShadow="True"
-            WidthRequest="120"
-            ZIndex="1">
-            <Image Source="profile_icon.png" ZIndex="1" />
-            <Frame.Shadow>
-                <Shadow
-                    Brush="Black"
-                    Opacity="0.5"
-                    Radius="50"
-                    Offset="0,0" />
-            </Frame.Shadow>
-        </Frame>
+
+
         <Frame
             Margin="40,0"
-            Padding="15,90,15,15"
-            BackgroundColor="#c7d7f0"
-            BorderColor="Transparent"
-            CornerRadius="20"
-            HasShadow="True"
-            ZIndex="0">
-            <Frame.Shadow>
-                <Shadow
-                    Brush="Black"
-                    Opacity="0.9"
-                    Radius="90"
-                    Offset="-20,10" />
-            </Frame.Shadow>
-            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="5">
-                <Frame Padding="0" CornerRadius="5">
-                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="2">
-                        <Image Source="locked_padlock_icon.png" WidthRequest="50" />
+            Padding="15,25,15,15"
+            BackgroundColor="#8dd6ab"
+            BorderColor="#558067"
+            CornerRadius="20">
+
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="7">
+                <Label
+                    Margin="0,0,0,17"
+                    FontAttributes="Bold"
+                    FontSize="20"
+                    HorizontalOptions="Center"
+                    Text="INICIAR SESIÓN" />
+                <Frame
+                    Grid.Row="1"
+                    Padding="14,0"
+                    CornerRadius="5">
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="5">
+                        <Image
+                            Margin="5,0,5,0"
+                            MaximumHeightRequest="35"
+                            Source="user_icon.png" />
                         <Entry
                             x:Name="Entry_Usuario"
                             Grid.Column="1"
@@ -62,13 +51,13 @@
                     TextColor="#030524" />
                 <Frame
                     Grid.Row="2"
-                    Padding="0"
+                    Padding="14,0"
                     CornerRadius="5">
-                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="2">
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="5">
                         <Image
                             Margin="5,0,5,0"
-                            Source="key_icon.png"
-                            WidthRequest="40" />
+                            Source="password_icon.png"
+                            WidthRequest="35" />
                         <Entry
                             x:Name="Entry_Contrasena"
                             Grid.Column="1"
@@ -77,6 +66,7 @@
                             VerticalTextAlignment="End" />
                     </Grid>
                 </Frame>
+
                 <Label
                     x:Name="Label_ContrasenaIncorrecta"
                     Grid.Row="3"
@@ -86,14 +76,17 @@
                     IsVisible="False"
                     Text="* Contraseña incorrecta"
                     TextColor="#030524" />
+
                 <Button
                     x:Name="Button_Ingresar"
                     Grid.Row="4"
+                    Margin="40,5,40,0"
                     Clicked="Button_Ingresar_Clicked"
+                    FontSize="16"
                     Text="Ingresar" />
                 <Grid
                     Grid.Row="5"
-                    Margin="0,15"
+                    Margin="0,5"
                     ColumnDefinitions="*,Auto,*">
                     <Line
                         HorizontalOptions="CenterAndExpand"
@@ -112,20 +105,21 @@
                     x:Name="Button_CrearNuevaCuenta"
                     Grid.Row="6"
                     Padding="15,0"
-                    BackgroundColor="#5d92e8"
+                    BackgroundColor="#4da36d"
                     Clicked="Button_CrearNuevaCuenta_Clicked"
-                    FontSize="10"
+                    FontSize="13"
                     HeightRequest="30"
                     HorizontalOptions="Center"
                     Text="Crear nueva cuenta" />
             </Grid>
         </Frame>
     </VerticalStackLayout>
-    <!--  Da el color al fondo de la vista  -->
+
     <ContentPage.Background>
-        <LinearGradientBrush EndPoint="1,0">
-            <GradientStop Offset="0.1" Color="#5d92e8" />
-            <GradientStop Offset="1.0" Color="#044fc7" />
-        </LinearGradientBrush>
+
+        <Color>
+            #d5eddd
+        </Color>
+
     </ContentPage.Background>
 </ContentPage>
