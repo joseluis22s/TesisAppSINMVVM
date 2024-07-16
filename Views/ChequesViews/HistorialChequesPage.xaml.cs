@@ -5,13 +5,13 @@ using TesisAppSINMVVM.FirebaseDataBase.Repositories;
 using TesisAppSINMVVM.LocalDatabase.Tables;
 using TesisAppSINMVVM.Models;
 using TesisAppSINMVVM.Views.ModalViews;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace TesisAppSINMVVM.Views.ChequesViews;
 
 public partial class HistorialChequesPage : ContentPage
 {
     private Cheque_Repository _repoCheque = new Cheque_Repository();
-
     private ObservableCollection<ChequesGroup> _grupoCheques { get; set; } = new ObservableCollection<ChequesGroup>();
     private bool _enEjecucion;
 
@@ -74,43 +74,51 @@ public partial class HistorialChequesPage : ContentPage
     }
     private async void SwipeItem_Editar_Clicked(object sender, EventArgs e)
     {
-        SwipeItem item = sender as SwipeItem;
-        Tbl_Cheque cheque = (Tbl_Cheque)item.BindingContext;
-        await Navigation.PushModalAsync(new EditarChequePage
+        NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+        if (accessType == NetworkAccess.Internet)
         {
-            BindingContext = /*this.BindingContext*/cheque
-        });
+            SwipeItem item = sender as SwipeItem;
+            Tbl_Cheque cheque = (Tbl_Cheque)item.BindingContext;
+            await Navigation.PushModalAsync(new EditarChequePage
+            {
+                BindingContext = /*this.BindingContext*/cheque
+            });
+        }
+        else
+        {
+            await Toast.Make("Primero debe conectarse a internet", ToastDuration.Long).Show();
+        }
 
     }
     private async void SwipeItem_Eliminar_Clicked(object sender, EventArgs e)
     {
-        SwipeItem item = sender as SwipeItem;
-        Tbl_Cheque tblcheque = (Tbl_Cheque)item.BindingContext;
-        Cheque cheque = new Cheque();
-        cheque.NUMERO = tblcheque.NUMERO;
-        cheque.MONTO = tblcheque.MONTO;
-        cheque.PROVEEDOR = tblcheque.PROVEEDOR;
-        cheque.FECHACOBRO = tblcheque.FECHACOBRO;
-        cheque.FECHAEMISION = tblcheque.FECHAEMISION;
-        cheque.DIAFECHACOBRO = tblcheque.DIAFECHACOBRO;
+        NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+        if (accessType == NetworkAccess.Internet)
+        {
+            SwipeItem item = sender as SwipeItem;
+            Tbl_Cheque tblcheque = (Tbl_Cheque)item.BindingContext;
+            Cheque cheque = new Cheque();
+            cheque.NUMERO = tblcheque.NUMERO;
+            cheque.MONTO = tblcheque.MONTO;
+            cheque.PROVEEDOR = tblcheque.PROVEEDOR;
+            cheque.FECHACOBRO = tblcheque.FECHACOBRO;
+            cheque.FECHAEMISION = tblcheque.FECHAEMISION;
+            cheque.DIAFECHACOBRO = tblcheque.DIAFECHACOBRO;
 
-
-        await EliminarRegistroChequeDBAsync(cheque);
-        await CargarDatosCollectionView_HistorialCompras();
+            await EliminarRegistroChequeDBAsync(cheque);
+            await CargarDatosCollectionView_HistorialCompras();
+        }
+        else
+        {
+            await Toast.Make("Primero debe conectarse a internet", ToastDuration.Long).Show();
+        }
     }
-    private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    private async void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
-        
+        await CheckBoxChangedActualizarAsync(sender, e);
     }
     #endregion
-    private async Task CheckBoxChangedActualizarAsync(object sender, CheckedChangedEventArgs e)
-    {
-        //var cheque = (sender as CheckBox).BindingContext as Cheque;
-        //cheque.COBRADO = e.NewValue;
 
-        //// Actualizar la base de datos (ejemplo usando Firebase)
-        //await _repoCheque.ActualizarEstadoCheque(cheque);
-    }
     // LÓGICA PARA EVENTOS
     #region LÓGICA PARA EVENTOS
     private async Task CargarDatosCollectionView_HistorialCompras()
@@ -123,7 +131,7 @@ public partial class HistorialChequesPage : ContentPage
         }
         else
         {
-            
+
             VerticalStackLayout_EmptyView_HistorialCheques.IsVisible = false;
             var gruposFechaCobro = cheques.OrderByDescending(c => DateTime.Parse(c.FECHACOBRO))
             .GroupBy(c => c.DIAFECHACOBRO)
@@ -141,6 +149,21 @@ public partial class HistorialChequesPage : ContentPage
     private async Task NavegarPaginaPrincipalPagePopToRootAsync()
     {
         await Navigation.PopToRootAsync();
+    }
+    private async Task CheckBoxChangedActualizarAsync(object sender, CheckedChangedEventArgs e)
+    {
+        NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+        if (accessType == NetworkAccess.Internet)
+        {
+            CheckBox checkBox = (CheckBox)sender;
+            Tbl_Cheque tblcheque = (Tbl_Cheque)checkBox.BindingContext;
+
+            await CambiarCobradoRegistroChequeDBAsync(tblcheque.NUMERO, tblcheque.COBRADO);
+        }
+        else
+        {
+            await Toast.Make("Primero debe conectarse a internet", ToastDuration.Long).Show();
+        }
     }
     #endregion
 
@@ -176,7 +199,10 @@ public partial class HistorialChequesPage : ContentPage
     {
         await _repoCheque.EliminarRegistroChequeAsync(cheque);
     }
-
+    private async Task CambiarCobradoRegistroChequeDBAsync(int numeroCheque, bool cobrado)
+    {
+        await _repoCheque.CambiarCobradoRegistroChequeAsync(numeroCheque, cobrado);
+    }
     #endregion
 
     // LÓGICA DE COSAS VISUALES DE LA PÁGINA
@@ -184,5 +210,5 @@ public partial class HistorialChequesPage : ContentPage
 
     #endregion
 
-    
+
 }

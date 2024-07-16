@@ -121,7 +121,6 @@
 
                                         <Label FontSize="12" Text="Cobrado" />
                                         <CheckBox
-                                            x:Name="CheckBox_Cheque"
                                             CheckedChanged="CheckBox_CheckedChanged"
                                             IsChecked="{Binding COBRADO, Mode=TwoWay}"
                                             Color="#065c1b" />

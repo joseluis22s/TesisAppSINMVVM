@@ -71,6 +71,29 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
                 //await _repoTblCheque.EditarChequeAsync(cheque1, cheque2);
             }
         }
+        public async Task CambiarCobradoRegistroChequeAsync(int numeroCheque, bool cobrado)
+        {
+            NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+            if (accessType == NetworkAccess.Internet)
+            {
+                var documentoCheque = await CrossCloudFirestore.Current
+                                      .Instance
+                                      .Collection("CHEQUE")
+                                      .WhereEqualsTo("NUMERO", numeroCheque)
+                                      .GetAsync();
+                string idDocumento = documentoCheque.Documents.First().Id;
+                await CrossCloudFirestore.Current
+                             .Instance
+                             .Collection("CHEQUE")
+                             .Document(idDocumento)
+                             .UpdateAsync(new
+                             {
+                                 COBRADO = cobrado
+                             });
+
+                //await _repoTblCheque.EditarChequeAsync(cheque1, cheque2);
+            }
+        }
         public async Task EditarProveedorEnCheques(string nombreProveedor, string nuevoNombre)
         {
             List<string> ids = await ObtenerIDChequesPorProveedorAsync(nombreProveedor);
