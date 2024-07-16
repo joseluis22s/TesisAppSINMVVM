@@ -58,50 +58,70 @@
 
                     <DataTemplate>
 
-                        <Border
-                            Padding="15,15,20,15"
-                            BackgroundColor="#ccd3de"
-                            StrokeShape="{RoundRectangle CornerRadius='5'}">
+                        <SwipeView>
 
-                            <Grid
-                                BackgroundColor="Blue"
-                                ColumnDefinitions="*,Auto"
-                                RowDefinitions="Auto,Auto,Auto,Auto">
+                            <SwipeView.LeftItems>
 
-                                <HorizontalStackLayout>
+                                <SwipeItem
+                                    BackgroundColor="LightGreen"
+                                    Clicked="SwipeItem_Editar_Clicked"
+                                    IconImageSource="edit_pencil_icon.png"
+                                    Text="Editar" />
+                                <SwipeItem
+                                    BackgroundColor="LightPink"
+                                    Clicked="SwipeItem_Editar_Clicked"
+                                    IconImageSource="delete_icon.png"
+                                    Text="Eliminar" />
+                            </SwipeView.LeftItems>
+
+                            <Border
+                                Padding="15,15,20,15"
+                                BackgroundColor="#ccd3de"
+                                StrokeShape="{RoundRectangle CornerRadius='5'}">
+
+                                <Grid
+                                    BackgroundColor="Blue"
+                                    ColumnDefinitions="*,Auto"
+                                    RowDefinitions="Auto,Auto,Auto,Auto">
+
+                                    <HorizontalStackLayout>
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="17"
+                                            Text="Cheque #: " />
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="17"
+                                            Text="{Binding NUMERO}" />
+                                    </HorizontalStackLayout>
+
+                                    <HorizontalStackLayout Grid.Column="1">
+                                        <Label FontSize="19" Text="$ " />
+                                        <Label FontSize="19" Text="{Binding MONTO}" />
+                                    </HorizontalStackLayout>
+
                                     <Label
-                                        FontAttributes="Bold"
+                                        Grid.Row="1"
                                         FontSize="17"
-                                        Text="Cheque #: " />
-                                    <Label
-                                        FontAttributes="Bold"
-                                        FontSize="17"
-                                        Text="{Binding NUMERO}" />
-                                </HorizontalStackLayout>
+                                        Text="{Binding PROVEEDOR}" />
 
-                                <HorizontalStackLayout Grid.Column="1">
-                                    <Label FontSize="19" Text="$ " />
-                                    <Label FontSize="19" Text="{Binding MONTO}" />
-                                </HorizontalStackLayout>
+                                    <HorizontalStackLayout Grid.Row="2">
+                                        <Label Text="Emisión: " />
+                                        <Label FontSize="17" Text="{Binding FECHAEMISION}" />
+                                    </HorizontalStackLayout>
 
-                                <Label
-                                    Grid.Row="1"
-                                    FontSize="17"
-                                    Text="{Binding PROVEEDOR}" />
+                                    <HorizontalStackLayout Grid.Row="3">
+                                        <Label Text="Cobro: " />
+                                        <Label FontSize="17" Text="{Binding FECHACOBRO}" />
+                                    </HorizontalStackLayout>
 
-                                <HorizontalStackLayout Grid.Row="2">
-                                    <Label Text="Emisión: " />
-                                    <Label FontSize="17" Text="{Binding FECHAEMISION}" />
-                                </HorizontalStackLayout>
+                                </Grid>
 
-                                <HorizontalStackLayout Grid.Row="3">
-                                    <Label Text="Cobro: " />
-                                    <Label FontSize="17" Text="{Binding FECHACOBRO}" />
-                                </HorizontalStackLayout>
+                            </Border>
 
-                            </Grid>
+                        </SwipeView>
 
-                        </Border>
+
 
                     </DataTemplate>
 

@@ -40,6 +40,10 @@ public partial class HistorialChequesEmitidosPage : ContentPage
     {
 
     }
+    private void SwipeItem_Editar_Clicked(object sender, EventArgs e)
+    {
+
+    }
     #endregion
 
 
@@ -85,6 +89,7 @@ public partial class HistorialChequesEmitidosPage : ContentPage
     {
         return await _repoChequeEmitido.ObtenerChequesAsync();
     }
+
 
 
     #endregion
