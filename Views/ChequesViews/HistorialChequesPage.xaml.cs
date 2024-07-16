@@ -112,10 +112,10 @@ public partial class HistorialChequesPage : ContentPage
             await Toast.Make("Primero debe conectarse a internet", ToastDuration.Long).Show();
         }
     }
-    //private async void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
-    //{
-    //    await CheckBoxChangedActualizarAsync(sender, e);
-    //}
+    private async void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    {
+        await CheckBoxChangedActualizarAsync(sender, e);
+    }
 
     #endregion
 
@@ -123,6 +123,7 @@ public partial class HistorialChequesPage : ContentPage
     #region LÓGICA PARA EVENTOS
     private async Task CargarDatosCollectionView_HistorialCompras()
     {
+
         List<Tbl_Cheque> cheques = await ObtenerDBChequesAsync();
         if (cheques.Count == 0)
         {
@@ -141,7 +142,17 @@ public partial class HistorialChequesPage : ContentPage
                 _grupoCheques.Add(grupo);
             }
             var a = _grupoCheques;
-            CollectionView_HistorialCheques.ItemsSource = _grupoCheques;
+            try
+            {
+
+                CollectionView_HistorialCheques.ItemsSource = _grupoCheques;
+            }
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+                //string msg = "EMPIZA AQUI\n" + ex.Message + "\nTERMINA AQUI";
+                Console.WriteLine(msg);
+            }
         }
 
     }
@@ -149,13 +160,13 @@ public partial class HistorialChequesPage : ContentPage
     {
         await Navigation.PopToRootAsync();
     }
-    //private async Task CheckBoxChangedActualizarAsync(object sender, CheckedChangedEventArgs e)
-    //{
-    //    CheckBox checkBox = (CheckBox)sender;
-    //    Tbl_Cheque tblcheque = (Tbl_Cheque)checkBox.BindingContext;
-    //    await CambiarCobradoRegistroChequeDBAsync(tblcheque.NUMERO, tblcheque.COBRADO);
+    private async Task CheckBoxChangedActualizarAsync(object sender, CheckedChangedEventArgs e)
+    {
+        CheckBox checkBox = (CheckBox)sender;
+        Tbl_Cheque tblcheque = (Tbl_Cheque)checkBox.BindingContext;
+        await CambiarCobradoRegistroChequeDBAsync(tblcheque.NUMERO, tblcheque.COBRADO);
 
-    //}
+    }
     #endregion
 
     // LÓGICA

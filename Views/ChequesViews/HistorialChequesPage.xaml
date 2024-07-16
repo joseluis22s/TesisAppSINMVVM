@@ -65,7 +65,7 @@
                                         x:Name="SwipeItem_Editar"
                                         BackgroundColor="LightGreen"
                                         Clicked="SwipeItem_Editar_Clicked"
-                                        IconImageSource="edit_pencil_icon.png" 
+                                        IconImageSource="edit_pencil_icon.png"
                                         Text="Editar" />
                                     <SwipeItem
                                         x:Name="SwipeItem_Eliminar"
@@ -86,16 +86,26 @@
 
                                 <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto,Auto">
 
-                                    <Label
-                                        x:Name="Label_NumeroCheque"
-                                        FontAttributes="Bold"
-                                        FontSize="17"
-                                        Text="{Binding NUMERO, StringFormat='Cheque #: {0}', Mode=TwoWay}" />
-                                    <Label
-                                        x:Name="Label_MontoCheque"
-                                        Grid.Column="1"
-                                        FontSize="19"
-                                        Text="{Binding MONTO, StringFormat='${0}', Mode=TwoWay}" />
+                                    <HorizontalStackLayout>
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="17"
+                                            Text="Cheque #: " />
+                                        <Label
+                                            x:Name="Label_NumeroCheque"
+                                            FontAttributes="Bold"
+                                            FontSize="17"
+                                            Text="{Binding NUMERO, Mode=TwoWay}" />
+                                    </HorizontalStackLayout>
+
+                                    <HorizontalStackLayout Grid.Column="1">
+                                        <Label Text="$ " />
+                                        <Label
+                                            x:Name="Label_MontoCheque"
+                                            FontSize="19"
+                                            Text="{Binding MONTO, StringFormat='${0}', Mode=TwoWay}" />
+                                    </HorizontalStackLayout>
+
                                     <Label
                                         x:Name="Label_Proveedor"
                                         Grid.Row="1"
@@ -122,16 +132,16 @@
                                         Spacing="-5">
 
                                         <Label FontSize="12" Text="Cobrado" />
-                                        <!--<CheckBox
+                                        <CheckBox
                                             x:Name="CheckBox_Cheque"
                                             CheckedChanged="CheckBox_CheckedChanged"
                                             IsChecked="{Binding COBRADO, Mode=TwoWay}"
-                                            Color="#065c1b" />-->
+                                            Color="#065c1b" />
 
                                     </VerticalStackLayout>
 
                                 </Grid>
-                                <!--<Border.Triggers>
+                                <Border.Triggers>
                                     <DataTrigger
                                         Binding="{Binding Source={x:Reference CheckBox_Cheque}, Path=IsChecked}"
                                         TargetType="Border"
@@ -139,7 +149,7 @@
                                         <Setter Property="Background" Value="#bccfc0" />
                                         <Setter Property="Stroke" Value="#6aab7a" />
                                     </DataTrigger>
-                                </Border.Triggers>-->
+                                </Border.Triggers>
                             </Border>
 
                         </SwipeView>
