@@ -22,8 +22,8 @@ namespace TesisAppSINMVVM
             InitializeComponent();
 
             //MainPage = new AppShell();}
-            //MainPage = new NavigationPage(new IniciarSesionPage());
-            MainPage = new NavigationPage(new PaginaPrincipalPage());
+            MainPage = new NavigationPage(new IniciarSesionPage());
+            //MainPage = new NavigationPage(new PaginaPrincipalPage());
 
             // CREAR DATOS
             //List<Tbl_Proveedor> listaTbl_Proveedor = new List<Tbl_Proveedor>()
@@ -71,7 +71,7 @@ namespace TesisAppSINMVVM
 
 
 
-           
+
 
         }
     }

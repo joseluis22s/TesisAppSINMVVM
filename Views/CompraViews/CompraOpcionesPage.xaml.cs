@@ -42,6 +42,7 @@ public partial class CompraOpcionesPage : ContentPage
     private async Task NavegarPaginaPrincipalPagePopToRootAsync()
     {
         await Navigation.PopToRootAsync();
+        await Navigation.PushAsync(new PaginaPrincipalPage());
     }
     #endregion
 

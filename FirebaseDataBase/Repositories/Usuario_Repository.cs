@@ -26,7 +26,7 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
                          .Instance
                          .Collection("USUARIO")
                          .AddAsync(usuario);
-                await _repoTblUsuario.GuardarNuevoUsuarioAsync(usuario.USUARIO, usuario.CONTRASENA,usuario.CORREO);
+                //await _repoTblUsuario.GuardarNuevoUsuarioAsync(usuario.USUARIO, usuario.CONTRASENA,usuario.CORREO);
             }
             //else
             //{
@@ -36,34 +36,52 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
         #endregion
 
         #region LECTURA
+        public async Task<Tbl_Usuario> ObtenerUsuarioAsync(string usuario)
+        {
+            var query = await CrossCloudFirestore.Current
+                                      .Instance
+                                      .Collection("USUARIO")
+                                      .WhereEqualsTo("USUARIO", usuario)
+                                      .GetAsync();
+            var usuarioFirebase = query.ToObjects<Tbl_Usuario>().First();
+            return usuarioFirebase;
+        }
         public async Task<List<Tbl_Usuario>> ObtenerUsuariosAsync()
         {
             var documentos = await CrossCloudFirestore.Current
                                          .Instance
                                          .Collection("USUARIO")
                                          .GetAsync();
-            var usuariosFirebase = documentos.ToObjects<Usuario>().ToList();
+            var usuariosFirebase = documentos.ToObjects<Tbl_Usuario>().ToList();
 
-            List<Tbl_Usuario> usuariosLocal = await _repoTblUsuario.ObtenerUsuariosAsync();
-            List<Tbl_Usuario> usuarios = new List<Tbl_Usuario>(usuariosLocal);
+            return usuariosFirebase;
+            //List<Tbl_Usuario> usuariosLocal = await _repoTblUsuario.ObtenerUsuariosAsync();
+            //List<Tbl_Usuario> usuarios = new List<Tbl_Usuario>(usuariosLocal);
 
-            var usuariosToAdd = usuariosFirebase
-                .Select(u => new Tbl_Usuario
-                {
-                    USUARIO = u.USUARIO,
-                    CONTRASENA = u.CONTRASENA,
-                    CORREO = u.CORREO
-                })
-                .Where(p => !usuariosLocal.Any(ul => 
-                    ul.USUARIO == p.USUARIO &&
-                    ul.CONTRASENA == p.CONTRASENA &&
-                    ul.CORREO == p.CORREO
-                ));
+            //var usuariosToAdd = usuariosFirebase
+            //    .Select(u => new Tbl_Usuario
+            //    {
+            //        USUARIO = u.USUARIO,
+            //        CONTRASENA = u.CONTRASENA,
+            //        CORREO = u.CORREO
+            //    })
+            //    .Where(p => !usuariosLocal.Any(ul => 
+            //        ul.USUARIO == p.USUARIO &&
+            //        ul.CONTRASENA == p.CONTRASENA &&
+            //        ul.CORREO == p.CORREO
+            //    ));
 
-            usuarios.AddRange(usuariosToAdd);
+            //usuarios.AddRange(usuariosToAdd);
 
-            return usuarios;
+            //return usuarios;
         }
+        public async Task<bool> VerificarExistenciaUsuarioDBAsync(string usuario)
+        {
+            var documentos = await CrossCloudFirestore.Current
+                                         .Instance
+                                         .Collection("CHEQUE")
+                                         .GetAsync();
+        //}
         #endregion
 
     }
