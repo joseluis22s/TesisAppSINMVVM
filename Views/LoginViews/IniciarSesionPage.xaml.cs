@@ -48,7 +48,8 @@ public partial class IniciarSesionPage : ContentPage
     // LOGICA PARA EVENTOS
     private async Task PermitirIniciarSesion(string nombreUsuario, string contrasena)
     {
-        Tbl_Usuario usuario = await ObtenerUsuarioDBAsync(nombreUsuario);
+        
+        
         //if (usuario.Equals("Jose") && contrasena.Equals("123"))
         //{
         //	return Task.FromResult(true);
@@ -62,37 +63,31 @@ public partial class IniciarSesionPage : ContentPage
             await Toast.Make("Los campos no deben estar vacios").Show();
             return;
         }
-        bool esUsuario = false;
-        if (nombreUsuario == usuario.USUARIO)
-        {
-            esUsuario = true;
-        }
-
-        bool esContrasena = false;
-        if (contrasena == usuario.CONTRASENA)
-        {
-            esContrasena = true;
-        }
-
-        if (esUsuario && esContrasena)
-        {
-            await PaginaPrincipalPagePushAsync();
-        }
         else
         {
-            await Toast.Make("Error al iniciar sesión").Show();
+            Tbl_Usuario usuario = await ObtenerUsuarioDBAsync(nombreUsuario);
+            bool esUsuario = false;
+            if (nombreUsuario == usuario.USUARIO)
+            {
+                esUsuario = true;
+            }
+
+            bool esContrasena = false;
+            if (contrasena == usuario.CONTRASENA)
+            {
+                esContrasena = true;
+            }
+
+            if (esUsuario && esContrasena)
+            {
+                await PaginaPrincipalPagePushAsync();
+            }
+            else
+            {
+                await Toast.Make("Error al iniciar sesión").Show();
+            }
+            Mostar(esUsuario, esContrasena);
         }
-        //bool esUsuario = await VerificarExistenciaUsuarioDBAsync(usuario);
-        //bool esContrasena = await VerificarContrasenaCorrectaDBAsync(usuario, contrasena);
-        //if (esUsuario && esContrasena)
-        //{
-        //    await PaginaPrincipalPagePushAsync();
-        //}
-        //else
-        //{
-        //    await Toast.Make("Error al iniciar sesión").Show();
-        //}
-        Mostar(esUsuario, esContrasena);
     }
 
     // BASE DE DATOS
