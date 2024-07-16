@@ -119,14 +119,22 @@ public partial class HistorialChequesPage : ContentPage
     }
     private async void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
-        _contadorCheuqes += 1;
-        if (_contadorCheuqes == _cantidadCheques)
+        NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+        if (accessType == NetworkAccess.Internet)
         {
-            _permitirEjecución = true;
+            _contadorCheuqes += 1;
+            if (_contadorCheuqes == _cantidadCheques)
+            {
+                _permitirEjecución = true;
+            }
+            if (_permitirEjecución)
+            {
+                await CheckBoxChangedActualizarAsync(sender, e);
+            }
         }
-        if (_permitirEjecución)
+        else
         {
-            await CheckBoxChangedActualizarAsync(sender, e);
+            await Toast.Make("Primero debe conectarse a internet", ToastDuration.Long).Show();
         }
     }
     #endregion
@@ -223,5 +231,5 @@ public partial class HistorialChequesPage : ContentPage
 
     #endregion
 
-    
+
 }
