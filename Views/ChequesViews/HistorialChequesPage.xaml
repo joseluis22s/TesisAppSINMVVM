@@ -77,7 +77,8 @@
 
                             </SwipeView.LeftItems>
 
-                            <Border
+                            <Border BackgroundColor="#ccd3de"
+                                x:Name="Border_ContenedorInfo"
                                 Padding="15,15,20,15"
                                 StrokeShape="{RoundRectangle CornerRadius='5'}"
                                 Style="{StaticResource SelectedFrameStyle}">
@@ -121,6 +122,7 @@
 
                                         <Label FontSize="12" Text="Cobrado" />
                                         <CheckBox
+                                            x:Name="CheckBox_Cheque"
                                             CheckedChanged="CheckBox_CheckedChanged"
                                             IsChecked="{Binding COBRADO, Mode=TwoWay}"
                                             Color="#065c1b" />
@@ -128,6 +130,15 @@
                                     </VerticalStackLayout>
 
                                 </Grid>
+                                <Border.Triggers>
+                                    <DataTrigger
+                                        Binding="{Binding Source={x:Reference CheckBox_Cheque}, Path=IsChecked}"
+                                        TargetType="Border"
+                                        Value="True">
+                                        <Setter Property="Background" Value="#bccfc0" />
+                                        <Setter Property="Stroke" Value="#6aab7a" />
+                                    </DataTrigger>
+                                </Border.Triggers>
                             </Border>
 
                         </SwipeView>
@@ -171,23 +182,7 @@
 
         </Grid>
     </Border>
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <Style x:Key="SelectedFrameStyle" TargetType="Border">
-                <Setter Property="BackgroundColor" Value="#ccd3de" />
-                <Style.Triggers>
-                    <DataTrigger
-                        Binding="{Binding COBRADO}"
-                        TargetType="Border"
-                        Value="True">
-                        <Setter Property="BackgroundColor" Value="#bccfc0" />
-                        <Setter Property="Stroke" Value="#6aab7a" />
-                    </DataTrigger>
-                </Style.Triggers>
-            </Style>
-        </ResourceDictionary>
 
-    </ContentPage.Resources>
 
     <ContentPage.Background>
 
