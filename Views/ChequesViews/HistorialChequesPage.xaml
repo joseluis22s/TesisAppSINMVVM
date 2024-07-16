@@ -65,7 +65,7 @@
                                         x:Name="SwipeItem_Editar"
                                         BackgroundColor="LightGreen"
                                         Clicked="SwipeItem_Editar_Clicked"
-                                        IconImageSource="edit_pencifl_icon.png"
+                                        IconImageSource="edit_pencil_icon.png" 
                                         Text="Editar" />
                                     <SwipeItem
                                         x:Name="SwipeItem_Eliminar"
