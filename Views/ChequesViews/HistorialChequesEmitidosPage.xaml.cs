@@ -13,9 +13,9 @@ public partial class HistorialChequesEmitidosPage : ContentPage
     private List<ChequesGroup> _grupoChequeEmitido { get; set; } = new List<ChequesGroup>();
     private bool _enEjecucion;
     public HistorialChequesEmitidosPage()
-	{
-		InitializeComponent();
-	}
+    {
+        InitializeComponent();
+    }
 
     // NAVEGACIÓN
     #region NAVEGACIÓN
@@ -117,27 +117,27 @@ public partial class HistorialChequesEmitidosPage : ContentPage
     }
     private async Task EditarRegsitroChequeEmitido(object sender)
     {
-        try
+        NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+        if (accessType == NetworkAccess.Internet)
         {
-
-            NetworkAccess accessType = Connectivity.Current.NetworkAccess;
-            if (accessType == NetworkAccess.Internet)
-            {
-                SwipeItem item = sender as SwipeItem;
-                Tbl_Cheque cheque = (Tbl_Cheque)item.BindingContext;
-                await Navigation.PushModalAsync(new EditarChequePage
-                {
-                    BindingContext = cheque
-                });
-            }
-            else
-            {
-                await Toast.Make("Primero debe conectarse a internet", ToastDuration.Long).Show();
-            }
+            SwipeItem item = sender as SwipeItem;
+            Tbl_Cheque cheque = (Tbl_Cheque)item.BindingContext;
+            string msg = "NUMERO-" + cheque.NUMERO +
+               "\nMONTO-" + cheque.MONTO +
+               "\nPROVEEDOR-" + cheque.PROVEEDOR +
+               "\nFECHACOBRO-" + cheque.FECHACOBRO +
+               "\nFECHAEMISION-" + cheque.FECHAEMISION +
+               "\nDIAFECHACOBRO-" + cheque.DIAFECHACOBRO +
+               "\nCOBRADO-" + cheque.COBRADO;
+            await DisplayAlert("MENSAJE",msg, "ok");
+            //await Navigation.PushModalAsync(new EditarChequePage
+            //{
+            //    BindingContext = cheque
+            //}); ;
         }
-        catch(Exception e) 
+        else
         {
-            string msg = "EMPIEZA AQUI\n" + e.Message + "\nTERMINA AQUI";
+            await Toast.Make("Primero debe conectarse a internet", ToastDuration.Long).Show();
         }
     }
     private async Task ELiminarRegsitroChequeEmitido(object sender)

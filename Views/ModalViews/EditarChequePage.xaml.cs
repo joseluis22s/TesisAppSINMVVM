@@ -30,10 +30,10 @@ public partial class EditarChequePage : ContentPage
     #region EVENTOS
     private async void ContentPage_Appearing(object sender, EventArgs e)
     {
-
-        CargarDatos();
-        await CargarPickerInformacionAsync();
-        await CargarDatosChequesAsync();
+        base.OnAppearing();
+        //CargarDatos();
+        //await CargarPickerInformacionAsync();
+        //await CargarDatosChequesAsync();
     }
     private void Entry_MontoCheque_TextChanged(object sender, TextChangedEventArgs e)
     {
