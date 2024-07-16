@@ -4,7 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="CHEQUES: Historial cheques"
-    Appearing="ContentPage_Appearing" 
+    Appearing="ContentPage_Appearing"
     NavigationPage.HasBackButton="False">
 
     <Border
@@ -77,9 +77,10 @@
 
                             </SwipeView.LeftItems>
 
-                            <Border BackgroundColor="#ccd3de"
+                            <Border
                                 x:Name="Border_ContenedorInfo"
                                 Padding="15,15,20,15"
+                                BackgroundColor="#ccd3de"
                                 StrokeShape="{RoundRectangle CornerRadius='5'}"
                                 Style="{StaticResource SelectedFrameStyle}">
 
@@ -121,16 +122,16 @@
                                         Spacing="-5">
 
                                         <Label FontSize="12" Text="Cobrado" />
-                                        <CheckBox
+                                        <!--<CheckBox
                                             x:Name="CheckBox_Cheque"
                                             CheckedChanged="CheckBox_CheckedChanged"
                                             IsChecked="{Binding COBRADO, Mode=TwoWay}"
-                                            Color="#065c1b" />
+                                            Color="#065c1b" />-->
 
                                     </VerticalStackLayout>
 
                                 </Grid>
-                                <Border.Triggers>
+                                <!--<Border.Triggers>
                                     <DataTrigger
                                         Binding="{Binding Source={x:Reference CheckBox_Cheque}, Path=IsChecked}"
                                         TargetType="Border"
@@ -138,7 +139,7 @@
                                         <Setter Property="Background" Value="#bccfc0" />
                                         <Setter Property="Stroke" Value="#6aab7a" />
                                     </DataTrigger>
-                                </Border.Triggers>
+                                </Border.Triggers>-->
                             </Border>
 
                         </SwipeView>

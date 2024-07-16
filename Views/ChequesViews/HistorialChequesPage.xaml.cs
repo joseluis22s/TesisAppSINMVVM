@@ -5,7 +5,6 @@ using TesisAppSINMVVM.FirebaseDataBase.Repositories;
 using TesisAppSINMVVM.LocalDatabase.Tables;
 using TesisAppSINMVVM.Models;
 using TesisAppSINMVVM.Views.ModalViews;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace TesisAppSINMVVM.Views.ChequesViews;
 
@@ -13,10 +12,7 @@ public partial class HistorialChequesPage : ContentPage
 {
     private Cheque_Repository _repoCheque = new Cheque_Repository();
     private ObservableCollection<ChequesGroup> _grupoCheques { get; set; } = new ObservableCollection<ChequesGroup>();
-    int _cantidadCheques = 0;
-    int _contadorCheuqes = 0;
     private bool _enEjecucion;
-    private bool _permitirEjecución = false;
 
 
     public HistorialChequesPage()
@@ -50,7 +46,6 @@ public partial class HistorialChequesPage : ContentPage
     {
         base.OnAppearing();
         await CargarDatosCollectionView_HistorialCompras();
-        _permitirEjecución = false;
     }
     private async void Button_Regresar_Clicked(object sender, EventArgs e)
     {
@@ -117,26 +112,11 @@ public partial class HistorialChequesPage : ContentPage
             await Toast.Make("Primero debe conectarse a internet", ToastDuration.Long).Show();
         }
     }
-    private async void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
-    {
-        NetworkAccess accessType = Connectivity.Current.NetworkAccess;
-        if (accessType == NetworkAccess.Internet)
-        {
-            _contadorCheuqes += 1;
-            if (_contadorCheuqes == _cantidadCheques)
-            {
-                _permitirEjecución = true;
-            }
-            if (_permitirEjecución)
-            {
-                await CheckBoxChangedActualizarAsync(sender, e);
-            }
-        }
-        else
-        {
-            await Toast.Make("Primero debe conectarse a internet", ToastDuration.Long).Show();
-        }
-    }
+    //private async void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    //{
+    //    await CheckBoxChangedActualizarAsync(sender, e);
+    //}
+
     #endregion
 
     // LÓGICA PARA EVENTOS
@@ -144,7 +124,6 @@ public partial class HistorialChequesPage : ContentPage
     private async Task CargarDatosCollectionView_HistorialCompras()
     {
         List<Tbl_Cheque> cheques = await ObtenerDBChequesAsync();
-        _cantidadCheques = cheques.Count();
         if (cheques.Count == 0)
         {
             VerticalStackLayout_EmptyView_HistorialCheques.IsVisible = true;
@@ -163,7 +142,6 @@ public partial class HistorialChequesPage : ContentPage
             }
             var a = _grupoCheques;
             CollectionView_HistorialCheques.ItemsSource = _grupoCheques;
-
         }
 
     }
@@ -171,20 +149,13 @@ public partial class HistorialChequesPage : ContentPage
     {
         await Navigation.PopToRootAsync();
     }
-    private async Task CheckBoxChangedActualizarAsync(object sender, CheckedChangedEventArgs e)
-    {
-        NetworkAccess accessType = Connectivity.Current.NetworkAccess;
-        if (accessType == NetworkAccess.Internet)
-        {
-            CheckBox checkBox = (CheckBox)sender;
-            Tbl_Cheque tblcheque = (Tbl_Cheque)checkBox.BindingContext;
-            await CambiarCobradoRegistroChequeDBAsync(tblcheque.NUMERO, tblcheque.COBRADO);
-        }
-        else
-        {
-            await Toast.Make("Primero debe conectarse a internet", ToastDuration.Long).Show();
-        }
-    }
+    //private async Task CheckBoxChangedActualizarAsync(object sender, CheckedChangedEventArgs e)
+    //{
+    //    CheckBox checkBox = (CheckBox)sender;
+    //    Tbl_Cheque tblcheque = (Tbl_Cheque)checkBox.BindingContext;
+    //    await CambiarCobradoRegistroChequeDBAsync(tblcheque.NUMERO, tblcheque.COBRADO);
+
+    //}
     #endregion
 
     // LÓGICA

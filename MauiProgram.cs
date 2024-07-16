@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Logging;
 using CommunityToolkit.Maui;
 using TesisAppSINMVVM.LocalDatabase;
-using TesisAppSINMVVM.Database.Respositories;
 
 namespace TesisAppSINMVVM
 {
@@ -57,6 +56,7 @@ namespace TesisAppSINMVVM
             // TODO: Eliminar este comentario
             SincronizarBD sincDB = new SincronizarBD();
             sincDB.DesactivarUmbralCache();
+            //ConexionInternet connIn = new ConexionInternet();
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
