@@ -79,10 +79,7 @@
                                 BackgroundColor="#ccd3de"
                                 StrokeShape="{RoundRectangle CornerRadius='5'}">
 
-                                <Grid
-                                    BackgroundColor="Blue"
-                                    ColumnDefinitions="*,Auto"
-                                    RowDefinitions="Auto,Auto,Auto,Auto">
+                                <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto,Auto">
 
                                     <HorizontalStackLayout>
                                         <Label
@@ -114,6 +111,18 @@
                                         <Label Text="Cobro: " />
                                         <Label FontSize="17" Text="{Binding FECHACOBRO}" />
                                     </HorizontalStackLayout>
+
+                                    <VerticalStackLayout
+                                        Grid.Row="2"
+                                        Grid.RowSpan="2"
+                                        Grid.Column="1"
+                                        Spacing="-5">
+                                        <Label FontSize="12" Text="Cobrado" />
+                                        <CheckBox
+                                            CheckedChanged="CheckBox_Cheque_CheckedChanged"
+                                            IsChecked="{Binding COBRADO}"
+                                            Color="#065c1b" />
+                                    </VerticalStackLayout>
 
                                 </Grid>
 

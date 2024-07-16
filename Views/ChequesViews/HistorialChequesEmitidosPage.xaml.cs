@@ -44,6 +44,10 @@ public partial class HistorialChequesEmitidosPage : ContentPage
     {
 
     }
+    private void CheckBox_Cheque_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    {
+
+    }
     #endregion
 
 
@@ -89,6 +93,7 @@ public partial class HistorialChequesEmitidosPage : ContentPage
     {
         return await _repoChequeEmitido.ObtenerChequesAsync();
     }
+
 
 
 
