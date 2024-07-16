@@ -3,6 +3,7 @@ using CommunityToolkit.Maui.Core;
 using TesisAppSINMVVM.FirebaseDataBase.Repositories;
 using TesisAppSINMVVM.LocalDatabase.Tables;
 using TesisAppSINMVVM.Models;
+using TesisAppSINMVVM.Views.ModalViews;
 
 namespace TesisAppSINMVVM.Views.ChequesViews;
 
@@ -72,17 +73,17 @@ public partial class HistorialChequesEmitidosPage : ContentPage
         await RegistrarChequePagePushAsync();
         _enEjecucion = false;
     }
-    private void SwipeItem_Editar_Clicked(object sender, EventArgs e)
+    private async void SwipeItem_Editar_Clicked(object sender, EventArgs e)
     {
-
+        await EditarRegsitroChequeEmitido(sender);
     }
     private void CheckBox_Cheque_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
 
     }
-    private void SwipeItem_Eliminar_Clicked(object sender, EventArgs e)
+    private async void SwipeItem_Eliminar_Clicked(object sender, EventArgs e)
     {
-
+        await ELiminarRegsitroChequeEmitido(sender);
     }
     #endregion
 
@@ -112,6 +113,54 @@ public partial class HistorialChequesEmitidosPage : ContentPage
                 _grupoChequeEmitido.Add(grupo);
             }
             CollectionView_HistorialChequesEmitidos.ItemsSource = _grupoChequeEmitido.ToList();
+        }
+    }
+    private async Task EditarRegsitroChequeEmitido(object sender)
+    {
+        try
+        {
+
+            NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+            if (accessType == NetworkAccess.Internet)
+            {
+                SwipeItem item = sender as SwipeItem;
+                Tbl_Cheque cheque = (Tbl_Cheque)item.BindingContext;
+                await Navigation.PushModalAsync(new EditarChequePage
+                {
+                    BindingContext = cheque
+                });
+            }
+            else
+            {
+                await Toast.Make("Primero debe conectarse a internet", ToastDuration.Long).Show();
+            }
+        }
+        catch(Exception e) 
+        {
+            string msg = "EMPIEZA AQUI\n" + e.Message + "\nTERMINA AQUI";
+        }
+    }
+    private async Task ELiminarRegsitroChequeEmitido(object sender)
+    {
+        NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+        if (accessType == NetworkAccess.Internet)
+        {
+            SwipeItem item = sender as SwipeItem;
+            Tbl_Cheque tblcheque = (Tbl_Cheque)item.BindingContext;
+            Cheque cheque = new Cheque();
+            cheque.NUMERO = tblcheque.NUMERO;
+            cheque.MONTO = tblcheque.MONTO;
+            cheque.PROVEEDOR = tblcheque.PROVEEDOR;
+            cheque.FECHACOBRO = tblcheque.FECHACOBRO;
+            cheque.FECHAEMISION = tblcheque.FECHAEMISION;
+            cheque.DIAFECHACOBRO = tblcheque.DIAFECHACOBRO;
+
+            await EliminarRegistroChequeDBAsync(cheque);
+            await CargarDatosCollectionView_HistorialChequesEmitidos();
+        }
+        else
+        {
+            await Toast.Make("Primero debe conectarse a internet", ToastDuration.Long).Show();
         }
     }
     #endregion
@@ -146,11 +195,14 @@ public partial class HistorialChequesEmitidosPage : ContentPage
     {
         return await _repoChequeEmitido.ObtenerChequesAsync();
     }
-
-
-
-
-
+    private async Task EliminarRegistroChequeDBAsync(Cheque cheque)
+    {
+        await _repoChequeEmitido.EliminarRegistroChequeAsync(cheque);
+    }
+    private async Task CambiarCobradoRegistroChequeDBAsync(int numeroCheque, bool cobrado)
+    {
+        await _repoChequeEmitido.CambiarCobradoRegistroChequeAsync(numeroCheque, cobrado);
+    }
 
     #endregion
 
@@ -160,5 +212,5 @@ public partial class HistorialChequesEmitidosPage : ContentPage
 
     #endregion
 
-    
+
 }
