@@ -143,8 +143,16 @@
         <Button
             x:Name="Button_GuardarCambios"
             Clicked="Button_GuardarCambios_Clicked"
+            FontSize="17"
             HorizontalOptions="Center"
             Text="Aceptar cambios" />
+        <Button
+            x:Name="Button_Regresar"
+            BackgroundColor="#4da36d"
+            Clicked="Button_Regresar_Clicked"
+            FontSize="15"
+            HorizontalOptions="Center"
+            Text="Regresar" />
 
     </VerticalStackLayout>
 

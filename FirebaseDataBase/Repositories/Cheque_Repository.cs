@@ -27,7 +27,7 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
             //    await _repoTblCheque.GuardarChequeAsync(cheque);
             //}
         }
-        public async Task EliminarRegistroCheque(Cheque cheque)
+        public async Task EliminarRegistroChequeAsync(Cheque cheque)
         {
             NetworkAccess accessType = Connectivity.Current.NetworkAccess;
             if (accessType == NetworkAccess.Internet)
@@ -40,7 +40,7 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
                 string idDocumento = documentoCheque.Documents.First().Id;
                 await CrossCloudFirestore.Current
                              .Instance
-                             .Collection("PROVEEDOR")
+                             .Collection("CHEQUE")
                              .Document(idDocumento).DeleteAsync();
                 //await _repoTblCheque.BorrarChequeAsync(cheque.NUMERO);
             }
@@ -92,7 +92,7 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
             var query = await CrossCloudFirestore.Current
                                       .Instance
                                       .Collection("CHEQUE")
-                                      .WhereEqualsTo("NUMERO", nombreProveedor)
+                                      .WhereEqualsTo("PROVEEDOR", nombreProveedor)
                                       .GetAsync();
             var documentos = query.Documents.ToList();
 

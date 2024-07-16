@@ -88,27 +88,32 @@
                                         x:Name="Label_NumeroCheque"
                                         FontAttributes="Bold"
                                         FontSize="17"
-                                        Text="{Binding NUMERO, StringFormat='Cheque #: {0}'}" />
+                                        Text="{Binding NUMERO, StringFormat='Cheque #: {0}', Mode=TwoWay}" />
                                     <Label
                                         x:Name="Label_MontoCheque"
                                         Grid.Column="1"
                                         FontSize="19"
-                                        Text="{Binding MONTO, StringFormat='${0}'}" />
+                                        Text="{Binding MONTO, StringFormat='${0}', Mode=TwoWay}" />
                                     <Label
                                         x:Name="Label_Proveedor"
                                         Grid.Row="2"
                                         FontSize="17"
-                                        Text="{Binding PROVEEDOR}" />
-                                    <Label
-                                        x:Name="Label_FechaEmision"
-                                        Grid.Row="3"
-                                        FontSize="17"
-                                        Text="{Binding FECHAEMISION, StringFormat='Emisión: {0}'}" />
-                                    <Label
-                                        x:Name="Label_FechaCobro"
-                                        Grid.Row="4"
-                                        FontSize="17"
-                                        Text="{Binding FECHACOBRO, StringFormat='Cobro: {0}'}" />
+                                        Text="{Binding PROVEEDOR, Mode=TwoWay}" />
+                                    <HorizontalStackLayout Grid.Row="3">
+                                        <Label Text="Emisión: " />
+                                        <Label
+                                            x:Name="Label_FechaEmision"
+                                            FontSize="17"
+                                            Text="{Binding FECHAEMISION, Mode=TwoWay}" />
+                                    </HorizontalStackLayout>
+                                    <HorizontalStackLayout Grid.Row="4">
+                                        <Label Text="Cobro: " />
+                                        <Label
+                                            x:Name="Label_FechaCobro"
+                                            FontSize="17"
+                                            Text="{Binding FECHACOBRO, Mode=TwoWay}" />
+                                    </HorizontalStackLayout>
+
                                 </Grid>
                             </Border>
 
@@ -125,7 +130,7 @@
                             Margin="10,15,0,3"
                             FontAttributes="Bold"
                             FontSize="17"
-                            Text="{Binding DiaFecha}" />
+                            Text="{Binding DiaFecha, Mode=TwoWay}" />
                     </DataTemplate>
 
                 </CollectionView.GroupHeaderTemplate>

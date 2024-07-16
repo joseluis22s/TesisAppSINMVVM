@@ -19,13 +19,53 @@ public partial class EditarChequePage : ContentPage
     }
     // NAVEGACIÓN
     #region NAVEGACIÓN
-
+    private async Task EditarChequePagePopAsync()
+    {
+        await Navigation.PopModalAsync();
+    }
     #endregion
 
 
     // EVENTOS
     #region EVENTOS
     private async void ContentPage_Appearing(object sender, EventArgs e)
+    {
+
+        CargarDatos();
+        await CargarPickerInformacionAsync();
+        await CargarDatosChequesAsync();
+    }
+    private void Entry_MontoCheque_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        MontoCheque_TextChanged();
+    }
+    private async void Button_GuardarCambios_Clicked(object sender, EventArgs e)
+    {
+
+        if (_enEjecucion)
+        {
+            return;
+        }
+        _enEjecucion = true;
+        await Guardado();
+        _enEjecucion = false;
+    }
+    private async void Button_Regresar_Clicked(object sender, EventArgs e)
+    {
+        if (_enEjecucion)
+        {
+            return;
+        }
+        _enEjecucion = true;
+        await EditarChequePagePopAsync();
+        _enEjecucion = false;
+    }
+    #endregion
+
+
+    // LÓGICA PARA EVENTOS
+    #region LÓGICA PARA EVENTOS
+    private void CargarDatos()
     {
         var tblCheque = (Tbl_Cheque)this.BindingContext;
         Cheque cheque = new Cheque();
@@ -37,21 +77,9 @@ public partial class EditarChequePage : ContentPage
         cheque.DIAFECHACOBRO = tblCheque.DIAFECHACOBRO;
 
         _cheque = cheque;
-        await CargarPickerInformacionAsync();
-        await CargarDatosChequesAsync();
     }
-    private void Entry_MontoCheque_TextChanged(object sender, TextChangedEventArgs e)
+    private async Task Guardado()
     {
-
-    }
-    private async void Button_GuardarCambios_Clicked(object sender, EventArgs e)
-    {
-
-        if (_enEjecucion)
-        {
-            return;
-        }
-        _enEjecucion = true;
         NetworkAccess accessType = Connectivity.Current.NetworkAccess;
         if (accessType == NetworkAccess.Internet)
         {
@@ -60,6 +88,8 @@ public partial class EditarChequePage : ContentPage
             if (existenCambios)
             {
                 await EditarChequeDBasync(_cheque, nuevoCheque);
+                OcultarTeclado();
+                await EditarChequePagePopAsync();
             }
             else
             {
@@ -70,13 +100,7 @@ public partial class EditarChequePage : ContentPage
         {
             await Toast.Make("Primero debe conectarse a internet", ToastDuration.Long).Show();
         }
-        _enEjecucion = false;
     }
-    #endregion
-
-
-    // LÓGICA PARA EVENTOS
-    #region LÓGICA PARA EVENTOS
     private async Task CargarPickerInformacionAsync()
     {
         _tblProveedores = await ObtenerProveedoresDBAsync();
@@ -117,8 +141,11 @@ public partial class EditarChequePage : ContentPage
         int posicion = p.IndexOf(_cheque.PROVEEDOR);
         Picker_Proveedores.SelectedIndex = posicion;
 
-        DatePicker_FechaCobro.Date = DateTime.Parse(_cheque.FECHACOBRO);
-        DatePicker_FechaEmision.Date = DateTime.Parse(_cheque.FECHAEMISION);
+        string cobro = _cheque.FECHACOBRO;
+        string emision = _cheque.FECHAEMISION;
+
+        DatePicker_FechaCobro.Date = DateTime.Parse(cobro);
+        DatePicker_FechaEmision.Date = DateTime.Parse(emision);
     }
     private Cheque ExtraerNuevosDatos()
     {
@@ -150,7 +177,44 @@ public partial class EditarChequePage : ContentPage
 
     // LÓGICA DE COSAS VISUALES DE LA PÁGINA
     #region LÓGICA DE COSAS VISUALES DE LA PÁGINA
+    private void MontoCheque_TextChanged()
+    {
 
+        if (!string.IsNullOrEmpty(Entry_MontoChequeEntero.Text))
+        {
+            if (Entry_MontoChequeEntero.Text.Contains("."))
+            {
+                Entry_MontoChequeEntero.Text = Entry_MontoChequeEntero.Text.Replace(".", "");
+            }
+            else if (!string.IsNullOrEmpty(Entry_MontoChequeDecimal.Text))
+            {
+                if (Entry_MontoChequeDecimal.Text.Contains("."))
+                {
+                    Entry_MontoChequeDecimal.Text = Entry_MontoChequeDecimal.Text.Replace(".", "");
+                }
+
+            }
+        }
+        else if (!string.IsNullOrEmpty(Entry_MontoChequeDecimal.Text))
+        {
+            if (Entry_MontoChequeDecimal.Text.Contains("."))
+            {
+                Entry_MontoChequeDecimal.Text = Entry_MontoChequeDecimal.Text.Replace(".", "");
+            }
+            else if (!string.IsNullOrEmpty(Entry_MontoChequeEntero.Text))
+            {
+                Entry_MontoChequeEntero.Text = Entry_MontoChequeEntero.Text.Replace(".", "");
+            }
+        }
+
+    }
+    private void OcultarTeclado()
+    {
+        Entry_NumeroCheque.Unfocus();
+        Entry_MontoChequeEntero.Unfocus();
+        Entry_MontoChequeDecimal.Unfocus();
+    }
     #endregion
+
 
 }
