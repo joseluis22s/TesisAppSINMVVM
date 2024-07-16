@@ -85,66 +85,66 @@ namespace TesisAppSINMVVM.LocalDatabase
         #region CHEQUES
         private async Task SincronizacionCheques()
         {
-            var documentos = await CrossCloudFirestore.Current
-                                         .Instance
-                                         .Collection("CHEQUE")
-                                         .GetAsync();
-            var chequesFirebase = documentos.ToObjects<Cheque>().ToList();
-            List<Tbl_Cheque> chequesLocal = await _repoTblCheque.ObtenerChequesAsync();
+            //var documentos = await CrossCloudFirestore.Current
+            //                             .Instance
+            //                             .Collection("CHEQUE")
+            //                             .GetAsync();
+            //var chequesFirebase = documentos.ToObjects<Cheque>().ToList();
+            //List<Tbl_Cheque> chequesLocal = await _repoTblCheque.ObtenerChequesAsync();
 
-            List<Tbl_Cheque> chequesLocalParaAgregar = new List<Tbl_Cheque>();
-            List<Cheque> chequesFirebaseParaAgregar = new List<Cheque>();
+            //List<Tbl_Cheque> chequesLocalParaAgregar = new List<Tbl_Cheque>();
+            //List<Cheque> chequesFirebaseParaAgregar = new List<Cheque>();
 
-            // Agregar cheques de Firebase a la lista local
-            foreach (var cheque in chequesFirebase)
-            {
-                if (!chequesLocal.Any(cl => cl.NUMERO == cheque.NUMERO))
-                {
-                    chequesLocalParaAgregar.Add(new Tbl_Cheque
-                    {
-                        NUMERO = cheque.NUMERO,
-                        MONTO = cheque.MONTO,
-                        PROVEEDOR = cheque.PROVEEDOR,
-                        FECHACOBRO = cheque.FECHACOBRO,
-                        FECHAEMISION = cheque.FECHAEMISION,
-                        DIAFECHACOBRO = cheque.DIAFECHACOBRO,
-                    });
-                }
-            }
-            // Agregar proveedores de la lista local a Firebase
-            foreach (var cheque in chequesLocal)
-            {
-                if (!chequesFirebase.Any(cf => cf.NUMERO == cheque.NUMERO))
-                {
-                    chequesFirebaseParaAgregar.Add(new Cheque
-                    {
-                        NUMERO = cheque.NUMERO,
-                        MONTO = cheque.MONTO,
-                        PROVEEDOR = cheque.PROVEEDOR,
-                        FECHACOBRO = cheque.FECHACOBRO,
-                        FECHAEMISION = cheque.FECHAEMISION,
-                        DIAFECHACOBRO = cheque.DIAFECHACOBRO,
-                    });
-                }
-            }
+            //// Agregar cheques de Firebase a la lista local
+            //foreach (var cheque in chequesFirebase)
+            //{
+            //    if (!chequesLocal.Any(cl => cl.NUMERO == cheque.NUMERO))
+            //    {
+            //        chequesLocalParaAgregar.Add(new Tbl_Cheque
+            //        {
+            //            NUMERO = cheque.NUMERO,
+            //            MONTO = cheque.MONTO,
+            //            PROVEEDOR = cheque.PROVEEDOR,
+            //            FECHACOBRO = cheque.FECHACOBRO,
+            //            FECHAEMISION = cheque.FECHAEMISION,
+            //            DIAFECHACOBRO = cheque.DIAFECHACOBRO,
+            //        });
+            //    }
+            //}
+            //// Agregar proveedores de la lista local a Firebase
+            //foreach (var cheque in chequesLocal)
+            //{
+            //    if (!chequesFirebase.Any(cf => cf.NUMERO == cheque.NUMERO))
+            //    {
+            //        chequesFirebaseParaAgregar.Add(new Cheque
+            //        {
+            //            NUMERO = cheque.NUMERO,
+            //            MONTO = cheque.MONTO,
+            //            PROVEEDOR = cheque.PROVEEDOR,
+            //            FECHACOBRO = cheque.FECHACOBRO,
+            //            FECHAEMISION = cheque.FECHAEMISION,
+            //            DIAFECHACOBRO = cheque.DIAFECHACOBRO,
+            //        });
+            //    }
+            //}
 
-            foreach (var p in chequesFirebaseParaAgregar)
-            {
-                await _repoCheque.GuardarNuevoResgitroChequesAsync(p);
-            }
-            foreach (var c in chequesLocalParaAgregar)
-            {
-                Cheque cheque = new()
-                {
-                    NUMERO = c.NUMERO,
-                    MONTO = c.MONTO,
-                    PROVEEDOR = c.PROVEEDOR,
-                    FECHACOBRO = c.FECHACOBRO,
-                    FECHAEMISION = c.FECHAEMISION,
-                    DIAFECHACOBRO = c.DIAFECHACOBRO,
-                };
-                await _repoTblCheque.GuardarChequeAsync(cheque);
-            }
+            //foreach (var p in chequesFirebaseParaAgregar)
+            //{
+            //    await _repoCheque.GuardarNuevoResgitroChequesAsync(p);
+            //}
+            //foreach (var c in chequesLocalParaAgregar)
+            //{
+            //    Cheque cheque = new()
+            //    {
+            //        NUMERO = c.NUMERO,
+            //        MONTO = c.MONTO,
+            //        PROVEEDOR = c.PROVEEDOR,
+            //        FECHACOBRO = c.FECHACOBRO,
+            //        FECHAEMISION = c.FECHAEMISION,
+            //        DIAFECHACOBRO = c.DIAFECHACOBRO,
+            //    };
+            //    await _repoTblCheque.GuardarChequeAsync(cheque);
+            //}
         }
         #endregion
 
