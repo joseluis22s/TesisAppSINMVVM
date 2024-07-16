@@ -6,160 +6,161 @@
     Title="EditarChequePage"
     Appearing="ContentPage_Appearing">
 
-    <VerticalStackLayout Margin="20,35" Spacing="15">
+    <ScrollView>
+        <VerticalStackLayout Margin="20,15,20,0" Spacing="7">
 
-        <Label
-            Margin="0,0,0,10"
-            FontAttributes="Bold"
-            FontSize="20"
-            HorizontalOptions="Center"
-            Text="Editar cheque emitido" />
+            <Label
+                FontAttributes="Bold"
+                FontSize="20"
+                HorizontalOptions="Center"
+                Text="Editar cheque emitido" />
 
-        <VerticalStackLayout>
+            <VerticalStackLayout>
 
-            <Label Text="Número de cheque" />
+                <Label Style="{StaticResource Label_Pequeno}" Text="Número de cheque" />
 
-            <Border BackgroundColor="#bbbfc7">
+                <Border BackgroundColor="#bbbfc7">
 
-                <Grid
-                    Margin="10,0"
-                    ColumnDefinitions="Auto,*"
-                    HorizontalOptions="FillAndExpand">
+                    <Grid
+                        Margin="10,0"
+                        ColumnDefinitions="Auto,*"
+                        HorizontalOptions="FillAndExpand">
 
+
+                        <Label
+                            HorizontalTextAlignment="Center"
+                            Text="#"
+                            TextColor="#5c5c5c"
+                            VerticalOptions="Center" />
+
+                        <Entry
+                            x:Name="Entry_NumeroCheque"
+                            Grid.Column="1"
+                            FontSize="15"
+                            HorizontalTextAlignment="Center"
+                            IsReadOnly="True" />
+
+                    </Grid>
+
+                </Border>
+
+            </VerticalStackLayout>
+
+            <VerticalStackLayout>
+
+                <Label Style="{StaticResource Label_Pequeno}" Text="Monto" />
+
+                <Grid Padding="5,0" ColumnDefinitions="*,Auto,*">
+
+                    <Border>
+
+                        <Grid Margin="10,0" ColumnDefinitions="Auto,*">
+
+                            <Label
+                                Text="$"
+                                TextColor="#5c5c5c"
+                                VerticalOptions="Center" />
+                            <Entry
+                                x:Name="Entry_MontoChequeEntero"
+                                Grid.Column="1"
+                                HorizontalTextAlignment="Center"
+                                Keyboard="Numeric"
+                                MaxLength="7"
+                                Placeholder="0"
+                                TextChanged="Entry_MontoCheque_TextChanged" />
+
+                        </Grid>
+
+                    </Border>
 
                     <Label
-                        HorizontalTextAlignment="Center"
-                        Text="#"
-                        TextColor="#5c5c5c"
-                        VerticalOptions="Center" />
-
-                    <Entry
-                        x:Name="Entry_NumeroCheque"
                         Grid.Column="1"
-                        FontSize="15"
-                        HorizontalTextAlignment="Center"
-                        IsReadOnly="True" />
+                        FontSize="19"
+                        Text="."
+                        VerticalOptions="End" />
+
+                    <Border Grid.Column="2">
+
+                        <Grid Margin="10,0" ColumnDefinitions="*,Auto">
+                            <Entry
+                                x:Name="Entry_MontoChequeDecimal"
+                                HorizontalTextAlignment="Center"
+                                Keyboard="Numeric"
+                                MaxLength="2"
+                                Placeholder="00"
+                                TextChanged="Entry_MontoCheque_TextChanged" />
+                            <Label
+                                Grid.Column="1"
+                                Text="ctvs"
+                                TextColor="#5c5c5c"
+                                VerticalOptions="Center" />
+                        </Grid>
+
+                    </Border>
 
                 </Grid>
 
-            </Border>
+            </VerticalStackLayout>
 
-        </VerticalStackLayout>
+            <VerticalStackLayout>
 
-        <VerticalStackLayout>
+                <Label Style="{StaticResource Label_Pequeno}" Text="Proveedor" />
 
-            <Label Text="Monto" />
-
-            <Grid Padding="5,0" ColumnDefinitions="*,Auto,*">
-
-                <Border >
-
-                    <Grid Margin="10,0" ColumnDefinitions="Auto,*">
-
-                        <Label
-                            Text="$"
-                            TextColor="#5c5c5c"
-                            VerticalOptions="Center" />
-                        <Entry
-                            x:Name="Entry_MontoChequeEntero"
-                            Grid.Column="1"
-                            HorizontalTextAlignment="Center"
-                            Keyboard="Numeric"
-                            MaxLength="7"
-                            Placeholder="0"
-                            TextChanged="Entry_MontoCheque_TextChanged" />
-
-                    </Grid>
-
+                <Border>
+                    <Picker
+                        x:Name="Picker_Proveedores"
+                        Margin="13,0"
+                        ItemDisplayBinding="{Binding PROVEEDOR}" />
                 </Border>
 
-                <Label
-                    Grid.Column="1"
-                    FontSize="19"
-                    Text="."
-                    VerticalOptions="End" />
+            </VerticalStackLayout>
 
-                <Border Grid.Column="2" >
+            <VerticalStackLayout Grid.Row="3">
 
-                    <Grid Margin="10,0" ColumnDefinitions="*,Auto">
-                        <Entry
-                            x:Name="Entry_MontoChequeDecimal"
-                            HorizontalTextAlignment="Center"
-                            Keyboard="Numeric"
-                            MaxLength="2"
-                            Placeholder="00"
-                            TextChanged="Entry_MontoCheque_TextChanged" />
-                        <Label
-                            Grid.Column="1"
-                            Text="ctvs"
-                            TextColor="#5c5c5c"
-                            VerticalOptions="Center" />
-                    </Grid>
-
+                <Label Style="{StaticResource Label_Pequeno}" Text="Fecha de cobro" />
+                <Border>
+                    <DatePicker
+                        x:Name="DatePicker_FechaCobro"
+                        Margin="13,0"
+                        Format="dd/MM/yyyy"
+                        HorizontalOptions="FillAndExpand" />
                 </Border>
 
-            </Grid>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Row="4">
+
+                <Label Style="{StaticResource Label_Pequeno}" Text="Fecha de emisión" />
+                <Border>
+                    <DatePicker
+                        x:Name="DatePicker_FechaEmision"
+                        Margin="13,0"
+                        Format="dd/MM/yyyy"
+                        HorizontalOptions="FillAndExpand" />
+                </Border>
+
+            </VerticalStackLayout>
+
+            <Button
+                x:Name="Button_GuardarCambios"
+                Margin="0,10,0,5"
+                Clicked="Button_GuardarCambios_Clicked"
+                FontSize="17"
+                HorizontalOptions="Center"
+                Text="Aceptar cambios" />
+            <Button
+                x:Name="Button_Regresar"
+                BackgroundColor="#4da36d"
+                Clicked="Button_Regresar_Clicked"
+                FontSize="15"
+                HorizontalOptions="Center"
+                Text="Regresar" />
 
         </VerticalStackLayout>
-
-        <VerticalStackLayout>
-
-            <Label Text="Proveedor" />
-
-            <Border >
-                <Picker
-                    x:Name="Picker_Proveedores"
-                    Margin="13,0"
-                    ItemDisplayBinding="{Binding PROVEEDOR}" />
-            </Border>
-
-        </VerticalStackLayout>
-
-        <VerticalStackLayout Grid.Row="3">
-
-            <Label Text="Fecha de cobro" />
-            <Border >
-                <DatePicker
-                    x:Name="DatePicker_FechaCobro"
-                    Margin="13,0"
-                    Format="dd/MM/yyyy"
-                    HorizontalOptions="FillAndExpand" />
-            </Border>
-
-        </VerticalStackLayout>
-
-        <VerticalStackLayout Grid.Row="4">
-
-            <Label  Text="Fecha de emisión" />
-            <Border >
-                <DatePicker
-                    x:Name="DatePicker_FechaEmision"
-                    Margin="13,0"
-                    Format="dd/MM/yyyy"
-                    HorizontalOptions="FillAndExpand" />
-            </Border>
-
-        </VerticalStackLayout>
-
-        <Button
-            x:Name="Button_GuardarCambios"
-            Clicked="Button_GuardarCambios_Clicked"
-            FontSize="17"
-            HorizontalOptions="Center"
-            Text="Aceptar cambios" />
-        <Button
-            x:Name="Button_Regresar"
-            BackgroundColor="#4da36d"
-            Clicked="Button_Regresar_Clicked"
-            FontSize="15"
-            HorizontalOptions="Center"
-            Text="Regresar" />
-
-    </VerticalStackLayout>
-
-    <!--<ContentPage.Resources>
+    </ScrollView>
+    <ContentPage.Resources>
         <ResourceDictionary>
-            <Style x:Key="LabelStyle" TargetType="Label">
+            <Style x:Key="Label_Pequeno" TargetType="Label">
                 <Setter Property="FontSize" Value="14" />
                 <Setter Property="Padding" Value="12,0" />
                 <Setter Property="FontAttributes" Value="Bold" />
@@ -178,6 +179,6 @@
                 <Setter Property="FontSize" Value="17" />
             </Style>
         </ResourceDictionary>
-    </ContentPage.Resources>-->
+    </ContentPage.Resources>
 
 </ContentPage>

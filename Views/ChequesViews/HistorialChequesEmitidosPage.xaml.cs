@@ -122,14 +122,14 @@ public partial class HistorialChequesEmitidosPage : ContentPage
         {
             SwipeItem item = sender as SwipeItem;
             Tbl_Cheque cheque = (Tbl_Cheque)item.BindingContext;
-            string msg = "NUMERO-" + cheque.NUMERO +
-               "\nMONTO-" + cheque.MONTO +
-               "\nPROVEEDOR-" + cheque.PROVEEDOR +
-               "\nFECHACOBRO-" + cheque.FECHACOBRO +
-               "\nFECHAEMISION-" + cheque.FECHAEMISION +
-               "\nDIAFECHACOBRO-" + cheque.DIAFECHACOBRO +
-               "\nCOBRADO-" + cheque.COBRADO;
-            await DisplayAlert("MENSAJE",msg, "ok");
+            //string msg = "NUMERO-" + cheque.NUMERO +
+            //   "\nMONTO-" + cheque.MONTO +
+            //   "\nPROVEEDOR-" + cheque.PROVEEDOR +
+            //   "\nFECHACOBRO-" + cheque.FECHACOBRO +
+            //   "\nFECHAEMISION-" + cheque.FECHAEMISION +
+            //   "\nDIAFECHACOBRO-" + cheque.DIAFECHACOBRO +
+            //   "\nCOBRADO-" + cheque.COBRADO;
+            //await DisplayAlert("MENSAJE",msg, "ok");
             await Navigation.PushAsync(new EditarChequePage
             {
                 BindingContext = cheque
