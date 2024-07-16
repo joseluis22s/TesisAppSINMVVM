@@ -75,12 +75,12 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
 
             //return usuarios;
         }
-        public async Task<bool> VerificarExistenciaUsuarioDBAsync(string usuario)
-        {
-            var documentos = await CrossCloudFirestore.Current
-                                         .Instance
-                                         .Collection("CHEQUE")
-                                         .GetAsync();
+        //public async Task<bool> VerificarExistenciaUsuarioDBAsync(string usuario)
+        //{
+        //    var documentos = await CrossCloudFirestore.Current
+        //                                 .Instance
+        //                                 .Collection("CHEQUE")
+        //                                 .GetAsync();
         //}
         #endregion
 

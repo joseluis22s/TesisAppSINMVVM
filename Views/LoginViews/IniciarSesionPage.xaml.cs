@@ -8,12 +8,11 @@ namespace TesisAppSINMVVM.Views;
 public partial class IniciarSesionPage : ContentPage
 {
 
-    private Usuario_Repository _repoUsuario;
+    private Usuario_Repository _repoUsuario = new Usuario_Repository();
 
     public IniciarSesionPage()
     {
         InitializeComponent();
-        TblUsuario_repo = new Tbl_Usuario_Repository();
     }
     // NAVEGACIÓN
     private async Task CrearNuevaCuentaPagePushAsync()
