@@ -52,6 +52,7 @@
                 Grid.Row="1"
                 IsGrouped="True"
                 SelectionMode="None">
+                
                 <CollectionView.EmptyView>
                     <ContentView>
                         <VerticalStackLayout BackgroundColor="Transparent" VerticalOptions="Center">
@@ -60,6 +61,7 @@
                         </VerticalStackLayout>
                     </ContentView>
                 </CollectionView.EmptyView>
+                
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Border
@@ -118,6 +120,7 @@
                         </HorizontalStackLayout>
                     </DataTemplate>
                 </CollectionView.GroupHeaderTemplate>
+                
             </CollectionView>
 
             <Grid

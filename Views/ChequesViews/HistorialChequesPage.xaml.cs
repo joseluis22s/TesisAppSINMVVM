@@ -81,7 +81,7 @@ public partial class HistorialChequesPage : ContentPage
             Tbl_Cheque cheque = (Tbl_Cheque)item.BindingContext;
             await Navigation.PushModalAsync(new EditarChequePage
             {
-                BindingContext = /*this.BindingContext*/cheque
+                BindingContext = cheque
             });
         }
         else

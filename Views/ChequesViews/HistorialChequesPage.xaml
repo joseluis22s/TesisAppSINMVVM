@@ -161,15 +161,15 @@
                 </CollectionView.ItemTemplate>
 
                 <CollectionView.GroupHeaderTemplate>
-
                     <DataTemplate>
-                        <Label
-                            Margin="10,15,0,3"
-                            FontAttributes="Bold"
-                            FontSize="17"
-                            Text="{Binding DIAFECHACOBRO}" />
+                        <HorizontalStackLayout>
+                            <Label
+                                Margin="10,15,0,3"
+                                FontAttributes="Bold"
+                                FontSize="17"
+                                Text="{Binding DiaFecha}" />
+                        </HorizontalStackLayout>
                     </DataTemplate>
-
                 </CollectionView.GroupHeaderTemplate>
 
             </CollectionView>
