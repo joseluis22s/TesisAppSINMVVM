@@ -33,6 +33,19 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
             //    await _repoTblProductoComprado.GuardarNuevaCompraProductoCompradoAsync(productoComprado);
             //}
         }
+        public async Task EditarProveedorEnProductoCompradoAsync(string nombreProveedor, string nuevoNombre)
+        {
+            List<string> ids = await ObtenerIdsProductosCompradorAProveedorAsync(nombreProveedor);
+            foreach (var id in ids)
+            {
+                await CrossCloudFirestore.Current
+                            .Instance
+                            .Collection("PRODUCTOCOMPRADO")
+                            .Document(id)
+                            .UpdateAsync(new { PROVEEDOR = nuevoNombre });
+                //await _repoTblCheque.EditarProveedorEnCheque(nombreProveedor, nuevoNombre);
+            }
+        }
         #endregion
 
         #region LECTURA
@@ -135,6 +148,21 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
 
             //productosComprados.AddRange(productosCompradosToAdd);
             //return productosComprados;
+        }
+        public async Task<List<string>> ObtenerIdsProductosCompradorAProveedorAsync(string nombreProveedor)
+        {
+            var query = await CrossCloudFirestore.Current
+                                        .Instance
+                                        .Collection("PRODUCTOCOMPRADO")
+                                         .WhereEqualsTo("PROVEEDOR", nombreProveedor)
+                                        .GetAsync();
+            var documentos = query.Documents.ToList();
+            List<string> idsDocumentos = new List<string>();
+            foreach (var id in documentos)
+            {
+                idsDocumentos.Add(id.Id);
+            }
+            return idsDocumentos;
         }
         #endregion
 

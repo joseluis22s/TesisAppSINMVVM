@@ -9,6 +9,8 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
     public class Proveedor_Repository
     {
         private Tbl_Proveedor_Repository _repoTblProveedor = new Tbl_Proveedor_Repository();
+        private Cheque_Repository _repoCheque = new Cheque_Repository();
+        private ProductoComprado_Repository _repoProductoComprado = new ProductoComprado_Repository();
         #region ESCRITURA
         #endregion
 
@@ -64,6 +66,8 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
                              .Collection("PROVEEDOR")
                              .Document(idDocumento)
                              .UpdateAsync(new {PROVEEDOR = nuevoNombreProveeedor});
+                await _repoCheque.EditarProveedorEnCheques(proveedor.PROVEEDOR, nuevoNombreProveeedor);
+                await _repoProductoComprado.EditarProveedorEnProductoCompradoAsync(proveedor.PROVEEDOR, nuevoNombreProveeedor);
                 //await _repoTblProveedor.EditarProveedorAsync(proveedor, nuevoNombreProveeedor);
             }
         }

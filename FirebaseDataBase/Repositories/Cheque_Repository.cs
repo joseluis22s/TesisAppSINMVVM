@@ -71,6 +71,19 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
                 //await _repoTblCheque.EditarChequeAsync(cheque1, cheque2);
             }
         }
+        public async Task EditarProveedorEnCheques(string nombreProveedor, string nuevoNombre)
+        {
+            List<string> ids = await ObtenerIDChequesPorProveedorAsync(nombreProveedor);
+            foreach (var id in ids)
+            {
+                await CrossCloudFirestore.Current
+                            .Instance
+                            .Collection("CHEQUE")
+                            .Document(id)
+                            .UpdateAsync(new { PROVEEDOR = nuevoNombre });
+                //await _repoTblCheque.EditarProveedorEnCheque(nombreProveedor, nuevoNombre);
+            }
+        }
         #endregion
 
         #region LECTURA
@@ -91,20 +104,7 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
             }
             return idsDocumentos;
         }
-        public async Task EditarProveedorNuevoenCheque(string nombreProveedor, string nuevoNombre)
-        {
-            List<string> ids = await ObtenerIDChequesPorProveedorAsync(nombreProveedor);
-            foreach (var id in ids)
-            {
-                await CrossCloudFirestore.Current
-                            .Instance
-                            .Collection("CHEQUE")
-                            .Document(id)
-                            .UpdateAsync(new { PROVEEDOR = nuevoNombre });
-                //await _repoTblCheque.EditarProveedorEnCheque(nombreProveedor, nuevoNombre);
-            }
-            
-        }
+        
         public async Task<List<Tbl_Cheque>> ObtenerChequesAsync()
         {
             var documentos = await CrossCloudFirestore.Current

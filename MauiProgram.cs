@@ -55,7 +55,8 @@ namespace TesisAppSINMVVM
             //SincronizarBD sincronizarBD = new SincronizarBD();
             //ServicioFirestore firebaseDataBase = new ServicioFirestore();
             // TODO: Eliminar este comentario
-            //firebaseDataBase.DesactivarUmbralCache();
+            SincronizarBD sincDB = new SincronizarBD();
+            sincDB.DesactivarUmbralCache();
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
