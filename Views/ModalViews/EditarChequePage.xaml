@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="EditarChequePage"
     Appearing="ContentPage_Appearing">
+
     <VerticalStackLayout Margin="20,35" Spacing="15">
 
         <Label
@@ -16,9 +17,9 @@
 
         <VerticalStackLayout>
 
-            <Label Style="{StaticResource LabelStyle}" Text="Número de cheque" />
+            <Label Text="Número de cheque" />
 
-            <Border BackgroundColor="#bbbfc7" Style="{StaticResource Border_entrys}">
+            <Border BackgroundColor="#bbbfc7">
 
                 <Grid
                     Margin="10,0"
@@ -47,11 +48,11 @@
 
         <VerticalStackLayout>
 
-            <Label Style="{StaticResource LabelStyle}" Text="Monto" />
+            <Label Text="Monto" />
 
             <Grid Padding="5,0" ColumnDefinitions="*,Auto,*">
 
-                <Border Style="{StaticResource Border_entrys}">
+                <Border >
 
                     <Grid Margin="10,0" ColumnDefinitions="Auto,*">
 
@@ -78,7 +79,7 @@
                     Text="."
                     VerticalOptions="End" />
 
-                <Border Grid.Column="2" Style="{StaticResource Border_entrys}">
+                <Border Grid.Column="2" >
 
                     <Grid Margin="10,0" ColumnDefinitions="*,Auto">
                         <Entry
@@ -103,9 +104,9 @@
 
         <VerticalStackLayout>
 
-            <Label Style="{StaticResource LabelStyle}" Text="Proveedor" />
+            <Label Text="Proveedor" />
 
-            <Border Style="{StaticResource Border_entrys}">
+            <Border >
                 <Picker
                     x:Name="Picker_Proveedores"
                     Margin="13,0"
@@ -116,8 +117,8 @@
 
         <VerticalStackLayout Grid.Row="3">
 
-            <Label Style="{StaticResource LabelStyle}" Text="Fecha de cobro" />
-            <Border Style="{StaticResource Border_entrys}">
+            <Label Text="Fecha de cobro" />
+            <Border >
                 <DatePicker
                     x:Name="DatePicker_FechaCobro"
                     Margin="13,0"
@@ -129,8 +130,8 @@
 
         <VerticalStackLayout Grid.Row="4">
 
-            <Label Style="{StaticResource LabelStyle}" Text="Fecha de emisión" />
-            <Border Style="{StaticResource Border_entrys}">
+            <Label  Text="Fecha de emisión" />
+            <Border >
                 <DatePicker
                     x:Name="DatePicker_FechaEmision"
                     Margin="13,0"
@@ -156,7 +157,7 @@
 
     </VerticalStackLayout>
 
-    <ContentPage.Resources>
+    <!--<ContentPage.Resources>
         <ResourceDictionary>
             <Style x:Key="LabelStyle" TargetType="Label">
                 <Setter Property="FontSize" Value="14" />
@@ -177,6 +178,6 @@
                 <Setter Property="FontSize" Value="17" />
             </Style>
         </ResourceDictionary>
-    </ContentPage.Resources>
+    </ContentPage.Resources>-->
 
 </ContentPage>

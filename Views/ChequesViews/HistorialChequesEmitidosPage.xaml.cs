@@ -130,10 +130,10 @@ public partial class HistorialChequesEmitidosPage : ContentPage
                "\nDIAFECHACOBRO-" + cheque.DIAFECHACOBRO +
                "\nCOBRADO-" + cheque.COBRADO;
             await DisplayAlert("MENSAJE",msg, "ok");
-            //await Navigation.PushModalAsync(new EditarChequePage
-            //{
-            //    BindingContext = cheque
-            //}); ;
+            await Navigation.PushAsync(new EditarChequePage
+            {
+                BindingContext = cheque
+            }); ;
         }
         else
         {

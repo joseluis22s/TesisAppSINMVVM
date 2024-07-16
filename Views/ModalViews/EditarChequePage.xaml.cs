@@ -21,7 +21,7 @@ public partial class EditarChequePage : ContentPage
     #region NAVEGACIÓN
     private async Task EditarChequePagePopAsync()
     {
-        await Navigation.PopModalAsync();
+        await Navigation.PopAsync();
     }
     #endregion
 
@@ -31,9 +31,9 @@ public partial class EditarChequePage : ContentPage
     private async void ContentPage_Appearing(object sender, EventArgs e)
     {
         base.OnAppearing();
-        //CargarDatos();
-        //await CargarPickerInformacionAsync();
-        //await CargarDatosChequesAsync();
+        CargarDatos();
+        await CargarPickerInformacionAsync();
+        await CargarDatosChequesAsync();
     }
     private void Entry_MontoCheque_TextChanged(object sender, TextChangedEventArgs e)
     {
