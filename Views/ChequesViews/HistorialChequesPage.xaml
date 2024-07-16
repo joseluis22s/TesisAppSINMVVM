@@ -79,8 +79,8 @@
 
                             <Border
                                 Padding="15,15,20,15"
-                                BackgroundColor="#ccd3de"
-                                StrokeShape="{RoundRectangle CornerRadius='5'}">
+                                StrokeShape="{RoundRectangle CornerRadius='5'}"
+                                Style="{StaticResource SelectedFrameStyle}">
 
                                 <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto,Auto">
 
@@ -118,8 +118,14 @@
                                         Grid.RowSpan="2"
                                         Grid.Column="1"
                                         Spacing="-5">
+
                                         <Label FontSize="12" Text="Cobrado" />
-                                        <CheckBox IsChecked="{Binding COBRADO, Mode=TwoWay}" />
+                                        <CheckBox
+                                            x:Name="CheckBox_Cheque"
+                                            CheckedChanged="CheckBox_CheckedChanged"
+                                            IsChecked="{Binding COBRADO, Mode=TwoWay}"
+                                            Color="#065c1b" />
+
                                     </VerticalStackLayout>
 
                                 </Grid>
@@ -166,6 +172,23 @@
 
         </Grid>
     </Border>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="SelectedFrameStyle" TargetType="Border">
+                <Setter Property="BackgroundColor" Value="#ccd3de" />
+                <Style.Triggers>
+                    <DataTrigger
+                        Binding="{Binding COBRADO}"
+                        TargetType="Border"
+                        Value="True">
+                        <Setter Property="BackgroundColor" Value="#bccfc0" />
+                        <Setter Property="Stroke" Value="#6aab7a" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+
+    </ContentPage.Resources>
 
     <ContentPage.Background>
 

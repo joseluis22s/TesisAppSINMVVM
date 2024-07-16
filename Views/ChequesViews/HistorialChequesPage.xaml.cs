@@ -80,6 +80,7 @@ public partial class HistorialChequesPage : ContentPage
         {
             BindingContext = /*this.BindingContext*/cheque
         });
+
     }
     private async void SwipeItem_Eliminar_Clicked(object sender, EventArgs e)
     {
@@ -97,8 +98,19 @@ public partial class HistorialChequesPage : ContentPage
         await EliminarRegistroChequeDBAsync(cheque);
         await CargarDatosCollectionView_HistorialCompras();
     }
+    private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    {
+        
+    }
     #endregion
+    private async Task CheckBoxChangedActualizarAsync(object sender, CheckedChangedEventArgs e)
+    {
+        //var cheque = (sender as CheckBox).BindingContext as Cheque;
+        //cheque.COBRADO = e.NewValue;
 
+        //// Actualizar la base de datos (ejemplo usando Firebase)
+        //await _repoCheque.ActualizarEstadoCheque(cheque);
+    }
     // LÓGICA PARA EVENTOS
     #region LÓGICA PARA EVENTOS
     private async Task CargarDatosCollectionView_HistorialCompras()
@@ -164,6 +176,7 @@ public partial class HistorialChequesPage : ContentPage
     {
         await _repoCheque.EliminarRegistroChequeAsync(cheque);
     }
+
     #endregion
 
     // LÓGICA DE COSAS VISUALES DE LA PÁGINA
@@ -171,5 +184,5 @@ public partial class HistorialChequesPage : ContentPage
 
     #endregion
 
-
+    
 }

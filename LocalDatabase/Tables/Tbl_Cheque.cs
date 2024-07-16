@@ -14,4 +14,5 @@ public class Tbl_Cheque
     public string FECHACOBRO { get; set; }
     public string FECHAEMISION { get; set; }
     public string DIAFECHACOBRO { get; set; }
+    public bool COBRADO { get; set; }
 }
