@@ -20,7 +20,7 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
                          .Instance
                          .Collection("COMPRADOR")
                          .AddAsync(comprador);
-                await _repoTblComprador.GuardarCompradorAsync(comprador);
+                //await _repoTblComprador.GuardarCompradorAsync(comprador);
             }
             //else
             //{
@@ -33,21 +33,28 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
         public async Task<List<Tbl_Comprador>> ObtenerCompradoresAsync()
         {
             var documentos = await CrossCloudFirestore.Current
-                                         .Instance
-                                         .Collection("COMPRADOR")
-                                         .GetAsync();
-            var compradoresFirebase = documentos.ToObjects<Comprador>().ToList();
+                                        .Instance
+                                        .Collection("COMPRADOR")
+                                        .GetAsync();
+            var compradoresFirebase = documentos.ToObjects<Tbl_Comprador>().ToList();
 
-            List<Tbl_Comprador> compradoresLocal = await _repoTblComprador.ObtenerTblCompradoresAsync();
-            List<Tbl_Comprador> compradores = new List<Tbl_Comprador>(compradoresLocal);
+            return compradoresFirebase;
+            //var documentos = await CrossCloudFirestore.Current
+            //                             .Instance
+            //                             .Collection("COMPRADOR")
+            //                             .GetAsync();
+            //var compradoresFirebase = documentos.ToObjects<Comprador>().ToList();
 
-            var compradoresToAdd = compradoresFirebase
-                .Select(c => new Tbl_Comprador { COMPRADOR = c.COMPRADOR })
-                .Where(c => !compradoresLocal.Any(cl => cl.COMPRADOR == c.COMPRADOR));
+            //List<Tbl_Comprador> compradoresLocal = await _repoTblComprador.ObtenerTblCompradoresAsync();
+            //List<Tbl_Comprador> compradores = new List<Tbl_Comprador>(compradoresLocal);
 
-            compradores.AddRange(compradoresToAdd);
+            //var compradoresToAdd = compradoresFirebase
+            //    .Select(c => new Tbl_Comprador { COMPRADOR = c.COMPRADOR })
+            //    .Where(c => !compradoresLocal.Any(cl => cl.COMPRADOR == c.COMPRADOR));
 
-            return compradores;
+            //compradores.AddRange(compradoresToAdd);
+
+            //return compradores;
         }
         #endregion
     }

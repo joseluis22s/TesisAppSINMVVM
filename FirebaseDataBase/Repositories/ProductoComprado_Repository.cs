@@ -26,7 +26,7 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
                              .Instance
                              .Collection("PRODUCTOCOMPRADO")
                              .AddAsync(productoComprado);
-                await _repoTblProductoComprado.GuardarNuevaCompraProductoCompradoAsync(productoComprado);
+                //await _repoTblProductoComprado.GuardarNuevaCompraProductoCompradoAsync(productoComprado);
             }
             //else
             //{
@@ -43,18 +43,27 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
                                         .Collection("PRODUCTOCOMPRADO")
                                         .WhereEqualsTo("PROVEEDOR", nombreProveedor)
                                         .GetAsync();
-            var productosCompradosFirebase = documentos.ToObjects<ProductoComprado>().ToList();
-
-            //List<Tbl_ProductoComprado> productosCompradosLocal = await _repoTblProductoComprado.ObtenerProductosCompradosAsync(nombreProveedor);
-            //List<int> numerosCompraLocal = productosCompradosLocal.Select(p => p.NUMEROCOMPRA).Distinct().ToList();
+            var productosCompradosFirebase = documentos.ToObjects<Tbl_ProductoComprado>().ToList();
             List<int> numerosCompraFirebase = productosCompradosFirebase.Select(p => p.NUMEROCOMPRA).Distinct().ToList();
-
-
-            List<int> numerosCompra = new List<int>(/*numerosCompraLocal*/);
-            
-            //numerosCompra = numerosCompraFirebase.Except(numerosCompraLocal).ToList();
-            //numerosCompra.Sort((x, y) => y.CompareTo(x));
             return numerosCompraFirebase;
+
+            //var documentos = await CrossCloudFirestore.Current
+            //                            .Instance
+            //                            .Collection("PRODUCTOCOMPRADO")
+            //                            .WhereEqualsTo("PROVEEDOR", nombreProveedor)
+            //                            .GetAsync();
+            //var productosCompradosFirebase = documentos.ToObjects<ProductoComprado>().ToList();
+
+            ////List<Tbl_ProductoComprado> productosCompradosLocal = await _repoTblProductoComprado.ObtenerProductosCompradosAsync(nombreProveedor);
+            ////List<int> numerosCompraLocal = productosCompradosLocal.Select(p => p.NUMEROCOMPRA).Distinct().ToList();
+            //List<int> numerosCompraFirebase = productosCompradosFirebase.Select(p => p.NUMEROCOMPRA).Distinct().ToList();
+
+
+            //List<int> numerosCompra = new List<int>(/*numerosCompraLocal*/);
+
+            ////numerosCompra = numerosCompraFirebase.Except(numerosCompraLocal).ToList();
+            ////numerosCompra.Sort((x, y) => y.CompareTo(x));
+            //return numerosCompraFirebase;
         }
         public async Task<List<Tbl_ProductoComprado>> ObtenerTodosProductosCompradosAsync()
         {
@@ -62,27 +71,34 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
                                         .Instance
                                         .Collection("PRODUCTOCOMPRADO")
                                         .GetAsync();
-            var productosCompradosFirebase = documentos.ToObjects<ProductoComprado>().ToList();
+            var productosCompradosFirebase = documentos.ToObjects<Tbl_ProductoComprado>().ToList();
+            return productosCompradosFirebase;
 
-            List<Tbl_ProductoComprado> productosCompradosLocal = await _repoTblProductoComprado.ObtenerTodosProductosCompradosAsync();
-            List<Tbl_ProductoComprado> productosComprados = new List<Tbl_ProductoComprado>(productosCompradosLocal);
+            //var documentos = await CrossCloudFirestore.Current
+            //                            .Instance
+            //                            .Collection("PRODUCTOCOMPRADO")
+            //                            .GetAsync();
+            //var productosCompradosFirebase = documentos.ToObjects<ProductoComprado>().ToList();
 
-            var productosCompradosToAdd = productosCompradosFirebase.Select(p => new Tbl_ProductoComprado
-            {
-                NUMEROCOMPRA = p.NUMEROCOMPRA,
-                PRODUCTO = p.PRODUCTO,
-                MEDIDA = p.MEDIDA,
-                CANTIDAD = p.CANTIDAD,
-                PRECIO = p.PRECIO,
-                TOTAL = p.TOTAL,
-                FECHAGUARDADO = p.FECHAGUARDADO,
-                DIAFECHAGUARDADO = p.DIAFECHAGUARDADO,
-                PROVEEDOR = p.PROVEEDOR
-            })
-            .Where(p => !productosCompradosLocal.Any(pl => pl.PRODUCTO == p.PRODUCTO));
+            //List<Tbl_ProductoComprado> productosCompradosLocal = await _repoTblProductoComprado.ObtenerTodosProductosCompradosAsync();
+            //List<Tbl_ProductoComprado> productosComprados = new List<Tbl_ProductoComprado>(productosCompradosLocal);
 
-            productosComprados.AddRange(productosCompradosToAdd);
-            return productosComprados;
+            //var productosCompradosToAdd = productosCompradosFirebase.Select(p => new Tbl_ProductoComprado
+            //{
+            //    NUMEROCOMPRA = p.NUMEROCOMPRA,
+            //    PRODUCTO = p.PRODUCTO,
+            //    MEDIDA = p.MEDIDA,
+            //    CANTIDAD = p.CANTIDAD,
+            //    PRECIO = p.PRECIO,
+            //    TOTAL = p.TOTAL,
+            //    FECHAGUARDADO = p.FECHAGUARDADO,
+            //    DIAFECHAGUARDADO = p.DIAFECHAGUARDADO,
+            //    PROVEEDOR = p.PROVEEDOR
+            //})
+            //.Where(p => !productosCompradosLocal.Any(pl => pl.PRODUCTO == p.PRODUCTO));
+
+            //productosComprados.AddRange(productosCompradosToAdd);
+            //return productosComprados;
         }
         public async Task<List<Tbl_ProductoComprado>> ObtenerProductosCompradosAsync(string nombreProveedor)
         {
@@ -91,27 +107,34 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
                                         .Collection("PRODUCTOCOMPRADO")
                                          .WhereEqualsTo("PROVEEDOR", nombreProveedor)
                                         .GetAsync();
-            var productosCompradosFirebase = documentos.ToObjects<ProductoComprado>().ToList();
+            var productosCompradosFirebase = documentos.ToObjects<Tbl_ProductoComprado>().ToList();
+            return productosCompradosFirebase;
+            //var documentos = await CrossCloudFirestore.Current
+            //                            .Instance
+            //                            .Collection("PRODUCTOCOMPRADO")
+            //                             .WhereEqualsTo("PROVEEDOR", nombreProveedor)
+            //                            .GetAsync();
+            //var productosCompradosFirebase = documentos.ToObjects<ProductoComprado>().ToList();
 
-            List<Tbl_ProductoComprado> productosCompradosLocal = await _repoTblProductoComprado.ObtenerProductosCompradosAsync(nombreProveedor);
-            List<Tbl_ProductoComprado> productosComprados = new List<Tbl_ProductoComprado>(productosCompradosLocal);
+            //List<Tbl_ProductoComprado> productosCompradosLocal = await _repoTblProductoComprado.ObtenerProductosCompradosAsync(nombreProveedor);
+            //List<Tbl_ProductoComprado> productosComprados = new List<Tbl_ProductoComprado>(productosCompradosLocal);
 
-            var productosCompradosToAdd = productosCompradosFirebase.Select(p => new Tbl_ProductoComprado
-            {
-                NUMEROCOMPRA = p.NUMEROCOMPRA,
-                PRODUCTO = p.PRODUCTO,
-                MEDIDA = p.MEDIDA,
-                CANTIDAD = p.CANTIDAD,
-                PRECIO = p.PRECIO,
-                TOTAL = p.TOTAL,
-                FECHAGUARDADO = p.FECHAGUARDADO,
-                DIAFECHAGUARDADO = p.DIAFECHAGUARDADO,
-                PROVEEDOR = p.PROVEEDOR
-            })
-            .Where(p => !productosCompradosLocal.Any(pl => pl.PRODUCTO == p.PRODUCTO));
+            //var productosCompradosToAdd = productosCompradosFirebase.Select(p => new Tbl_ProductoComprado
+            //{
+            //    NUMEROCOMPRA = p.NUMEROCOMPRA,
+            //    PRODUCTO = p.PRODUCTO,
+            //    MEDIDA = p.MEDIDA,
+            //    CANTIDAD = p.CANTIDAD,
+            //    PRECIO = p.PRECIO,
+            //    TOTAL = p.TOTAL,
+            //    FECHAGUARDADO = p.FECHAGUARDADO,
+            //    DIAFECHAGUARDADO = p.DIAFECHAGUARDADO,
+            //    PROVEEDOR = p.PROVEEDOR
+            //})
+            //.Where(p => !productosCompradosLocal.Any(pl => pl.PRODUCTO == p.PRODUCTO));
 
-            productosComprados.AddRange(productosCompradosToAdd);
-            return productosComprados;
+            //productosComprados.AddRange(productosCompradosToAdd);
+            //return productosComprados;
         }
         #endregion
 

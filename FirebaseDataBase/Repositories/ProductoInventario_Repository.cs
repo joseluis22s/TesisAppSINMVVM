@@ -25,7 +25,7 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
                              .Instance
                              .Collection("PRODUCTOSINVENTARIO")
                              .AddAsync(productoInventarioBodega);
-                await _repoProductosInventario.GuardarProductosInventarioAsync(productoInventarioBodega);
+                //await _repoProductosInventario.GuardarProductosInventarioAsync(productoInventarioBodega);
             }
             //else
             //{

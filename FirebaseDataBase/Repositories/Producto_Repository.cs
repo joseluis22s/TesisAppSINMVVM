@@ -20,7 +20,7 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
                              .Instance
                              .Collection("PRODUCTO")
                              .AddAsync(producto);
-                await _repoTblProducto.GuardarProductoAsync(producto);
+                //await _repoTblProducto.GuardarProductoAsync(producto);
             }
             //else
             //{
@@ -36,23 +36,31 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
                                          .Instance
                                          .Collection("PRODUCTO")
                                          .GetAsync();
-            var productosFirebase = documentos.ToObjects<Producto>().ToList();
+            var productosFirebase = documentos.ToObjects<Tbl_Producto>().ToList();
 
-            List<Tbl_Producto> productosLocal = await _repoTblProducto.ObtenerProductosAsync();
-            List<Tbl_Producto> productos = new List<Tbl_Producto>(productosLocal);
+            
+            return productosFirebase;
+            //var documentos = await CrossCloudFirestore.Current
+            //                             .Instance
+            //                             .Collection("PRODUCTO")
+            //                             .GetAsync();
+            //var productosFirebase = documentos.ToObjects<Producto>().ToList();
 
-            var productosToAdd = productosFirebase.
-               Select(p => new Tbl_Producto
-               {
-                   PRODUCTO = p.PRODUCTO,
-                   MEDIDA = p.MEDIDA
-               })
-               .Where(p => !productosLocal.Any(pl =>
-                pl.PRODUCTO == p.PRODUCTO &&
-                pl.MEDIDA == p.MEDIDA
-               ));
-            productos.AddRange(productosToAdd);
-            return productos;
+            //List<Tbl_Producto> productosLocal = await _repoTblProducto.ObtenerProductosAsync();
+            //List<Tbl_Producto> productos = new List<Tbl_Producto>(productosLocal);
+
+            //var productosToAdd = productosFirebase.
+            //   Select(p => new Tbl_Producto
+            //   {
+            //       PRODUCTO = p.PRODUCTO,
+            //       MEDIDA = p.MEDIDA
+            //   })
+            //   .Where(p => !productosLocal.Any(pl =>
+            //    pl.PRODUCTO == p.PRODUCTO &&
+            //    pl.MEDIDA == p.MEDIDA
+            //   ));
+            //productos.AddRange(productosToAdd);
+            //return productos;
         }
         #endregion
 

@@ -156,7 +156,8 @@
                 Text="Guardar" />
             <ImageButton
                 x:Name="ImageButton_Home"
-                Grid.Column="2" Clicked="ImageButton_Home_Clicked"
+                Grid.Column="2"
+                Clicked="ImageButton_Home_Clicked"
                 MaximumHeightRequest="50"
                 Source="home_icon.png" />
             <Button

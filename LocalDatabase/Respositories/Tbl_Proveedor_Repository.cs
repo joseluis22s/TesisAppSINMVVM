@@ -78,7 +78,7 @@ namespace TesisAppSINMVVM.Database.Respositories
         {
             await InitAsync();
 
-            List<Tbl_Proveedor> proveedoresLocal = await ObtenerProveedoresAsync();
+            //List</*Tbl_*/Proveedor> proveedoresLocal = await ObtenerProveedoresAsync();
             var p = await ObtenerProveedorAsync(proveedor);
             p.PROVEEDOR = nuevoNombrePRoveedor;
             await conn.UpdateAsync(p);

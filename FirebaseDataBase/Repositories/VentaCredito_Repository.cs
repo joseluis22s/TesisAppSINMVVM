@@ -24,7 +24,7 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
                              .Instance
                              .Collection("VENTACREDITO")
                              .AddAsync(ventaCredito);
-                await _repoTblVentaCredito.GuardarVentaCreditoAsync(ventaCredito);
+                //await _repoTblVentaCredito.GuardarVentaCreditoAsync(ventaCredito);
             }
             //else
             //{

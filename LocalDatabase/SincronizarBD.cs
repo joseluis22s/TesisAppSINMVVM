@@ -437,41 +437,46 @@ namespace TesisAppSINMVVM.LocalDatabase
                                          .Collection("PROVEEDOR")
                                          .GetAsync();
             var proveedoresFirebase = documentos.ToObjects<Proveedor>().ToList();
-            List<Tbl_Proveedor> proveedoresLocal = await _repoProveedor.ObtenerProveedoresAsync();
+            //var documentos = await CrossCloudFirestore.Current
+            //                             .Instance
+            //                             .Collection("PROVEEDOR")
+            //                             .GetAsync();
+            //var proveedoresFirebase = documentos.ToObjects<Proveedor>().ToList();
+            //List<Tbl_Proveedor> proveedoresLocal = await _repoProveedor.ObtenerProveedoresAsync();
 
-            List<Tbl_Proveedor> proveedoresLocalParaAgregar = new List<Tbl_Proveedor>();
-            List<Proveedor> proveedoresFirebaseParaAgregar = new List<Proveedor>();
+            //List<Tbl_Proveedor> proveedoresLocalParaAgregar = new List<Tbl_Proveedor>();
+            //List<Proveedor> proveedoresFirebaseParaAgregar = new List<Proveedor>();
 
-            // Agregar proveedores de Firebase a la lista local
-            foreach (var proveedor in proveedoresFirebase)
-            {
-                if (!proveedoresLocal.Any(pl => pl.PROVEEDOR == proveedor.PROVEEDOR))
-                {
-                    proveedoresLocalParaAgregar.Add(new Tbl_Proveedor { PROVEEDOR = proveedor.PROVEEDOR });
-                }
-            }
+            //// Agregar proveedores de Firebase a la lista local
+            //foreach (var proveedor in proveedoresFirebase)
+            //{
+            //    if (!proveedoresLocal.Any(pl => pl.PROVEEDOR == proveedor.PROVEEDOR))
+            //    {
+            //        proveedoresLocalParaAgregar.Add(new Tbl_Proveedor { PROVEEDOR = proveedor.PROVEEDOR });
+            //    }
+            //}
 
-            // Agregar proveedores de la lista local a Firebase
-            foreach (var proveedor in proveedoresLocal)
-            {
-                if (!proveedoresFirebase.Any(pf => pf.PROVEEDOR == proveedor.PROVEEDOR))
-                {
-                    proveedoresFirebaseParaAgregar.Add(new Proveedor { PROVEEDOR = proveedor.PROVEEDOR });
-                }
-            }
+            //// Agregar proveedores de la lista local a Firebase
+            //foreach (var proveedor in proveedoresLocal)
+            //{
+            //    if (!proveedoresFirebase.Any(pf => pf.PROVEEDOR == proveedor.PROVEEDOR))
+            //    {
+            //        proveedoresFirebaseParaAgregar.Add(new Proveedor { PROVEEDOR = proveedor.PROVEEDOR });
+            //    }
+            //}
 
-            foreach (var p in proveedoresFirebaseParaAgregar)
-            {
-                await _repoProveedor.GuardarNuevoProveedorAsync(p);
-            }
-            foreach (var p in proveedoresLocalParaAgregar)
-            {
-                Proveedor proveedor = new()
-                {
-                    PROVEEDOR = p.PROVEEDOR
-                };
-                await _repoTblProveedor.GuardarNuevoProveedorAsync(proveedor);
-            }
+            //foreach (var p in proveedoresFirebaseParaAgregar)
+            //{
+            //    await _repoProveedor.GuardarNuevoProveedorAsync(p);
+            //}
+            //foreach (var p in proveedoresLocalParaAgregar)
+            //{
+            //    Proveedor proveedor = new()
+            //    {
+            //        PROVEEDOR = p.PROVEEDOR
+            //    };
+            //    await _repoTblProveedor.GuardarNuevoProveedorAsync(proveedor);
+            //}
         }
         #endregion
 
