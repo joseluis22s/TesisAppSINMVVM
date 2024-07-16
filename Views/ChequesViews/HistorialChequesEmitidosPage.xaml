@@ -39,8 +39,9 @@
             </VerticalStackLayout>
 
             <CollectionView
-                x:Name="CollectionView_HistorialChequesEmitidos"
+                x:Name="CollectionView_HistorialChequesEmitidosConInternet"
                 IsGrouped="True"
+                IsVisible="False"
                 SelectionMode="None">
 
                 <CollectionView.EmptyView>
@@ -151,7 +152,120 @@
                 </CollectionView.GroupHeaderTemplate>
 
             </CollectionView>
+            <CollectionView
+                x:Name="CollectionView_HistorialChequesEmitidosSinInternet"
+                IsGrouped="True"
+                SelectionMode="None">
 
+                <CollectionView.EmptyView>
+
+                    <ContentView>
+                        <VerticalStackLayout BackgroundColor="Transparent" VerticalOptions="Center">
+                            <ActivityIndicator IsRunning="True" Color="Black" />
+                            <Label HorizontalOptions="Center" Text="CARGANDO" />
+                        </VerticalStackLayout>
+                    </ContentView>
+
+                </CollectionView.EmptyView>
+
+                <CollectionView.ItemTemplate>
+
+                    <DataTemplate>
+
+                        <SwipeView>
+
+                            <SwipeView.LeftItems>
+
+                                <SwipeItem
+                                    BackgroundColor="LightGreen"
+                                    Clicked="SwipeItem_Editar_Clicked"
+                                    IconImageSource="edit_pencil_icon.png"
+                                    Text="Editar" />
+                                <SwipeItem
+                                    BackgroundColor="LightPink"
+                                    Clicked="SwipeItem_Eliminar_Clicked"
+                                    IconImageSource="delete_icon.png"
+                                    Text="Eliminar" />
+                            </SwipeView.LeftItems>
+
+                            <Border
+                                Padding="15,15,20,15"
+                                BackgroundColor="#ccd3de"
+                                StrokeShape="{RoundRectangle CornerRadius='5'}">
+
+                                <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto,Auto">
+
+                                    <HorizontalStackLayout>
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="17"
+                                            Text="Cheque #: " />
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="17"
+                                            Text="{Binding NUMERO}" />
+                                    </HorizontalStackLayout>
+
+                                    <HorizontalStackLayout Grid.Column="1">
+                                        <Label FontSize="19" Text="$ " />
+                                        <Label FontSize="19" Text="{Binding MONTO}" />
+                                    </HorizontalStackLayout>
+
+                                    <Label
+                                        Grid.Row="1"
+                                        FontSize="17"
+                                        Text="{Binding PROVEEDOR}" />
+
+                                    <HorizontalStackLayout Grid.Row="2">
+                                        <Label Text="Emisión: " />
+                                        <Label FontSize="17" Text="{Binding FECHAEMISION}" />
+                                    </HorizontalStackLayout>
+
+                                    <HorizontalStackLayout Grid.Row="3">
+                                        <Label Text="Cobro: " />
+                                        <Label FontSize="17" Text="{Binding FECHACOBRO}" />
+                                    </HorizontalStackLayout>
+
+                                    <VerticalStackLayout
+                                        Grid.Row="2"
+                                        Grid.RowSpan="2"
+                                        Grid.Column="1"
+                                        Spacing="-5">
+                                        <Label FontSize="12" Text="Cobrado" />
+                                        <CheckBox
+                                            CheckedChanged="CheckBox_Cheque_CheckedChanged"
+                                            IsChecked="{Binding COBRADO}"
+                                            IsEnabled="False"
+                                            Color="#065c1b" />
+                                    </VerticalStackLayout>
+
+                                </Grid>
+
+                            </Border>
+
+                        </SwipeView>
+
+
+
+                    </DataTemplate>
+
+                </CollectionView.ItemTemplate>
+
+                <CollectionView.GroupHeaderTemplate>
+
+                    <DataTemplate>
+                        <HorizontalStackLayout>
+                            <Label
+                                Margin="10,17,0,3"
+                                FontAttributes="Bold"
+                                FontSize="13"
+                                Text="{Binding DiaFecha}" />
+                        </HorizontalStackLayout>
+                    </DataTemplate>
+
+                </CollectionView.GroupHeaderTemplate>
+
+            </CollectionView>
             <Grid
                 Grid.Row="1"
                 Margin="10,0"

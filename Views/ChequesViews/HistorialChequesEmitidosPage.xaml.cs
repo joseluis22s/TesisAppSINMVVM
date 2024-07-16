@@ -12,9 +12,6 @@ public partial class HistorialChequesEmitidosPage : ContentPage
     private Cheque_Repository _repoChequeEmitido = new Cheque_Repository();
     private List<ChequesGroup> _grupoChequeEmitido { get; set; } = new List<ChequesGroup>();
     private bool _enEjecucion;
-    private bool _permitirEjecucion;
-    private int _cantidadChequesEmitidosCobrados;
-    private int _contadorCheques;
     public HistorialChequesEmitidosPage()
     {
         InitializeComponent();
@@ -50,10 +47,7 @@ public partial class HistorialChequesEmitidosPage : ContentPage
     private async void ContentPage_Appearing(object sender, EventArgs e)
     {
         base.OnAppearing();
-        _cantidadChequesEmitidosCobrados = 0;
         await CargarDatosCollectionView_HistorialChequesEmitidos();
-        _permitirEjecucion = false;
-        _contadorCheques = 0;
     }
     private async void ImageButton_Home_Clicked(object sender, EventArgs e)
     {
@@ -85,18 +79,7 @@ public partial class HistorialChequesEmitidosPage : ContentPage
     }
     private async void CheckBox_Cheque_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
-        _contadorCheques = _contadorCheques + 1;
-        
-        if (_contadorCheques == _cantidadChequesEmitidosCobrados)
-        {
-            _permitirEjecucion = true;
-            //await Toast.Make("N° " + _contadorCheques).Show();
-        }
-        if (_permitirEjecucion)
-        {
-            await CheckBoxChangedActualizarAsync(sender, e);
-            _contadorCheques = 0;
-        }
+        await CheckBoxChangedActualizarAsync(sender, e);
     }
     private async void SwipeItem_Eliminar_Clicked(object sender, EventArgs e)
     {
@@ -110,12 +93,19 @@ public partial class HistorialChequesEmitidosPage : ContentPage
     private async Task CargarDatosCollectionView_HistorialChequesEmitidos()
     {
         List<Tbl_Cheque> chequesEmitidos = await ObtenerChequesDBAsync();
-        _contadorCheques = 0;
-        _cantidadChequesEmitidosCobrados = chequesEmitidos.Where(c => c.COBRADO == true).Count();
         if (chequesEmitidos.Count == 0)
         {
             VerticalStackLayout_EmptyView.IsVisible = true;
-            CollectionView_HistorialChequesEmitidos.IsVisible = false;
+            NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+            if (accessType == NetworkAccess.Internet)
+            {
+                CollectionView_HistorialChequesEmitidosConInternet.IsVisible = true;
+                CollectionView_HistorialChequesEmitidosSinInternet.IsVisible = false;
+            }
+            else
+            {
+                CollectionView_HistorialChequesEmitidosSinInternet.IsVisible = true;
+            }
         }
         else
         {
@@ -131,7 +121,20 @@ public partial class HistorialChequesEmitidosPage : ContentPage
             {
                 _grupoChequeEmitido.Add(grupo);
             }
-            CollectionView_HistorialChequesEmitidos.ItemsSource = _grupoChequeEmitido.ToList();
+            NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+            if (accessType == NetworkAccess.Internet)
+            {
+                CollectionView_HistorialChequesEmitidosConInternet.IsVisible = true;
+                CollectionView_HistorialChequesEmitidosSinInternet.IsVisible = false;
+                CollectionView_HistorialChequesEmitidosConInternet.ItemsSource = _grupoChequeEmitido.ToList(); ;
+            }
+            else
+            {
+                CollectionView_HistorialChequesEmitidosSinInternet.ItemsSource = _grupoChequeEmitido.ToList(); ;
+                CollectionView_HistorialChequesEmitidosSinInternet.IsVisible = true;
+                CollectionView_HistorialChequesEmitidosConInternet.IsVisible = false;
+            }
+            //CollectionView_HistorialChequesEmitidos.ItemsSource = _grupoChequeEmitido.ToList();
         }
     }
     private async Task EditarRegsitroChequeEmitido(object sender)
@@ -184,16 +187,17 @@ public partial class HistorialChequesEmitidosPage : ContentPage
     }
     private async Task CheckBoxChangedActualizarAsync(object sender, CheckedChangedEventArgs e)
     {
+        
         NetworkAccess accessType = Connectivity.Current.NetworkAccess;
         if (accessType == NetworkAccess.Internet)
         {
             CheckBox checkBox = (CheckBox)sender;
-        Tbl_Cheque tblcheque = (Tbl_Cheque)checkBox.BindingContext;
-        await CambiarCobradoRegistroChequeDBAsync(tblcheque.NUMERO, tblcheque.COBRADO);
+            Tbl_Cheque tblcheque = (Tbl_Cheque)checkBox.BindingContext;
+            await CambiarCobradoRegistroChequeDBAsync(tblcheque.NUMERO, tblcheque.COBRADO);
         }
         else
         {
-            await Toast.Make("Primero debe conectarse a internet", ToastDuration.Long).Show();
+            await DisplayAlert("SIN CONEXIÓN", "Para registrar esta acción necesita conectarse a internet", "ok"); ;
         }
     }
     #endregion
