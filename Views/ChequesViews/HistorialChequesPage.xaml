@@ -127,6 +127,7 @@
                                             FontSize="17"
                                             Text="{Binding FECHACOBRO, Mode=TwoWay}" />
                                     </HorizontalStackLayout>
+                                    
                                     <VerticalStackLayout
                                         Grid.Row="2"
                                         Grid.RowSpan="2"

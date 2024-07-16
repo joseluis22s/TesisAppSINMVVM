@@ -6,7 +6,7 @@
     Title="VENTA: Se queda en Bodega"
     Appearing="ContentPage_Appearing"
     NavigationPage.HasBackButton="False">
-    
+
     <Border
         Margin="10"
         Padding="10,0,10,10"
@@ -109,9 +109,9 @@
 
             <Grid
                 Grid.Row="1"
-    Margin="10,0"
-    ColumnDefinitions="*,Auto"
-    ColumnSpacing="15">
+                Margin="10,0"
+                ColumnDefinitions="*,Auto"
+                ColumnSpacing="15">
 
                 <ImageButton
                     x:Name="ImageButton_Home"
@@ -120,11 +120,11 @@
                     MaximumHeightRequest="50"
                     Source="home_icon.png" />
                 <Button
-                x:Name="Button_Regresar"
+                    x:Name="Button_Regresar"
                     Grid.Column="1"
-                Clicked="Button_Regresar_Clicked"
-                HorizontalOptions="Center"
-                Text="Regresar" />
+                    Clicked="Button_Regresar_Clicked"
+                    HorizontalOptions="Center"
+                    Text="Regresar" />
             </Grid>
         </Grid>
     </Border>

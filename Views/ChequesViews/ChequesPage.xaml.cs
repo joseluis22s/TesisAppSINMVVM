@@ -28,7 +28,7 @@ public partial class ChequesPage : ContentPage
     }
     private async Task HistorialChequesPagePushAsync()
     {
-        await Navigation.PushAsync(new HistorialChequesPage());
+        await Navigation.PushAsync(new HistorialChequesEmitidosPage());
     }
 
 
