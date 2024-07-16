@@ -12,7 +12,7 @@ public partial class HistorialComprasPage : ContentPage
     private ProductoComprado_Repository _repoProductoComprado = new ProductoComprado_Repository();
     private List<ProductoCompradoGroup> _grupoProductoComprado { get; set; } = new List<ProductoCompradoGroup>();
     private string _nombreProveedor;
-    public List<ProductoCompradoGroup> _productosComprados { get; private set; } = new List<ProductoCompradoGroup>();
+    //public List<ProductoCompradoGroup> _productosComprados { get; private set; } = new List<ProductoCompradoGroup>();
     private bool _enEjecucion;
 
     public HistorialComprasPage()

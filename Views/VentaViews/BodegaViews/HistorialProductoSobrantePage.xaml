@@ -6,6 +6,7 @@
     Title="VENTA: Se queda en Bodega"
     Appearing="ContentPage_Appearing"
     NavigationPage.HasBackButton="False">
+    
     <Border
         Margin="10"
         Padding="10,0,10,10"

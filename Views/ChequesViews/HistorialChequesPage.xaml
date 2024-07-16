@@ -95,28 +95,30 @@
                                             x:Name="Label_NumeroCheque"
                                             FontAttributes="Bold"
                                             FontSize="17"
-                                            Text="{Binding NUMERO, Mode=TwoWay}" />
+                                            Text="{Binding NUMERO}" />
                                     </HorizontalStackLayout>
 
                                     <HorizontalStackLayout Grid.Column="1">
-                                        <Label Text="$ " />
+                                        <Label FontSize="19" Text="$ " />
                                         <Label
                                             x:Name="Label_MontoCheque"
                                             FontSize="19"
-                                            Text="{Binding MONTO, StringFormat='${0}', Mode=TwoWay}" />
+                                            Text="{Binding MONTO}" />
                                     </HorizontalStackLayout>
 
                                     <Label
                                         x:Name="Label_Proveedor"
                                         Grid.Row="1"
                                         FontSize="17"
-                                        Text="{Binding PROVEEDOR, Mode=TwoWay}" />
+                                        Text="{Binding PROVEEDOR}" />
+
+
                                     <HorizontalStackLayout Grid.Row="2">
                                         <Label Text="Emisión: " />
                                         <Label
                                             x:Name="Label_FechaEmision"
                                             FontSize="17"
-                                            Text="{Binding FECHAEMISION, Mode=TwoWay}" />
+                                            Text="{Binding FECHAEMISION}" />
                                     </HorizontalStackLayout>
                                     <HorizontalStackLayout Grid.Row="3">
                                         <Label Text="Cobro: " />
@@ -165,7 +167,7 @@
                             Margin="10,15,0,3"
                             FontAttributes="Bold"
                             FontSize="17"
-                            Text="{Binding DiaFecha, Mode=TwoWay}" />
+                            Text="{Binding DIAFECHACOBRO}" />
                     </DataTemplate>
 
                 </CollectionView.GroupHeaderTemplate>

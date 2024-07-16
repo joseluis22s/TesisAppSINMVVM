@@ -11,7 +11,8 @@ namespace TesisAppSINMVVM.Views.ChequesViews;
 public partial class HistorialChequesPage : ContentPage
 {
     private Cheque_Repository _repoCheque = new Cheque_Repository();
-    private ObservableCollection<ChequesGroup> _grupoCheques { get; set; } = new ObservableCollection<ChequesGroup>();
+    //private ObservableCollection<ChequesGroup> _grupoCheques { get; set; } = new ObservableCollection<ChequesGroup>();
+    private List<ChequesGroup> _grupoCheques { get; set; } = new List<ChequesGroup>();
     private bool _enEjecucion;
 
 
@@ -123,7 +124,6 @@ public partial class HistorialChequesPage : ContentPage
     #region LÓGICA PARA EVENTOS
     private async Task CargarDatosCollectionView_HistorialCompras()
     {
-
         List<Tbl_Cheque> cheques = await ObtenerDBChequesAsync();
         if (cheques.Count == 0)
         {
@@ -135,24 +135,15 @@ public partial class HistorialChequesPage : ContentPage
             VerticalStackLayout_EmptyView_HistorialCheques.IsVisible = false;
             var gruposFechaCobro = cheques.OrderByDescending(c => DateTime.Parse(c.FECHACOBRO))
             .GroupBy(c => c.DIAFECHACOBRO)
-           .Select(g => new ChequesGroup(g.Key, g.ToList()));
+            .Select(g => new ChequesGroup(g.Key, g.ToList()));
             _grupoCheques.Clear();
             foreach (var grupo in gruposFechaCobro)
             {
                 _grupoCheques.Add(grupo);
             }
             var a = _grupoCheques;
-            try
-            {
+                CollectionView_HistorialCheques.ItemsSource = _grupoCheques.ToList();
 
-                CollectionView_HistorialCheques.ItemsSource = _grupoCheques;
-            }
-            catch (Exception ex)
-            {
-                string msg = ex.Message;
-                //string msg = "EMPIZA AQUI\n" + ex.Message + "\nTERMINA AQUI";
-                Console.WriteLine(msg);
-            }
         }
 
     }
