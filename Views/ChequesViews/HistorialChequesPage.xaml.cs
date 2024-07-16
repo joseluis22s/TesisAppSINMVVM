@@ -157,7 +157,7 @@ public partial class HistorialChequesPage : ContentPage
         {
             CheckBox checkBox = (CheckBox)sender;
             Tbl_Cheque tblcheque = (Tbl_Cheque)checkBox.BindingContext;
-
+            tblcheque.COBRADO = e.Value;
             await CambiarCobradoRegistroChequeDBAsync(tblcheque.NUMERO, tblcheque.COBRADO);
         }
         else
