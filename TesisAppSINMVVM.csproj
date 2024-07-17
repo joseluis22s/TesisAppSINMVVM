@@ -40,10 +40,12 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-
+		<MauiIcon Include="Resources\AppIcon\app_iconoo.png" />
+		
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
 
+		<MauiSplashScreen Include="Resources\Splash\app_splash_iconn.png" TintColor="#ccded3" BaseSize="128,128"/>
+		
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
 
@@ -56,7 +58,7 @@
 
 	<ItemGroup>
 	  <None Remove="Platforms\Android\google-services.json" />
-	  <None Remove="Resources\AppIcon\app_icono.png" />
+	  <None Remove="Resources\AppIcon\app_iconoo.png" />
 	  <None Remove="Resources\Fonts\Roboto-Light.ttf" />
 	  <None Remove="Resources\Fonts\Roboto-Regular.ttf" />
 	  <None Remove="Resources\Fonts\Roboto-Thin.ttf" />
@@ -71,6 +73,7 @@
 	  <None Remove="Resources\Images\remove_empty_icon.png" />
 	  <None Remove="Resources\Images\user_icon.png" />
 	  <None Remove="Resources\Images\venta_icon.png" />
+	  <None Remove="Resources\Splash\app_splash_iconn.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -186,7 +189,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiIcon Include="Resources\AppIcon\app_icono.png" />
+	  <MauiSplashScreen Include="Resources\Splash\app_splash_iconn.png" />
 	</ItemGroup>
 
 </Project>
