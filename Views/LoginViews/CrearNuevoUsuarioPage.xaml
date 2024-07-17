@@ -55,6 +55,7 @@
                     <Grid Margin="20,0,40,0">
 
                         <VerticalStackLayout x:Name="VerticalStackLayout_UsuarioCorreo">
+
                             <Frame Padding="14,0" CornerRadius="5">
 
                                 <Grid
@@ -80,6 +81,7 @@
                                         IsVisible="False"
                                         Source="uncheck_icon.png" />
                                 </Grid>
+
                             </Frame>
                             <Label
                                 x:Name="Label_ValidacionUsuario1"
@@ -104,11 +106,14 @@
                             x:Name="VerticalStackLayout_Contrasenas"
                             IsVisible="False"
                             Spacing="10">
+
                             <Frame Padding="14,0" CornerRadius="5">
+
                                 <Grid
                                     Margin="7,0,6,0"
-                                    ColumnDefinitions="*,18"
+                                    ColumnDefinitions="*,Auto,Auto"
                                     ColumnSpacing="1">
+
                                     <Entry
                                         x:Name="Entry_NuevaContrasena"
                                         HeightRequest="40"
@@ -116,20 +121,27 @@
                                         Placeholder="Contraseña"
                                         PlaceholderColor="#8591a1"
                                         TextChanged="Entry_NuevaContrasena_TextChanged" />
+                                    <CheckBox
+                                        x:Name="hidePassword2"
+                                        Grid.Column="1"
+                                        CheckedChanged="hidePassword2_CheckedChanged" />
                                     <Image
                                         x:Name="Image_NuevaContrasenaCheckIcon"
-                                        Grid.Column="1"
+                                        Grid.Column="2"
                                         HeightRequest="20"
                                         IsVisible="False"
                                         Source="check_icon.png" />
                                     <Image
                                         x:Name="Image_NuevaContrasenaUncheckIcon"
-                                        Grid.Column="1"
+                                        Grid.Column="2"
                                         HeightRequest="20"
                                         IsVisible="False"
                                         Source="uncheck_icon.png" />
+
                                 </Grid>
+
                             </Frame>
+
                             <Label
                                 x:Name="Label_ValidacionNuevaContrasena1"
                                 CharacterSpacing="-0.7"
@@ -138,6 +150,7 @@
                                 IsVisible="False"
                                 Text="* Primera letra mayúscula, al menos 8 caracteres, un número, uno de estos signos '@.$#' y sin espacios."
                                 TextColor="#030524" />
+
                             <Label
                                 x:Name="Label_ValidacionNuevaContrasena2"
                                 CharacterSpacing="-0.7"
@@ -146,11 +159,14 @@
                                 IsVisible="False"
                                 Text="* El usuario no debe ser parte de su contraseña."
                                 TextColor="#030524" />
+
                             <Frame Padding="14,0" CornerRadius="5">
+
                                 <Grid
                                     Margin="7,0,6,0"
-                                    ColumnDefinitions="*,18"
+                                    ColumnDefinitions="*,Auto,Auto"
                                     ColumnSpacing="1">
+
                                     <Entry
                                         x:Name="Entry_ContrasenaIgual"
                                         HeightRequest="40"
@@ -158,18 +174,23 @@
                                         Placeholder=" Confirmar contraseña"
                                         PlaceholderColor="#8591a1"
                                         TextChanged="Entry_ContrasenaIgual_TextChanged" />
+                                    <CheckBox
+                                        x:Name="hidePassword1"
+                                        Grid.Column="1"
+                                        CheckedChanged="hidePassword1_CheckedChanged" />
                                     <Image
                                         x:Name="Image_ContrasenaIgualCheckIcon"
-                                        Grid.Column="1"
+                                        Grid.Column="2"
                                         HeightRequest="20"
                                         IsVisible="False"
                                         Source="check_icon.png" />
                                     <Image
                                         x:Name="Image_ContrasenaIgualUncheckIcon"
-                                        Grid.Column="1"
+                                        Grid.Column="2"
                                         HeightRequest="20"
                                         IsVisible="False"
                                         Source="uncheck_icon.png" />
+
                                 </Grid>
                             </Frame>
                             <Label

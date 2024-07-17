@@ -1,7 +1,10 @@
 using CommunityToolkit.Maui.Alerts;
 using System.Text.RegularExpressions;
+using System.Threading;
 using TesisAppSINMVVM.Database.Respositories;
 using TesisAppSINMVVM.FirebaseDataBase.Repositories;
+using TesisAppSINMVVM.LocalDatabase.Tables;
+using TesisAppSINMVVM.Models;
 
 namespace TesisAppSINMVVM.Views;
 
@@ -11,9 +14,9 @@ public partial class CrearNuevoUsuarioPage : ContentPage
     private Usuario_Repository _repoUsuario = new Usuario_Repository();
 
     public CrearNuevoUsuarioPage()
-	{
-		InitializeComponent();
-	}
+    {
+        InitializeComponent();
+    }
 
     // NAVEGACIÓN ENTRE PÁGINAS
     private async Task CrearNuevaCuentaPagePopAsync()
@@ -32,7 +35,7 @@ public partial class CrearNuevoUsuarioPage : ContentPage
 
         if (Button_SiguienteCrear.Text == "Siguiente")
         {
-            
+
             bool esUsuarioValido = await VerificarNuevoUsuarioAsync();
             if (!esUsuarioValido)
             {
@@ -91,7 +94,7 @@ public partial class CrearNuevoUsuarioPage : ContentPage
         if (esUsuarioValido)
         {
             Label_ValidacionUsuario1.IsVisible = false;
-            
+
             if (exiteUsuario)
             {
                 Label_ValidacionUsuario2.IsVisible = true;
@@ -120,7 +123,7 @@ public partial class CrearNuevoUsuarioPage : ContentPage
             }
         }
     }
-    
+
     private async void Entry_NuevaContrasena_TextChanged(object sender, TextChangedEventArgs e)
     {
         bool esContrasenavalida = await VerificarNuevaContrasenaAsync();
@@ -191,10 +194,36 @@ public partial class CrearNuevoUsuarioPage : ContentPage
             Image_ContrasenaIgualUncheckIcon.IsVisible = true;
         }
     }
+    private void hidePassword2_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    {
+        CheckBox checkbox2  = (CheckBox)sender;
+        bool checkBoxChecked = checkbox2.IsChecked;
 
-    
-    
-    
+        if (checkBoxChecked)
+        {
+            Entry_NuevaContrasena.IsPassword = false;
+        }
+        else
+        {
+            Entry_NuevaContrasena.IsPassword = true;
+        }
+    }
+    private void hidePassword1_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    {
+        CheckBox checkbox1 = (CheckBox)sender;
+        bool checkBoxChecked1 = checkbox1.IsChecked;
+
+        if (checkBoxChecked1)
+        {
+            Entry_ContrasenaIgual.IsPassword = false;
+        }
+        else
+        {
+            Entry_ContrasenaIgual.IsPassword = true;
+        }
+    }
+
+
     // LOGICA PARA EVENTOS
     private Task<bool> VerificarNuevoUsuarioAsync()
     {
@@ -203,28 +232,28 @@ public partial class CrearNuevoUsuarioPage : ContentPage
         {
             nuevoUsuario = "";
         }
-        if (nuevoUsuario.Length != 0) 
+        if (nuevoUsuario.Length != 0)
+        {
+            bool tieneDigito = false;
+            for (int i = 0; i < nuevoUsuario.Length; i++)
             {
-                bool tieneDigito = false;
-                for (int i = 0; i < nuevoUsuario.Length; i++)
+                if (Char.IsDigit(nuevoUsuario[i]))
                 {
-                    if (Char.IsDigit(nuevoUsuario[i]))
-                    {
-                        tieneDigito = true;
-                        break;
-                    }
+                    tieneDigito = true;
+                    break;
                 }
+            }
 
-                if (!string.IsNullOrEmpty(nuevoUsuario) && Char.IsUpper(nuevoUsuario[0]) && tieneDigito &&
-                    nuevoUsuario.Length > 7 && Regex.IsMatch(nuevoUsuario, @"^(?!.*[\sÀ-ÿ])[A-Za-z\d]*$"))
-                {
-                    return Task.FromResult(true);
-                }
+            if (!string.IsNullOrEmpty(nuevoUsuario) && Char.IsUpper(nuevoUsuario[0]) && tieneDigito &&
+                nuevoUsuario.Length > 7 && Regex.IsMatch(nuevoUsuario, @"^(?!.*[\sÀ-ÿ])[A-Za-z\d]*$"))
+            {
+                return Task.FromResult(true);
+            }
             return Task.FromResult(false);
         }
         return Task.FromResult(false);
     }
-    
+
     private Task<bool> VerificarNuevaContrasenaAsync()
     {
         string nuevaContrasena = Entry_NuevaContrasena.Text;
@@ -282,7 +311,41 @@ public partial class CrearNuevoUsuarioPage : ContentPage
         }
         return Task.FromResult((usuario.Equals(contrasena) || contrasena.Contains(usuario)));
     }
-    
+
+
+    #region LÓGICA
+    //LÓGICA
+    private async Task PermitirPopAsyncNavegacion()
+    {
+        bool camposVacios = VerificarCamposVacios();
+        if (!camposVacios)
+        {
+            bool respuesta = await DisplayAlert("Alerta", "¿Desea regresar? Perderá el progreso realizado", "Confimar", "Cancelar");
+            if (respuesta)
+            {
+                await Navigation.PopAsync();
+            }
+        }
+        else
+        {
+            await Navigation.PopAsync();
+        }
+
+    }
+    private bool VerificarCamposVacios()
+    {
+        string nuevoUsuario = Entry_NuevoUsuario.Text;
+        string contrasena = Entry_NuevaContrasena.Text;
+        string contrasenaIgual = Entry_ContrasenaIgual.Text;
+        if (string.IsNullOrEmpty(nuevoUsuario) &&
+        string.IsNullOrEmpty(contrasena) && string.IsNullOrEmpty(contrasenaIgual))
+        {
+            return true;
+        }
+        return false;
+    }
+    #endregion
+
     // BASE DE DATOS
     private async Task<bool> VerificarExistenciaUsuarioDBAsync()
     {
@@ -291,34 +354,50 @@ public partial class CrearNuevoUsuarioPage : ContentPage
         {
             usuario = "";
         }
-        return await TblUsuario_repo.VerificarExistenciaUsuarioAsync(usuario);
+        Tbl_Usuario user = await _repoUsuario.ObtenerUsuarioAsync(usuario);
+        if (user == null)
+        {
+            return false;
+        }
+        else if (user.USUARIO == usuario)
+        {
+            return true;
+        }
+        return false;
     }
     private async Task GuardarNuevoUsuarioBDAsync()
     {
-        string usuario = Entry_NuevoUsuario.Text;
-        if (string.IsNullOrEmpty(usuario))
+        string nombreUsuario = Entry_NuevoUsuario.Text;
+        if (string.IsNullOrEmpty(nombreUsuario))
         {
-            usuario = "";
+            nombreUsuario = "";
         }
         string contrasena = Entry_NuevaContrasena.Text;
         if (string.IsNullOrEmpty(contrasena))
         {
             contrasena = "";
         }
-        //await TblUsuario_repo.GuardarNuevoUsuarioAsync(usuario, contrasena);
+        Usuario usuario = new Usuario();
+        usuario.USUARIO = nombreUsuario;
+        usuario.CONTRASENA = contrasena;
+        await _repoUsuario.GuardarNuevoUsuarioAsync(usuario);
     }
+
+    
+
+
     // COMENTAR: Pruebas
-    private async void Button_BorrarTabla_Clicked(object sender, EventArgs e)
-    {
-        await TblUsuario_repo.BorrarTblUsuarioAsync();
-    }
-    private async void Button_VerificarExistenciaUsuario_Clicked(object sender, EventArgs e)
-    {
-        string usuario = Entry_NuevoUsuario.Text;
-        if (string.IsNullOrEmpty(usuario))
-        {
-            usuario = "";
-        }
-        await TblUsuario_repo.VerificarExistenciaUsuarioAsync(usuario);
-    }
+    //private async void Button_BorrarTabla_Clicked(object sender, EventArgs e)
+    //{
+    //    //await TblUsuario_repo.BorrarTblUsuarioAsync();
+    //}
+    //private async void Button_VerificarExistenciaUsuario_Clicked(object sender, EventArgs e)
+    //{
+    //    string usuario = Entry_NuevoUsuario.Text;
+    //    if (string.IsNullOrEmpty(usuario))
+    //    {
+    //        usuario = "";
+    //    }
+    //    //await TblUsuario_repo.VerificarExistenciaUsuarioAsync(usuario);
+    //}
 }

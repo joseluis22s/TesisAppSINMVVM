@@ -12,6 +12,4 @@ public class Tbl_Usuario
 
     public string CONTRASENA { get; set; }
 
-    public string CORREO { get; set; }
-
 }

@@ -11,7 +11,5 @@ namespace TesisAppSINMVVM.Models
         public string USUARIO { get; set; }
 
         public string CONTRASENA { get; set; }
-
-        public string CORREO { get; set; }
     }
 }

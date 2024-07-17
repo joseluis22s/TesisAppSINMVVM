@@ -44,7 +44,20 @@ public partial class IniciarSesionPage : ContentPage
         }
         await PermitirIniciarSesion(usuario, contrasena);
     }
+    private void hidePassword_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    {
+        CheckBox checkbox2 = (CheckBox)sender;
+        bool checkBoxChecked = checkbox2.IsChecked;
 
+        if (checkBoxChecked)
+        {
+            Entry_Contrasena.IsPassword = false;
+        }
+        else
+        {
+            Entry_Contrasena.IsPassword = true;
+        }
+    }
     // LOGICA PARA EVENTOS
     private async Task PermitirIniciarSesion(string nombreUsuario, string contrasena)
     {
@@ -66,6 +79,11 @@ public partial class IniciarSesionPage : ContentPage
         else
         {
             Tbl_Usuario usuario = await ObtenerUsuarioDBAsync(nombreUsuario);
+            if (usuario == null)
+            {
+                await Toast.Make("Usuario no registrado").Show();
+                return;
+            }
             bool esUsuario = false;
             if (nombreUsuario == usuario.USUARIO)
             {
@@ -125,4 +143,6 @@ public partial class IniciarSesionPage : ContentPage
         }
 
     }
+
+    
 }

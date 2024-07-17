@@ -38,13 +38,21 @@ namespace TesisAppSINMVVM.FirebaseDataBase.Repositories
         #region LECTURA
         public async Task<Tbl_Usuario> ObtenerUsuarioAsync(string usuario)
         {
-            var query = await CrossCloudFirestore.Current
+            try
+            {
+                var query = await CrossCloudFirestore.Current
                                       .Instance
                                       .Collection("USUARIO")
                                       .WhereEqualsTo("USUARIO", usuario)
                                       .GetAsync();
-            var usuarioFirebase = query.ToObjects<Tbl_Usuario>().First();
-            return usuarioFirebase;
+                var usuarioFirebase = query.ToObjects<Tbl_Usuario>().First();
+                return usuarioFirebase;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+            
         }
         public async Task<List<Tbl_Usuario>> ObtenerUsuariosAsync()
         {
