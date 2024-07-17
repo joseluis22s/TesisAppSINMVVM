@@ -39,10 +39,25 @@ public partial class CompraOpcionesPage : ContentPage
             BindingContext = this.BindingContext
         });
     }
-    private async Task NavegarPaginaPrincipalPagePopToRootAsync()
+    private async Task NavegarPaginaPrincipalPageAsync()
     {
-        await Navigation.PopToRootAsync();
-        await Navigation.PushAsync(new PaginaPrincipalPage());
+        //await Navigation.PushAsync(new PaginaPrincipalPage());
+        //var stack = Navigation.NavigationStack.ToArray();
+        //int longitudSatck = stack.Length - 1;
+        //await Navigation.PushAsync(new PaginaPrincipalPage());
+
+        var stack = Navigation.NavigationStack;
+        int ii = stack.Count -1;
+        for (int i = ii; i => 2; i--)
+        {
+            Navigation.RemovePage(Navigation.NavigationStack[i]);
+        }
+
+
+        //while (Navigation.NavigationStack.Count > 2)
+        //{
+        //    Navigation.RemovePage(Navigation.NavigationStack[1]);
+        //}
     }
     #endregion
 
@@ -70,7 +85,7 @@ public partial class CompraOpcionesPage : ContentPage
     }
     private async void ImageButton_Home_Clicked(object sender, EventArgs e)
     {
-        await NavegarPaginaPrincipalPagePopToRootAsync();
+        await NavegarPaginaPrincipalPageAsync();
     }
     #endregion
 
