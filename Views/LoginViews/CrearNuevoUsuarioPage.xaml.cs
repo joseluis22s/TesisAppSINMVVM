@@ -1,28 +1,24 @@
 using CommunityToolkit.Maui.Alerts;
 using System.Text.RegularExpressions;
 using TesisAppSINMVVM.Database.Respositories;
+using TesisAppSINMVVM.FirebaseDataBase.Repositories;
 
 namespace TesisAppSINMVVM.Views;
 
 public partial class CrearNuevoUsuarioPage : ContentPage
 {
     private bool enEjecucion = false;
-    private Tbl_Usuario_Repository TblUsuario_repo;
+    private Usuario_Repository _repoUsuario = new Usuario_Repository();
 
     public CrearNuevoUsuarioPage()
 	{
 		InitializeComponent();
-        TblUsuario_repo = new Tbl_Usuario_Repository();
 	}
 
     // NAVEGACIÓN ENTRE PÁGINAS
     private async Task CrearNuevaCuentaPagePopAsync()
     {
-        bool respuesta = await DisplayAlert("Alerta", "¿Desea regresar? Perderá el progreso realizado", "Confimar", "Cancelar");
-        if (respuesta)
-        {
-            await Navigation.PopAsync();
-        }
+        await PermitirPopAsyncNavegacion();
     }
 
     // EVENTOS
@@ -38,10 +34,9 @@ public partial class CrearNuevoUsuarioPage : ContentPage
         {
             
             bool esUsuarioValido = await VerificarNuevoUsuarioAsync();
-            bool esCorreValido = await VerificarNuevoCorreoAsync();
-            if (!esUsuarioValido || !esCorreValido)
+            if (!esUsuarioValido)
             {
-                await Toast.Make("Todos los campos deben ser válidos").Show();
+                await Toast.Make("El campo debe ser válido").Show();
             }
             else
             {
@@ -125,22 +120,7 @@ public partial class CrearNuevoUsuarioPage : ContentPage
             }
         }
     }
-    private async void Entry_NuevoCorreo_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        bool esCorreoValido = await VerificarNuevoCorreoAsync();
-        if (esCorreoValido)
-        {
-            Label_VerificacionCorreo.IsVisible = false;
-            Image_CorreoCheckIcon.IsVisible = true;
-            Image_CorreoUncheckIcon.IsVisible= false;
-        }
-        else
-        {
-            Label_VerificacionCorreo.IsVisible = true;
-            Image_CorreoCheckIcon.IsVisible = false;
-            Image_CorreoUncheckIcon.IsVisible = true;
-        }
-    }
+    
     private async void Entry_NuevaContrasena_TextChanged(object sender, TextChangedEventArgs e)
     {
         bool esContrasenavalida = await VerificarNuevaContrasenaAsync();
@@ -244,15 +224,7 @@ public partial class CrearNuevoUsuarioPage : ContentPage
         }
         return Task.FromResult(false);
     }
-    private Task<bool> VerificarNuevoCorreoAsync()
-    {
-        string correo = Entry_NuevoCorreo.Text;
-        if (string.IsNullOrEmpty(correo))
-        {
-            correo = "";
-        }
-        return Task.FromResult(Regex.IsMatch(correo, @"^(?!.*[\sÀ-ÿ])[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"));
-    }
+    
     private Task<bool> VerificarNuevaContrasenaAsync()
     {
         string nuevaContrasena = Entry_NuevaContrasena.Text;
@@ -333,12 +305,7 @@ public partial class CrearNuevoUsuarioPage : ContentPage
         {
             contrasena = "";
         }
-        string correo = Entry_NuevoCorreo.Text;
-        if (string.IsNullOrEmpty(correo))
-        {
-            correo = "";
-        }
-        await TblUsuario_repo.GuardarNuevoUsuarioAsync(usuario, contrasena, correo);
+        //await TblUsuario_repo.GuardarNuevoUsuarioAsync(usuario, contrasena);
     }
     // COMENTAR: Pruebas
     private async void Button_BorrarTabla_Clicked(object sender, EventArgs e)

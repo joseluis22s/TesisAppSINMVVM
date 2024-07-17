@@ -4,246 +4,207 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="CrearNuevaCuentaPage"
+    HideSoftInputOnTapped="True"
     NavigationPage.HasNavigationBar="False">
 
-    <Grid
-        BackgroundColor="Transparent" 
-        RowDefinitions="Auto,Auto"
-        RowSpacing="15"
-        VerticalOptions="CenterAndExpand">
-        <Border Margin="20,0" VerticalOptions="Center">
-            <VerticalStackLayout Margin="10,10,10,35" Spacing="20">
-                <Grid Margin="10,15,0,0" ColumnDefinitions="*,30">
-                    <Label
-                        FontAttributes="Bold"
-                        FontSize="18"
-                        Text="CREAR NUEVA CUENTA" />
-                    <Image
-                        x:Name="Image_BackIcon"
-                        Grid.Column="1"
-                        Margin="0,-15,0,0"
-                        IsVisible="False"
-                        Source="back_icon.png">
-                        <Image.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="Image_BackIcon_TapGestureRecognizer_Tapped" />
-                        </Image.GestureRecognizers>
-                    </Image>
-                    <Image
-                        x:Name="Image_CancelCloseIcon"
-                        Grid.Column="1"
-                        Margin="0,-15,0,0"
-                        IsVisible="True"
-                        Source="cancel_close_icon.png">
-                        <Image.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="Image_CancelClose_TapGestureRecognizer_Tapped" />
-                        </Image.GestureRecognizers>
-                    </Image>
-                </Grid>
-                <Grid Margin="20,0,40,0">
-                    <VerticalStackLayout x:Name="VerticalStackLayout_UsuarioCorreo">
-                        <Grid
-                            Margin="7,0,6,0"
-                            ColumnDefinitions="*,18"
-                            ColumnSpacing="2">
-                            <Entry
-                                x:Name="Entry_NuevoUsuario"
-                                HeightRequest="40"
-                                Placeholder="Usuario"
-                                PlaceholderColor="#8591a1"
-                                TextChanged="Entry_NuevoUsuario_TextChanged" />
-                            <Image
-                                x:Name="Image_NuevoUsuarioCheckIcon"
-                                Grid.Column="1"
-                                HeightRequest="20"
-                                IsVisible="False"
-                                Source="check_icon.png" />
-                            <Image
-                                x:Name="Image_NuevoUsuarioUncheckIcon"
-                                Grid.Column="1"
-                                HeightRequest="20"
-                                IsVisible="False"
-                                Source="uncheck_icon.png" />
-                        </Grid>
-                        <Label
-                            x:Name="Label_ValidacionUsuario1"
-                            CharacterSpacing="-0.7"
-                            FontAttributes="Italic"
-                            FontSize="10"
-                            IsVisible="False"
-                            Text="* Primera letra mayúscula, al menos 8 caracteres, un número, sin espacios y sin caracteres especiales."
-                            TextColor="#030524" />
-                        <Label
-                            x:Name="Label_ValidacionUsuario2"
-                            CharacterSpacing="-0.7"
-                            FontAttributes="Italic"
-                            FontSize="10"
-                            IsVisible="False"
-                            Text="* El usuario ya existe en el dispositivo"
-                            TextColor="#030524" />
-                        <Grid
-                            Margin="7,0,6,0"
-                            ColumnDefinitions="*,18"
-                            ColumnSpacing="1">
-                            <Entry
-                                x:Name="Entry_NuevoCorreo"
-                                HeightRequest="40"
-                                Keyboard="Email"
-                                Placeholder=" Correo"
-                                PlaceholderColor="#8591a1"
-                                TextChanged="Entry_NuevoCorreo_TextChanged" />
-                            <Image
-                                x:Name="Image_CorreoCheckIcon"
-                                Grid.Column="1"
-                                HeightRequest="20"
-                                IsVisible="False"
-                                Source="check_icon.png" />
-                            <Image
-                                x:Name="Image_CorreoUncheckIcon"
-                                Grid.Column="1"
-                                HeightRequest="20"
-                                IsVisible="False"
-                                Source="uncheck_icon.png" />
-                        </Grid>
-                        <Label
-                            x:Name="Label_VerificacionCorreo"
-                            CharacterSpacing="-0.7"
-                            FontAttributes="Italic"
-                            FontSize="10"
-                            IsVisible="False"
-                            Text="* Correo no válido"
-                            TextColor="#030524" />
-                    </VerticalStackLayout>
-                    <VerticalStackLayout x:Name="VerticalStackLayout_Contrasenas" IsVisible="False">
-                        <Grid
-                            Margin="7,0,6,0"
-                            ColumnDefinitions="*,18"
-                            ColumnSpacing="1">
-                            <Entry
-                                x:Name="Entry_NuevaContrasena"
-                                HeightRequest="40"
-                                IsPassword="True"
-                                Placeholder="Contraseña"
-                                PlaceholderColor="#8591a1"
-                                TextChanged="Entry_NuevaContrasena_TextChanged" />
-                            <Image
-                                x:Name="Image_NuevaContrasenaCheckIcon"
-                                Grid.Column="1"
-                                HeightRequest="20"
-                                IsVisible="False"
-                                Source="check_icon.png" />
-                            <Image
-                                x:Name="Image_NuevaContrasenaUncheckIcon"
-                                Grid.Column="1"
-                                HeightRequest="20"
-                                IsVisible="False"
-                                Source="uncheck_icon.png" />
-                        </Grid>
-                        <Label
-                            x:Name="Label_ValidacionNuevaContrasena1"
-                            CharacterSpacing="-0.7"
-                            FontAttributes="Italic"
-                            FontSize="10"
-                            IsVisible="False"
-                            Text="* Primera letra mayúscula, al menos 8 caracteres, un número, uno de estos signos '@.$#' y sin espacios."
-                            TextColor="#030524" />
-                        <Label
-                            x:Name="Label_ValidacionNuevaContrasena2"
-                            CharacterSpacing="-0.7"
-                            FontAttributes="Italic"
-                            FontSize="10"
-                            IsVisible="False"
-                            Text="* El usuario no debe ser parte de su contraseña."
-                            TextColor="#030524" />
-                        <Grid
-                            Margin="7,0,6,0"
-                            ColumnDefinitions="*,18"
-                            ColumnSpacing="1">
-                            <Entry
-                                x:Name="Entry_ContrasenaIgual"
-                                HeightRequest="40"
-                                IsPassword="True"
-                                Placeholder=" Confirmar contraseña"
-                                PlaceholderColor="#8591a1"
-                                TextChanged="Entry_ContrasenaIgual_TextChanged" />
-                            <Image
-                                x:Name="Image_ContrasenaIgualCheckIcon"
-                                Grid.Column="1"
-                                HeightRequest="20"
-                                IsVisible="False"
-                                Source="check_icon.png" />
-                            <Image
-                                x:Name="Image_ContrasenaIgualUncheckIcon"
-                                Grid.Column="1"
-                                HeightRequest="20"
-                                IsVisible="False"
-                                Source="uncheck_icon.png" />
-                        </Grid>
-                        <Label
-                            x:Name="Label_ValidacionContrasenaIgual"
-                            CharacterSpacing="-0.7"
-                            FontAttributes="Italic"
-                            FontSize="10"
-                            IsVisible="False"
-                            Text="* Las contraseñas no son iguales."
-                            TextColor="#030524" />
-                    </VerticalStackLayout>
-                </Grid>
-            </VerticalStackLayout>
+    <ScrollView>
 
-            <Border.Background>
-                <LinearGradientBrush EndPoint="2,1">
-                    <GradientStop Offset="0.1" Color="#e8f2ff" />
-                    <GradientStop Offset="1.0" Color="#4e82d4" />
-                </LinearGradientBrush>
-            </Border.Background>
-            <Border.StrokeShape>
-                <RoundRectangle CornerRadius="10" />
-            </Border.StrokeShape>
-            <Border.Shadow>
-                <Shadow
-                    Brush="Black"
-                    Opacity="0.5"
-                    Radius="100"
-                    Offset="-20,0" />
-            </Border.Shadow>
-        </Border>
-        <Button
-            x:Name="Button_SiguienteCrear"
-            Grid.Row="1"
-            Clicked="Button_SiguienteCrear_Clicked"
-            HeightRequest="45"
-            Text="Siguiente"
-            VerticalOptions="Center"
-            WidthRequest="130" />
-        <!--  Comentar  -->
-        <Button
-            x:Name="Button_BorrarTabla"
-            Grid.Row="1"
-            Clicked="Button_BorrarTabla_Clicked"
-            HeightRequest="45"
-            HorizontalOptions="End"
-            IsVisible="False"
-            Text="BorrarTabla"
-            VerticalOptions="End"
-            WidthRequest="130" />
-        <Button
-            x:Name="Button_VerificarExistenciaUsuario"
-            Grid.Row="1"
-            Clicked="Button_VerificarExistenciaUsuario_Clicked"
-            HeightRequest="45"
-            HorizontalOptions="End"
-            IsVisible="False"
-            Text="Verificar"
-            VerticalOptions="End"
-            WidthRequest="130" />
+        <Grid
+            BackgroundColor="Transparent"
+            RowDefinitions="Auto,Auto"
+            RowSpacing="15"
+            VerticalOptions="CenterAndExpand">
 
-    </Grid>
+            <Border
+                Margin="20,0"
+                BackgroundColor="#8dd6ab"
+                Stroke="#558067"
+                StrokeShape="{RoundRectangle CornerRadius='10'}"
+                VerticalOptions="Center">
 
+                <VerticalStackLayout Margin="10,10,10,35" Spacing="20">
+
+                    <Grid Margin="10,15,0,0" ColumnDefinitions="*,30">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="18"
+                            Text="CREAR NUEVO USUARIO" />
+                        <Image
+                            x:Name="Image_BackIcon"
+                            Grid.Column="1"
+                            Margin="0,-15,0,0"
+                            IsVisible="False"
+                            Source="back_icon.png">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="Image_BackIcon_TapGestureRecognizer_Tapped" />
+                            </Image.GestureRecognizers>
+                        </Image>
+                        <Image
+                            x:Name="Image_CancelCloseIcon"
+                            Grid.Column="1"
+                            Margin="0,-15,0,0"
+                            IsVisible="True"
+                            Source="cancel_close_icon.png">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="Image_CancelClose_TapGestureRecognizer_Tapped" />
+                            </Image.GestureRecognizers>
+                        </Image>
+
+                    </Grid>
+
+                    <Grid Margin="20,0,40,0">
+
+                        <VerticalStackLayout x:Name="VerticalStackLayout_UsuarioCorreo">
+                            <Frame Padding="14,0" CornerRadius="5">
+
+                                <Grid
+                                    Margin="7,0,6,0"
+                                    ColumnDefinitions="*,18"
+                                    ColumnSpacing="2">
+                                    <Entry
+                                        x:Name="Entry_NuevoUsuario"
+                                        HeightRequest="40"
+                                        Placeholder="Usuario"
+                                        PlaceholderColor="#8591a1"
+                                        TextChanged="Entry_NuevoUsuario_TextChanged" />
+                                    <Image
+                                        x:Name="Image_NuevoUsuarioCheckIcon"
+                                        Grid.Column="1"
+                                        HeightRequest="20"
+                                        IsVisible="False"
+                                        Source="check_icon.png" />
+                                    <Image
+                                        x:Name="Image_NuevoUsuarioUncheckIcon"
+                                        Grid.Column="1"
+                                        HeightRequest="20"
+                                        IsVisible="False"
+                                        Source="uncheck_icon.png" />
+                                </Grid>
+                            </Frame>
+                            <Label
+                                x:Name="Label_ValidacionUsuario1"
+                                CharacterSpacing="-0.7"
+                                FontAttributes="Italic"
+                                FontSize="10"
+                                IsVisible="False"
+                                Text="* Primera letra mayúscula, al menos 8 caracteres, un número, sin espacios y sin caracteres especiales."
+                                TextColor="#030524" />
+                            <Label
+                                x:Name="Label_ValidacionUsuario2"
+                                CharacterSpacing="-0.7"
+                                FontAttributes="Italic"
+                                FontSize="10"
+                                IsVisible="False"
+                                Text="* El usuario ya existe en el dispositivo"
+                                TextColor="#030524" />
+
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout
+                            x:Name="VerticalStackLayout_Contrasenas"
+                            IsVisible="False"
+                            Spacing="10">
+                            <Frame Padding="14,0" CornerRadius="5">
+                                <Grid
+                                    Margin="7,0,6,0"
+                                    ColumnDefinitions="*,18"
+                                    ColumnSpacing="1">
+                                    <Entry
+                                        x:Name="Entry_NuevaContrasena"
+                                        HeightRequest="40"
+                                        IsPassword="True"
+                                        Placeholder="Contraseña"
+                                        PlaceholderColor="#8591a1"
+                                        TextChanged="Entry_NuevaContrasena_TextChanged" />
+                                    <Image
+                                        x:Name="Image_NuevaContrasenaCheckIcon"
+                                        Grid.Column="1"
+                                        HeightRequest="20"
+                                        IsVisible="False"
+                                        Source="check_icon.png" />
+                                    <Image
+                                        x:Name="Image_NuevaContrasenaUncheckIcon"
+                                        Grid.Column="1"
+                                        HeightRequest="20"
+                                        IsVisible="False"
+                                        Source="uncheck_icon.png" />
+                                </Grid>
+                            </Frame>
+                            <Label
+                                x:Name="Label_ValidacionNuevaContrasena1"
+                                CharacterSpacing="-0.7"
+                                FontAttributes="Italic"
+                                FontSize="10"
+                                IsVisible="False"
+                                Text="* Primera letra mayúscula, al menos 8 caracteres, un número, uno de estos signos '@.$#' y sin espacios."
+                                TextColor="#030524" />
+                            <Label
+                                x:Name="Label_ValidacionNuevaContrasena2"
+                                CharacterSpacing="-0.7"
+                                FontAttributes="Italic"
+                                FontSize="10"
+                                IsVisible="False"
+                                Text="* El usuario no debe ser parte de su contraseña."
+                                TextColor="#030524" />
+                            <Frame Padding="14,0" CornerRadius="5">
+                                <Grid
+                                    Margin="7,0,6,0"
+                                    ColumnDefinitions="*,18"
+                                    ColumnSpacing="1">
+                                    <Entry
+                                        x:Name="Entry_ContrasenaIgual"
+                                        HeightRequest="40"
+                                        IsPassword="True"
+                                        Placeholder=" Confirmar contraseña"
+                                        PlaceholderColor="#8591a1"
+                                        TextChanged="Entry_ContrasenaIgual_TextChanged" />
+                                    <Image
+                                        x:Name="Image_ContrasenaIgualCheckIcon"
+                                        Grid.Column="1"
+                                        HeightRequest="20"
+                                        IsVisible="False"
+                                        Source="check_icon.png" />
+                                    <Image
+                                        x:Name="Image_ContrasenaIgualUncheckIcon"
+                                        Grid.Column="1"
+                                        HeightRequest="20"
+                                        IsVisible="False"
+                                        Source="uncheck_icon.png" />
+                                </Grid>
+                            </Frame>
+                            <Label
+                                x:Name="Label_ValidacionContrasenaIgual"
+                                CharacterSpacing="-0.7"
+                                FontAttributes="Italic"
+                                FontSize="10"
+                                IsVisible="False"
+                                Text="* Las contraseñas no son iguales."
+                                TextColor="#030524" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </VerticalStackLayout>
+
+            </Border>
+
+            <Button
+                x:Name="Button_SiguienteCrear"
+                Grid.Row="1"
+                Clicked="Button_SiguienteCrear_Clicked"
+                HeightRequest="45"
+                Text="Siguiente"
+                VerticalOptions="Center"
+                WidthRequest="130" />
+
+        </Grid>
+
+    </ScrollView>
 
     <ContentPage.Background>
-        <LinearGradientBrush EndPoint="1,0">
-            <GradientStop Offset="0.1" Color="#5d92e8" />
-            <GradientStop Offset="1.0" Color="#044fc7" />
-        </LinearGradientBrush>
+
+        <Color>
+            #d5eddd
+        </Color>
+
     </ContentPage.Background>
+
 </ContentPage>

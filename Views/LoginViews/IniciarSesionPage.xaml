@@ -4,116 +4,123 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="IniciarSesionPage"
+    HideSoftInputOnTapped="True"
     NavigationPage.HasNavigationBar="False">
-    <VerticalStackLayout VerticalOptions="Center">
 
 
-        <Frame
-            Margin="40,0"
-            Padding="15,25,15,15"
-            BackgroundColor="#8dd6ab"
-            BorderColor="#558067"
-            CornerRadius="20">
+    <ScrollView>
 
-            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="7">
-                <Label
-                    Margin="0,0,0,17"
-                    FontAttributes="Bold"
-                    FontSize="20"
-                    HorizontalOptions="Center"
-                    Text="INICIAR SESIÓN" />
-                <Frame
-                    Grid.Row="1"
-                    Padding="14,0"
-                    CornerRadius="5">
-                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="5">
-                        <Image
-                            Margin="5,0,5,0"
-                            MaximumHeightRequest="35"
-                            Source="user_icon.png" />
-                        <Entry
-                            x:Name="Entry_Usuario"
-                            Grid.Column="1"
-                            HorizontalOptions="FillAndExpand"
-                            IsTextPredictionEnabled="False"
-                            Placeholder="Usuario"
-                            VerticalTextAlignment="End" />
+        <VerticalStackLayout VerticalOptions="Center">
+
+
+            <Frame
+                Margin="40,0"
+                Padding="15,25,15,15"
+                BackgroundColor="#8dd6ab"
+                BorderColor="#558067"
+                CornerRadius="20">
+
+                <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="7">
+                    <Label
+                        Margin="0,0,0,17"
+                        FontAttributes="Bold"
+                        FontSize="20"
+                        HorizontalOptions="Center"
+                        Text="INICIAR SESIÓN" />
+                    <Frame
+                        Grid.Row="1"
+                        Padding="14,0"
+                        CornerRadius="5">
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="5">
+                            <Image
+                                Margin="5,0,5,0"
+                                MaximumHeightRequest="35"
+                                Source="user_icon.png" />
+                            <Entry
+                                x:Name="Entry_Usuario"
+                                Grid.Column="1"
+                                HorizontalOptions="FillAndExpand"
+                                IsTextPredictionEnabled="False"
+                                Placeholder="Usuario"
+                                VerticalTextAlignment="End" />
+                        </Grid>
+                    </Frame>
+                    <Label
+                        x:Name="Label_UsuarioNoExiste"
+                        Grid.Row="1"
+                        CharacterSpacing="-0.7"
+                        FontAttributes="Italic"
+                        FontSize="10"
+                        IsVisible="False"
+                        Text="* Usuario no existe"
+                        TextColor="#030524" />
+                    <Frame
+                        Grid.Row="2"
+                        Padding="14,0"
+                        CornerRadius="5">
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="5">
+                            <Image
+                                Margin="5,0,5,0"
+                                Source="password_icon.png"
+                                WidthRequest="35" />
+                            <Entry
+                                x:Name="Entry_Contrasena"
+                                Grid.Column="1"
+                                IsPassword="True"
+                                Placeholder="Contraseña"
+                                VerticalTextAlignment="End" />
+                        </Grid>
+                    </Frame>
+
+                    <Label
+                        x:Name="Label_ContrasenaIncorrecta"
+                        Grid.Row="3"
+                        CharacterSpacing="-0.7"
+                        FontAttributes="Italic"
+                        FontSize="10"
+                        IsVisible="False"
+                        Text="* Contraseña incorrecta"
+                        TextColor="#030524" />
+
+                    <Button
+                        x:Name="Button_Ingresar"
+                        Grid.Row="4"
+                        Margin="40,5,40,0"
+                        Clicked="Button_Ingresar_Clicked"
+                        FontSize="16"
+                        Text="Ingresar" />
+                    <Grid
+                        Grid.Row="5"
+                        Margin="0,5"
+                        ColumnDefinitions="*,Auto,*">
+                        <Line
+                            HorizontalOptions="CenterAndExpand"
+                            Stroke="Gray"
+                            VerticalOptions="CenterAndExpand"
+                            X1="100" />
+                        <Label Grid.Column="1" Text="ó" />
+                        <Line
+                            Grid.Column="2"
+                            HorizontalOptions="CenterAndExpand"
+                            Stroke="Gray"
+                            VerticalOptions="CenterAndExpand"
+                            X1="100" />
                     </Grid>
-                </Frame>
-                <Label
-                    x:Name="Label_UsuarioNoExiste"
-                    Grid.Row="1"
-                    CharacterSpacing="-0.7"
-                    FontAttributes="Italic"
-                    FontSize="10"
-                    IsVisible="False"
-                    Text="* Usuario no existe"
-                    TextColor="#030524" />
-                <Frame
-                    Grid.Row="2"
-                    Padding="14,0"
-                    CornerRadius="5">
-                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="5">
-                        <Image
-                            Margin="5,0,5,0"
-                            Source="password_icon.png"
-                            WidthRequest="35" />
-                        <Entry
-                            x:Name="Entry_Contrasena"
-                            Grid.Column="1"
-                            IsPassword="True"
-                            Placeholder="Contraseña"
-                            VerticalTextAlignment="End" />
-                    </Grid>
-                </Frame>
-
-                <Label
-                    x:Name="Label_ContrasenaIncorrecta"
-                    Grid.Row="3"
-                    CharacterSpacing="-0.7"
-                    FontAttributes="Italic"
-                    FontSize="10"
-                    IsVisible="False"
-                    Text="* Contraseña incorrecta"
-                    TextColor="#030524" />
-
-                <Button
-                    x:Name="Button_Ingresar"
-                    Grid.Row="4"
-                    Margin="40,5,40,0"
-                    Clicked="Button_Ingresar_Clicked"
-                    FontSize="16"
-                    Text="Ingresar" />
-                <Grid
-                    Grid.Row="5"
-                    Margin="0,5"
-                    ColumnDefinitions="*,Auto,*">
-                    <Line
-                        HorizontalOptions="CenterAndExpand"
-                        Stroke="Gray"
-                        VerticalOptions="CenterAndExpand"
-                        X1="100" />
-                    <Label Grid.Column="1" Text="ó" />
-                    <Line
-                        Grid.Column="2"
-                        HorizontalOptions="CenterAndExpand"
-                        Stroke="Gray"
-                        VerticalOptions="CenterAndExpand"
-                        X1="100" />
+                    <Button
+                        x:Name="Button_CrearNuevaCuenta"
+                        Grid.Row="6"
+                        Padding="15,0"
+                        BackgroundColor="#4da36d"
+                        Clicked="Button_CrearNuevaCuenta_Clicked"
+                        FontSize="13"
+                        HeightRequest="30"
+                        HorizontalOptions="Center"
+                        Text="Crear nueva cuenta" />
                 </Grid>
-                <Button
-                    x:Name="Button_CrearNuevaCuenta"
-                    Grid.Row="6"
-                    Padding="15,0"
-                    BackgroundColor="#4da36d"
-                    Clicked="Button_CrearNuevaCuenta_Clicked"
-                    FontSize="13"
-                    HeightRequest="30"
-                    HorizontalOptions="Center"
-                    Text="Crear nueva cuenta" />
-            </Grid>
-        </Frame>
-    </VerticalStackLayout>
+            </Frame>
+        </VerticalStackLayout>
+
+    </ScrollView>
 
     <ContentPage.Background>
 
