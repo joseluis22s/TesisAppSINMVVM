@@ -325,4 +325,9 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
     }
 
     #endregion
+
+    private async void Button_ValorTotal_Clicked(object sender, EventArgs e)
+    {
+        await Navigation.PushModalAsync(new AgregarNuevoProductoPage());
+    }
 }

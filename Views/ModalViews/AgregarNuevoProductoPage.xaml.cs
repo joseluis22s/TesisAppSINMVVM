@@ -8,7 +8,7 @@ namespace TesisAppSINMVVM.Views.ModalViews;
 
 public partial class AgregarNuevoProductoPage : ContentPage
 {
-    private Producto_Repository _repoProducto;
+    private Producto_Repository _repoProducto = new Producto_Repository();
     private bool _enEjecucion;
 
     public AgregarNuevoProductoPage()

@@ -295,8 +295,16 @@
                             </Border>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
+
                 </CollectionView>
-                <Label x:Name="Label_ValorTotal" Grid.Row="3" />
+                <Button
+                    x:Name="Button_ValorTotal"
+                    Grid.Row="3"
+                    Margin="35,10"
+                    Padding="0,-5"
+                    BackgroundColor="ForestGreen"
+                    Clicked="Button_ValorTotal_Clicked"
+                    Text="Agregar un producto" />
             </Grid>
         </Border>
 

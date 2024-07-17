@@ -154,6 +154,10 @@ public partial class RegistrarNuevaCompraPage : ContentPage
     {
         NavegarPaginaPrincipalPageAsync();
     }
+    private async void Button_ValorTotal_Clicked(object sender, EventArgs e)
+    {
+        await Navigation.PushModalAsync(new AgregarNuevoProductoPage());
+    }
     #endregion
 
 
@@ -379,7 +383,8 @@ public partial class RegistrarNuevaCompraPage : ContentPage
             entry.Text = Regex.Replace(entry.Text, @"\.", string.Empty);
         }
     }
+
     #endregion
 
-
+    
 }

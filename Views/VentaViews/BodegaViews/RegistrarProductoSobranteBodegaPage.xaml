@@ -22,7 +22,7 @@
             Grid.Row="1"
             Padding="10,10,10,13"
             BackgroundColor="#bbc2c9"
-            RowDefinitions="Auto,*,Auto"
+            RowDefinitions="Auto,*,Auto,Auto"
             RowSpacing="5">
 
             <Label
@@ -152,8 +152,14 @@
                 </CollectionView.ItemTemplate>
 
             </CollectionView>
-
-
+            <Button
+                x:Name="Button_ValorTotal"
+                Grid.Row="3"
+                Margin="35,10"
+                Padding="0,-5"
+                BackgroundColor="ForestGreen"
+                Clicked="Button_ValorTotal_Clicked"
+                Text="Agregar un producto" />
 
         </Grid>
 
