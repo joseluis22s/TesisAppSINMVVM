@@ -39,25 +39,13 @@ public partial class CompraOpcionesPage : ContentPage
             BindingContext = this.BindingContext
         });
     }
-    private async Task NavegarPaginaPrincipalPageAsync()
+    private void NavegarPaginaPrincipalPageAsync()
     {
-        //await Navigation.PushAsync(new PaginaPrincipalPage());
-        //var stack = Navigation.NavigationStack.ToArray();
-        //int longitudSatck = stack.Length - 1;
-        //await Navigation.PushAsync(new PaginaPrincipalPage());
-
-        var stack = Navigation.NavigationStack;
-        int ii = stack.Count -1;
-        for (int i = ii; i => 2; i--)
+        var stack = Navigation.NavigationStack.ToArray();
+        for (int i = 2; i < stack.Length ; i++)
         {
-            Navigation.RemovePage(Navigation.NavigationStack[i]);
+            Navigation.RemovePage(stack[i]);
         }
-
-
-        //while (Navigation.NavigationStack.Count > 2)
-        //{
-        //    Navigation.RemovePage(Navigation.NavigationStack[1]);
-        //}
     }
     #endregion
 
