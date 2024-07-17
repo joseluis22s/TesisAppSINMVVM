@@ -9,7 +9,7 @@
 
     <Grid
         Margin="30"
-        RowDefinitions="Auto,Auto,Auto"
+        RowDefinitions="Auto,Auto,Auto,Auto"
         RowSpacing="10"
         VerticalOptions="Center">
         <Grid>
@@ -43,6 +43,13 @@
             </VerticalStackLayout>
 
         </Grid>
+        <Button
+            Grid.Row="3"
+            Margin="40,7"
+            BackgroundColor="#359649"
+            Clicked="Button_Clicked"
+            Text="SALIR"
+            TextColor="Black" />
     </Grid>
 
 

@@ -25,6 +25,11 @@ public partial class CrearNuevoUsuarioPage : ContentPage
     }
 
     // EVENTOS
+    protected override bool OnBackButtonPressed()
+    {
+        PermitirPopAsyncNavegacion().GetAwaiter();
+        return false;
+    }
     private async void Button_SiguienteCrear_Clicked(object sender, EventArgs e)
     {
         if (enEjecucion)

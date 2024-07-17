@@ -3,8 +3,7 @@
     x:Class="TesisAppSINMVVM.Views.VentaPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="VENTA"
-    NavigationPage.HasBackButton="False">
+    Title="VENTA">
 
     <Grid
         Margin="30"

@@ -99,7 +99,7 @@ public partial class RegistrarChequePage : ContentPage
     }
     private async void ImageButton_Home_Clicked(object sender, EventArgs e)
     {
-        await NavegarPaginaPrincipalPagePopToRootAsync();
+        await NavegarPaginaPrincipalPageAsync();
     }
     #endregion
 

@@ -26,7 +26,14 @@ public partial class PaginaPrincipalPage : ContentPage
     {
         await Navigation.PushAsync(new VentaPage());
     }
-
+    private async void Button_Clicked(object sender, EventArgs e)
+    {
+        await Navigation.PopAsync();
+    }
+    protected override bool OnBackButtonPressed()
+    {
+        return false;
+    }
 
     // EVENTOS
     private async void Button_Compra_Clicked(object sender, EventArgs e)
@@ -51,6 +58,8 @@ public partial class PaginaPrincipalPage : ContentPage
             _contador = 1;
         }
     }
+
+    
 
     // LÓGICA DE EVENTOS
     // BASE DE DATOS
