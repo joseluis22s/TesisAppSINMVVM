@@ -97,7 +97,7 @@
                                 FontAttributes="Italic"
                                 FontSize="10"
                                 IsVisible="False"
-                                Text="* El usuario ya existe en el dispositivo"
+                                Text="* El usuario ya existe"
                                 TextColor="#030524" />
 
                         </VerticalStackLayout>

@@ -28,6 +28,7 @@ public partial class IniciarSesionPage : ContentPage
     private async void Button_CrearNuevaCuenta_Clicked(object sender, EventArgs e)
     {
         await CrearNuevaCuentaPagePushAsync();
+        VacairCampos();
     }
     private async void Button_Ingresar_Clicked(object sender, EventArgs e)
     {
@@ -99,6 +100,7 @@ public partial class IniciarSesionPage : ContentPage
             if (esUsuario && esContrasena)
             {
                 await PaginaPrincipalPagePushAsync();
+                VacairCampos();
             }
             else
             {
@@ -144,5 +146,9 @@ public partial class IniciarSesionPage : ContentPage
 
     }
 
-    
+    private void VacairCampos()
+    {
+        Entry_Usuario.Text = "";
+        Entry_Contrasena.Text = "";
+    }
 }

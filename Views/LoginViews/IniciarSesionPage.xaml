@@ -70,7 +70,10 @@
                                 IsPassword="True"
                                 Placeholder="Contraseña"
                                 VerticalTextAlignment="End" />
-                            <CheckBox x:Name="hidePassword" Grid.Column="2" CheckedChanged="hidePassword_CheckedChanged"/>
+                            <CheckBox
+                                x:Name="hidePassword"
+                                Grid.Column="2"
+                                CheckedChanged="hidePassword_CheckedChanged" />
 
                         </Grid>
                     </Frame>

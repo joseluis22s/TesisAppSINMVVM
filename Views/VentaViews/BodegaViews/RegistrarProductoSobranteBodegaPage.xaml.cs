@@ -171,6 +171,7 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
     private async Task CargarProductosInventario()
     {
         var productos = await ObtenerProductosDBAsync();
+        _auxProductosInventario.Clear();
         if (productos.Count == 0)
         {
             VerticalStackLayout_EmptyView_RegistrarProductoSobranteBodega.IsVisible = true;

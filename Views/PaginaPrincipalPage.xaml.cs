@@ -32,7 +32,7 @@ public partial class PaginaPrincipalPage : ContentPage
     }
     protected override bool OnBackButtonPressed()
     {
-        return false;
+        return true;
     }
 
     // EVENTOS

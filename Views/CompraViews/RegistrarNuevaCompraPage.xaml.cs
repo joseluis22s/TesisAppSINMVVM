@@ -172,6 +172,7 @@ public partial class RegistrarNuevaCompraPage : ContentPage
     private async Task CargarProductos_CollectionView_Productos()
     {
         var productos = await ObtenerProductosDBAsync();
+        _AuxProductos.Clear();
         if (productos.Count == 0)
         {
             VerticalStackLayout_EmptyView.IsVisible = true;
