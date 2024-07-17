@@ -32,8 +32,7 @@ namespace TesisAppSINMVVM.Database.Respositories
             Tbl_Usuario Usuario = new()
             {
                 USUARIO = usuario,
-                CONTRASENA = contrasena,
-                CORREO = correo,
+                CONTRASENA = contrasena
             };
 
             bool existeNombreUsuario = await VerificarExistenciaNombreUsuarioAsync(usuario);
