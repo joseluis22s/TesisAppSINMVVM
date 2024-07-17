@@ -21,8 +21,15 @@ public partial class HistorialProductoSobrantePage : ContentPage
     #region NAVEGACIÓN
     private async Task HistorialProductoSobrantePagePopAsync()
     {
-        //await PagePopAsync();
         await Navigation.PopAsync();
+    }
+    private void NavegarPaginaPrincipalPageAsync()
+    {
+        var stack = Navigation.NavigationStack.ToArray();
+        for (int i = 2; i < stack.Length; i++)
+        {
+            Navigation.RemovePage(stack[i]);
+        }
     }
     #endregion
 
@@ -68,9 +75,9 @@ public partial class HistorialProductoSobrantePage : ContentPage
         HistorialProductoSobrantePagePopAsync().GetAwaiter();
         return true;
     }
-    private async void ImageButton_Home_Clicked(object sender, EventArgs e)
+    private void ImageButton_Home_Clicked(object sender, EventArgs e)
     {
-        await NavegarPaginaPrincipalPagePopToRootAsync();
+        NavegarPaginaPrincipalPageAsync();
     }
     #endregion
 
@@ -108,10 +115,6 @@ public partial class HistorialProductoSobrantePage : ContentPage
         //    _grupoInventario.Add(grupo);
         //}
         //CollectionView_Bodega.ItemsSource = _grupoInventario;
-    }
-    private async Task NavegarPaginaPrincipalPagePopToRootAsync()
-    {
-        await Navigation.PopToRootAsync();
     }
     #endregion
 

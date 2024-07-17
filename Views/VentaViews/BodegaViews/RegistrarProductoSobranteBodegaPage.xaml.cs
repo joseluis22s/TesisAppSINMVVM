@@ -55,9 +55,41 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
             await Toast.Make("Primero debe conectarse a internet", ToastDuration.Long).Show();
         }
     }
-    private async Task NavegarPaginaPrincipalPagePopToRootAsync()
+    private async Task NavegarPaginaPrincipalPageAsync()
     {
-        await Navigation.PopToRootAsync();
+        int productosCargados = _AuxProductosInventario.Count;
+        if (productosCargados != 0)
+        {
+            bool camposVacios = VerificarCamposVacios();
+            if (!camposVacios)
+            {
+                bool respuesta = await DisplayAlert("Alerta", "¿Desea regresar? Perderá el progreso realizado", "Confimar", "Cancelar");
+                if (respuesta)
+                {
+                    var stack = Navigation.NavigationStack.ToArray();
+                    for (int i = 2; i < stack.Length; i++)
+                    {
+                        Navigation.RemovePage(stack[i]);
+                    }
+                }
+            }
+            else
+            {
+                var stack = Navigation.NavigationStack.ToArray();
+                for (int i = 2; i < stack.Length; i++)
+                {
+                    Navigation.RemovePage(stack[i]);
+                }
+            }
+        }
+        else
+        {
+            var stack = Navigation.NavigationStack.ToArray();
+            for (int i = 2; i < stack.Length; i++)
+            {
+                Navigation.RemovePage(stack[i]);
+            }
+        }
     }
     #endregion
 
@@ -130,7 +162,7 @@ public partial class RegistrarProductoSobranteBodegaPage : ContentPage
     }
     private async void ImageButton_Home_Clicked(object sender, EventArgs e)
     {
-        await NavegarPaginaPrincipalPagePopToRootAsync();
+        await NavegarPaginaPrincipalPageAsync();
     }
     #endregion
 

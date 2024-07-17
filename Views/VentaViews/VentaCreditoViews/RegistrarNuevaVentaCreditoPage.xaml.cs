@@ -36,9 +36,29 @@ public partial class RegistrarNuevaVentaCreditoPage : ContentPage
     {
         await PermitirPopAsyncNavegacion();
     }
-    private async Task NavegarPaginaPrincipalPagePopToRootAsync()
+    private async Task NavegarPaginaPrincipalPageAsync()
     {
-        await Navigation.PopToRootAsync();
+        bool camposVacios = VerificarCamposVacios();
+        if (!camposVacios)
+        {
+            bool respuesta = await DisplayAlert("Alerta", "¿Desea regresar? Perderá el progreso realizado", "Confimar", "Cancelar");
+            if (respuesta)
+            {
+                var stack = Navigation.NavigationStack.ToArray();
+                for (int i = 2; i < stack.Length; i++)
+                {
+                    Navigation.RemovePage(stack[i]);
+                }
+            }
+        }
+        else
+        {
+            var stack = Navigation.NavigationStack.ToArray();
+            for (int i = 2; i < stack.Length; i++)
+            {
+                Navigation.RemovePage(stack[i]);
+            }
+        }
     }
     #endregion
 
@@ -111,7 +131,7 @@ public partial class RegistrarNuevaVentaCreditoPage : ContentPage
     }
     private async void ImageButton_Home_Clicked(object sender, EventArgs e)
     {
-        await NavegarPaginaPrincipalPagePopToRootAsync();
+        await NavegarPaginaPrincipalPageAsync();
     }
     #endregion
 

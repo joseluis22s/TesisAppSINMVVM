@@ -27,6 +27,14 @@ public partial class HistorialComprasPage : ContentPage
     {
         await Navigation.PopAsync();
     }
+    private void NavegarPaginaPrincipalPageAsync()
+    {
+        var stack = Navigation.NavigationStack.ToArray();
+        for (int i = 2; i < stack.Length; i++)
+        {
+            Navigation.RemovePage(stack[i]);
+        }
+    }
     private async Task RegistrarNuevaCompraPagePushAsync()
     {
         NetworkAccess accessType = Connectivity.Current.NetworkAccess;
@@ -70,9 +78,9 @@ public partial class HistorialComprasPage : ContentPage
         await RegistrarNuevaCompraPagePushAsync();
         _enEjecucion = false;
     }
-    private async void ImageButton_Home_Clicked(object sender, EventArgs e)
+    private void ImageButton_Home_Clicked(object sender, EventArgs e)
     {
-        await NavegarPaginaPrincipalPagePopToRootAsync();
+        NavegarPaginaPrincipalPageAsync();
     }
     #endregion
 
@@ -109,10 +117,6 @@ public partial class HistorialComprasPage : ContentPage
 
             CollectionView_HistorialCompras.ItemsSource = _grupoProductoComprado.ToList();
         }
-    }
-    private async Task NavegarPaginaPrincipalPagePopToRootAsync()
-    {
-        await Navigation.PopToRootAsync();
     }
     #endregion
 

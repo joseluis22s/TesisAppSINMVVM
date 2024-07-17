@@ -71,9 +71,9 @@ public partial class CompraOpcionesPage : ContentPage
         await HistorialComprasPushAsync();
         _enEjecucion = false;
     }
-    private async void ImageButton_Home_Clicked(object sender, EventArgs e)
+    private void ImageButton_Home_Clicked(object sender, EventArgs e)
     {
-        await NavegarPaginaPrincipalPageAsync();
+        NavegarPaginaPrincipalPageAsync();
     }
     #endregion
 

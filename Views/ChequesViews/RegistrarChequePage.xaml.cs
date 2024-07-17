@@ -28,6 +28,31 @@ public partial class RegistrarChequePage : ContentPage
     private async Task NavegarPaginaPrincipalPagePopToRootAsync()
     {
         await Navigation.PopToRootAsync();
+
+    }
+    private async Task NavegarPaginaPrincipalPageAsync()
+    {
+        bool camposVacios = VerificarCamposVacios();
+        if (!camposVacios)
+        {
+            bool respuesta = await DisplayAlert("Alerta", "¿Desea regresar? Perderá el progreso realizado", "Confimar", "Cancelar");
+            if (respuesta)
+            {
+                var stack = Navigation.NavigationStack.ToArray();
+                for (int i = 2; i < stack.Length; i++)
+                {
+                    Navigation.RemovePage(stack[i]);
+                }
+            }
+        }
+        else
+        {
+            var stack = Navigation.NavigationStack.ToArray();
+            for (int i = 2; i < stack.Length; i++)
+            {
+                Navigation.RemovePage(stack[i]);
+            }
+        }
     }
     #endregion
 

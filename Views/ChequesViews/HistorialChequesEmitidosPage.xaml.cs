@@ -35,9 +35,13 @@ public partial class HistorialChequesEmitidosPage : ContentPage
             await Toast.Make("Primero debe conectarse a internet", ToastDuration.Long).Show();
         }
     }
-    private async Task NavegarPaginaPrincipalPagePopToRootAsync()
+    private void NavegarPaginaPrincipalPageAsync()
     {
-        await Navigation.PopToRootAsync();
+        var stack = Navigation.NavigationStack.ToArray();
+        for (int i = 2; i < stack.Length; i++)
+        {
+            Navigation.RemovePage(stack[i]);
+        }
     }
     #endregion
 
@@ -49,9 +53,9 @@ public partial class HistorialChequesEmitidosPage : ContentPage
         base.OnAppearing();
         await CargarDatosCollectionView_HistorialChequesEmitidos();
     }
-    private async void ImageButton_Home_Clicked(object sender, EventArgs e)
+    private void ImageButton_Home_Clicked(object sender, EventArgs e)
     {
-        await NavegarPaginaPrincipalPagePopToRootAsync();
+        NavegarPaginaPrincipalPageAsync();
     }
     private async void Button_Regresar_Clicked(object sender, EventArgs e)
     {

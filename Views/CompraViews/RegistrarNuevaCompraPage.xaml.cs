@@ -40,9 +40,42 @@ public partial class RegistrarNuevaCompraPage : ContentPage
     {
         await PermitirPopAsyncNavegacion();
     }
-    private async Task NavegarPaginaPrincipalPagePopToRootAsync()
+    private async Task NavegarPaginaPrincipalPageAsync()
     {
-        await Navigation.PopToRootAsync();
+        int productosCargados = _AuxProductos.Count;
+        if (productosCargados != 0)
+        {
+            bool camposVacios = VerificarCamposVacios();
+            if (!camposVacios)
+            {
+                bool respuesta = await DisplayAlert("Alerta", "¿Desea regresar? Perderá el progreso realizado", "Confimar", "Cancelar");
+                if (respuesta)
+                {
+                    var stack = Navigation.NavigationStack.ToArray();
+                    for (int i = 2; i < stack.Length; i++)
+                    {
+                        Navigation.RemovePage(stack[i]);
+                    }
+                }
+            }
+            else
+            {
+                var stack = Navigation.NavigationStack.ToArray();
+                for (int i = 2; i < stack.Length; i++)
+                {
+                    Navigation.RemovePage(stack[i]);
+                }
+            }
+        }
+        else
+        {
+            var stack = Navigation.NavigationStack.ToArray();
+            for (int i = 2; i < stack.Length; i++)
+            {
+                Navigation.RemovePage(stack[i]);
+            }
+        }
+        
     }
     private async Task AgregarNuevoProductoPagePushModalAsync()
     {
@@ -65,7 +98,7 @@ public partial class RegistrarNuevaCompraPage : ContentPage
     {
         // TODO: Verificar si se debe agregar un _ejecutarAppearing
         base.OnAppearing();
-        await CargarNombreProveedor();
+        CargarNombreProveedor();
         await CargarProductos_CollectionView_Productos();
         await CargarNumeroCompra();
     }
@@ -117,16 +150,16 @@ public partial class RegistrarNuevaCompraPage : ContentPage
         await AgregarNuevoProductoPagePushModalAsync();
         _enEjecucion = false;
     }
-    private async void ImageButton_Home_Clicked(object sender, EventArgs e)
+    private void ImageButton_Home_Clicked(object sender, EventArgs e)
     {
-        await NavegarPaginaPrincipalPagePopToRootAsync();
+        NavegarPaginaPrincipalPageAsync();
     }
     #endregion
 
 
     // LÓGICA PARA EVENTOS
     #region LÓGICA PARA EVENTOS
-    private async Task CargarNombreProveedor()
+    private void CargarNombreProveedor()
     {
         Proveedor proveedor = (Proveedor)this.BindingContext;
         _nombreProveedor = proveedor.PROVEEDOR;

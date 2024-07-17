@@ -29,9 +29,13 @@ public partial class OpcionesBodegaPage : ContentPage
     {
         await Navigation.PushAsync(new HistorialProductoSobrantePage());
     }
-    private async Task NavegarPaginaPrincipalPagePopToRootAsync()
+    private void NavegarPaginaPrincipalPageAsync()
     {
-        await Navigation.PopToRootAsync();
+        var stack = Navigation.NavigationStack.ToArray();
+        for (int i = 2; i < stack.Length; i++)
+        {
+            Navigation.RemovePage(stack[i]);
+        }
     }
     #endregion
 
@@ -59,9 +63,9 @@ public partial class OpcionesBodegaPage : ContentPage
         await HistorialProductoSobrantePagePushAsync();
         _enEjecucion = false;
     }
-    private async void ImageButton_Home_Clicked(object sender, EventArgs e)
-    {
-        await NavegarPaginaPrincipalPagePopToRootAsync();
+    private void ImageButton_Home_Clicked(object sender, EventArgs e)
+    { 
+        NavegarPaginaPrincipalPageAsync(); 
     }
     #endregion
 

@@ -32,9 +32,13 @@ public partial class OpcionesVentaCreditoPage : ContentPage
     {
         await Navigation.PushAsync(new HistorialVentasCreditoPage());
     }
-    private async Task NavegarPaginaPrincipalPagePopToRootAsync()
+    private void NavegarPaginaPrincipalPageAsync()
     {
-        await Navigation.PopToRootAsync();
+        var stack = Navigation.NavigationStack.ToArray();
+        for (int i = 2; i < stack.Length; i++)
+        {
+            Navigation.RemovePage(stack[i]);
+        }
     }
     #endregion
 
@@ -62,9 +66,9 @@ public partial class OpcionesVentaCreditoPage : ContentPage
         await HistorialVentasCreditoPagePushAsync();
         _enEjecucion = false;
     }
-    private async void ImageButton_Home_Clicked(object sender, EventArgs e)
+    private void ImageButton_Home_Clicked(object sender, EventArgs e)
     {
-        await NavegarPaginaPrincipalPagePopToRootAsync();
+        NavegarPaginaPrincipalPageAsync();
     }
     #endregion
 

@@ -35,6 +35,14 @@ public partial class HistorialVentasCreditoPage : ContentPage
             await Toast.Make("Primero debe conectarse a internet", ToastDuration.Long).Show();
         }
     }
+    private void NavegarPaginaPrincipalPageAsync()
+    {
+        var stack = Navigation.NavigationStack.ToArray();
+        for (int i = 2; i < stack.Length; i++)
+        {
+            Navigation.RemovePage(stack[i]);
+        }
+    }
     #endregion
 
 
@@ -59,9 +67,9 @@ public partial class HistorialVentasCreditoPage : ContentPage
         await HistorialVentasCreditoPagePopAsync();
     }
 
-    private async void ImageButton_Home_Clicked(object sender, EventArgs e)
+    private void ImageButton_Home_Clicked(object sender, EventArgs e)
     {
-        await NavegarPaginaPrincipalPagePopToRootAsync();
+        NavegarPaginaPrincipalPageAsync();
     }
     #endregion
 
@@ -90,10 +98,6 @@ public partial class HistorialVentasCreditoPage : ContentPage
             }
             CollectionView_VentasCredito.ItemsSource = _grupoVentaCredito;
         }
-    }
-    private async Task NavegarPaginaPrincipalPagePopToRootAsync()
-    {
-        await Navigation.PopToRootAsync();
     }
     #endregion
 
