@@ -272,7 +272,7 @@ public partial class RegistrarNuevaCompraPage : ContentPage
 
     }
     private void Entrys_TextoCambiado(Entry entry)
-    {
+    { 
         LimpiarPuntosEntry(entry);
         CalcularTotal_TextChanged();
     }
